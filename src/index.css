@@ -13,6 +13,17 @@
   --color-charcoal: #29272c; /* nền "giấy đen" */
   --color-cube-blue: #3d7bf2;
   --color-cube-pink: #e0457b;
+
+  /* Huy chương: nền nhạt / viền-điểm nhấn / chữ */
+  --color-gold-bg: #fbf1c7;
+  --color-gold: #c9a227;
+  --color-gold-ink: #7a5c00;
+  --color-silver-bg: #eef1f5;
+  --color-silver: #9aa4b2;
+  --color-silver-ink: #4b5563;
+  --color-bronze-bg: #f6e3d3;
+  --color-bronze: #b8743f;
+  --color-bronze-ink: #7a4520;
 }
 
 /* ===== Nền chung: màu nước tím – xanh – hồng như Canva ===== */
@@ -212,6 +223,191 @@
     }
   }
 
+  /* Vạch chia năm */
+  .tl-year {
+    position: relative;
+    padding-block: 0.6rem;
+  }
+  .tl-year span {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    border-radius: 999px;
+    background: var(--color-oss);
+    padding: 0.15rem 0.7rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: white;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 0 0 4px var(--color-mist);
+  }
+
+  /* Dòng tương tác (trang Giới thiệu): cả dòng là vùng rê chuột / focus / chạm */
+  .tl-item.is-interactive {
+    cursor: pointer;
+    border-radius: 0.75rem;
+  }
+  .tl-item.is-interactive:focus-visible {
+    outline-offset: 2px;
+  }
+  .tl-item.is-interactive .tl-text {
+    color: color-mix(in oklab, var(--color-ink) 82%, var(--color-mist));
+  }
+  .tl-item.is-active .tl-text {
+    color: var(--color-ink);
+  }
+  .tl-anchor {
+    position: relative;
+    display: inline-block;
+  }
+  .tl-photo {
+    display: none;
+  }
+  .tl-photo-mobile {
+    margin-top: 0.75rem;
+    width: 100%;
+    max-width: 20rem;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .timeline:not(.is-compact) .tl-year {
+      text-align: center;
+    }
+    .tl-item.is-interactive,
+    .tl-item.is-interactive .tl-dot {
+      transition:
+        opacity 150ms ease,
+        transform 150ms ease;
+    }
+    .timeline.has-active .tl-item:not(.is-active) {
+      opacity: 0.55;
+    }
+    .tl-item.is-active .tl-dot {
+      transform: scale(1.6);
+    }
+    .tl-photo-mobile {
+      display: none;
+    }
+    .tl-photo {
+      position: absolute;
+      top: 50%;
+      z-index: 10;
+      display: block;
+      width: 224px;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 0.75rem;
+      box-shadow: 0 18px 40px -18px rgba(31, 27, 46, 0.55);
+      transform: translateY(-50%);
+      pointer-events: none;
+      animation: tl-fade 150ms ease-out both;
+    }
+    .tl-right .tl-photo {
+      right: calc(100% + 1rem);
+    }
+    .tl-left .tl-photo {
+      left: calc(100% + 1rem);
+    }
+  }
+
+  /* ===== Hộp nổi ===== */
+  .modal {
+    margin: auto;
+    width: min(40rem, calc(100% - 2rem));
+    max-width: none;
+    max-height: calc(100dvh - 4rem);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-ink);
+  }
+  .modal::backdrop {
+    background: rgb(31 27 46 / 0.55);
+  }
+  .modal-panel {
+    position: relative;
+    max-height: calc(100dvh - 4rem);
+    overflow-y: auto;
+    border-radius: 1rem;
+    background: white;
+    padding: 1.5rem;
+    box-shadow: 0 30px 60px -20px rgb(31 27 46 / 0.5);
+  }
+  @media (max-width: 767px) {
+    .modal {
+      width: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
+      margin: 0;
+    }
+    .modal-panel {
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+      padding-top: calc(1.5rem + env(safe-area-inset-top, 0px));
+    }
+  }
+
+  /* ===== Bài viết markdown (Human of OSS) ===== */
+  .prose-oss {
+    max-width: 68ch;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-ink);
+  }
+  .prose-oss > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-oss h2 {
+    margin-top: 2em;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-oss);
+  }
+  .prose-oss h3 {
+    margin-top: 1.6em;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .prose-oss strong {
+    font-weight: 700;
+  }
+  .prose-oss em {
+    font-style: italic;
+  }
+  .prose-oss a {
+    @apply font-semibold text-oss underline decoration-oss/30 underline-offset-4 hover:decoration-oss;
+  }
+  .prose-oss ul,
+  .prose-oss ol {
+    padding-left: 1.4em;
+  }
+  .prose-oss ul {
+    list-style: disc;
+  }
+  .prose-oss ol {
+    list-style: decimal;
+  }
+  .prose-oss li + li {
+    margin-top: 0.35em;
+  }
+  .prose-oss li::marker {
+    color: var(--color-oss);
+  }
+  .prose-oss blockquote {
+    border-left: 4px solid var(--color-oss);
+    padding-left: 1.1em;
+    font-style: italic;
+    color: var(--color-ink-soft);
+  }
+  .prose-oss img {
+    border-radius: 0.75rem;
+  }
+
   /* ===== Cơ cấu tổ chức: các nút ban ===== */
   .dept-pill {
     @apply flex w-full items-center gap-3 rounded-full border border-oss/20 bg-white/80 py-1.5 pr-6 pl-1.5 text-left text-sm font-semibold text-oss transition-colors hover:border-oss/50;
@@ -245,7 +441,7 @@
   .data-table td {
     @apply border-b border-oss/10 px-3 py-3 align-top;
   }
-  .data-table tbody tr:hover {
+  .data-table tbody tr:not([data-tone]):hover {
     @apply bg-white/60;
   }
 }
@@ -261,7 +457,26 @@
   }
 }
 
+@keyframes tl-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .tl-photo {
+    animation: none;
+  }
+  .tl-item.is-interactive,
+  .tl-item.is-interactive .tl-dot {
+    transition: none;
+  }
+  .tl-item.is-active .tl-dot {
+    transform: none;
+  }
   .photo-letter,
   .hero-slogan {
     animation: none;

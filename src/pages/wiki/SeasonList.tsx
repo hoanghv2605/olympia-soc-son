@@ -11,7 +11,7 @@ export default function SeasonList() {
       <h1 className="mt-4 text-3xl font-bold text-ink md:text-4xl">Các mùa Olympia Sóc Sơn</h1>
 
       <div className="mt-8 overflow-x-auto">
-        <table className="data-table min-w-[40rem]">
+        <table className="data-table min-w-[48rem]">
           <thead>
             <tr>
               <th scope="col">Mùa</th>
@@ -19,10 +19,11 @@ export default function SeasonList() {
               <th scope="col">Chung kết</th>
               <th scope="col">Quán quân</th>
               <th scope="col">Á quân</th>
+              <th scope="col">Quý quân</th>
             </tr>
           </thead>
           <tbody>
-            {championsList().map(({ season: s, champions, runnersUp }) => (
+            {championsList().map(({ season: s, champions, runnersUp, thirds }) => (
               <tr key={s.season}>
                 <td>
                   <Link to={seasonPath(s.season)} className="font-semibold text-oss hover:underline">
@@ -39,6 +40,11 @@ export default function SeasonList() {
                 <td>
                   {runnersUp.length
                     ? runnersUp.map((c) => <PersonLink key={c.person.id} id={c.person.id} className="block" />)
+                    : "–"}
+                </td>
+                <td>
+                  {thirds.length
+                    ? thirds.map((c) => <PersonLink key={c.person.id} id={c.person.id} className="block" />)
                     : "–"}
                 </td>
               </tr>

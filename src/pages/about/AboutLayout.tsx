@@ -3,8 +3,6 @@ import { NavLink, Outlet } from "react-router";
 const TABS = [
   { to: "/ve-chung-toi", label: "Giới thiệu", end: true },
   { to: "/ve-chung-toi/co-cau-to-chuc", label: "Cơ cấu tổ chức" },
-  { to: "/ve-chung-toi/the-le", label: "Thể lệ" },
-  { to: "/ve-chung-toi/lien-he", label: "Liên hệ" },
 ];
 
 export default function AboutLayout() {
@@ -12,7 +10,7 @@ export default function AboutLayout() {
     <>
       <div className="sticky top-16 z-30 border-b border-white/70 bg-white/45 backdrop-blur-md">
         <nav aria-label="Về chúng tôi" className="mx-auto max-w-6xl overflow-x-auto px-5">
-          <ul className="flex h-12 items-center gap-5 whitespace-nowrap md:gap-7">
+          <ul className="flex h-12 items-center justify-end gap-5 whitespace-nowrap md:gap-7">
             {TABS.map((t) => (
               <li key={t.to}>
                 <NavLink end={t.end} to={t.to} className={({ isActive }) => `nav-link${isActive ? " is-active" : ""}`}>

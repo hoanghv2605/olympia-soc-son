@@ -10,7 +10,6 @@ import matchesJson from "../data/matches.json";
 import olympiaJson from "../data/olympia.json";
 import milestonesJson from "../data/milestones.json";
 import statsJson from "../data/stats.json";
-import rulesJson from "../data/rules.json";
 import departmentsJson from "../data/departments.json";
 import contactsJson from "../data/contacts.json";
 import humansJson from "../data/humans.json";
@@ -26,11 +25,11 @@ import type {
   Person,
   Placement,
   QualifyingEntry,
-  Rules,
   School,
   Season,
   Stat,
   StatEntry,
+  StatGroup,
   StatScope,
   TimelineItem,
 } from "../types";
@@ -47,7 +46,6 @@ export const matches = (matchesJson as Match[])
   .slice()
   .sort((a, b) => a.season - b.season || roundOrder(a) - roundOrder(b));
 export const olympia = olympiaJson as OlympiaRecord[];
-export const rules = rulesJson as Rules;
 export const departments = departmentsJson as Department[];
 export const contacts = contactsJson as ContactPerson[];
 export const humans = humansJson as HumanStory[];
@@ -130,6 +128,39 @@ export const PLACEMENT_LABEL: Record<Placement, string> = {
   "giai-ba": "Quý quân",
 };
 
+// ===== Human of OSS: thông tin trong humans.json, nội dung trong src/content/human-of-oss/<slug>.md =====
+
+const humanBodies = import.meta.glob("../content/human-of-oss/*.md", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
+
+/** Bài viết Human of OSS kèm nội dung markdown (chuỗi rỗng nếu chưa có file .md). */
+export function getHuman(slug: string | undefined) {
+  const story = humans.find((h) => h.slug === slug);
+  if (!story) return undefined;
+  return { ...story, body: humanBodies[`../content/human-of-oss/${story.slug}.md`] ?? "" };
+}
+
+export function humanPath(slug: string) {
+  return `/human-of-oss/${slug}`;
+}
+
+// ===== Ảnh theo quy ước tên file (không khai báo trong JSON) =====
+
+export function personPhoto(id: string) {
+  return `images/thi-sinh/${id}.jpg`;
+}
+
+export function milestonePhoto(date: string) {
+  return `images/cot-moc/${date}.jpg`;
+}
+
+export function humanPhoto(slug: string) {
+  return `images/human-of-oss/${slug}.jpg`;
+}
+
 // ===== Theo mùa =====
 
 export function qualifyingOf(season: number) {
@@ -157,7 +188,7 @@ function placed(match: Match | undefined, placement: Placement): PlacedResult[] 
     .map((r) => ({ person: getPerson(r.person) ?? { id: r.person, name: r.person, school: r.school }, result: r }));
 }
 
-/** Quán quân / á quân / giải ba của một mùa, lấy từ `placement` trận Chung kết (mảng vì có thể đồng hạng). */
+/** Quán quân / Á quân / Quý quân của một mùa, lấy từ `placement` trận Chung kết (mảng vì có thể đồng hạng). */
 export function podium(season: number) {
   const final = finalOf(season);
   return {
@@ -272,7 +303,7 @@ export function schoolStats() {
 export type RecordField = "vl" | "kd" | "vcnv" | "tt" | "vd" | "total";
 
 export const RECORD_LABEL: Record<RecordField, string> = {
-  vl: "Điểm vòng loại",
+  vl: "Vòng loại",
   kd: "Khởi động",
   vcnv: "Vượt chướng ngại vật",
   tt: "Tăng tốc",
@@ -285,14 +316,16 @@ export interface RecordRow {
   season: number;
   match?: Match;
   value: number;
+  /** Hạng kiểu Olympic (1-1-3): bằng điểm cùng hạng, người tiếp theo nhảy hạng. */
+  rank: number;
 }
 
 /**
- * Top n theo một chỉ số. Giữ đồng hạng: lấy mọi dòng có điểm ≥ điểm của dòng thứ n,
- * không cắt giữa những người bằng điểm. Bỏ qua ô null.
+ * Bảng xếp hạng một chỉ số: lấy mọi dòng có điểm ≥ điểm của dòng thứ n
+ * (top n + những người bằng điểm hạng n). Bỏ qua ô null.
  */
-export function topRecords(field: RecordField, n = 5): RecordRow[] {
-  const rows: RecordRow[] =
+export function topRecords(field: RecordField, n = 10): RecordRow[] {
+  const rows: Omit<RecordRow, "rank">[] =
     field === "vl"
       ? qualifying.flatMap((q) =>
           q.score === null ? [] : [{ person: getPerson(q.person)!, season: q.season, value: q.score }],
@@ -304,9 +337,10 @@ export function topRecords(field: RecordField, n = 5): RecordRow[] {
           }),
         );
   rows.sort((a, b) => b.value - a.value || a.season - b.season);
-  if (rows.length <= n) return rows;
-  const threshold = rows[n - 1].value;
-  return rows.filter((r) => r.value >= threshold);
+  const threshold = rows.length > n ? rows[n - 1].value : -Infinity;
+  return rows
+    .filter((r) => r.value >= threshold)
+    .map((r) => ({ ...r, rank: 1 + rows.filter((x) => x.value > r.value).length }));
 }
 
 /** Thí sinh vào Chung kết ít nhất `min` lần. */
@@ -321,7 +355,7 @@ export function multipleFinalists(min = 2) {
     .sort((a, b) => a.seasons[0] - b.seasons[0] || byVietnameseName(a.person, b.person));
 }
 
-/** Thí sinh bảo vệ thành công ngôi vô địch (vô địch hai mùa liền nhau). */
+/** Thí sinh bảo vệ thành công ngôi Quán quân (Quán quân hai mùa liền nhau). */
 export function defendingChampions() {
   const list = championsList();
   const out: { person: Person; seasons: [number, number] }[] = [];
@@ -344,11 +378,34 @@ function inScope(personId: string, scope: StatScope) {
   return scope === "all" || getPerson(personId)?.school === scope;
 }
 
-/** Cựu thí sinh OSS tham gia ĐLĐO (theo thứ tự lần đầu tham dự). */
+/** Cựu thí sinh OSS tham gia ĐLĐO, xếp theo mùa OSS. */
 export function olympiaPeople(scope: StatScope = "all") {
   const ids: string[] = [];
   olympia.forEach((o) => !ids.includes(o.person) && inScope(o.person, scope) && ids.push(o.person));
-  return ids.map((id) => ({ person: getPerson(id)!, records: olympiaOf(id) }));
+  return ids
+    .map((id) => {
+      const records = olympiaOf(id);
+      return { person: getPerson(id)!, records, ossSeason: Math.min(...records.map((r) => r.ossSeason)) };
+    })
+    .sort((a, b) => a.ossSeason - b.ossSeason);
+}
+
+const STAGE_LEVEL: Record<OlympiaRecord["stage"], number> = { tuan: 1, thang: 2, quy: 3, nam: 4 };
+const RESULT_LEVEL: Record<string, number> = { "Giải Nhất": 3, "Giải Nhì": 2, "Giải Ba": 1, "Quý quân": 1 };
+
+/** Thành tích cao nhất: vòng cao hơn trước (Chung kết năm > Quý > Tháng > Tuần), cùng vòng thì Nhất > Nhì > Ba/Quý quân. */
+export function bestOlympiaRecord(records: OlympiaRecord[]) {
+  return records
+    .slice()
+    .sort(
+      (a, b) =>
+        STAGE_LEVEL[b.stage] - STAGE_LEVEL[a.stage] || (RESULT_LEVEL[b.result] ?? 0) - (RESULT_LEVEL[a.result] ?? 0),
+    )[0];
+}
+
+/** "Quý quân Chung kết năm, năm thứ 23" */
+export function describeOlympiaRecord(r: OlympiaRecord) {
+  return `${r.result} ${r.round}, năm thứ ${r.year}`;
 }
 
 export function olympiaContestantCount(scope: StatScope = "all") {
@@ -363,6 +420,7 @@ export function olympiaLaurelCount(scope: StatScope = "all") {
 // ===== Con số ấn tượng =====
 
 const COMPUTED_STATS: Record<string, (scope: StatScope) => number> = {
+  seasons: () => seasons.length,
   olympiaContestants: olympiaContestantCount,
   olympiaLaurels: olympiaLaurelCount,
 };
@@ -370,8 +428,18 @@ const COMPUTED_STATS: Record<string, (scope: StatScope) => number> = {
 export const stats: Stat[] = (statsJson as StatEntry[]).map((s) => {
   const compute = COMPUTED_STATS[s.key];
   const value = s.manual || !compute ? (s.value ?? "–") : String(compute(s.scope ?? "all"));
-  return { key: s.key, value, label: s.label, icon: s.icon };
+  return { key: s.key, value, label: s.label, icon: s.icon, group: s.group };
 });
+
+export const STAT_GROUPS: { id: StatGroup; label: string }[] = [
+  { id: "oss", label: "Olympia Sóc Sơn" },
+  { id: "soc-son-olympia", label: "THPT Sóc Sơn tại Đường lên đỉnh Olympia" },
+];
+
+/** Con số ấn tượng chia theo nhóm (theo thứ tự STAT_GROUPS). */
+export function statGroups() {
+  return STAT_GROUPS.map((g) => ({ ...g, stats: stats.filter((s) => s.group === g.id) })).filter((g) => g.stats.length);
+}
 
 // ===== Dòng thời gian =====
 

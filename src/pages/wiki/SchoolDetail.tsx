@@ -13,9 +13,9 @@ export default function SchoolDetail() {
   const numbers = [
     { label: "thí sinh", value: stat.people.length },
     { label: "lượt top 12", value: stat.top12 },
-    { label: "vô địch", value: stat.champions },
-    { label: "á quân", value: stat.runnersUp },
-    { label: "giải Ba", value: stat.thirds },
+    { label: "Quán quân", value: stat.champions },
+    { label: "Á quân", value: stat.runnersUp },
+    { label: "Quý quân", value: stat.thirds },
   ];
 
   return (

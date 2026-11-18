@@ -95,13 +95,15 @@ export interface TimelineItem extends Omit<Milestone, "person"> {
   personName?: string;
 }
 
-export type StatIcon = "people" | "podium" | "laurel" | "tv";
+export type StatIcon = "trophy" | "people" | "podium" | "laurel" | "tv";
+export type StatGroup = "oss" | "soc-son-olympia";
 export type StatScope = "soc-son" | "all";
 
 export interface StatEntry {
   key: string;
   label: string;
   icon: StatIcon;
+  group: StatGroup;
   value?: string; // chỉ dùng khi manual
   manual?: boolean;
   scope?: StatScope;
@@ -112,15 +114,7 @@ export interface Stat {
   value: string;
   label: string;
   icon: StatIcon;
-}
-
-export interface Rules {
-  summary: string;
-  rounds: { id: string; name: string; description: string }[];
-  parts: string[];
-  notes: string[];
-  eligibilityHistory: { seasons: number[]; text: string }[];
-  glossary: { term: string; meaning: string }[];
+  group: StatGroup;
 }
 
 export interface Department {

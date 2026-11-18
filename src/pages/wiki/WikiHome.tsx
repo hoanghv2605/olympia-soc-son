@@ -12,7 +12,7 @@ export default function WikiHome() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-14 md:py-20">
       <h1 className="text-4xl font-extrabold tracking-tight text-oss md:text-5xl">OSSPEDIA</h1>
-      <p className="mt-3 max-w-[60ch] text-[17px] text-ink-soft">
+      <p className="mt-3 max-w-[60ch] text-[17px] text-balance text-ink-soft lg:max-w-none">
         Bách khoa thư về Olympia Sóc Sơn: các mùa giải, thí sinh, trường và thành tích tại Đường lên đỉnh Olympia.
       </p>
 

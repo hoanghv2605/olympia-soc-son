@@ -37,3 +37,27 @@ export function bgWithFallback(path: string | undefined, fallback: string) {
 export function formatScore(value: number | null | undefined) {
   return value === null || value === undefined ? "–" : String(value);
 }
+
+/** Chữ viết tắt: chữ cái đầu của 2 từ cuối trong họ tên. "Chu Đức Huy" → "ĐH". */
+export function initials(fullName: string) {
+  return fullName
+    .normalize("NFC")
+    .trim()
+    .split(/\s+/)
+    .slice(-2)
+    .map((w) => [...w][0]?.toLocaleUpperCase("vi") ?? "")
+    .join("");
+}
+
+const ORDINALS = ["nhất", "hai", "ba", "tư", "năm", "sáu", "bảy", "tám", "chín", "mười"];
+
+/** 1 → "thứ nhất", 4 → "thứ tư", 10 → "thứ mười", 11 → "thứ 11". */
+export function seasonOrdinal(n: number) {
+  return `thứ ${ORDINALS[n - 1] ?? n}`;
+}
+
+/** Cuộn mượt tới phần tử theo id (không dùng href="#..." vì web dùng HashRouter). */
+export function scrollToId(id: string) {
+  const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById(id)?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+}

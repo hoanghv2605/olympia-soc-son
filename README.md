@@ -40,10 +40,11 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `olympia.json` | Thành tích Đường lên đỉnh Olympia của cựu thí sinh OSS |
 | `milestones.json` | Dòng thời gian (`person` là mã thí sinh). `kind`: `"oss"` = chấm tím, `"olympia"` = chấm hồng |
 | `stats.json` | Những con số ấn tượng: mục `"manual": true` nhập tay, còn lại web tự tính |
-| `rules.json` | Nội dung trang Thể lệ |
 | `departments.json` | 4 ban và nhiệm vụ từng ban |
 | `contacts.json` | Người liên hệ. Ô nào để trống `""` thì web tự ẩn |
-| `humans.json` | Các câu chuyện Human of OSS |
+| `humans.json` | Danh sách bài Human of OSS: `slug`, `name`, `title` (vai trò), `quote` (câu trích ngắn trên thẻ) |
+
+**Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
 
 Quán quân, kỷ lục, thống kê trường, số thí sinh ĐLĐO và vòng nguyệt quế **không gõ tay**: web tự tính từ `matches.json`, `qualifying.json`, `olympia.json` (xem `src/lib/data.ts`). Ô `null` = không có dữ liệu, khác với `0` điểm.
 
@@ -64,7 +65,11 @@ Chưa có ảnh thì web hiện ô màu nhạt (khi chạy `npm run dev` ô đó
 | `public/images/hero/letter-o.jpg`, `letter-s1.jpg`, `letter-s2.jpg` | Ảnh lồng trong 3 chữ O-S-S ở trang chủ |
 | `public/images/about/tap-the-1.jpg`, `tap-the-2.jpg` | 2 ảnh ở mục Giới thiệu |
 | `public/images/about/ban-chuyen-mon.jpg` | Ảnh Ban Chuyên môn (ban khác: thêm `"photo"` trong `departments.json`) |
-| `public/images/humans/<slug>.jpg` | Chân dung Human of OSS |
+| `public/images/thi-sinh/<mã-thí-sinh>.jpg` | Ảnh thí sinh (hồ sơ, thẻ Bảng vàng). Mã = `id` trong `people.json`, vd `le-tra-my.jpg`. Nên dùng ảnh dọc 3:4 |
+| `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (hiện khi rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc. Nên dùng ảnh 4:3 |
+| `public/images/human-of-oss/<slug>.jpg` | Chân dung Human of OSS |
+
+Ảnh thí sinh, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người) hoặc logo OSS (cột mốc) trên nền tím. Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
 
 Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh chữ O-S-S nên là ảnh dọc, nhiều màu sắc.
 
@@ -107,8 +112,9 @@ Khoảng 1–2 phút sau web tự cập nhật (theo dõi ở tab **Actions**).
 src/
   data/          ← nội dung (JSON)
   pages/         ← từng trang
-    about/       ← Về chúng tôi: Giới thiệu, Cơ cấu tổ chức, Thể lệ, Liên hệ
+    about/       ← Về chúng tôi: Giới thiệu (có phần Liên hệ), Cơ cấu tổ chức
     wiki/        ← OSSPEDIA: mùa giải, thí sinh, trường
+  content/human-of-oss/ ← nội dung bài Human of OSS (markdown)
     HallOfFamePage.tsx ← Bảng vàng
   components/    ← phần dùng chung: header, footer, dòng thời gian, ảnh...
   lib/           ← đọc dữ liệu, định dạng ngày, tìm kiếm không dấu

@@ -17,9 +17,9 @@ export default function SchoolList() {
               <th scope="col">Trường</th>
               <th scope="col" className="text-right">Thí sinh</th>
               <th scope="col" className="text-right">Lượt top 12</th>
-              <th scope="col" className="text-right">Vô địch</th>
+              <th scope="col" className="text-right">Quán quân</th>
               <th scope="col" className="text-right">Á quân</th>
-              <th scope="col" className="text-right">Giải Ba</th>
+              <th scope="col" className="text-right">Quý quân</th>
             </tr>
           </thead>
           <tbody>

@@ -1,0 +1,1 @@
+Nếu bạn tức giận ngay khi nghe một ý kiến trái ngược với mình, điều đó cho thấy rằng trong tiềm thức, bạn đã cảm thấy ý kiến của mình có vấn đề. Nếu ai đó khăng khăng rằng 2 + 2 = 5, hãy chỉ cảm thấy thương hại thay vì tức giận.

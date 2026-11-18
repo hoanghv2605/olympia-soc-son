@@ -1,28 +1,38 @@
 [
   {
+    "key": "seasons",
+    "label": "mùa giải",
+    "icon": "trophy",
+    "group": "oss"
+  },
+  {
     "key": "registrations",
     "value": "400+",
     "label": "thí sinh đăng kí dự thi",
     "icon": "people",
-    "manual": true
+    "manual": true,
+    "group": "oss"
   },
   {
     "key": "olympiaContestants",
-    "label": "thí sinh tham gia Đường lên đỉnh Olympia",
+    "label": "thí sinh tham gia",
     "icon": "podium",
-    "scope": "soc-son"
+    "scope": "soc-son",
+    "group": "soc-son-olympia"
   },
   {
     "key": "olympiaLaurels",
-    "label": "vòng nguyệt quế Olympia",
+    "label": "vòng nguyệt quế",
     "icon": "laurel",
-    "scope": "soc-son"
+    "scope": "soc-son",
+    "group": "soc-son-olympia"
   },
   {
     "key": "tvBridges",
     "value": "1",
     "label": "cầu truyền hình",
     "icon": "tv",
-    "manual": true
+    "manual": true,
+    "group": "soc-son-olympia"
   }
 ]

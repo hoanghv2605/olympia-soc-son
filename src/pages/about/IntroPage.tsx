@@ -1,13 +1,15 @@
-import type { ComponentType } from "react";
-import { PiTelevisionSimpleBold, PiUsersThreeBold } from "react-icons/pi";
+import { Fragment, type ComponentType } from "react";
+import { PiTelevisionSimpleBold, PiTrophyBold, PiUsersThreeBold } from "react-icons/pi";
 import { TbLaurelWreath, TbPodium } from "react-icons/tb";
 import Logo from "../../components/Logo";
 import Photo from "../../components/Photo";
+import ContactSection from "../../components/ContactSection";
 import Timeline from "../../components/Timeline";
-import { site, stats, timeline } from "../../lib/data";
+import { site, statGroups, timeline } from "../../lib/data";
 import type { Stat } from "../../types";
 
 const STAT_ICONS: Record<Stat["icon"], ComponentType<{ className?: string }>> = {
+  trophy: PiTrophyBold,
   people: PiUsersThreeBold,
   podium: TbPodium,
   laurel: TbLaurelWreath,
@@ -31,8 +33,8 @@ export default function IntroPage() {
 
           <div className="grid items-center gap-6 sm:grid-cols-2">
             <Photo src={site.images.aboutTop} alt="Tập thể Olympia Sóc Sơn" className="aspect-[4/3] w-full rounded-xl" />
-            <p className="text-[15px] leading-relaxed text-white/85">{site.intro[0]}</p>
-            <p className="text-[15px] leading-relaxed text-white/85">{site.intro[1]}</p>
+            <p className="text-[15px] leading-relaxed text-white/85 md:text-justify">{site.intro[0]}</p>
+            <p className="text-[15px] leading-relaxed text-white/85 md:text-justify">{site.intro[1]}</p>
             <Photo src={site.images.aboutBottom} alt="Các thành viên Olympia Sóc Sơn" className="aspect-[4/3] w-full rounded-xl" />
           </div>
         </div>
@@ -58,21 +60,38 @@ export default function IntroPage() {
       <section className="paper-dark text-white">
         <div className="mx-auto max-w-6xl px-5 py-16 md:py-20">
           <h2 className="text-center text-2xl font-bold tracking-[0.06em] uppercase md:text-[2rem]">Những con số ấn tượng</h2>
-          <ul className="mt-12 grid grid-cols-2 gap-y-12 md:grid-cols-4">
-            {stats.map((s) => {
-              const Icon = STAT_ICONS[s.icon];
-              return (
-                <li key={s.key} className="flex flex-col items-center px-2 text-center">
-                  <Icon className="size-14 text-white/90 md:size-16" aria-hidden />
-                  <span className="mt-5 text-4xl font-extrabold tabular-nums md:text-5xl">{s.value}</span>
-                  <span className="mt-2 max-w-[18ch] text-sm text-white/70">{s.label}</span>
-                </li>
-              );
-            })}
-          </ul>
-          <p className="mt-12 text-center text-xs text-white/50">{site.statsNote}</p>
+          <div className="mt-12 grid gap-10 md:grid-cols-[2fr_auto_3fr] md:gap-8">
+            {statGroups().map((g, gi) => (
+              <Fragment key={g.id}>
+                {gi > 0 && <div className="h-px bg-white/20 md:h-auto md:w-px" aria-hidden />}
+                <section aria-labelledby={`stat-group-${g.id}`}>
+                  <h3
+                    id={`stat-group-${g.id}`}
+                    className="text-center text-sm font-semibold tracking-[0.08em] text-white/60 uppercase text-balance"
+                  >
+                    {g.label}
+                  </h3>
+                  <ul className={`mt-8 grid gap-y-10 ${g.stats.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+                    {g.stats.map((s) => {
+                      const Icon = STAT_ICONS[s.icon];
+                      return (
+                        <li key={s.key} className="flex flex-col items-center px-2 text-center">
+                          <Icon className="size-12 text-white/90 md:size-14" aria-hidden />
+                          <span className="mt-4 text-4xl font-extrabold tabular-nums md:text-5xl">{s.value}</span>
+                          <span className="mt-2 max-w-[16ch] text-sm text-white/70">{s.label}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              </Fragment>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* ===== Liên hệ (nền sáng) ===== */}
+      <ContactSection />
     </>
   );
 }

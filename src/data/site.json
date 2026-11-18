@@ -16,6 +16,5 @@
     "heroLetters": ["images/hero/letter-o.jpg", "images/hero/letter-s1.jpg", "images/hero/letter-s2.jpg"],
     "aboutTop": "images/about/tap-the-1.jpg",
     "aboutBottom": "images/about/tap-the-2.jpg"
-  },
-  "statsNote": "Các số liệu chỉ tính riêng trường THPT Sóc Sơn."
+  }
 }

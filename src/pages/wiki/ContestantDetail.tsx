@@ -1,12 +1,14 @@
 import { Fragment } from "react";
 import { Link, useParams } from "react-router";
 import Breadcrumb from "../../components/Breadcrumb";
+import PersonPhoto from "../../components/PersonPhoto";
 import Timeline from "../../components/Timeline";
 import NotFound from "../NotFound";
 import {
   PLACEMENT_LABEL,
   describeTitles,
   matchShortLabel,
+  personPhoto,
   personProfile,
   schoolPath,
   seasonPath,
@@ -145,6 +147,7 @@ export default function ContestantDetail() {
         </div>
 
         <aside className="infobox" aria-label="Thông tin nhanh">
+          <PersonPhoto src={personPhoto(person.id)} name={person.name} className="mb-4 aspect-[3/4] w-full rounded-lg" textClass="text-6xl" />
           <dl>
             <dt>Trường</dt>
             <dd>
