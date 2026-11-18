@@ -1,0 +1,214 @@
+[
+  {
+    "season": 1,
+    "code": "OSS1",
+    "schoolYear": "2017-2018",
+    "startDate": "2017-08-13",
+    "finalDate": "2017-10-01",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Đỗ Hoài Thanh"
+    ],
+    "rulesBasedOn": [
+      17
+    ],
+    "eligibility": "toàn bộ học sinh đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2017 - 2018",
+    "notes": [
+      "Đây là mùa thi có khoảng thời gian diễn ra dài nhất trong lịch sử Olympia Sóc Sơn.",
+      "Đây là năm đầu tiên một thí sinh khối 10 giành được ngôi vị Quán quân của cuộc thi."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 2,
+    "code": "OSS2",
+    "schoolYear": "2018-2019",
+    "startDate": "2018-08-26",
+    "finalDate": "2018-09-23",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Đinh Nguyên Thương"
+    ],
+    "rulesBasedOn": [
+      18
+    ],
+    "eligibility": "toàn bộ học sinh đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2018 - 2019",
+    "notes": [
+      "Đây là năm cuối cùng cuộc thi nhận đơn đăng kí của học sinh khối 12.",
+      "Đây là lần đầu tiên một thí sinh bảo vệ thành công ngôi vô địch Olympia Sóc Sơn."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 3,
+    "code": "OSS3",
+    "schoolYear": "2019-2020",
+    "startDate": "2019-08-18",
+    "finalDate": "2019-09-08",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Đinh Nguyên Thương"
+    ],
+    "rulesBasedOn": [
+      19
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2019 - 2020",
+    "notes": [],
+    "seededDraw": false
+  },
+  {
+    "season": 4,
+    "code": "OSS4",
+    "schoolYear": "2020-2021",
+    "startDate": "2020-09-27",
+    "finalDate": "2020-10-18",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Đinh Nguyên Thương",
+      "Nguyễn Trọng Nghĩa"
+    ],
+    "rulesBasedOn": [
+      20
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2020 - 2021",
+    "notes": [
+      "Đây là lần đầu tiên Olympia Sóc Sơn có một quán quân nữ."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 5,
+    "code": "OSS5",
+    "schoolYear": "2021-2022",
+    "startDate": "2021-11-21",
+    "finalDate": "2021-12-12",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Trần Kim Cương",
+      "Nguyễn Thùy Dương"
+    ],
+    "rulesBasedOn": [
+      21
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2021 - 2022",
+    "notes": [
+      "Đây là một mùa thi có nhiều điểm đặc biệt: mùa thi thứ 2 có quán quân là học sinh lớp 10, mùa đầu tiên có 3/4 thí sinh dự Chung kết đến từ khối 10, và cũng là mùa đầu tiên không có bất kì thí sinh nào trong top 12 tham dự chương trình Đường lên đỉnh Olympia trong năm học này.",
+      "Đồng thời do ảnh hưởng từ đại dịch COVID-19, vòng Bán kết của OSS5 đã diễn ra không khán giả, và trận Chung kết diễn ra với số lượng khán giả hạn chế khi phải tuân thủ các quy định về khoảng cách chỗ ngồi."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 6,
+    "code": "OSS6",
+    "schoolYear": "2022-2023",
+    "startDate": "2022-09-18",
+    "finalDate": "2022-10-02",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Trần Kim Cương",
+      "Trần Hà Anh"
+    ],
+    "rulesBasedOn": [
+      21,
+      22
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2022 - 2023",
+    "notes": [
+      "Đây là lần thứ hai một thí sinh bảo vệ thành công ngôi vị Quán quân của mình.",
+      "Đồng thời, đây cũng là lần đầu tiên trong lịch sử OSS có 3 thí sinh cùng vào chung kết 2 mùa liên tiếp."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 7,
+    "code": "OSS7",
+    "schoolYear": "2023-2024",
+    "startDate": "2023-11-19",
+    "finalDate": "2023-12-03",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Trần Kim Cương",
+      "Nguyễn Thùy Dương"
+    ],
+    "rulesBasedOn": [
+      21,
+      23
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2023 - 2024",
+    "notes": [
+      "Đây là mùa thi có nhiều thí sinh dự thi Đường lên đỉnh Olympia nhất với 3 thí sinh gồm Lê Trà My, Đỗ Thị Quỳnh Hương và Lê Minh Khôi.",
+      "Cả 3 thí sinh đều giành được vòng nguyệt quế của cuộc thi Tuần, trong đó Quỳnh Hương đã lọt vào cuộc thi Quý."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 8,
+    "code": "OSS8",
+    "schoolYear": "2024-2025",
+    "startDate": "2024-10-06",
+    "finalDate": "2024-10-20",
+    "venue": "Phòng Hội đồng THPT Sóc Sơn",
+    "hosts": [
+      "Trần Kim Cương (BK + CK)",
+      "Nguyễn Hoàng Tùng (BK)",
+      "Trần Hà Anh (CK)",
+      "Ngô Mai Anh (BK)",
+      "Nguyễn Diệu Vy (BK)"
+    ],
+    "rulesBasedOn": [
+      21,
+      24
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học các trường THPT công lập trên địa bàn huyện Sóc Sơn năm học 2024 - 2025",
+    "notes": [
+      "Đây là mùa thi đầu tiên có Quán quân là một học sinh khối D.",
+      "Với thứ hạng 12 tại vòng loại, Nguyễn Minh Chính cũng là thí sinh có thứ hạng vòng loại thấp nhất từng lên ngôi vô địch Olympia Sóc Sơn."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 9,
+    "code": "OSS9",
+    "schoolYear": "2025-2026",
+    "startDate": "2025-09-28",
+    "finalDate": "2025-10-12",
+    "venue": "UBND xã Phù Lỗ (cũ) - nay là phòng Hội đồng tạm thời của trường THPT Sóc Sơn",
+    "hosts": [
+      "Trần Kim Cương (BK + CK)",
+      "Trần Hà Anh (CK)",
+      "Nguyễn Diệu Vy (BK)",
+      "Ngô Mai Anh (BK)"
+    ],
+    "rulesBasedOn": [
+      21,
+      25
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học tại trường THPT Sóc Sơn và học sinh khối 10 đang theo học tại các trường THPT công lập trên địa bàn xã Sóc Sơn năm học 2025 - 2026",
+    "notes": [
+      "Đây là mùa đầu tiên không có bất kì thí sinh nữ nào lọt vào top 12."
+    ],
+    "seededDraw": true
+  },
+  {
+    "season": 10,
+    "code": "OSS10",
+    "schoolYear": "2026-2027",
+    "startDate": "2026-10-11",
+    "finalDate": "2026-11-08",
+    "venue": "UBND xã Phù Lỗ (cũ) - nay là phòng Hội đồng tạm thời của trường THPT Sóc Sơn",
+    "hosts": [
+      "Đồng Lưu Nguyên Khang",
+      "Nguyễn Trần Đắc Phú",
+      "Ngô Mai Anh (BK)",
+      "Trần Kim Cương (CK)",
+      "Nguyễn Diệu Vy (BK + CK)"
+    ],
+    "rulesBasedOn": [
+      21,
+      26
+    ],
+    "eligibility": "toàn bộ học sinh khối 10 và 11 đang theo học tại trường THPT Sóc Sơn và học sinh khối 10 đang theo học tại các trường THPT công lập trên địa bàn xã Sóc Sơn năm học 2026 - 2027",
+    "notes": [],
+    "seededDraw": true
+  }
+]

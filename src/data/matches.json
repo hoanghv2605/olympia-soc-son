@@ -1,0 +1,2263 @@
+[
+  {
+    "id": "oss1-bk1",
+    "season": 1,
+    "round": "ban-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nguyen-dong-duc-anh",
+        "class": "11A1",
+        "school": "trung-gia",
+        "kd": 50,
+        "vcnv": 0,
+        "tt": 30,
+        "vd": -30,
+        "total": 50,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "do-truong-thinh",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 0,
+        "tt": 60,
+        "vd": -20,
+        "total": 90,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "chu-duc-huy",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 90,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": 80,
+        "total": 260,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "truong-ngoc-chien",
+        "class": "11A1",
+        "school": "trung-gia",
+        "kd": 60,
+        "vcnv": 80,
+        "tt": 70,
+        "vd": 0,
+        "total": 210,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss1-bk2",
+    "season": 1,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "nguyen-minh-khai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 110,
+        "vcnv": 0,
+        "tt": 120,
+        "vd": 130,
+        "total": 360,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "le-dang-khoi",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 40,
+        "tt": 100,
+        "vd": 80,
+        "total": 270,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "duong-minh-han",
+        "class": "12A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 0,
+        "tt": 80,
+        "vd": -75,
+        "total": 65,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "tran-cong-minh",
+        "class": "12A5",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 0,
+        "tt": 80,
+        "vd": -60,
+        "total": 60,
+        "rank": 4,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss1-bk3",
+    "season": 1,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "truong-tan-dung",
+        "class": "11A1",
+        "school": "trung-gia",
+        "kd": 60,
+        "vcnv": 10,
+        "tt": 120,
+        "vd": 85,
+        "total": 275,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-the-anh",
+        "class": "12A2",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": 60,
+        "total": 180,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "do-ngoc-huyen",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 0,
+        "tt": 80,
+        "vd": 70,
+        "total": 230,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "hoang-duc-thai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 70,
+        "tt": 40,
+        "vd": -20,
+        "total": 150,
+        "rank": 4,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss1-ck",
+    "season": 1,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "chu-duc-huy",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 80,
+        "tt": 70,
+        "vd": 0,
+        "total": 210,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "le-dang-khoi",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": 0,
+        "total": 140,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "nguyen-minh-khai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": -15,
+        "total": 75,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "truong-tan-dung",
+        "class": "11A1",
+        "school": "trung-gia",
+        "kd": 50,
+        "vcnv": 10,
+        "tt": 50,
+        "vd": -40,
+        "total": 70,
+        "rank": 4,
+        "placement": "giai-ba"
+      }
+    ]
+  },
+  {
+    "id": "oss2-bk1",
+    "season": 2,
+    "round": "ban-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "chu-duc-huy",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 80,
+        "tt": 140,
+        "vd": 80,
+        "total": 360,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "lai-thao-vy",
+        "class": "11C",
+        "school": "da-phuc",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": 30,
+        "total": 160,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "hoang-tuan-hung",
+        "class": "10A7",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": 0,
+        "total": 80,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "cu-minh-hoang",
+        "class": "11A1",
+        "school": "trung-gia",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 90,
+        "vd": -20,
+        "total": 120,
+        "rank": 3,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss2-bk2",
+    "season": 2,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "phung-quang-huy",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 0,
+        "tt": 40,
+        "vd": -60,
+        "total": 20,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "pham-hai-ha",
+        "class": "12C",
+        "school": "da-phuc",
+        "kd": 50,
+        "vcnv": 30,
+        "tt": 30,
+        "vd": 10,
+        "total": 120,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-thi-trung-chien",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 5,
+        "tt": 80,
+        "vd": -25,
+        "total": 90,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-thi-ngoc-anh-xuan16",
+        "class": "12C",
+        "school": "xuan-giang",
+        "kd": 30,
+        "vcnv": 30,
+        "tt": 50,
+        "vd": -5,
+        "total": 105,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss2-bk3",
+    "season": 2,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "nguyen-thanh-ha",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 25,
+        "tt": 60,
+        "vd": 30,
+        "total": 175,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "tran-quoc-dat",
+        "class": "10A3",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 15,
+        "tt": 10,
+        "vd": 90,
+        "total": 125,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "tran-ngoc-hai",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 5,
+        "tt": 80,
+        "vd": -60,
+        "total": 45,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "tran-quang-huy",
+        "class": "12A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 20,
+        "tt": 80,
+        "vd": 40,
+        "total": 190,
+        "rank": 1,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "id": "oss2-ck",
+    "season": 2,
+    "round": "chung-ket",
+    "number": 1,
+    "notes": [
+      "Nguyễn Thanh Hà lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được tối đa 90 điểm ở phần thi Vượt chướng ngại vật."
+    ],
+    "results": [
+      {
+        "person": "chu-duc-huy",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 0,
+        "tt": 150,
+        "vd": 45,
+        "total": 265,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "tran-quang-huy",
+        "class": "12A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 0,
+        "tt": 30,
+        "vd": -10,
+        "total": 80,
+        "rank": 4,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "pham-hai-ha",
+        "class": "12C",
+        "school": "da-phuc",
+        "kd": 20,
+        "vcnv": 10,
+        "tt": 20,
+        "vd": 50,
+        "total": 100,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-thanh-ha",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 90,
+        "tt": 120,
+        "vd": -20,
+        "total": 210,
+        "rank": 2,
+        "placement": "a-quan"
+      }
+    ]
+  },
+  {
+    "id": "oss3-bk1",
+    "season": 3,
+    "round": "ban-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "tran-kim-cuong",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 30,
+        "tt": 20,
+        "vd": 60,
+        "total": 150,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-anh-quan",
+        "class": "11A1",
+        "school": "minh-phu",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": 10,
+        "total": 100,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "tran-ngoc-hai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 20,
+        "tt": 100,
+        "vd": -25,
+        "total": 105,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "le-xuan-tung",
+        "class": "10A4",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 40,
+        "tt": 40,
+        "vd": -15,
+        "total": 145,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss3-bk2",
+    "season": 3,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "nguyen-thi-trung-chien",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 10,
+        "tt": 90,
+        "vd": 40,
+        "total": 220,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-thi-phuong-anh",
+        "class": "11C",
+        "school": "da-phuc",
+        "kd": 90,
+        "vcnv": 0,
+        "tt": 20,
+        "vd": 15,
+        "total": 125,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "tran-thai-hoang",
+        "class": "11A1",
+        "school": "trung-gia",
+        "kd": 40,
+        "vcnv": 0,
+        "tt": 120,
+        "vd": -60,
+        "total": 100,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "tran-quoc-dat",
+        "class": "11A3",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 40,
+        "tt": 100,
+        "vd": -20,
+        "total": 180,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss3-bk3",
+    "season": 3,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "nguyen-thuy-duong",
+        "class": "10A4",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 50,
+        "tt": 70,
+        "vd": 20,
+        "total": 210,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "tran-hai-linh",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 90,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": 60,
+        "total": 230,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "le-tien-dat",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 30,
+        "tt": 20,
+        "vd": 60,
+        "total": 150,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "phung-quang-huy",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 0,
+        "tt": 10,
+        "vd": -10,
+        "total": 60,
+        "rank": 4,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss3-ck",
+    "season": 3,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "tran-hai-linh",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 40,
+        "tt": 90,
+        "vd": -15,
+        "total": 165,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "tran-kim-cuong",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 20,
+        "tt": 70,
+        "vd": 10,
+        "total": 130,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-thuy-duong",
+        "class": "10A4",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 20,
+        "tt": 30,
+        "vd": 60,
+        "total": 160,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "nguyen-thi-trung-chien",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 10,
+        "tt": 50,
+        "vd": -10,
+        "total": 80,
+        "rank": 4,
+        "placement": "giai-ba"
+      }
+    ]
+  },
+  {
+    "id": "oss4-bk1",
+    "season": 4,
+    "round": "ban-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nguyen-thuy-duong",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 110,
+        "vcnv": 10,
+        "tt": 110,
+        "vd": 50,
+        "total": 280,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-duy-hung",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 90,
+        "vcnv": 40,
+        "tt": 10,
+        "vd": 0,
+        "total": 140,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "cao-tat-trung-kien",
+        "class": "10A2",
+        "school": "soc-son",
+        "kd": 110,
+        "vcnv": 20,
+        "tt": 50,
+        "vd": 15,
+        "total": 195,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "phan-huy-cuong",
+        "class": "10A3",
+        "school": "da-phuc",
+        "kd": 70,
+        "vcnv": 20,
+        "tt": 90,
+        "vd": 0,
+        "total": 180,
+        "rank": 3,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss4-bk2",
+    "season": 4,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "ngo-le-hoang",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 90,
+        "vcnv": 20,
+        "tt": 60,
+        "vd": -50,
+        "total": 120,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-minh-hai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 90,
+        "vcnv": 60,
+        "tt": 100,
+        "vd": 30,
+        "total": 280,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "tran-thi-huyen-linh",
+        "class": "10A4",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": 30,
+        "total": 140,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "tran-trong-tan",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 10,
+        "tt": 90,
+        "vd": 20,
+        "total": 190,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss4-bk3",
+    "season": 4,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "vu-quoc-hung",
+        "class": "10A4",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 30,
+        "tt": 50,
+        "vd": 20,
+        "total": 160,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "le-xuan-tung",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 100,
+        "vcnv": 20,
+        "tt": 110,
+        "vd": 30,
+        "total": 260,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "tran-kim-cuong",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 90,
+        "vcnv": 20,
+        "tt": 100,
+        "vd": 20,
+        "total": 230,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-thi-thao-van",
+        "class": "11D1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 20,
+        "tt": 20,
+        "vd": 10,
+        "total": 80,
+        "rank": 4,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss4-ck",
+    "season": 4,
+    "round": "chung-ket",
+    "number": 1,
+    "tiebreakWinner": "nguyen-thuy-duong",
+    "results": [
+      {
+        "person": "tran-kim-cuong",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 30,
+        "tt": 80,
+        "vd": 70,
+        "total": 220,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "nguyen-thuy-duong",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 40,
+        "tt": 130,
+        "vd": 20,
+        "total": 220,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "le-xuan-tung",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 30,
+        "tt": 60,
+        "vd": 70,
+        "total": 190,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-minh-hai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 20,
+        "tt": 100,
+        "vd": -25,
+        "total": 145,
+        "rank": 4,
+        "placement": "giai-ba"
+      }
+    ]
+  },
+  {
+    "id": "oss5-bk1",
+    "season": 5,
+    "round": "ban-ket",
+    "number": 1,
+    "notes": [
+      "Nguyễn Sỹ Hoàng lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được 120 điểm ở phần thi Khởi động."
+    ],
+    "results": [
+      {
+        "person": "nguyen-minh-hieu",
+        "class": "11A4",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 0,
+        "tt": 10,
+        "vd": 0,
+        "total": 50,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "le-duc-cuong",
+        "class": "11A4",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 20,
+        "tt": 80,
+        "vd": -5,
+        "total": 145,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-sy-hoang",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 120,
+        "vcnv": 40,
+        "tt": 70,
+        "vd": 20,
+        "total": 250,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "tran-thi-huyen-linh",
+        "class": "11A4",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 0,
+        "tt": 100,
+        "vd": -10,
+        "total": 160,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss5-bk2",
+    "season": 5,
+    "round": "ban-ket",
+    "number": 2,
+    "notes": [
+      "Nguyễn Quang Anh đồng giữ kỉ lục điểm số của Olympia Sóc Sơn khi giành được 90 điểm ở phần thi Vượt chướng ngại vật."
+    ],
+    "results": [
+      {
+        "person": "vu-quoc-hung",
+        "class": "11A4",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": 30,
+        "total": 200,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-quang-anh",
+        "class": "10A4",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 90,
+        "tt": 80,
+        "vd": -45,
+        "total": 175,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-ha-bao-lam",
+        "class": "10A4",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": -30,
+        "total": 120,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-doan-hong-thai",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 100,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": 60,
+        "total": 250,
+        "rank": 1,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "id": "oss5-bk3",
+    "season": 5,
+    "round": "ban-ket",
+    "number": 3,
+    "notes": [
+      "Nguyễn Việt Thành đồng giữ kỉ lục điểm số của Olympia Sóc Sơn khi giành được 120 điểm ở phần thi Khởi động."
+    ],
+    "results": [
+      {
+        "person": "dinh-vu-nhu-hoang",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 10,
+        "tt": 60,
+        "vd": 45,
+        "total": 185,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-viet-thanh",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 120,
+        "vcnv": 70,
+        "tt": 110,
+        "vd": 0,
+        "total": 300,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "ta-truong-son",
+        "class": "10A2",
+        "school": "da-phuc",
+        "kd": 60,
+        "vcnv": 0,
+        "tt": 100,
+        "vd": 5,
+        "total": 165,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "vu-viet-dung",
+        "class": "10A2",
+        "school": "da-phuc",
+        "kd": 20,
+        "vcnv": 10,
+        "tt": 20,
+        "vd": -20,
+        "total": 30,
+        "rank": 4,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss5-ck",
+    "season": 5,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nguyen-doan-hong-thai",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 40,
+        "tt": 60,
+        "vd": 60,
+        "total": 210,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "vu-quoc-hung",
+        "class": "11A4",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 40,
+        "tt": 40,
+        "vd": -50,
+        "total": 90,
+        "rank": 4,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-sy-hoang",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 30,
+        "tt": 10,
+        "vd": 20,
+        "total": 110,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-viet-thanh",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 30,
+        "tt": 80,
+        "vd": 30,
+        "total": 220,
+        "rank": 1,
+        "placement": "vo-dich"
+      }
+    ]
+  },
+  {
+    "id": "oss6-bk1",
+    "season": 6,
+    "round": "ban-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "le-minh-khoi",
+        "class": "10A1",
+        "school": "minh-phu",
+        "kd": 60,
+        "vcnv": 20,
+        "tt": 60,
+        "vd": -10,
+        "total": 130,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-doan-hong-thai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 80,
+        "tt": 80,
+        "vd": -10,
+        "total": 230,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "le-tra-my",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": -15,
+        "total": 105,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-quang-anh",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": 20,
+        "total": 140,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss6-bk2",
+    "season": 6,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "nguyen-sy-hoang",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": 10,
+        "total": 160,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "ngo-thi-thanh-lan",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 0,
+        "tt": 0,
+        "vd": 35,
+        "total": 75,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-ha-bao-lam",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 20,
+        "tt": 40,
+        "vd": -30,
+        "total": 90,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "ta-truong-son",
+        "class": "11A2",
+        "school": "da-phuc",
+        "kd": 80,
+        "vcnv": 70,
+        "tt": 110,
+        "vd": 0,
+        "total": 260,
+        "rank": 1,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "id": "oss6-bk3",
+    "season": 6,
+    "round": "ban-ket",
+    "number": 3,
+    "notes": [
+      "Nguyễn Việt Thành xác lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được 400 điểm chung cuộc."
+    ],
+    "results": [
+      {
+        "person": "bui-dinh-phong",
+        "class": "11A3",
+        "school": "da-phuc",
+        "kd": 60,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": -10,
+        "total": 140,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "dong-minh-duong",
+        "class": "11A2",
+        "school": "da-phuc",
+        "kd": 90,
+        "vcnv": 0,
+        "tt": 20,
+        "vd": -20,
+        "total": 90,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-sy-hoang-quan",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 100,
+        "vcnv": 0,
+        "tt": 10,
+        "vd": -40,
+        "total": 70,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-viet-thanh",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 110,
+        "vcnv": 80,
+        "tt": 140,
+        "vd": 70,
+        "total": 400,
+        "rank": 1,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "id": "oss6-ck",
+    "season": 6,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nguyen-sy-hoang",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": -55,
+        "total": 25,
+        "rank": 4,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-doan-hong-thai",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 20,
+        "tt": 10,
+        "vd": 70,
+        "total": 170,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "nguyen-viet-thanh",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 60,
+        "tt": 100,
+        "vd": 90,
+        "total": 290,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "ta-truong-son",
+        "class": "11A2",
+        "school": "da-phuc",
+        "kd": 40,
+        "vcnv": 20,
+        "tt": 30,
+        "vd": 20,
+        "total": 110,
+        "rank": 3,
+        "placement": "giai-ba"
+      }
+    ]
+  },
+  {
+    "id": "oss7-bk1",
+    "season": 7,
+    "round": "ban-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nguyen-tran-gia-long",
+        "class": "10A1",
+        "school": "da-phuc",
+        "kd": 10,
+        "vcnv": 0,
+        "tt": 50,
+        "vd": -40,
+        "total": 20,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-hoang-tung",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": 10,
+        "total": 120,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "le-tra-my",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 100,
+        "vcnv": 60,
+        "tt": 90,
+        "vd": 50,
+        "total": 300,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "le-tuan-tu",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 70,
+        "vcnv": 0,
+        "tt": 70,
+        "vd": -40,
+        "total": 100,
+        "rank": 3,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss7-bk2",
+    "season": 7,
+    "round": "ban-ket",
+    "number": 2,
+    "tiebreakWinner": "le-quang-hung",
+    "results": [
+      {
+        "person": "le-quang-hung",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 0,
+        "tt": 40,
+        "vd": 60,
+        "total": 140,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "do-thi-quynh-ngan",
+        "class": "10A5",
+        "school": "da-phuc",
+        "kd": 30,
+        "vcnv": 0,
+        "tt": 0,
+        "vd": -15,
+        "total": 15,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "le-minh-khoi",
+        "class": "11A1",
+        "school": "minh-phu",
+        "kd": 40,
+        "vcnv": 50,
+        "tt": 80,
+        "vd": -30,
+        "total": 140,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-minh-chinh",
+        "class": "10D6",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 0,
+        "vd": -10,
+        "total": 40,
+        "rank": 3,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss7-bk3",
+    "season": 7,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "do-thi-quynh-huong",
+        "class": "11A1",
+        "school": "da-phuc",
+        "kd": 30,
+        "vcnv": 60,
+        "tt": 130,
+        "vd": 25,
+        "total": 245,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-ta-tuan-minh",
+        "class": "11A1",
+        "school": "minh-phu",
+        "kd": 20,
+        "vcnv": 10,
+        "tt": 90,
+        "vd": 50,
+        "total": 170,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "mau-tuan-kiet",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 10,
+        "tt": 110,
+        "vd": -55,
+        "total": 125,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "tran-minh-dinh",
+        "class": "10A1",
+        "school": "da-phuc",
+        "kd": 10,
+        "vcnv": 10,
+        "tt": 30,
+        "vd": -45,
+        "total": 5,
+        "rank": 4,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss7-ck",
+    "season": 7,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "do-thi-quynh-huong",
+        "class": "11A1",
+        "school": "da-phuc",
+        "kd": 40,
+        "vcnv": 40,
+        "tt": 40,
+        "vd": -10,
+        "total": 110,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "le-tra-my",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 90,
+        "vcnv": 40,
+        "tt": 80,
+        "vd": 40,
+        "total": 250,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "le-quang-hung",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 30,
+        "tt": 50,
+        "vd": -40,
+        "total": 60,
+        "rank": 4,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-ta-tuan-minh",
+        "class": "11A1",
+        "school": "minh-phu",
+        "kd": 10,
+        "vcnv": 50,
+        "tt": 60,
+        "vd": 5,
+        "total": 125,
+        "rank": 2,
+        "placement": "a-quan"
+      }
+    ]
+  },
+  {
+    "id": "oss8-bk1",
+    "season": 8,
+    "round": "ban-ket",
+    "number": 1,
+    "tiebreakWinner": "nguyen-huu-phu-an",
+    "results": [
+      {
+        "person": "nguyen-tran-gia-long",
+        "class": "11A1",
+        "school": "da-phuc",
+        "kd": 60,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": 20,
+        "total": 160,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nghiem-trung-duc",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 10,
+        "tt": 90,
+        "vd": 20,
+        "total": 150,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-huu-phu-an",
+        "class": "11D1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 60,
+        "tt": 30,
+        "vd": 10,
+        "total": 150,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-tran-dac-phu",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 10,
+        "tt": 20,
+        "vd": -40,
+        "total": 40,
+        "rank": 4,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss8-bk2",
+    "season": 8,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "le-quang-huy",
+        "class": "11A4",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 0,
+        "tt": 80,
+        "vd": -30,
+        "total": 70,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-thi-ngoc-anh-soc23",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 0,
+        "tt": 90,
+        "vd": -40,
+        "total": 80,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "phung-an-phong",
+        "class": "10A3",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 0,
+        "tt": 20,
+        "vd": 50,
+        "total": 80,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "do-thi-quynh-ngan",
+        "class": "11A5",
+        "school": "da-phuc",
+        "kd": 70,
+        "vcnv": 60,
+        "tt": 40,
+        "vd": 110,
+        "total": 280,
+        "rank": 1,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "id": "oss8-bk3",
+    "season": 8,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "nguyen-chi-thanh",
+        "class": "10A2",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": -70,
+        "total": 60,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-duc-kien",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": -50,
+        "total": 80,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-minh-chinh",
+        "class": "11D6",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 40,
+        "tt": 60,
+        "vd": 110,
+        "total": 250,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-duc-minh",
+        "class": "11A8",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": -30,
+        "total": 60,
+        "rank": 3,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss8-ck",
+    "season": 8,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nguyen-huu-phu-an",
+        "class": "11D1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 10,
+        "tt": 0,
+        "vd": -60,
+        "total": 0,
+        "rank": 4,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-minh-chinh",
+        "class": "11D6",
+        "school": "soc-son",
+        "kd": 100,
+        "vcnv": 50,
+        "tt": 30,
+        "vd": 60,
+        "total": 240,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "nguyen-tran-gia-long",
+        "class": "11A1",
+        "school": "da-phuc",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": -35,
+        "total": 85,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "do-thi-quynh-ngan",
+        "class": "11A5",
+        "school": "da-phuc",
+        "kd": 70,
+        "vcnv": 10,
+        "tt": 60,
+        "vd": 70,
+        "total": 210,
+        "rank": 2,
+        "placement": "a-quan"
+      }
+    ]
+  },
+  {
+    "id": "oss9-bk1",
+    "season": 9,
+    "round": "ban-ket",
+    "number": 1,
+    "notes": [
+      "Nghiêm Trung Đức lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được 160 điểm ở phần thi Tăng tốc và 140 điểm ở phần thi Về đích, đồng thời đồng giữ kỉ lục điểm số của Olympia Sóc Sơn khi giành được 400 điểm chung cuộc."
+    ],
+    "results": [
+      {
+        "person": "nguyen-sy-hien",
+        "class": "11A3",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 0,
+        "tt": 20,
+        "vd": -20,
+        "total": 10,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nghiem-trung-duc",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 20,
+        "tt": 160,
+        "vd": 140,
+        "total": 400,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-tran-dac-phu",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 30,
+        "tt": 100,
+        "vd": -50,
+        "total": 100,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-tuan-hung",
+        "class": "10A2",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 10,
+        "tt": 80,
+        "vd": 0,
+        "total": 110,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss9-bk2",
+    "season": 9,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "pham-tuan-hung",
+        "class": "11A3",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 30,
+        "tt": 90,
+        "vd": -40,
+        "total": 90,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "vo-danh-son",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 20,
+        "tt": 50,
+        "vd": 40,
+        "total": 120,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "tran-duc-manh",
+        "class": "10A7",
+        "school": "da-phuc",
+        "kd": 10,
+        "vcnv": 30,
+        "tt": 50,
+        "vd": -20,
+        "total": 70,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "phung-an-phong",
+        "class": "11A3",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 30,
+        "tt": 110,
+        "vd": 60,
+        "total": 250,
+        "rank": 1,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "id": "oss9-bk3",
+    "season": 9,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "nguyen-thanh-phong",
+        "class": "10A5",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 20,
+        "tt": 30,
+        "vd": 20,
+        "total": 80,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-chi-thanh",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 60,
+        "vcnv": 20,
+        "tt": 150,
+        "vd": -10,
+        "total": 220,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "pham-ngo-bao-minh",
+        "class": "10A5",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 60,
+        "tt": 20,
+        "vd": -30,
+        "total": 60,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "do-ngo-thien-nhan",
+        "class": "11A4",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 10,
+        "tt": 40,
+        "vd": -20,
+        "total": 80,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss9-ck",
+    "season": 9,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nghiem-trung-duc",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 60,
+        "tt": 100,
+        "vd": 80,
+        "total": 290,
+        "rank": 1,
+        "placement": "vo-dich"
+      },
+      {
+        "person": "phung-an-phong",
+        "class": "11A3",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 0,
+        "tt": 90,
+        "vd": 20,
+        "total": 130,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "nguyen-chi-thanh",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 0,
+        "tt": 70,
+        "vd": 0,
+        "total": 90,
+        "rank": 3,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "vo-danh-son",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 0,
+        "tt": 10,
+        "vd": -30,
+        "total": 10,
+        "rank": 4,
+        "placement": "giai-ba"
+      }
+    ]
+  },
+  {
+    "id": "oss10-bk1",
+    "season": 10,
+    "round": "ban-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "nguyen-quoc-huy",
+        "class": "10A1",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 10,
+        "tt": 30,
+        "vd": -60,
+        "total": 0,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-khac-trieu",
+        "class": "10A2",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 20,
+        "tt": 80,
+        "vd": 10,
+        "total": 120,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "truong-tuan-minh",
+        "class": "10A5",
+        "school": "da-phuc",
+        "kd": 40,
+        "vcnv": 20,
+        "tt": 60,
+        "vd": 50,
+        "total": 170,
+        "rank": 2,
+        "advanced": true
+      },
+      {
+        "person": "pham-ngo-bao-minh",
+        "class": "11A5",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 50,
+        "tt": 100,
+        "vd": 0,
+        "total": 180,
+        "rank": 1,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "id": "oss10-bk2",
+    "season": 10,
+    "round": "ban-ket",
+    "number": 2,
+    "results": [
+      {
+        "person": "bui-ha-linh-chi",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 0,
+        "tt": 0,
+        "vd": -20,
+        "total": 20,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-tuan-hung",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 50,
+        "vcnv": 60,
+        "tt": 70,
+        "vd": 75,
+        "total": 255,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "ngo-huong-giang",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 10,
+        "vcnv": 0,
+        "tt": 80,
+        "vd": 20,
+        "total": 110,
+        "rank": 2,
+        "advanced": false
+      },
+      {
+        "person": "doan-duy-khanh",
+        "class": "10A1",
+        "school": "trung-gia",
+        "kd": 0,
+        "vcnv": 0,
+        "tt": 90,
+        "vd": 0,
+        "total": 90,
+        "rank": 3,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss10-bk3",
+    "season": 10,
+    "round": "ban-ket",
+    "number": 3,
+    "results": [
+      {
+        "person": "vo-danh-son",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 50,
+        "tt": 30,
+        "vd": 40,
+        "total": 160,
+        "rank": 1,
+        "advanced": true
+      },
+      {
+        "person": "nguyen-phuc-nguyen",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 0,
+        "tt": 40,
+        "vd": -60,
+        "total": 0,
+        "rank": 4,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-phuong-thuy",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 20,
+        "vcnv": 10,
+        "tt": 50,
+        "vd": 0,
+        "total": 80,
+        "rank": 3,
+        "advanced": false
+      },
+      {
+        "person": "nguyen-thanh-phong",
+        "class": "11A5",
+        "school": "soc-son",
+        "kd": 30,
+        "vcnv": 0,
+        "tt": 70,
+        "vd": 0,
+        "total": 100,
+        "rank": 2,
+        "advanced": false
+      }
+    ]
+  },
+  {
+    "id": "oss10-ck",
+    "season": 10,
+    "round": "chung-ket",
+    "number": 1,
+    "results": [
+      {
+        "person": "truong-tuan-minh",
+        "class": "10A5",
+        "school": "da-phuc",
+        "kd": 20,
+        "vcnv": 10,
+        "tt": 30,
+        "vd": -30,
+        "total": 30,
+        "rank": 4,
+        "placement": "giai-ba"
+      },
+      {
+        "person": "nguyen-tuan-hung",
+        "class": "11A2",
+        "school": "soc-son",
+        "kd": 100,
+        "vcnv": 10,
+        "tt": 70,
+        "vd": 0,
+        "total": 180,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "vo-danh-son",
+        "class": "11A1",
+        "school": "soc-son",
+        "kd": 80,
+        "vcnv": 60,
+        "tt": 40,
+        "vd": 0,
+        "total": 180,
+        "rank": 2,
+        "placement": "a-quan"
+      },
+      {
+        "person": "pham-ngo-bao-minh",
+        "class": "11A5",
+        "school": "soc-son",
+        "kd": 40,
+        "vcnv": 10,
+        "tt": 110,
+        "vd": 35,
+        "total": 195,
+        "rank": 1,
+        "placement": "vo-dich"
+      }
+    ]
+  }
+]

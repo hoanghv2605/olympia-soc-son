@@ -1,0 +1,21 @@
+{
+  "name": "Olympia Sóc Sơn",
+  "shortName": "OSS",
+  "slogan": "Từ đỉnh núi Sóc đến đỉnh Olympia",
+  "foundedDate": "2017-07-26",
+  "intro": [
+    "Được thành lập vào tháng 7 năm 2017, Olympia Sóc Sơn mang trong mình sứ mệnh tạo ra một sân chơi kiến thức bổ ích và đầy thử thách dành cho học sinh Trung học phổ thông trên địa bàn huyện Sóc Sơn, là nơi hội tụ của những học sinh đam mê học hỏi và khao khát chinh phục đỉnh cao tri thức.",
+    "Hơn thế nữa, OSS cũng có vai trò tìm ra đại diện ưu tú nhất của trường THPT Sóc Sơn tham gia cuộc thi Đường lên đỉnh Olympia của Đài Truyền hình Việt Nam. OSS tự hào là bệ phóng cho những nhà leo núi tiềm năng, đồng hành cùng các bạn trên con đường chinh phục ước mơ và khẳng định bản thân trên S14."
+  ],
+  "facebook": "https://www.facebook.com/olympiasocson",
+  "email": "olympiasocson@gmail.com",
+  "mapQuery": "Trường THPT Sóc Sơn, Hà Nội",
+  "images": {
+    "heroMain": "images/hero/hero-main.jpg",
+    "heroCaption": "Chung kết Olympia Sóc Sơn mùa 8",
+    "heroLetters": ["images/hero/letter-o.jpg", "images/hero/letter-s1.jpg", "images/hero/letter-s2.jpg"],
+    "aboutTop": "images/about/tap-the-1.jpg",
+    "aboutBottom": "images/about/tap-the-2.jpg"
+  },
+  "statsNote": "Các số liệu chỉ tính riêng trường THPT Sóc Sơn."
+}

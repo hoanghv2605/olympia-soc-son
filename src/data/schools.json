@@ -1,0 +1,27 @@
+[
+  {
+    "id": "soc-son",
+    "name": "THPT Sóc Sơn",
+    "short": "SS"
+  },
+  {
+    "id": "da-phuc",
+    "name": "THPT Đa Phúc",
+    "short": "ĐP"
+  },
+  {
+    "id": "minh-phu",
+    "name": "THPT Minh Phú",
+    "short": "MP"
+  },
+  {
+    "id": "trung-gia",
+    "name": "THPT Trung Giã",
+    "short": "TG"
+  },
+  {
+    "id": "xuan-giang",
+    "name": "THPT Xuân Giang",
+    "short": "XG"
+  }
+]

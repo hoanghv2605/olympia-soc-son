@@ -1,0 +1,217 @@
+[
+  {
+    "person": "hoang-duc-thai",
+    "ossSeason": 1,
+    "year": 18,
+    "stage": "tuan",
+    "round": "Tuần 1 - Tháng 2 - Quý 2",
+    "result": "Giải Ba",
+    "note": null,
+    "date": "2017-12-31"
+  },
+  {
+    "person": "truong-tan-dung",
+    "ossSeason": 1,
+    "year": 18,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 1 - Quý 3",
+    "result": "Giải Nhì",
+    "note": null
+  },
+  {
+    "person": "truong-tan-dung",
+    "ossSeason": 1,
+    "year": 18,
+    "stage": "thang",
+    "round": "Tháng 1 - Quý 3",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "chu-duc-huy",
+    "ossSeason": 2,
+    "year": 19,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 1 - Quý 3",
+    "result": "Giải Nhất",
+    "note": null,
+    "date": "2019-03-31"
+  },
+  {
+    "person": "chu-duc-huy",
+    "ossSeason": 2,
+    "year": 19,
+    "stage": "thang",
+    "round": "Tháng 1 - Quý 3",
+    "result": "Giải Nhì",
+    "note": null
+  },
+  {
+    "person": "tran-hai-linh",
+    "ossSeason": 3,
+    "year": 20,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 1 - Quý 3",
+    "result": "Giải Nhì",
+    "note": null,
+    "date": "2020-04-05"
+  },
+  {
+    "person": "nguyen-thuy-duong",
+    "ossSeason": 4,
+    "year": 21,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 3 - Quý 2",
+    "result": "Giải Ba",
+    "note": null,
+    "date": "2021-03-07"
+  },
+  {
+    "person": "nguyen-viet-thanh",
+    "ossSeason": 6,
+    "year": 23,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 3 - Quý 1",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "nguyen-viet-thanh",
+    "ossSeason": 6,
+    "year": 23,
+    "stage": "thang",
+    "round": "Tháng 3 - Quý 1",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "nguyen-viet-thanh",
+    "ossSeason": 6,
+    "year": 23,
+    "stage": "quy",
+    "round": "Quý 1",
+    "result": "Giải Nhất",
+    "note": "Cầu Truyền hình Chung kết Đường lên đỉnh Olympia lần thứ 2 của THPT Sóc Sơn",
+    "date": "2023-01-01"
+  },
+  {
+    "person": "nguyen-viet-thanh",
+    "ossSeason": 6,
+    "year": 23,
+    "stage": "nam",
+    "round": "Chung kết năm",
+    "result": "Quý quân",
+    "note": null,
+    "date": "2023-10-08"
+  },
+  {
+    "person": "dong-minh-duong",
+    "ossSeason": 6,
+    "year": 23,
+    "stage": "tuan",
+    "round": "Tuần 2 - Tháng 2 - Quý 2",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "dong-minh-duong",
+    "ossSeason": 6,
+    "year": 23,
+    "stage": "thang",
+    "round": "Tháng 2 - Quý 2",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "le-tra-my",
+    "ossSeason": 7,
+    "year": 24,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 3 - Quý 2",
+    "result": "Giải Nhất",
+    "note": null,
+    "date": "2024-03-24"
+  },
+  {
+    "person": "le-tra-my",
+    "ossSeason": 7,
+    "year": 24,
+    "stage": "thang",
+    "round": "Tháng 3 - Quý 2",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "do-thi-quynh-huong",
+    "ossSeason": 7,
+    "year": 24,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 2 - Quý 4",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "do-thi-quynh-huong",
+    "ossSeason": 7,
+    "year": 24,
+    "stage": "thang",
+    "round": "Tháng 2 - Quý 4",
+    "result": "Giải Nhì",
+    "note": null
+  },
+  {
+    "person": "do-thi-quynh-huong",
+    "ossSeason": 7,
+    "year": 24,
+    "stage": "quy",
+    "round": "Quý 4",
+    "result": "Giải Nhì",
+    "note": null
+  },
+  {
+    "person": "le-minh-khoi",
+    "ossSeason": 7,
+    "year": 24,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 1 - Quý 3",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "le-minh-khoi",
+    "ossSeason": 7,
+    "year": 24,
+    "stage": "thang",
+    "round": "Tháng 1 - Quý 3",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "do-thi-quynh-ngan",
+    "ossSeason": 8,
+    "year": 25,
+    "stage": "tuan",
+    "round": "Tuần 2 - Tháng 2 - Quý 3",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "nghiem-trung-duc",
+    "ossSeason": 9,
+    "year": 26,
+    "stage": "tuan",
+    "round": "Tuần 1 - Tháng 1 - Quý 2",
+    "result": "Giải Nhất",
+    "note": null,
+    "date": "2026-02-01"
+  },
+  {
+    "person": "nghiem-trung-duc",
+    "ossSeason": 9,
+    "year": 26,
+    "stage": "thang",
+    "round": "Tháng 1 - Quý 2",
+    "result": "Giải Nhì",
+    "note": null
+  }
+]

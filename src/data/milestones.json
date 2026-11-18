@@ -1,0 +1,141 @@
+[
+  {
+    "date": "2017-07-26",
+    "kind": "oss",
+    "highlight": "Olympia Sóc Sơn được thành lập"
+  },
+  {
+    "date": "2017-10-01",
+    "kind": "oss",
+    "person": "chu-duc-huy",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 1"
+  },
+  {
+    "date": "2017-12-31",
+    "kind": "olympia",
+    "person": "hoang-duc-thai",
+    "action": "giành",
+    "highlight": "giải Ba",
+    "detail": "Tuần 1 - Tháng 2 - Quý 2 - Olympia năm thứ 18"
+  },
+  {
+    "date": "2018-09-23",
+    "kind": "oss",
+    "person": "chu-duc-huy",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 2"
+  },
+  {
+    "date": "2019-03-31",
+    "kind": "olympia",
+    "person": "chu-duc-huy",
+    "action": "giành",
+    "highlight": "giải Nhất",
+    "detail": "Tuần 3 - Tháng 1 - Quý 3 - Olympia năm thứ 19"
+  },
+  {
+    "date": "2019-09-08",
+    "kind": "oss",
+    "person": "tran-hai-linh",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 3"
+  },
+  {
+    "date": "2020-04-05",
+    "kind": "olympia",
+    "person": "tran-hai-linh",
+    "action": "giành",
+    "highlight": "giải Nhì",
+    "detail": "Tuần 3 - Tháng 1 - Quý 3 - Olympia năm thứ 20"
+  },
+  {
+    "date": "2020-10-18",
+    "kind": "oss",
+    "person": "nguyen-thuy-duong",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 4"
+  },
+  {
+    "date": "2021-03-07",
+    "kind": "olympia",
+    "person": "nguyen-thuy-duong",
+    "action": "giành",
+    "highlight": "giải Ba",
+    "detail": "Tuần 3 - Tháng 3 - Quý 2 - Olympia năm thứ 21"
+  },
+  {
+    "date": "2021-12-12",
+    "kind": "oss",
+    "person": "nguyen-viet-thanh",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 5"
+  },
+  {
+    "date": "2022-10-02",
+    "kind": "oss",
+    "person": "nguyen-viet-thanh",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 6"
+  },
+  {
+    "date": "2023-01-01",
+    "kind": "olympia",
+    "person": "nguyen-viet-thanh",
+    "action": "giành",
+    "highlight": "giải Nhất Quý 1",
+    "detail": "Đường lên đỉnh Olympia năm thứ 23",
+    "note": "Cầu truyền hình thứ hai cho THPT Sóc Sơn"
+  },
+  {
+    "date": "2023-10-08",
+    "kind": "olympia",
+    "person": "nguyen-viet-thanh",
+    "action": "trở thành",
+    "highlight": "Quý quân Đường lên đỉnh Olympia năm thứ 23"
+  },
+  {
+    "date": "2023-12-03",
+    "kind": "oss",
+    "person": "le-tra-my",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 7"
+  },
+  {
+    "date": "2024-03-24",
+    "kind": "olympia",
+    "person": "le-tra-my",
+    "action": "giành",
+    "highlight": "giải Nhất",
+    "detail": "Tuần 3 - Tháng 3 - Quý 2 - Olympia năm thứ 24"
+  },
+  {
+    "date": "2024-10-20",
+    "kind": "oss",
+    "person": "nguyen-minh-chinh",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 8"
+  },
+  {
+    "date": "2025-10-12",
+    "kind": "oss",
+    "person": "nghiem-trung-duc",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 9"
+  },
+  {
+    "date": "2026-02-01",
+    "kind": "olympia",
+    "person": "nghiem-trung-duc",
+    "action": "giành",
+    "highlight": "giải Nhất",
+    "detail": "Tuần 1 - Tháng 1 - Quý 2 - Olympia năm thứ 26"
+  },
+  {
+    "date": "2026-11-08",
+    "kind": "oss",
+    "person": "pham-ngo-bao-minh",
+    "action": "trở thành",
+    "highlight": "Quán quân Olympia Sóc Sơn mùa 10"
+  }
+]

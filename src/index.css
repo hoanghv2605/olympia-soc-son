@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+/* ===== Bảng màu & font (theo file Canva + logo OSS) ===== */
+@theme {
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-mist: #f5f2fc; /* nền tím nhạt */
+  --color-oss: #6d28d9; /* tím chủ đạo */
+  --color-oss-deep: #5520b0;
+  --color-oss-soft: #ece5fd;
+  --color-ink: #1f1b2e; /* chữ chính */
+  --color-ink-soft: #5a5670; /* chữ phụ */
+  --color-charcoal: #29272c; /* nền "giấy đen" */
+  --color-cube-blue: #3d7bf2;
+  --color-cube-pink: #e0457b;
+}
+
+/* ===== Nền chung: màu nước tím – xanh – hồng như Canva ===== */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply font-sans text-ink;
+    background-color: var(--color-mist);
+  }
+  /* Lớp nền cố định (dùng pseudo-element thay cho background-attachment: fixed để mượt trên iPhone) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(55rem 38rem at 8% -8%, #e2d8fb 0%, transparent 62%),
+      radial-gradient(48rem 36rem at 100% 12%, #dbe5fc 0%, transparent 58%),
+      radial-gradient(42rem 30rem at 72% 104%, #f6dcec 0%, transparent 62%);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-oss);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .paper-dark :focus-visible {
+    outline-color: #c4b2fb;
+  }
+}
+
+@layer components {
+  /* Nền "giấy đen" có vân nhẹ */
+  .paper-dark {
+    background-color: var(--color-charcoal);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wordmark {
+    @apply font-bold uppercase tracking-[0.14em] text-oss;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold uppercase tracking-[0.04em] text-oss md:text-[2rem];
+  }
+
+  /* Menu: chữ in hoa như Canva, gạch chân khi đang ở trang đó */
+  .nav-link {
+    position: relative;
+    display: inline-block;
+    padding-block: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-oss) 78%, var(--color-ink));
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-oss);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+  .nav-link:hover::after,
+  .nav-link.is-active::after {
+    transform: scaleX(1);
+  }
+  .nav-link.is-active {
+    color: var(--color-oss);
+  }
+  @media (max-width: 767px) {
+    .nav-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+    }
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-full bg-oss px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-oss-deep;
+  }
+  .link-strong {
+    @apply font-semibold text-oss underline decoration-oss/30 underline-offset-4 transition-colors hover:decoration-oss;
+  }
+
+  /* Ô thay thế khi ảnh chưa có */
+  .photo-fallback {
+    @apply flex flex-col items-center justify-center text-center text-oss;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.7), transparent 60%),
+      linear-gradient(135deg, #e6ddfb, #dfe6fc 55%, #f6dcec);
+  }
+
+  /* ===== Hero: chữ O-S-S lồng ảnh ===== */
+  .photo-letter {
+    display: block;
+    font-weight: 800;
+    line-height: 0.8;
+    font-size: clamp(5rem, 12.5vw, 11rem);
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-slogan {
+    animation: rise 0.8s 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  /* ===== Dòng thời gian ===== */
+  .timeline {
+    position: relative;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 7px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(var(--color-oss), color-mix(in oklab, var(--color-oss) 55%, var(--color-cube-pink)));
+  }
+  .tl-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    column-gap: 1rem;
+    row-gap: 0.15rem;
+    padding-block: 0.85rem;
+  }
+  .tl-dot {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: var(--color-oss);
+    box-shadow: 0 0 0 4px var(--color-mist);
+  }
+  .tl-dot.is-olympia {
+    background: var(--color-cube-pink);
+  }
+  .tl-date {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-oss);
+    font-variant-numeric: tabular-nums;
+  }
+  .tl-body {
+    grid-column: 2;
+    grid-row: 2;
+    text-wrap: pretty;
+  }
+  /* Máy tính: so le trái/phải. Bản "is-compact" (trang thí sinh) giữ một cột. */
+  @media (min-width: 768px) {
+    .timeline:not(.is-compact)::before {
+      left: 50%;
+      transform: translateX(-1px);
+    }
+    .timeline:not(.is-compact) .tl-item {
+      grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+      column-gap: 1.75rem;
+      align-items: center;
+    }
+    .timeline:not(.is-compact) .tl-dot {
+      grid-column: 2;
+    }
+    .timeline:not(.is-compact) .tl-right .tl-date {
+      grid-column: 1;
+      text-align: right;
+    }
+    .timeline:not(.is-compact) .tl-right .tl-body {
+      grid-column: 3;
+      grid-row: 1;
+    }
+    .timeline:not(.is-compact) .tl-left .tl-body {
+      grid-column: 1;
+      grid-row: 1;
+      text-align: right;
+    }
+    .timeline:not(.is-compact) .tl-left .tl-date {
+      grid-column: 3;
+    }
+  }
+
+  /* ===== Cơ cấu tổ chức: các nút ban ===== */
+  .dept-pill {
+    @apply flex w-full items-center gap-3 rounded-full border border-oss/20 bg-white/80 py-1.5 pr-6 pl-1.5 text-left text-sm font-semibold text-oss transition-colors hover:border-oss/50;
+  }
+  .dept-pill .dept-icon {
+    @apply grid size-9 shrink-0 place-items-center rounded-full bg-oss-soft text-oss;
+  }
+  .dept-pill[aria-selected="true"] {
+    @apply border-oss bg-oss text-white;
+  }
+  .dept-pill[aria-selected="true"] .dept-icon {
+    @apply bg-white text-oss;
+  }
+
+  /* ===== OSSPEDIA ===== */
+  .infobox {
+    @apply rounded-xl border border-oss/15 bg-white/75 p-5 text-sm;
+  }
+  .infobox dt {
+    @apply text-ink-soft;
+  }
+  .infobox dd {
+    @apply mb-3 font-semibold text-ink last:mb-0;
+  }
+  .data-table {
+    @apply w-full border-collapse text-left text-[15px];
+  }
+  .data-table th {
+    @apply border-b-2 border-oss/25 px-3 py-2.5 text-xs font-semibold tracking-wide text-ink-soft;
+  }
+  .data-table td {
+    @apply border-b border-oss/10 px-3 py-3 align-top;
+  }
+  .data-table tbody tr:hover {
+    @apply bg-white/60;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-letter,
+  .hero-slogan {
+    animation: none;
+  }
+  .nav-link::after {
+    transition: none;
+  }
+}

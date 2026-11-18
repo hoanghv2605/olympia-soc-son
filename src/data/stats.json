@@ -1,0 +1,28 @@
+[
+  {
+    "key": "registrations",
+    "value": "400+",
+    "label": "thí sinh đăng kí dự thi",
+    "icon": "people",
+    "manual": true
+  },
+  {
+    "key": "olympiaContestants",
+    "label": "thí sinh tham gia Đường lên đỉnh Olympia",
+    "icon": "podium",
+    "scope": "soc-son"
+  },
+  {
+    "key": "olympiaLaurels",
+    "label": "vòng nguyệt quế Olympia",
+    "icon": "laurel",
+    "scope": "soc-son"
+  },
+  {
+    "key": "tvBridges",
+    "value": "1",
+    "label": "cầu truyền hình",
+    "icon": "tv",
+    "manual": true
+  }
+]

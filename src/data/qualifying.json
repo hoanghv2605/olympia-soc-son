@@ -1,0 +1,962 @@
+[
+  {
+    "season": 1,
+    "rank": 1,
+    "person": "chu-duc-huy",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 42
+  },
+  {
+    "season": 1,
+    "rank": 2,
+    "person": "nguyen-minh-khai",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 37
+  },
+  {
+    "season": 1,
+    "rank": 3,
+    "person": "truong-tan-dung",
+    "class": "11A1",
+    "school": "trung-gia",
+    "score": 36
+  },
+  {
+    "season": 1,
+    "rank": 4,
+    "person": "le-dang-khoi",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 33
+  },
+  {
+    "season": 1,
+    "rank": 5,
+    "person": "nguyen-the-anh",
+    "class": "12A2",
+    "school": "soc-son",
+    "score": 33
+  },
+  {
+    "season": 1,
+    "rank": 6,
+    "person": "nguyen-dong-duc-anh",
+    "class": "11A1",
+    "school": "trung-gia",
+    "score": 27
+  },
+  {
+    "season": 1,
+    "rank": 7,
+    "person": "do-ngoc-huyen",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 27
+  },
+  {
+    "season": 1,
+    "rank": 8,
+    "person": "do-truong-thinh",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 25
+  },
+  {
+    "season": 1,
+    "rank": 9,
+    "person": "tran-cong-minh",
+    "class": "12A5",
+    "school": "soc-son",
+    "score": 24
+  },
+  {
+    "season": 1,
+    "rank": 10,
+    "person": "truong-ngoc-chien",
+    "class": "11A1",
+    "school": "trung-gia",
+    "score": 24
+  },
+  {
+    "season": 1,
+    "rank": 11,
+    "person": "hoang-duc-thai",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 23
+  },
+  {
+    "season": 1,
+    "rank": 12,
+    "person": "duong-minh-han",
+    "class": "12A1",
+    "school": "soc-son",
+    "score": 22
+  },
+  {
+    "season": 2,
+    "rank": 1,
+    "person": "chu-duc-huy",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 45
+  },
+  {
+    "season": 2,
+    "rank": 2,
+    "person": "pham-hai-ha",
+    "class": "12C",
+    "school": "da-phuc",
+    "score": 36
+  },
+  {
+    "season": 2,
+    "rank": 3,
+    "person": "tran-quang-huy",
+    "class": "12A1",
+    "school": "soc-son",
+    "score": 31
+  },
+  {
+    "season": 2,
+    "rank": 4,
+    "person": "phung-quang-huy",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 30
+  },
+  {
+    "season": 2,
+    "rank": 5,
+    "person": "nguyen-thanh-ha",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 29
+  },
+  {
+    "season": 2,
+    "rank": 6,
+    "person": "lai-thao-vy",
+    "class": "11C",
+    "school": "da-phuc",
+    "score": 28
+  },
+  {
+    "season": 2,
+    "rank": 7,
+    "person": "nguyen-thi-ngoc-anh-xuan16",
+    "class": "12C",
+    "school": "xuan-giang",
+    "score": 26
+  },
+  {
+    "season": 2,
+    "rank": 8,
+    "person": "cu-minh-hoang",
+    "class": "11A1",
+    "school": "trung-gia",
+    "score": 26
+  },
+  {
+    "season": 2,
+    "rank": 9,
+    "person": "tran-ngoc-hai",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 24
+  },
+  {
+    "season": 2,
+    "rank": 10,
+    "person": "hoang-tuan-hung",
+    "class": "10A7",
+    "school": "soc-son",
+    "score": 24
+  },
+  {
+    "season": 2,
+    "rank": 11,
+    "person": "tran-quoc-dat",
+    "class": "10A3",
+    "school": "soc-son",
+    "score": 23
+  },
+  {
+    "season": 2,
+    "rank": 12,
+    "person": "nguyen-thi-trung-chien",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 22
+  },
+  {
+    "season": 3,
+    "rank": 1,
+    "person": "nguyen-thi-phuong-anh",
+    "class": "11C",
+    "school": "da-phuc",
+    "score": 49
+  },
+  {
+    "season": 3,
+    "rank": 2,
+    "person": "tran-quoc-dat",
+    "class": "11A3",
+    "school": "soc-son",
+    "score": 47
+  },
+  {
+    "season": 3,
+    "rank": 3,
+    "person": "nguyen-thuy-duong",
+    "class": "10A4",
+    "school": "soc-son",
+    "score": 46
+  },
+  {
+    "season": 3,
+    "rank": 4,
+    "person": "tran-hai-linh",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 46
+  },
+  {
+    "season": 3,
+    "rank": 5,
+    "person": "tran-ngoc-hai",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 44
+  },
+  {
+    "season": 3,
+    "rank": 6,
+    "person": "le-xuan-tung",
+    "class": "10A4",
+    "school": "soc-son",
+    "score": 43
+  },
+  {
+    "season": 3,
+    "rank": 7,
+    "person": "tran-thai-hoang",
+    "class": "11A1",
+    "school": "trung-gia",
+    "score": 43
+  },
+  {
+    "season": 3,
+    "rank": 8,
+    "person": "nguyen-thi-trung-chien",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 43
+  },
+  {
+    "season": 3,
+    "rank": 9,
+    "person": "phung-quang-huy",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 42
+  },
+  {
+    "season": 3,
+    "rank": 10,
+    "person": "tran-kim-cuong",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 41
+  },
+  {
+    "season": 3,
+    "rank": 11,
+    "person": "le-tien-dat",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 41
+  },
+  {
+    "season": 3,
+    "rank": 12,
+    "person": "nguyen-anh-quan",
+    "class": "11A1",
+    "school": "minh-phu",
+    "score": 40
+  },
+  {
+    "season": 4,
+    "rank": 1,
+    "person": "nguyen-thuy-duong",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 48
+  },
+  {
+    "season": 4,
+    "rank": 2,
+    "person": "tran-trong-tan",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 47
+  },
+  {
+    "season": 4,
+    "rank": 3,
+    "person": "le-xuan-tung",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 46
+  },
+  {
+    "season": 4,
+    "rank": 4,
+    "person": "tran-kim-cuong",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 43
+  },
+  {
+    "season": 4,
+    "rank": 5,
+    "person": "ngo-le-hoang",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 41
+  },
+  {
+    "season": 4,
+    "rank": 6,
+    "person": "nguyen-duy-hung",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 36
+  },
+  {
+    "season": 4,
+    "rank": 7,
+    "person": "tran-thi-huyen-linh",
+    "class": "10A4",
+    "school": "soc-son",
+    "score": 36
+  },
+  {
+    "season": 4,
+    "rank": 8,
+    "person": "phan-huy-cuong",
+    "class": "10A3",
+    "school": "da-phuc",
+    "score": 35
+  },
+  {
+    "season": 4,
+    "rank": 9,
+    "person": "nguyen-thi-thao-van",
+    "class": "11D1",
+    "school": "soc-son",
+    "score": 35
+  },
+  {
+    "season": 4,
+    "rank": 10,
+    "person": "nguyen-minh-hai",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 33
+  },
+  {
+    "season": 4,
+    "rank": 11,
+    "person": "cao-tat-trung-kien",
+    "class": "10A2",
+    "school": "soc-son",
+    "score": 33
+  },
+  {
+    "season": 4,
+    "rank": 12,
+    "person": "vu-quoc-hung",
+    "class": "10A4",
+    "school": "soc-son",
+    "score": 32
+  },
+  {
+    "season": 5,
+    "rank": 1,
+    "person": "le-duc-cuong",
+    "class": "11A4",
+    "school": "soc-son",
+    "score": 49
+  },
+  {
+    "season": 5,
+    "rank": 2,
+    "person": "nguyen-viet-thanh",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 48
+  },
+  {
+    "season": 5,
+    "rank": 3,
+    "person": "nguyen-doan-hong-thai",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 42
+  },
+  {
+    "season": 5,
+    "rank": 4,
+    "person": "nguyen-sy-hoang",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 42
+  },
+  {
+    "season": 5,
+    "rank": 5,
+    "person": "vu-quoc-hung",
+    "class": "11A4",
+    "school": "soc-son",
+    "score": 40
+  },
+  {
+    "season": 5,
+    "rank": 6,
+    "person": "ta-truong-son",
+    "class": "10A2",
+    "school": "da-phuc",
+    "score": 39
+  },
+  {
+    "season": 5,
+    "rank": 7,
+    "person": "nguyen-ha-bao-lam",
+    "class": "10A4",
+    "school": "soc-son",
+    "score": 39
+  },
+  {
+    "season": 5,
+    "rank": 8,
+    "person": "tran-thi-huyen-linh",
+    "class": "11A4",
+    "school": "soc-son",
+    "score": 38
+  },
+  {
+    "season": 5,
+    "rank": 9,
+    "person": "dinh-vu-nhu-hoang",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 37
+  },
+  {
+    "season": 5,
+    "rank": 10,
+    "person": "nguyen-quang-anh",
+    "class": "10A4",
+    "school": "soc-son",
+    "score": 36
+  },
+  {
+    "season": 5,
+    "rank": 11,
+    "person": "nguyen-minh-hieu",
+    "class": "11A4",
+    "school": "soc-son",
+    "score": 34
+  },
+  {
+    "season": 5,
+    "rank": 12,
+    "person": "vu-viet-dung",
+    "class": "10A2",
+    "school": "da-phuc",
+    "score": 34
+  },
+  {
+    "season": 6,
+    "rank": 1,
+    "person": "nguyen-viet-thanh",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 64
+  },
+  {
+    "season": 6,
+    "rank": 2,
+    "person": "nguyen-doan-hong-thai",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 59
+  },
+  {
+    "season": 6,
+    "rank": 3,
+    "person": "nguyen-sy-hoang",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 51
+  },
+  {
+    "season": 6,
+    "rank": 4,
+    "person": "ta-truong-son",
+    "class": "11A2",
+    "school": "da-phuc",
+    "score": 42
+  },
+  {
+    "season": 6,
+    "rank": 5,
+    "person": "dong-minh-duong",
+    "class": "11A2",
+    "school": "da-phuc",
+    "score": 40
+  },
+  {
+    "season": 6,
+    "rank": 6,
+    "person": "le-tra-my",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 39
+  },
+  {
+    "season": 6,
+    "rank": 7,
+    "person": "bui-dinh-phong",
+    "class": "11A3",
+    "school": "da-phuc",
+    "score": 37
+  },
+  {
+    "season": 6,
+    "rank": 8,
+    "person": "le-minh-khoi",
+    "class": "10A1",
+    "school": "minh-phu",
+    "score": 37
+  },
+  {
+    "season": 6,
+    "rank": 9,
+    "person": "ngo-thi-thanh-lan",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 36
+  },
+  {
+    "season": 6,
+    "rank": 10,
+    "person": "nguyen-quang-anh",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 36
+  },
+  {
+    "season": 6,
+    "rank": 11,
+    "person": "nguyen-sy-hoang-quan",
+    "class": "11A2",
+    "school": "soc-son",
+    "score": 36
+  },
+  {
+    "season": 6,
+    "rank": 12,
+    "person": "nguyen-ha-bao-lam",
+    "class": "11A2",
+    "school": "soc-son",
+    "score": 35
+  },
+  {
+    "season": 7,
+    "rank": 1,
+    "person": "le-tra-my",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 52
+  },
+  {
+    "season": 7,
+    "rank": 2,
+    "person": "do-thi-quynh-huong",
+    "class": "11A1",
+    "school": "da-phuc",
+    "score": 44
+  },
+  {
+    "season": 7,
+    "rank": 3,
+    "person": "do-thi-quynh-ngan",
+    "class": "10A5",
+    "school": "da-phuc",
+    "score": 41
+  },
+  {
+    "season": 7,
+    "rank": 4,
+    "person": "nguyen-tran-gia-long",
+    "class": "10A1",
+    "school": "da-phuc",
+    "score": 40
+  },
+  {
+    "season": 7,
+    "rank": 5,
+    "person": "mau-tuan-kiet",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 39
+  },
+  {
+    "season": 7,
+    "rank": 6,
+    "person": "le-quang-hung",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 38
+  },
+  {
+    "season": 7,
+    "rank": 7,
+    "person": "tran-minh-dinh",
+    "class": "10A1",
+    "school": "da-phuc",
+    "score": 33
+  },
+  {
+    "season": 7,
+    "rank": 8,
+    "person": "le-tuan-tu",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 32
+  },
+  {
+    "season": 7,
+    "rank": 9,
+    "person": "nguyen-minh-chinh",
+    "class": "10D6",
+    "school": "soc-son",
+    "score": 31
+  },
+  {
+    "season": 7,
+    "rank": 10,
+    "person": "le-minh-khoi",
+    "class": "11A1",
+    "school": "minh-phu",
+    "score": 31
+  },
+  {
+    "season": 7,
+    "rank": 11,
+    "person": "nguyen-ta-tuan-minh",
+    "class": "11A1",
+    "school": "minh-phu",
+    "score": 31
+  },
+  {
+    "season": 7,
+    "rank": 12,
+    "person": "nguyen-hoang-tung",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 31
+  },
+  {
+    "season": 8,
+    "rank": 1,
+    "person": "nguyen-tran-gia-long",
+    "class": "11A1",
+    "school": "da-phuc",
+    "score": 62
+  },
+  {
+    "season": 8,
+    "rank": 2,
+    "person": "do-thi-quynh-ngan",
+    "class": "11A5",
+    "school": "da-phuc",
+    "score": 60
+  },
+  {
+    "season": 8,
+    "rank": 3,
+    "person": "nguyen-duc-kien",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 50
+  },
+  {
+    "season": 8,
+    "rank": 4,
+    "person": "nguyen-duc-minh",
+    "class": "11A8",
+    "school": "soc-son",
+    "score": 48
+  },
+  {
+    "season": 8,
+    "rank": 5,
+    "person": "nghiem-trung-duc",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 46
+  },
+  {
+    "season": 8,
+    "rank": 6,
+    "person": "le-quang-huy",
+    "class": "11A4",
+    "school": "soc-son",
+    "score": 44
+  },
+  {
+    "season": 8,
+    "rank": 7,
+    "person": "nguyen-huu-phu-an",
+    "class": "11D1",
+    "school": "soc-son",
+    "score": 44
+  },
+  {
+    "season": 8,
+    "rank": 8,
+    "person": "nguyen-chi-thanh",
+    "class": "10A2",
+    "school": "soc-son",
+    "score": 41
+  },
+  {
+    "season": 8,
+    "rank": 9,
+    "person": "nguyen-thi-ngoc-anh-soc23",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 41
+  },
+  {
+    "season": 8,
+    "rank": 10,
+    "person": "phung-an-phong",
+    "class": "10A3",
+    "school": "soc-son",
+    "score": 41
+  },
+  {
+    "season": 8,
+    "rank": 11,
+    "person": "nguyen-tran-dac-phu",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 39
+  },
+  {
+    "season": 8,
+    "rank": 12,
+    "person": "nguyen-minh-chinh",
+    "class": "11D6",
+    "school": "soc-son",
+    "score": 38
+  },
+  {
+    "season": 9,
+    "rank": 1,
+    "person": "nghiem-trung-duc",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 61
+  },
+  {
+    "season": 9,
+    "rank": 2,
+    "person": "phung-an-phong",
+    "class": "11A3",
+    "school": "soc-son",
+    "score": 45
+  },
+  {
+    "season": 9,
+    "rank": 3,
+    "person": "nguyen-chi-thanh",
+    "class": "11A2",
+    "school": "soc-son",
+    "score": 43
+  },
+  {
+    "season": 9,
+    "rank": 4,
+    "person": "pham-tuan-hung",
+    "class": "11A3",
+    "school": "soc-son",
+    "score": 33
+  },
+  {
+    "season": 9,
+    "rank": 5,
+    "person": "do-ngo-thien-nhan",
+    "class": "11A4",
+    "school": "soc-son",
+    "score": 33
+  },
+  {
+    "season": 9,
+    "rank": 6,
+    "person": "nguyen-tran-dac-phu",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 31
+  },
+  {
+    "season": 9,
+    "rank": 7,
+    "person": "tran-duc-manh",
+    "class": "10A7",
+    "school": "da-phuc",
+    "score": 31
+  },
+  {
+    "season": 9,
+    "rank": 8,
+    "person": "nguyen-thanh-phong",
+    "class": "10A5",
+    "school": "soc-son",
+    "score": 29
+  },
+  {
+    "season": 9,
+    "rank": 9,
+    "person": "nguyen-sy-hien",
+    "class": "11A3",
+    "school": "soc-son",
+    "score": 28
+  },
+  {
+    "season": 9,
+    "rank": 10,
+    "person": "vo-danh-son",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 25
+  },
+  {
+    "season": 9,
+    "rank": 11,
+    "person": "pham-ngo-bao-minh",
+    "class": "10A5",
+    "school": "soc-son",
+    "score": 24
+  },
+  {
+    "season": 9,
+    "rank": 12,
+    "person": "nguyen-tuan-hung",
+    "class": "10A2",
+    "school": "soc-son",
+    "score": 21
+  },
+  {
+    "season": 10,
+    "rank": 1,
+    "person": "nguyen-tuan-hung",
+    "class": "11A2",
+    "school": "soc-son",
+    "score": 49
+  },
+  {
+    "season": 10,
+    "rank": 2,
+    "person": "truong-tuan-minh",
+    "class": "10A5",
+    "school": "da-phuc",
+    "score": 40
+  },
+  {
+    "season": 10,
+    "rank": 3,
+    "person": "nguyen-thanh-phong",
+    "class": "11A5",
+    "school": "soc-son",
+    "score": 37
+  },
+  {
+    "season": 10,
+    "rank": 4,
+    "person": "vo-danh-son",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 37
+  },
+  {
+    "season": 10,
+    "rank": 5,
+    "person": "pham-ngo-bao-minh",
+    "class": "11A5",
+    "school": "soc-son",
+    "score": 34
+  },
+  {
+    "season": 10,
+    "rank": 6,
+    "person": "bui-ha-linh-chi",
+    "class": "11A2",
+    "school": "soc-son",
+    "score": 31
+  },
+  {
+    "season": 10,
+    "rank": 7,
+    "person": "nguyen-phuc-nguyen",
+    "class": "11A1",
+    "school": "soc-son",
+    "score": 28
+  },
+  {
+    "season": 10,
+    "rank": 8,
+    "person": "doan-duy-khanh",
+    "class": "10A1",
+    "school": "trung-gia",
+    "score": 28
+  },
+  {
+    "season": 10,
+    "rank": 9,
+    "person": "nguyen-quoc-huy",
+    "class": "10A1",
+    "school": "soc-son",
+    "score": 28
+  },
+  {
+    "season": 10,
+    "rank": 10,
+    "person": "nguyen-phuong-thuy",
+    "class": "11A2",
+    "school": "soc-son",
+    "score": 26
+  },
+  {
+    "season": 10,
+    "rank": 11,
+    "person": "ngo-huong-giang",
+    "class": "11A2",
+    "school": "soc-son",
+    "score": 26
+  },
+  {
+    "season": 10,
+    "rank": 12,
+    "person": "nguyen-khac-trieu",
+    "class": "10A2",
+    "school": "soc-son",
+    "score": 25
+  }
+]

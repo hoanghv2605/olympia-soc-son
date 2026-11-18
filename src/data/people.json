@@ -1,0 +1,457 @@
+[
+  {
+    "id": "chu-duc-huy",
+    "name": "Chu Đức Huy",
+    "school": "soc-son"
+  },
+  {
+    "id": "hoang-duc-thai",
+    "name": "Hoàng Đức Thái",
+    "school": "soc-son"
+  },
+  {
+    "id": "le-dang-khoi",
+    "name": "Lê Đăng Khôi",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-minh-khai",
+    "name": "Nguyễn Minh Khải",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-the-anh",
+    "name": "Nguyễn Thế Anh",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-dong-duc-anh",
+    "name": "Nguyễn Đồng Đức Anh",
+    "school": "trung-gia"
+  },
+  {
+    "id": "truong-ngoc-chien",
+    "name": "Trương Ngọc Chiến",
+    "school": "trung-gia"
+  },
+  {
+    "id": "truong-tan-dung",
+    "name": "Trương Tấn Dũng",
+    "school": "trung-gia"
+  },
+  {
+    "id": "tran-cong-minh",
+    "name": "Trần Công Minh",
+    "school": "soc-son"
+  },
+  {
+    "id": "duong-minh-han",
+    "name": "Đường Minh Hân",
+    "school": "soc-son"
+  },
+  {
+    "id": "do-ngoc-huyen",
+    "name": "Đỗ Ngọc Huyền",
+    "school": "soc-son"
+  },
+  {
+    "id": "do-truong-thinh",
+    "name": "Đỗ Trường Thịnh",
+    "school": "soc-son"
+  },
+  {
+    "id": "cu-minh-hoang",
+    "name": "Cù Minh Hoàng",
+    "school": "trung-gia"
+  },
+  {
+    "id": "hoang-tuan-hung",
+    "name": "Hoàng Tuấn Hùng",
+    "school": "soc-son"
+  },
+  {
+    "id": "lai-thao-vy",
+    "name": "Lại Thảo Vy",
+    "school": "da-phuc"
+  },
+  {
+    "id": "nguyen-thanh-ha",
+    "name": "Nguyễn Thanh Hà",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-thi-ngoc-anh-xuan16",
+    "name": "Nguyễn Thị Ngọc Ánh",
+    "school": "xuan-giang"
+  },
+  {
+    "id": "nguyen-thi-trung-chien",
+    "name": "Nguyễn Thị Trung Chiến",
+    "school": "soc-son"
+  },
+  {
+    "id": "phung-quang-huy",
+    "name": "Phùng Quang Huy",
+    "school": "soc-son"
+  },
+  {
+    "id": "pham-hai-ha",
+    "name": "Phạm Hải Hà",
+    "school": "da-phuc"
+  },
+  {
+    "id": "tran-ngoc-hai",
+    "name": "Trần Ngọc Hải",
+    "school": "soc-son"
+  },
+  {
+    "id": "tran-quang-huy",
+    "name": "Trần Quang Huy",
+    "school": "soc-son"
+  },
+  {
+    "id": "tran-quoc-dat",
+    "name": "Trần Quốc Đạt",
+    "school": "soc-son"
+  },
+  {
+    "id": "le-tien-dat",
+    "name": "Lê Tiến Đạt",
+    "school": "soc-son"
+  },
+  {
+    "id": "le-xuan-tung",
+    "name": "Lê Xuân Tùng",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-anh-quan",
+    "name": "Nguyễn Anh Quân",
+    "school": "minh-phu"
+  },
+  {
+    "id": "nguyen-thuy-duong",
+    "name": "Nguyễn Thùy Dương",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-thi-phuong-anh",
+    "name": "Nguyễn Thị Phương Anh",
+    "school": "da-phuc"
+  },
+  {
+    "id": "tran-hai-linh",
+    "name": "Trần Hải Linh",
+    "school": "soc-son"
+  },
+  {
+    "id": "tran-kim-cuong",
+    "name": "Trần Kim Cương",
+    "school": "soc-son"
+  },
+  {
+    "id": "tran-thai-hoang",
+    "name": "Trần Thái Hoàng",
+    "school": "trung-gia"
+  },
+  {
+    "id": "cao-tat-trung-kien",
+    "name": "Cao Tất Trung Kiên",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-duy-hung",
+    "name": "Nguyễn Duy Hưng",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-minh-hai",
+    "name": "Nguyễn Minh Hải",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-thi-thao-van",
+    "name": "Nguyễn Thị Thảo Vân",
+    "school": "soc-son"
+  },
+  {
+    "id": "ngo-le-hoang",
+    "name": "Ngô Lê Hoàng",
+    "school": "soc-son"
+  },
+  {
+    "id": "phan-huy-cuong",
+    "name": "Phan Huy Cường",
+    "school": "da-phuc"
+  },
+  {
+    "id": "tran-thi-huyen-linh",
+    "name": "Trần Thị Huyền Linh",
+    "school": "soc-son"
+  },
+  {
+    "id": "tran-trong-tan",
+    "name": "Trần Trọng Tấn",
+    "school": "soc-son"
+  },
+  {
+    "id": "vu-quoc-hung",
+    "name": "Vũ Quốc Hùng",
+    "school": "soc-son"
+  },
+  {
+    "id": "le-duc-cuong",
+    "name": "Lê Đức Cường",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-ha-bao-lam",
+    "name": "Nguyễn Hà Bảo Lâm",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-minh-hieu",
+    "name": "Nguyễn Minh Hiếu",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-quang-anh",
+    "name": "Nguyễn Quang Anh",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-sy-hoang",
+    "name": "Nguyễn Sỹ Hoàng",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-viet-thanh",
+    "name": "Nguyễn Việt Thành",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-doan-hong-thai",
+    "name": "Nguyễn Đoàn Hồng Thái",
+    "school": "soc-son"
+  },
+  {
+    "id": "ta-truong-son",
+    "name": "Tạ Trường Sơn",
+    "school": "da-phuc"
+  },
+  {
+    "id": "vu-viet-dung",
+    "name": "Vũ Việt Dũng",
+    "school": "da-phuc"
+  },
+  {
+    "id": "dinh-vu-nhu-hoang",
+    "name": "Đinh Vũ Như Hoàng",
+    "school": "soc-son"
+  },
+  {
+    "id": "bui-dinh-phong",
+    "name": "Bùi Đình Phong",
+    "school": "da-phuc"
+  },
+  {
+    "id": "le-minh-khoi",
+    "name": "Lê Minh Khôi",
+    "school": "minh-phu"
+  },
+  {
+    "id": "le-tra-my",
+    "name": "Lê Trà My",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-sy-hoang-quan",
+    "name": "Nguyễn Sỹ Hoàng Quân",
+    "school": "soc-son"
+  },
+  {
+    "id": "ngo-thi-thanh-lan",
+    "name": "Ngô Thị Thanh Lan",
+    "school": "soc-son"
+  },
+  {
+    "id": "dong-minh-duong",
+    "name": "Đồng Minh Dương",
+    "school": "da-phuc"
+  },
+  {
+    "id": "le-quang-hung",
+    "name": "Lê Quang Hưng",
+    "school": "soc-son"
+  },
+  {
+    "id": "le-tuan-tu",
+    "name": "Lê Tuấn Tú",
+    "school": "soc-son"
+  },
+  {
+    "id": "mau-tuan-kiet",
+    "name": "Mầu Tuấn Kiệt",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-hoang-tung",
+    "name": "Nguyễn Hoàng Tùng",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-minh-chinh",
+    "name": "Nguyễn Minh Chính",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-tran-gia-long",
+    "name": "Nguyễn Trần Gia Long",
+    "school": "da-phuc"
+  },
+  {
+    "id": "nguyen-ta-tuan-minh",
+    "name": "Nguyễn Tạ Tuấn Minh",
+    "school": "minh-phu"
+  },
+  {
+    "id": "tran-minh-dinh",
+    "name": "Trần Minh Dĩnh",
+    "school": "da-phuc"
+  },
+  {
+    "id": "do-thi-quynh-huong",
+    "name": "Đỗ Thị Quỳnh Hương",
+    "school": "da-phuc"
+  },
+  {
+    "id": "do-thi-quynh-ngan",
+    "name": "Đỗ Thị Quỳnh Ngân",
+    "school": "da-phuc"
+  },
+  {
+    "id": "le-quang-huy",
+    "name": "Lê Quang Huy",
+    "school": "soc-son"
+  },
+  {
+    "id": "nghiem-trung-duc",
+    "name": "Nghiêm Trung Đức",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-chi-thanh",
+    "name": "Nguyễn Chí Thành",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-huu-phu-an",
+    "name": "Nguyễn Hữu Phú An",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-thi-ngoc-anh-soc23",
+    "name": "Nguyễn Thị Ngọc Ánh",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-tran-dac-phu",
+    "name": "Nguyễn Trần Đắc Phú",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-duc-kien",
+    "name": "Nguyễn Đức Kiên",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-duc-minh",
+    "name": "Nguyễn Đức Minh",
+    "school": "soc-son"
+  },
+  {
+    "id": "phung-an-phong",
+    "name": "Phùng An Phong",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-sy-hien",
+    "name": "Nguyễn Sỹ Hiển",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-thanh-phong",
+    "name": "Nguyễn Thanh Phong",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-tuan-hung",
+    "name": "Nguyễn Tuấn Hùng",
+    "school": "soc-son"
+  },
+  {
+    "id": "pham-ngo-bao-minh",
+    "name": "Phạm Ngô Bảo Minh",
+    "school": "soc-son"
+  },
+  {
+    "id": "pham-tuan-hung",
+    "name": "Phạm Tuấn Hưng",
+    "school": "soc-son"
+  },
+  {
+    "id": "tran-duc-manh",
+    "name": "Trần Đức Mạnh",
+    "school": "da-phuc"
+  },
+  {
+    "id": "vo-danh-son",
+    "name": "Võ Danh Sơn",
+    "school": "soc-son"
+  },
+  {
+    "id": "do-ngo-thien-nhan",
+    "name": "Đỗ Ngô Thiện Nhân",
+    "school": "soc-son"
+  },
+  {
+    "id": "bui-ha-linh-chi",
+    "name": "Bùi Hà Linh Chi",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-khac-trieu",
+    "name": "Nguyễn Khắc Triệu",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-phuc-nguyen",
+    "name": "Nguyễn Phúc Nguyên",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-phuong-thuy",
+    "name": "Nguyễn Phương Thùy",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-quoc-huy",
+    "name": "Nguyễn Quốc Huy",
+    "school": "soc-son"
+  },
+  {
+    "id": "ngo-huong-giang",
+    "name": "Ngô Hương Giang",
+    "school": "soc-son"
+  },
+  {
+    "id": "truong-tuan-minh",
+    "name": "Trương Tuấn Minh",
+    "school": "da-phuc"
+  },
+  {
+    "id": "doan-duy-khanh",
+    "name": "Đoàn Duy Khánh",
+    "school": "trung-gia"
+  }
+]
