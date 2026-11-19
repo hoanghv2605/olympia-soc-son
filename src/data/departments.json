@@ -3,13 +3,14 @@
     "id": "chuyen-mon",
     "name": "Ban Chuyên môn",
     "icon": "book",
+    "leader": "Nguyễn Văn A",
     "photo": "images/about/ban-chuyen-mon.jpg",
     "duties": [
       "Xây dựng ngân hàng câu hỏi cho các vòng thi của Olympia Sóc Sơn.",
       "Training thí sinh lớp 11 chuẩn bị cho chương trình Đường lên đỉnh Olympia cũng như các thí sinh lớp 10 tiềm năng khác."
     ]
   },
-  { "id": "ki-thuat", "name": "Ban Kĩ thuật", "icon": "gear", "duties": [] },
-  { "id": "truyen-thong", "name": "Ban Truyền thông", "icon": "megaphone", "duties": [] },
-  { "id": "hau-can", "name": "Ban Hậu cần", "icon": "people", "duties": [] }
+  { "id": "ki-thuat", "name": "Ban Kĩ thuật", "icon": "gear", "leader": "Nguyễn Văn A", "duties": [] },
+  { "id": "truyen-thong", "name": "Ban Truyền thông", "icon": "megaphone", "leader": "Nguyễn Văn A", "duties": [] },
+  { "id": "hau-can", "name": "Ban Hậu cần", "icon": "people", "leader": "Nguyễn Văn A", "duties": [] }
 ]

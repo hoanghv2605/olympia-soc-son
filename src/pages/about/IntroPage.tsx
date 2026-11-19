@@ -3,7 +3,6 @@ import { PiTelevisionSimpleBold, PiTrophyBold, PiUsersThreeBold } from "react-ic
 import { TbLaurelWreath, TbPodium } from "react-icons/tb";
 import Logo from "../../components/Logo";
 import Photo from "../../components/Photo";
-import ContactSection from "../../components/ContactSection";
 import CountUp from "../../components/CountUp";
 import Timeline from "../../components/Timeline";
 import { site, statGroups, timeline } from "../../lib/data";
@@ -91,9 +90,6 @@ export default function IntroPage() {
           </div>
         </div>
       </section>
-
-      {/* ===== Liên hệ (nền sáng) ===== */}
-      <ContactSection />
     </>
   );
 }

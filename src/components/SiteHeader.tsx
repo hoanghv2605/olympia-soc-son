@@ -3,14 +3,7 @@ import { Link, NavLink, useLocation } from "react-router";
 import { PiListBold, PiMagnifyingGlass, PiXBold } from "react-icons/pi";
 import Logo from "./Logo";
 import { useSearch } from "../lib/searchContext";
-
-const NAV = [
-  { to: "/ve-chung-toi", label: "Về chúng tôi" },
-  { to: "/wiki", label: "OSSPEDIA" },
-  { to: "/bang-vang", label: "Bảng vàng" },
-  { to: "/human-of-oss", label: "Human of OSS" },
-  { to: "/thu-vien", label: "Thư viện" },
-];
+import { NAV } from "../lib/nav";
 
 const SCROLL_THRESHOLD = 24; // px: cuộn quá mức này thì header thu gọn
 const HEADER_H = { normal: "4rem", compact: "3.25rem" }; // 64px → 52px

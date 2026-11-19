@@ -61,7 +61,7 @@ function entries(): Entry[] {
       to: "/ve-chung-toi",
       icon: PiFlag,
       title: "Về chúng tôi",
-      description: "Lịch sử, cơ cấu tổ chức và liên hệ.",
+      description: "Lịch sử và cơ cấu tổ chức.",
       stat: `Thành lập năm ${yearOf(site.foundedDate)}`,
     },
   ];

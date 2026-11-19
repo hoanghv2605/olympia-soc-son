@@ -1,32 +1,82 @@
-import { PiEnvelopeSimpleBold, PiFacebookLogoBold } from "react-icons/pi";
-import { site } from "../lib/data";
+import { Link } from "react-router";
+import { PiEnvelopeSimpleBold, PiFacebookLogoBold, PiMapPinBold } from "react-icons/pi";
+import { contacts, site } from "../lib/data";
 import { yearOf } from "../lib/format";
+import { NAV } from "../lib/nav";
 import Logo from "./Logo";
+
+/** Rút câu mở đầu của đoạn giới thiệu còn tối đa `max` từ. */
+function shortIntro(max = 25) {
+  const first = site.intro[0]?.split(/(?<=[.!?])\s/)[0] ?? "";
+  const words = first.split(/\s+/);
+  return words.length <= max ? first : words.slice(0, max).join(" ").replace(/[,;:]$/, "") + "…";
+}
 
 export default function SiteFooter() {
   const now = new Date().getFullYear();
   return (
     <footer className="paper-dark border-t border-white/10 text-white/80">
-      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-[1fr_auto] md:items-center">
-        <div className="flex items-center gap-4">
-          <Logo className="size-12" />
-          <div>
-            <p className="font-bold tracking-[0.14em] text-white uppercase">{site.name}</p>
-            <p className="mt-1 text-sm text-white/70">{site.slogan}</p>
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1.1fr_0.8fr]">
+        <div>
+          <div className="flex items-center gap-4">
+            <Logo className="size-12" />
+            <div>
+              <p className="font-bold tracking-[0.14em] text-white uppercase">{site.name}</p>
+              <p className="mt-1 text-sm text-white/70">{site.slogan}</p>
+            </div>
           </div>
+          <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-white/70">{shortIntro()}</p>
         </div>
-        <ul className="space-y-2 text-sm">
-          <li>
-            <a href={site.facebook} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-white">
-              <PiFacebookLogoBold className="size-4" aria-hidden /> Fanpage Olympia Sóc Sơn
-            </a>
-          </li>
-          <li>
-            <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 hover:text-white">
-              <PiEnvelopeSimpleBold className="size-4" aria-hidden /> {site.email}
-            </a>
-          </li>
-        </ul>
+
+        <section aria-labelledby="footer-lien-he">
+          <h2 id="footer-lien-he" className="font-display text-base font-semibold text-white">Liên hệ</h2>
+          <ul className="mt-4 space-y-3 text-sm">
+            {contacts.map((c) => (
+              <li key={c.name}>
+                <p className="font-semibold text-white">{c.name}</p>
+                <p className="text-xs text-white/60">{c.role}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section aria-labelledby="footer-ket-noi">
+          <h2 id="footer-ket-noi" className="font-display text-base font-semibold text-white">Kết nối</h2>
+          <ul className="mt-4 space-y-3 text-sm">
+            <li>
+              <a href={site.facebook} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-white">
+                <PiFacebookLogoBold className="size-4" aria-hidden /> Fanpage Olympia Sóc Sơn
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 hover:text-white">
+                <PiEnvelopeSimpleBold className="size-4" aria-hidden /> {site.email}
+              </a>
+            </li>
+            <li className="flex items-start gap-2">
+              <PiMapPinBold className="mt-0.5 size-4 shrink-0" aria-hidden />
+              <span>
+                {site.address}{" "}
+                <a href={site.mapLink} target="_blank" rel="noreferrer" className="font-semibold text-white underline underline-offset-2">
+                  Xem bản đồ
+                </a>
+              </span>
+            </li>
+          </ul>
+        </section>
+
+        <nav aria-labelledby="footer-kham-pha">
+          <h2 id="footer-kham-pha" className="font-display text-base font-semibold text-white">Khám phá</h2>
+          <ul className="mt-4 space-y-2 text-sm">
+            {NAV.map((n) => (
+              <li key={n.to}>
+                <Link to={n.to} className="hover:text-white">
+                  {n.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
       <div className="border-t border-white/10">
         <p className="mx-auto max-w-6xl px-5 py-4 text-xs text-white/50">

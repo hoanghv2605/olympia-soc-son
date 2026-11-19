@@ -4,6 +4,7 @@ import DidYouKnow from "../components/DidYouKnow";
 import HeroTiles from "../components/HeroTiles";
 import HomeEntrances from "../components/HomeEntrances";
 import LatestSeason from "../components/LatestSeason";
+import MapSection from "../components/MapSection";
 import Partners from "../components/Partners";
 import Testimonials from "../components/Testimonials";
 import { site } from "../lib/data";
@@ -118,6 +119,16 @@ export default function HomePage() {
         <p className="mt-2 text-ink-soft">Cảm ơn các đơn vị đã đồng hành cùng Olympia Sóc Sơn.</p>
         <div className="mt-8">
           <Partners />
+        </div>
+      </section>
+
+      {/* ===== Bản đồ ===== */}
+      <section aria-labelledby="ban-do" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+        <h2 id="ban-do" className="section-title">
+          Tìm đến Olympia Sóc Sơn
+        </h2>
+        <div className="mt-8">
+          <MapSection />
         </div>
       </section>
     </>

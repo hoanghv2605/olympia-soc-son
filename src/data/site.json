@@ -9,7 +9,10 @@
   ],
   "facebook": "https://www.facebook.com/olympiasocson",
   "email": "olympiasocson@gmail.com",
+  "address": "Trường THPT Sóc Sơn, Hà Nội",
   "mapQuery": "Trường THPT Sóc Sơn, Hà Nội",
+  "mapEmbedUrl": "https://www.google.com/maps?q=Tr%C6%B0%E1%BB%9Dng%20THPT%20S%C3%B3c%20S%C6%A1n%2C%20H%C3%A0%20N%E1%BB%99i&output=embed",
+  "mapLink": "https://www.google.com/maps/search/?api=1&query=Tr%C6%B0%E1%BB%9Dng%20THPT%20S%C3%B3c%20S%C6%A1n%2C%20H%C3%A0%20N%E1%BB%99i",
   "images": {
     "heroMain": "images/hero/hero-main.jpg",
     "heroCaption": "Chung kết Olympia Sóc Sơn mùa 8",

@@ -502,16 +502,113 @@
 
   /* ===== Cơ cấu tổ chức: các nút ban ===== */
   .dept-pill {
-    @apply flex w-full items-center gap-3 rounded-full border border-oss/20 bg-white/80 py-1.5 pr-6 pl-1.5 text-left text-sm font-semibold text-oss transition-colors hover:border-oss/50;
+    @apply flex w-full items-center gap-3 rounded-full border border-oss/20 bg-white/80 py-1.5 pr-4 pl-1.5 text-left text-sm font-semibold text-oss transition-colors hover:border-oss/50 md:pr-6;
   }
   .dept-pill .dept-icon {
     @apply grid size-9 shrink-0 place-items-center rounded-full bg-oss-soft text-oss;
   }
-  .dept-pill[aria-selected="true"] {
+  .dept-pill[aria-expanded="true"] {
     @apply border-oss bg-oss text-white;
   }
-  .dept-pill[aria-selected="true"] .dept-icon {
+  .dept-pill[aria-expanded="true"] .dept-icon {
     @apply bg-white text-oss;
+  }
+
+  /* Cơ cấu tổ chức. Dưới lg: logo giữa, lưới 2×2, khung thông tin bên dưới. */
+  .org {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  .org-pills {
+    display: grid;
+    width: 100%;
+    max-width: 36rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  /* Từ lg: sơ đồ tỏa, cùng 1 lưới, đổi vị trí theo data-view để FLIP trượt từ chỗ cũ sang chỗ mới */
+  @media (min-width: 64rem) {
+    .org {
+      display: grid;
+      align-items: normal;
+      gap: 0;
+      min-height: 26rem;
+    }
+    .org-pills {
+      display: contents;
+    }
+    .org[data-view="diagram"] {
+      grid-template-columns: 280px 200px 280px;
+      grid-template-rows: 1fr 1fr;
+      justify-content: space-between;
+    }
+    .org[data-view="detail"] {
+      grid-template-columns: 200px 280px minmax(0, 1fr);
+      grid-template-rows: repeat(4, auto);
+      column-gap: 2.5rem;
+      row-gap: 0.75rem;
+      align-content: center;
+    }
+    .org-pill {
+      width: 280px;
+    }
+    .org[data-view="diagram"] .org-logo {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      place-self: center;
+    }
+    .org[data-view="detail"] .org-logo {
+      grid-column: 1;
+      grid-row: 1 / span 4;
+      align-self: center;
+    }
+    .org[data-view="detail"] .org-pill {
+      grid-column: 2;
+      grid-row: var(--org-row);
+    }
+    .org[data-view="diagram"] .org-pill {
+      grid-column: var(--org-col);
+      grid-row: var(--org-row);
+      align-self: var(--org-align);
+    }
+    .org[data-view="detail"] .org-panel {
+      grid-column: 3;
+      grid-row: 1 / span 4;
+      align-self: center;
+    }
+  }
+  .org-lines path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 600ms ease-out;
+  }
+  .org-lines[data-drawn="true"] path {
+    stroke-dashoffset: 0;
+  }
+  .org-lines {
+    transition: opacity 150ms ease;
+  }
+  .org-lines[data-view="diagram"] {
+    transition: opacity 300ms ease 400ms;
+  }
+  .org-panel-enter {
+    animation: org-panel-in 300ms ease-out 150ms both;
+  }
+  .org-panel-swap {
+    animation: fade-in 200ms ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .org-lines,
+    .org-lines path {
+      transition: none !important;
+    }
+    .org-panel-enter,
+    .org-panel-swap {
+      animation: none;
+    }
   }
 
   /* ===== OSSPEDIA ===== */
@@ -621,6 +718,17 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes org-panel-in {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

@@ -125,6 +125,7 @@ export interface Department {
   id: string;
   name: string;
   icon: "book" | "gear" | "megaphone" | "people";
+  leader: string; // Trưởng ban
   duties: string[];
   photo?: string;
 }

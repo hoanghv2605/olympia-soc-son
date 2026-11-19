@@ -194,6 +194,11 @@ export function milestonePhoto(date: string) {
   return `images/cot-moc/${date}.jpg`;
 }
 
+/** Ảnh ban: dùng `photo` trong departments.json nếu có, không thì images/ban/<id>.jpg (ngang 4:3). */
+export function departmentPhoto(d: Department) {
+  return d.photo ?? `images/ban/${d.id}.jpg`;
+}
+
 export function humanPhoto(slug: string) {
   return `images/human-of-oss/${slug}.jpg`;
 }
