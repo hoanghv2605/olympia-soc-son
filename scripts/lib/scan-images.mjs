@@ -13,7 +13,7 @@ const IGNORED = new Set([".gitkeep", ".DS_Store"]);
 /** Ảnh mẫu giữ chỗ: có chuỗi này trong 4KB đầu của file → coi như CHƯA có ảnh. */
 export const SAMPLE_MARKER = "OSS-ANH-MAU";
 
-function isSampleImage(file) {
+export function isSampleImage(file) {
   const buf = Buffer.alloc(4096);
   const fd = openSync(file, "r");
   try {
