@@ -4,12 +4,12 @@ import Breadcrumb from "../../components/Breadcrumb";
 import { PiCalendarBlank, PiGraduationCap, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
 import IconLabel from "../../components/IconLabel";
 import { ScoreHeads, TiebreakNote } from "../../components/MatchTable";
-import PersonPhoto from "../../components/PersonPhoto";
+import SeasonPhotoSwitcher from "../../components/SeasonPhotoSwitcher";
 import Timeline from "../../components/Timeline";
 import NotFound from "../NotFound";
 import {
   describeTitles,
-  personPhoto,
+  ossSeasonsOf,
   personProfile,
   schoolPath,
   resultLabel,
@@ -162,7 +162,7 @@ export default function ContestantDetail() {
         </div>
 
         <aside className="infobox" aria-label="Thông tin nhanh">
-          <PersonPhoto src={personPhoto(person.id)} seed={person.id} name={person.name} className="mb-4 aspect-[3/4] w-full rounded-lg" />
+          <SeasonPhotoSwitcher personId={person.id} name={person.name} seasons={ossSeasonsOf(person.id)} />
           <dl>
             <dt>
               <IconLabel icon={PiGraduationCap}>Trường</IconLabel>

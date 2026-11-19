@@ -2,7 +2,7 @@ import Photo from "./Photo";
 import Placeholder from "./Placeholder";
 
 interface Props {
-  src: string; // vd images/thi-sinh/<id>.jpg
+  src?: string; // vd images/thi-sinh/s10-ten-ss.jpg; không có thì chỉ hiện ảnh giữ chỗ
   /** Mã cố định (id thí sinh / slug Human of OSS) để chọn tông màu ảnh giữ chỗ */
   seed: string;
   name: string;

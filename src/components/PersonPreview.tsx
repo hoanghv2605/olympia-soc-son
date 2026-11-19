@@ -19,6 +19,7 @@ const FADE = 120; // ms mờ dần; xong thì gỡ thẻ khỏi DOM
 export default function PersonPreview() {
   const enabled = useMediaQuery("(hover: hover) and (pointer: fine)");
   const [id, setId] = useState<string | null>(null);
+  const [season, setSeason] = useState<number | undefined>(undefined);
   const [visible, setVisible] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const [anchorVersion, setAnchorVersion] = useState(0);
@@ -72,6 +73,7 @@ export default function PersonPreview() {
       showTimer.current = window.setTimeout(() => {
         const pid = a.dataset.personPreview;
         if (!pid || !personPreview(pid)) return;
+        setSeason(a.dataset.personSeason ? Number(a.dataset.personSeason) : undefined);
         window.clearTimeout(removeTimer.current);
         anchorRef.current = a;
         setId(pid);
@@ -138,7 +140,7 @@ export default function PersonPreview() {
       onPointerLeave={scheduleHide}
     >
       <PersonPhoto
-        src={personPhoto(info.person.id)}
+        src={personPhoto(info.person.id, season)}
         seed={info.person.id}
         name={info.person.name}
         className="h-16 w-12 shrink-0 rounded-md"

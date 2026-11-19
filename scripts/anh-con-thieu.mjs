@@ -2,6 +2,7 @@
 // Chạy: npm run anh-con-thieu
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { HUMAN_SLOTS, departmentPhotoFile, humanPhotoFile, personPhotoFiles } from "../src/lib/photo-names.js";
 import { root, scanImages } from "./lib/scan-images.mjs";
 
 const have = new Set(scanImages());
@@ -27,13 +28,14 @@ const groups = [];
 const group = (title, items) => groups.push({ title, items });
 const dedupe = (items) => [...new Map(items.map((i) => [i.options.join("|"), i])).values()];
 
-// 1. Thí sinh OSS (có dòng trong qualifying.json) + người trong mục THPT Sóc Sơn tại Đường lên đỉnh Olympia
-const ossIds = new Set(qualifying.map((q) => q.person));
-const socSonOlympia = new Set(olympia.map((o) => o.person).filter((id) => people.find((p) => p.id === id)?.school === "soc-son"));
-const personIds = [...new Set([...ossIds, ...socSonOlympia])];
+// 1. Thí sinh: mỗi lượt vào top 12 một ảnh s{mùa}-{slug}-{mã trường}.jpg + người chỉ thi Đường lên đỉnh Olympia o{năm}-...
+//    (tên file tính bằng hàm dùng chung src/lib/photo-names.js, cùng hàm với web)
 group(
-  "Thí sinh (OSS và THPT Sóc Sơn tại Đường lên đỉnh Olympia)",
-  personIds.map((id) => ({ label: nameOf(id), options: [`images/thi-sinh/${id}.jpg`] })),
+  "Thí sinh (mỗi lượt vào top 12 một ảnh, và người chỉ thi Đường lên đỉnh Olympia)",
+  personPhotoFiles({ people, qualifying, olympia, schools }).map((f) => ({
+    label: f.label,
+    options: [`images/thi-sinh/${f.file}`],
+  })),
 );
 
 // 2. Trận đấu
@@ -68,16 +70,19 @@ group(
   partners.map((p) => ({ label: p.name, options: [`images/doi-tac/${p.id}.svg`, `images/doi-tac/${p.id}.png`] })),
 );
 
-// 6. Human of OSS
+// 6. Human of OSS: đủ HUMAN_SLOTS ô, ảnh human-of-oss/{stt 2 chữ số}.jpg
 group(
-  "Human of OSS",
-  humans.map((h) => ({ label: h.name, options: [`images/human-of-oss/${h.slug}.jpg`] })),
+  `Human of OSS (${HUMAN_SLOTS} ô)`,
+  Array.from({ length: HUMAN_SLOTS }, (_, i) => {
+    const story = humans.find((h) => h.stt === i + 1);
+    return { label: story ? story.name : "chưa có câu chuyện", options: [`images/${humanPhotoFile(i + 1)}`] };
+  }),
 );
 
-// 7. Các ban (photo trong departments.json nếu có, không thì images/ban/<id>.jpg)
+// 7. Các ban: ban/ban-{id}.jpg
 group(
   "Các ban",
-  departments.map((d) => ({ label: d.name, options: [d.photo ?? `images/ban/${d.id}.jpg`] })),
+  departments.map((d) => ({ label: d.name, options: [`images/${departmentPhotoFile(d.id)}`] })),
 );
 
 // 8. Logo trường (svg hoặc png)
@@ -86,10 +91,8 @@ group(
   schools.map((s) => ({ label: s.name, options: [`images/truong/${s.id}.svg`, `images/truong/${s.id}.png`] })),
 );
 
-// 9. Ảnh trang chủ / giới thiệu
-group("Ảnh trang chủ và trang Giới thiệu", [
-  { label: "Ảnh lớn trang chủ", options: [site.images.heroMain] },
-  ...site.images.heroLetters.map((p, i) => ({ label: `Chữ ${"OSS"[i]} trên trang chủ`, options: [p] })),
+// 9. Ảnh trang Giới thiệu (ảnh lớn trang chủ lấy từ ảnh Chung kết mới nhất nên hero-main.jpg chỉ là tùy chọn)
+group("Ảnh trang Giới thiệu", [
   { label: "Ảnh tập thể (trên) trang Giới thiệu", options: [site.images.aboutTop] },
   { label: "Ảnh tập thể (dưới) trang Giới thiệu", options: [site.images.aboutBottom] },
 ]);
@@ -112,3 +115,11 @@ for (const g of groups) {
   }
 }
 console.log(`\nTổng: đã có ${totalHave} / ${totalAll} ảnh.`);
+
+// Tùy chọn (không bắt buộc, không tính vào tổng)
+const heroMain = site.images.heroMain;
+console.log(
+  `\n## Tùy chọn: ảnh lớn dự phòng trang chủ (chỉ dùng khi chưa mùa nào có ảnh Chung kết): ${
+    have.has(heroMain) ? "đã có" : "chưa có"
+  } public/${heroMain}`,
+);

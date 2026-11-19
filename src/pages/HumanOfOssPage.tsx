@@ -35,7 +35,7 @@ export default function HumanOfOssPage() {
                 to={humanPath(h.slug)}
                 className="group flex h-full flex-col overflow-hidden rounded-xl border border-oss/15 bg-white/80 transition-shadow hover:shadow-[0_18px_40px_-20px_rgba(109,40,217,0.5)]"
               >
-                <PersonPhoto src={humanPhoto(h.slug)} seed={h.slug} name={h.name} className="aspect-[4/3] w-full" />
+                <PersonPhoto src={humanPhoto(h.stt)} seed={h.slug} name={h.name} className="aspect-[4/3] w-full" />
                 <span className="flex flex-1 flex-col p-5">
                   <span className="text-lg font-bold text-ink group-hover:text-oss">{h.name}</span>
                   <span className="text-sm text-ink-soft">{h.title}</span>

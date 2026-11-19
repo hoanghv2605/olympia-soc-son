@@ -20,6 +20,7 @@ import {
   semifinalsOf,
   type PlacedResult,
 } from "../../lib/data";
+import { SeasonContext } from "../../lib/seasonContext";
 import { formatDate, formatScore, scrollToId, seasonOrdinal } from "../../lib/format";
 
 /** Nối các phần: "A", "A và B", "A, B và C". */
@@ -89,7 +90,7 @@ export default function SeasonDetail() {
   ];
 
   return (
-    <>
+    <SeasonContext.Provider value={n}>
       <PageHeader
         breadcrumb={[
           { to: "/wiki", label: "OSSPEDIA" },
@@ -306,6 +307,6 @@ export default function SeasonDetail() {
 
         <SeasonNav n={n} spread className="mt-12 justify-between border-t border-oss/15 pt-6 md:mt-16" />
       </article>
-    </>
+    </SeasonContext.Provider>
   );
 }

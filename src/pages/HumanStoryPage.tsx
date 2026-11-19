@@ -28,7 +28,7 @@ export default function HumanStoryPage() {
       <article className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
         <div className="grid items-center gap-8 md:grid-cols-[16rem_minmax(0,1fr)] md:gap-12">
           <PersonPhoto
-            src={humanPhoto(story.slug)}
+            src={humanPhoto(story.stt)}
             seed={story.slug}
             name={story.name}
             className="aspect-[3/4] w-48 rounded-2xl md:w-full"

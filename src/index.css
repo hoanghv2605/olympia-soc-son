@@ -202,6 +202,35 @@
     color: transparent;
     animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
+  /* Chữ có ảnh Chung kết là link tới trang mùa; nhãn nhỏ hiện cạnh chữ khi rê chuột / focus (nhãn là phần tử riêng,
+     để không bị cắt theo nét chữ của background-clip: text) */
+  .letter-tip {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 0.5rem);
+    z-index: 30;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    border-radius: 9999px;
+    background: white;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-oss);
+    box-shadow: 0 8px 20px -10px rgb(31 27 46 / 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease;
+  }
+  .letter-wrap:hover .letter-tip,
+  .letter-wrap:focus-within .letter-tip {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .letter-tip {
+      transition: none;
+    }
+  }
   /* Khẩu hiệu hiện ngay khi trang tải: chỉ mờ dần 200ms, không trễ */
   .hero-slogan {
     animation: fade-in 200ms ease-out both;
@@ -614,7 +643,8 @@
   .org-panel-enter {
     animation: org-panel-in 300ms ease-out 150ms both;
   }
-  .org-panel-swap {
+  .org-panel-swap,
+  .photo-swap-in {
     animation: fade-in 200ms ease-out both;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -623,7 +653,8 @@
       transition: none !important;
     }
     .org-panel-enter,
-    .org-panel-swap {
+    .org-panel-swap,
+    .photo-swap-in {
       animation: none;
     }
   }

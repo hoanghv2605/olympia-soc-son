@@ -2,6 +2,7 @@
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
 import { hasImage } from "./images";
+import { departmentPhotoFile, humanPhotoFile, personPhotoFiles } from "./photo-names";
 import siteJson from "../data/site.json";
 import schoolsJson from "../data/schools.json";
 import peopleJson from "../data/people.json";
@@ -60,14 +61,15 @@ export const matches = (matchesJson as Match[])
 export const olympia = olympiaJson as OlympiaRecord[];
 export const departments = departmentsJson as Department[];
 export const contacts = contactsJson as ContactPerson[];
-export const humans = humansJson as HumanStory[];
+/** Câu chuyện Human of OSS, xếp theo `stt` tăng dần (stt trùng nhau thì build báo lỗi, xem scripts/gen-image-manifest.mjs). */
+export const humans = (humansJson as HumanStory[]).slice().sort((a, b) => a.stt - b.stt);
 /** Nhận xét (trang chủ), theo thứ tự trong file */
 export const testimonials = testimonialsJson as Testimonial[];
 /** Đối tác đồng hành (trang chủ) */
 export const partners = partnersJson as Partner[];
 
-/** Số ô ở trang Human of OSS: câu chuyện thật trước, còn thiếu thì thêm ô "Câu chuyện sắp ra mắt". */
-export const HUMAN_SLOTS = 10;
+/** Số ô ở trang Human of OSS (định nghĩa ở photo-names.js để script Node dùng chung). */
+export { HUMAN_SLOTS } from "./photo-names";
 
 /** Tên gọi (từ cuối) để xếp theo thứ tự ABC kiểu Việt Nam. */
 function lastNameKey(fullName: string) {
@@ -187,17 +189,50 @@ export function humanPath(slug: string) {
 
 // ===== Ảnh theo quy ước tên file (không khai báo trong JSON) =====
 
-export function personPhoto(id: string) {
-  return `images/thi-sinh/${id}.jpg`;
+/**
+ * Ảnh thí sinh theo quy ước `thi-sinh/s{mùa}-{slug họ tên}-{mã trường}.jpg` (mỗi lượt vào top 12 một ảnh;
+ * người chỉ thi Đường lên đỉnh Olympia: `o{năm}-...`). Tên file tính ở photo-names.js (dùng chung với script Node).
+ */
+const photoFilesByPerson = new Map<string, ReturnType<typeof personPhotoFiles>>();
+for (const f of personPhotoFiles({
+  people: peopleJson as Person[],
+  qualifying: qualifyingJson as QualifyingEntry[],
+  olympia: olympiaJson as OlympiaRecord[],
+  schools: schoolsJson as School[],
+})) {
+  photoFilesByPerson.set(f.personId, [...(photoFilesByPerson.get(f.personId) ?? []), f]);
+}
+
+/**
+ * Danh sách ảnh ứng viên của một người, theo thứ tự ưu tiên, chỉ lấy ảnh có thật (ảnh mẫu không tính):
+ * có `season` → ảnh đúng mùa đó, rồi các mùa khác (mới trước); không có → mùa mới nhất, rồi cũ hơn.
+ * Người chỉ thi Đường lên đỉnh Olympia → ảnh `o…`. Không có ảnh nào → mảng rỗng (dùng ảnh giữ chỗ).
+ */
+export function personPhotos(personId: string, season?: number): string[] {
+  const files = (photoFilesByPerson.get(personId) ?? []).slice().sort((a, b) => (b.season ?? 0) - (a.season ?? 0));
+  if (season !== undefined) files.sort((a, b) => Number(b.season === season) - Number(a.season === season));
+  return files.map((f) => `images/thi-sinh/${f.file}`).filter((p) => hasImage(p));
+}
+
+/** Ảnh đầu tiên có thật (xem `personPhotos`), hoặc undefined nếu chưa có ảnh. */
+export function personPhoto(personId: string, season?: number): string | undefined {
+  return personPhotos(personId, season)[0];
+}
+
+/** Ảnh đúng mùa đó (không lùi về mùa khác); dùng ở hồ sơ thí sinh khi chọn mùa. */
+export function personSeasonPhoto(personId: string, season: number): string | undefined {
+  const f = photoFilesByPerson.get(personId)?.find((x) => x.season === season);
+  const path = f && `images/thi-sinh/${f.file}`;
+  return path && hasImage(path) ? path : undefined;
 }
 
 export function milestonePhoto(date: string) {
   return `images/cot-moc/${date}.jpg`;
 }
 
-/** Ảnh ban: dùng `photo` trong departments.json nếu có, không thì images/ban/<id>.jpg (ngang 4:3). */
+/** Ảnh ban: images/ban/ban-<id>.jpg (ngang 4:3), suy ra từ `id` ban. */
 export function departmentPhoto(d: Department) {
-  return d.photo ?? `images/ban/${d.id}.jpg`;
+  return `images/${departmentPhotoFile(d.id)}`;
 }
 
 /** Ảnh trận đấu: images/tran-dau/<id trận>.jpg (ngang 3:2). Trả về đường dẫn nếu có trong danh sách ảnh. */
@@ -206,8 +241,23 @@ export function matchPhoto(matchId: string) {
   return hasImage(path) ? path : undefined;
 }
 
-export function humanPhoto(slug: string) {
-  return `images/human-of-oss/${slug}.jpg`;
+/** Ảnh Chung kết của mùa n (images/tran-dau/oss{n}-ck.jpg) nếu có thật. */
+export function finalPhoto(season: number) {
+  const f = finalOf(season);
+  return f ? matchPhoto(f.id) : undefined;
+}
+
+/** Mùa lớn nhất có ảnh Chung kết thật: lấy ảnh lớn trang chủ (undefined nếu chưa mùa nào có). */
+export function heroSeason() {
+  return seasons
+    .map((x) => x.season)
+    .sort((a, b) => b - a)
+    .find((n) => !!finalPhoto(n));
+}
+
+/** Ảnh Human of OSS: images/human-of-oss/{stt 2 chữ số}.jpg */
+export function humanPhoto(stt: number) {
+  return `images/${humanPhotoFile(stt)}`;
 }
 
 export function testimonialPhoto(id: string) {

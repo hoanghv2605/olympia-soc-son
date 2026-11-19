@@ -127,7 +127,6 @@ export interface Department {
   icon: "book" | "gear" | "megaphone" | "people";
   leader: string; // Trưởng ban
   duties: string[];
-  photo?: string;
 }
 
 export interface ContactPerson {
@@ -143,7 +142,8 @@ export interface HumanStory {
   name: string;
   title: string;
   quote: string;
-  photo?: string;
+  /** Số thứ tự câu chuyện (duy nhất): xếp trang Human of OSS và đặt tên ảnh human-of-oss/{stt 2 chữ số}.jpg */
+  stt: number;
 }
 
 /** Nhận xét trên trang chủ. Ảnh: public/images/nhan-xet/<id>.jpg. Chỉ đăng khi người đó đồng ý. */

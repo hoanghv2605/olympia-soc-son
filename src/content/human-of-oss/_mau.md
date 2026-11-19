@@ -8,12 +8,15 @@ Cách thêm một câu chuyện Human of OSS:
 
    {
      "slug": "nguyen-van-a",
+     "stt": 2,
      "name": "Anh Nguyễn Văn A",
      "title": "Vai trò với Olympia Sóc Sơn, vd Quán quân mùa 3",
      "quote": "Một câu trích ngắn hiện trên thẻ và ở đầu bài."
    }
 
-3. (Tuỳ chọn) Ảnh chân dung: public/images/human-of-oss/<slug>.jpg, rồi chạy lại `npm run dev`.
+   `stt` = số thứ tự tiếp theo chưa dùng (không được trùng; trùng thì build báo lỗi). Trang xếp theo `stt` tăng dần.
+3. (Tuỳ chọn) Ảnh chân dung: public/images/human-of-oss/{stt 2 chữ số}.jpg, vd stt 2 → 02.jpg,
+   rồi chạy lại `npm run dev`.
 4. Viết bài bên dưới (xóa đoạn chú thích này đi). Chỉ đăng khi người được viết đã đồng ý.
 -->
 

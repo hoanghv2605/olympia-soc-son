@@ -1,7 +1,8 @@
 import { useState } from "react";
 import ImageLightbox from "./ImageLightbox";
 import Photo from "./Photo";
-import { matchPhoto, personName } from "../lib/data";
+import PersonPhoto from "./PersonPhoto";
+import { matchPhoto, personName, personPhoto } from "../lib/data";
 import { asset, initials } from "../lib/format";
 import { placeholderTone } from "../lib/placeholder";
 import type { Match } from "../types";
@@ -24,15 +25,25 @@ export default function MatchPhoto({ match, caption }: { match: Match; caption: 
         >
           {match.results.map((r) => {
             const tone = placeholderTone(r.person);
+            const photo = personPhoto(r.person, match.season); // ảnh đúng mùa của trận (không có thì lùi về mùa khác)
             return (
               <div key={r.person} className="flex w-[4.75rem] flex-col items-center gap-2 text-center sm:w-24">
-                <span
-                  aria-hidden
-                  className="font-display grid size-14 place-items-center rounded-full bg-white/70 text-lg font-bold"
-                  style={{ color: tone.ink }}
-                >
-                  {initials(personName(r.person))}
-                </span>
+                {photo ? (
+                  <PersonPhoto
+                    src={photo}
+                    seed={r.person}
+                    name={personName(r.person)}
+                    className="size-14 shrink-0 rounded-full ring-2 ring-white/70"
+                  />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="font-display grid size-14 place-items-center rounded-full bg-white/70 text-lg font-bold"
+                    style={{ color: tone.ink }}
+                  >
+                    {initials(personName(r.person))}
+                  </span>
+                )}
                 <span className="text-xs leading-tight text-ink">{personName(r.person)}</span>
               </div>
             );

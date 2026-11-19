@@ -43,9 +43,9 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `olympia.json` | Thành tích Đường lên đỉnh Olympia. `ossSeason`: mùa OSS của thí sinh, `null` = không thi OSS. `beforeOss: true` = tham gia ĐLĐO trước khi dự thi OSS. Giải Nhất cuộc thi Quý được tính là 1 cầu truyền hình |
 | `milestones.json` | Dòng thời gian (`person` là mã thí sinh). `kind`: `"oss"` = chấm tím, `"olympia"` = chấm hồng |
 | `stats.json` | Những con số ấn tượng: mục `"manual": true` nhập tay, còn lại web tự tính |
-| `departments.json` | 4 ban: tên, `leader` (Trưởng ban), nhiệm vụ, `photo` (tùy chọn) |
+| `departments.json` | 4 ban: tên, `leader` (Trưởng ban), nhiệm vụ (ảnh ban đặt theo `id`, không khai báo trong JSON) |
 | `contacts.json` | Người liên hệ, hiện ở footer (tên và chức vụ). Ô nào để trống `""` thì web tự ẩn |
-| `humans.json` | Danh sách bài Human of OSS: `slug`, `name`, `title` (vai trò), `quote` (câu trích ngắn trên thẻ) |
+| `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `quote` (câu trích ngắn trên thẻ) |
 
 **Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
 
@@ -66,17 +66,30 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 | Thư mục / tên file | Dùng ở đâu | Tỉ lệ | Kích thước gợi ý |
 | --- | --- | --- | --- |
 | `public/logo-oss.svg` **hoặc** `logo-oss.png` | Logo thật (trên web và favicon). Web thử lần lượt `logo-oss.svg` → `logo-oss.png` → `logo-oss-tam.svg` (logo tạm hiện có) | vuông | SVG, hoặc PNG nền trong suốt ≥ 512×512 |
-| `public/images/hero/hero-main.jpg` | Ảnh lớn trang chủ | ngang ~3:2 | ~1800×1200, < 400 KB |
-| `public/images/hero/letter-o.jpg`, `letter-s1.jpg`, `letter-s2.jpg` | Ảnh lồng trong 3 chữ O-S-S ở trang chủ | dọc, nhiều màu | ~600×900 |
+| `public/images/hero/hero-main.jpg` | **Tùy chọn.** Ảnh lớn dự phòng trang chủ, chỉ dùng khi chưa mùa nào có ảnh Chung kết. Bình thường ảnh lớn là ảnh Chung kết của mùa mới nhất, 3 chữ O-S-S là ảnh Chung kết của 3 mùa liền trước (xem `tran-dau/` bên dưới) | ngang ~3:2 | ~1800×1200, < 400 KB |
 | `public/images/about/tap-the-1.jpg`, `tap-the-2.jpg` | 2 ảnh ở mục Giới thiệu | 4:3 | ~1200×900 |
-| `public/images/ban/<id ban>.jpg` | Ảnh từng ban ở Cơ cấu tổ chức. `id` trong `departments.json`: `chuyen-mon`, `ki-thuat`, `truyen-thong`, `hau-can`. Ban có `"photo"` trong JSON thì dùng đường dẫn đó (hiện Ban Chuyên môn: `images/about/ban-chuyen-mon.jpg`) | 4:3 | ~1200×900 |
-| `public/images/thi-sinh/<mã-thí-sinh>.jpg` | Ảnh thí sinh (hồ sơ, thẻ Bảng vàng). Mã = `id` trong `people.json`, vd `le-tra-my.jpg` | dọc 3:4 | ~600×800 |
+| `public/images/ban/ban-{id}.jpg` | Ảnh từng ban ở Cơ cấu tổ chức: `ban-chuyen-mon.jpg`, `ban-ki-thuat.jpg`, `ban-truyen-thong.jpg`, `ban-hau-can.jpg` | 4:3 | ~1200×900 |
+| `public/images/thi-sinh/s{mùa}-{slug họ tên}-{mã trường}.jpg` | Ảnh thí sinh, **mỗi lượt vào top 12 một ảnh** (vd `s10-pham-ngo-bao-minh-ss.jpg`, `s8-nguyen-thi-ngoc-anh-ss.jpg`). Người chỉ thi Đường lên đỉnh Olympia: `o{năm}-{slug}-{mã trường}.jpg` (vd `o17-ha-viet-hoang-ss.jpg`). Cách tính tên: xem mục dưới | dọc 3:4 | ~600×800 |
 | `public/images/tran-dau/<id trận>.jpg` | Ảnh mỗi trận Bán kết / Chung kết ở trang mùa; ảnh Chung kết còn làm dải mờ đầu trang mùa và ảnh đầu thẻ mùa. `id trận` = `id` trong `matches.json`, vd `oss10-bk1.jpg`, `oss10-ck.jpg` | ngang 3:2 | ~1500×1000, < 400 KB |
 | `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc | 4:3 | ~1200×900 |
-| `public/images/human-of-oss/<slug>.jpg` | Chân dung Human of OSS | dọc | ~800×1000 |
+| `public/images/human-of-oss/{stt 2 chữ số}.jpg` | Chân dung Human of OSS, theo `stt` trong `humans.json` (vd `01.jpg`). Thư mục `images/humans/` không còn dùng | dọc | ~800×1000 |
 | `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ. `id` trong `testimonials.json` | vuông | ~600×600 |
 | `public/images/doi-tac/<id>.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc). `id` trong `partners.json` | tự do | SVG, hoặc PNG ngang ~600 px |
 | `public/images/truong/<id-trường>.svg` hoặc `.png` | Logo trường (huy hiệu tròn). Tên file = `id` trong `schools.json`: `soc-son`, `da-phuc`, `trung-gia`, `minh-phu`, `xuan-giang`. Chưa có logo thì hiện chữ viết tắt của trường | vuông | ~256×256, nền trong suốt |
+
+### Cách đặt tên ảnh thí sinh (tự tính, không phải nhớ)
+
+`s{mùa}-{slug họ tên}-{mã trường}.jpg`. Trường lấy từ **dòng top 12 của mùa đó** (cùng một người có thể học trường khác ở mùa khác). **Slug họ tên:** đổi `Đ→D`, `đ→d`; bỏ dấu tiếng Việt; chữ thường; mọi cụm ký tự không phải chữ hoặc số thành một dấu `-`; bỏ `-` ở đầu và cuối. Vd "Phạm Ngô Bảo Minh" → `pham-ngo-bao-minh`. Cách dễ nhất: chạy `npm run anh-con-thieu`, lệnh in sẵn đúng tên file cần đặt (kèm tên người và mùa).
+
+| Trường | Mã |
+| --- | --- |
+| THPT Sóc Sơn | `ss` |
+| THPT Đa Phúc | `dp` |
+| THPT Trung Giã | `tg` |
+| THPT Minh Phú | `mp` |
+| THPT Xuân Giang | `xg` |
+
+**Web chọn ảnh thế nào:** ở trang một mùa (vòng tròn thí sinh, thẻ xem nhanh) và khối "Chung kết mùa n" trang chủ thì ưu tiên ảnh đúng mùa đó, chưa có thì dùng ảnh mùa khác (mới trước). Ở chỗ khác (Bảng vàng, danh sách, trang trường, tìm kiếm...) dùng ảnh mùa mới nhất. Hồ sơ thí sinh có từ 2 mùa thì có nút "Mùa n" dưới ảnh để xem ảnh từng mùa (mùa chưa có ảnh thì hiện ảnh giữ chỗ). Hai lượt thi khác nhau mà ra cùng một tên file thì `npm run build` dừng lại và báo 2 lượt đó.
 
 ### Xem ảnh nào còn thiếu
 
@@ -127,8 +140,8 @@ Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh ch�
 ### Thêm một câu chuyện Human of OSS
 
 1. Chép `src/content/human-of-oss/_mau.md` thành `src/content/human-of-oss/<slug>.md` (vd `nguyen-van-a.md`). File bắt đầu bằng `_` không hiện trên web.
-2. Thêm 1 mục vào `src/data/humans.json` với cùng `slug` (mẫu có sẵn ở đầu file `_mau.md`): `slug`, `name`, `title` (vai trò), `quote` (câu trích ngắn).
-3. Ảnh chân dung (nếu có): `public/images/human-of-oss/<slug>.jpg`.
+2. Thêm 1 mục vào `src/data/humans.json` với cùng `slug` (mẫu có sẵn ở đầu file `_mau.md`): `slug`, `stt`, `name`, `title` (vai trò), `quote` (câu trích ngắn). **`stt` = số tiếp theo chưa dùng** (1, 2, 3...), không được trùng; trùng thì build báo lỗi.
+3. Ảnh chân dung (nếu có): `public/images/human-of-oss/{stt 2 chữ số}.jpg`, vd `stt` là 2 thì `02.jpg`.
 4. Viết bài trong file `.md`, rồi chạy lại `npm run dev`. Trang Human of OSS luôn có 10 ô; mỗi câu chuyện mới thay một ô "Câu chuyện sắp ra mắt".
 
 ## 4. Đưa lên mạng (GitHub Pages)

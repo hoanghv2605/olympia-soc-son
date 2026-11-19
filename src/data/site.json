@@ -16,7 +16,6 @@
   "images": {
     "heroMain": "images/hero/hero-main.jpg",
     "heroCaption": "Chung kết Olympia Sóc Sơn mùa 8",
-    "heroLetters": ["images/hero/letter-o.jpg", "images/hero/letter-s1.jpg", "images/hero/letter-s2.jpg"],
     "aboutTop": "images/about/tap-the-1.jpg",
     "aboutBottom": "images/about/tap-the-2.jpg"
   }

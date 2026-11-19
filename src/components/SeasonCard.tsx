@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { Link } from "react-router";
 import CubeOutline from "./CubeOutline";
 import Photo from "./Photo";
-import { finalOf, matchPhoto, podium, seasonPath } from "../lib/data";
+import PersonPhoto from "./PersonPhoto";
+import { finalOf, matchPhoto, personPhoto, podium, seasonPath } from "../lib/data";
 import { formatDate, formatScore } from "../lib/format";
 import { MEDAL_DOT, type Medal } from "../lib/medal";
 import { PLACEHOLDER_TONES } from "../lib/placeholder";
@@ -25,6 +26,7 @@ export default function SeasonCard({ season }: { season: Season }) {
   const final = finalOf(n);
   const photo = final ? matchPhoto(final.id) : undefined;
   const tone = PLACEHOLDER_TONES[(n - 1) % PLACEHOLDER_TONES.length];
+  const champPhoto = champions[0] ? personPhoto(champions[0].person.id, n) : undefined;
   const names = (list: typeof champions) => list.map((c) => c.person.name).join(", ");
 
   return (
@@ -55,7 +57,17 @@ export default function SeasonCard({ season }: { season: Season }) {
             medal="gold"
             aside={<span className="text-sm text-ink-soft tabular-nums">{formatScore(champions[0]?.result.total)}</span>}
           >
-            <span className="font-semibold">{champions.length ? names(champions) : "Đang cập nhật"}</span>
+            <span className="flex items-center gap-2 font-semibold">
+              {champPhoto && champions[0] && (
+                <PersonPhoto
+                  src={champPhoto}
+                  seed={champions[0].person.id}
+                  name={champions[0].person.name}
+                  className="size-7 shrink-0 rounded-full"
+                />
+              )}
+              {champions.length ? names(champions) : "Đang cập nhật"}
+            </span>
           </Row>
           {runnersUp.length > 0 && <Row medal="silver">{names(runnersUp)}</Row>}
           {thirds.length > 0 && <Row medal="bronze">{names(thirds)}</Row>}
