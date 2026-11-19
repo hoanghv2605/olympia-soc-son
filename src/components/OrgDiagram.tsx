@@ -28,12 +28,14 @@ export default function OrgDiagram() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [panelAnim, setPanelAnim] = useState<"enter" | "swap">("swap");
   const [paths, setPaths] = useState<string[]>([]);
+  const [sliding, setSliding] = useState(false); // đang trượt (FLIP): ẩn đường nối
 
   const orgRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const prevRects = useRef<Map<Element, DOMRect> | null>(null);
   const focusId = useRef<string | null>(null);
+  const slideRun = useRef(0);
 
   const view = activeId ? "detail" : "diagram";
   const active = departments.find((d) => d.id === activeId);
@@ -84,54 +86,80 @@ export default function OrgDiagram() {
     pillRefs.current[i]?.focus();
   }, [activeId]);
 
-  // Đo 4 đường nối (chỉ khi ở sơ đồ, từ lg). Chạy trước FLIP để đo vị trí cuối, chưa bị transform
-  useLayoutEffect(() => {
+  // Đo lại 4 đường nối theo vị trí hiện tại (chỉ khi ở sơ đồ, từ lg). Hàm luôn đọc state mới nhất qua ref
+  const measureRef = useRef<() => void>(() => {});
+  measureRef.current = () => {
     const org = orgRef.current;
     const logo = logoRef.current;
     if (!org || !logo || !isLg || view !== "diagram") return;
-    const measure = () => {
-      const o = org.getBoundingClientRect();
-      const l = logo.getBoundingClientRect();
-      const c = { x: l.left + l.width / 2 - o.left, y: l.top + l.height / 2 - o.top };
-      const r = l.width / 2;
-      const next = pillRefs.current.map((pill, i) => {
+    const o = org.getBoundingClientRect();
+    const l = logo.getBoundingClientRect();
+    const c = { x: l.left + l.width / 2 - o.left, y: l.top + l.height / 2 - o.top };
+    const r = l.width / 2;
+    setPaths(
+      pillRefs.current.map((pill, i) => {
         if (!pill) return "";
         const p = pill.getBoundingClientRect();
         const e = { x: (i % 2 === 0 ? p.right : p.left) - o.left, y: p.top + p.height / 2 - o.top };
         const d = Math.hypot(e.x - c.x, e.y - c.y) || 1;
-        const s = { x: c.x + ((e.x - c.x) / d) * r, y: c.y + ((e.y - c.y) / d) * r };
-        const mx = (s.x + e.x) / 2;
-        return `M ${s.x} ${s.y} C ${mx} ${s.y}, ${mx} ${e.y}, ${e.x} ${e.y}`;
-      });
-      setPaths(next);
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(org);
-    return () => ro.disconnect();
-  }, [isLg, view]);
+        const st = { x: c.x + ((e.x - c.x) / d) * r, y: c.y + ((e.y - c.y) / d) * r };
+        const mx = (st.x + e.x) / 2;
+        return `M ${st.x} ${st.y} C ${mx} ${st.y}, ${mx} ${e.y}, ${e.x} ${e.y}`;
+      }),
+    );
+  };
 
-  // FLIP: đo vị trí mới, cho logo và các ô trượt từ vị trí cũ sang
+  // Đo khi đổi bố cục, đổi kích thước (cửa sổ, khung) và khi font tải xong
+  useLayoutEffect(() => {
+    measureRef.current();
+  }, [isLg, view]);
+  useEffect(() => {
+    const org = orgRef.current;
+    if (!org || !isLg) return;
+    const again = () => measureRef.current();
+    const ro = new ResizeObserver(again);
+    ro.observe(org);
+    window.addEventListener("resize", again);
+    document.fonts?.ready.then(again);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", again);
+    };
+  }, [isLg]);
+
+  // FLIP: đo vị trí mới, cho logo và các ô trượt từ vị trí cũ sang; ẩn đường nối trong lúc trượt,
+  // trượt xong (animation.finished) thì đo lại đường nối rồi hiện
   useLayoutEffect(() => {
     const prev = prevRects.current;
     prevRects.current = null;
     if (!prev || !isLg || prefersReducedMotion()) return;
+    const animations: Animation[] = [];
     for (const [el, from] of prev) {
       const to = el.getBoundingClientRect();
       const dx = from.left - to.left;
       const dy = from.top - to.top;
       if (!dx && !dy) continue;
-      el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], {
-        duration: FLIP_MS,
-        easing: FLIP_EASE,
-      });
+      animations.push(
+        el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], {
+          duration: FLIP_MS,
+          easing: FLIP_EASE,
+        }),
+      );
     }
+    if (!animations.length) return;
+    const run = ++slideRun.current;
+    setSliding(true);
+    Promise.allSettled(animations.map((a) => a.finished)).then(() => {
+      if (run !== slideRun.current) return; // đã có lượt trượt mới hơn
+      measureRef.current();
+      setSliding(false);
+    });
   }, [view, isLg]);
 
   const pillStyle = (i: number): CSSProperties =>
     ({
       "--org-col": i % 2 === 0 ? 1 : 3,
-      "--org-row": view === "detail" ? i + 1 : i < 2 ? 1 : 2,
+      "--org-row": view === "detail" ? i + 2 : i < 2 ? 1 : 2, // chi tiết: hàng 1 và 6 là hàng đệm 1fr
       "--org-align": i < 2 ? "start" : "end",
     }) as CSSProperties;
 
@@ -143,7 +171,7 @@ export default function OrgDiagram() {
           className="org-lines pointer-events-none absolute inset-0 size-full"
           data-view={view}
           data-drawn={drawn}
-          style={{ opacity: view === "diagram" ? 1 : 0 }}
+          style={{ opacity: view === "diagram" && !sliding ? 1 : 0 }}
         >
           {paths.map((d, i) => (
             <path key={i} d={d} pathLength={1} fill="none" stroke="var(--color-oss)" strokeOpacity={0.3} strokeWidth={1.5} />

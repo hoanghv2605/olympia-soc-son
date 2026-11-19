@@ -5,13 +5,6 @@ import { yearOf } from "../lib/format";
 import { NAV } from "../lib/nav";
 import Logo from "./Logo";
 
-/** Rút câu mở đầu của đoạn giới thiệu còn tối đa `max` từ. */
-function shortIntro(max = 25) {
-  const first = site.intro[0]?.split(/(?<=[.!?])\s/)[0] ?? "";
-  const words = first.split(/\s+/);
-  return words.length <= max ? first : words.slice(0, max).join(" ").replace(/[,;:]$/, "") + "…";
-}
-
 export default function SiteFooter() {
   const now = new Date().getFullYear();
   return (
@@ -25,7 +18,6 @@ export default function SiteFooter() {
               <p className="mt-1 text-sm text-white/70">{site.slogan}</p>
             </div>
           </div>
-          <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-white/70">{shortIntro()}</p>
         </div>
 
         <section aria-labelledby="footer-lien-he">

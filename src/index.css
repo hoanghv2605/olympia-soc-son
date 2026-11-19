@@ -560,13 +560,17 @@
     }
     .org[data-view="detail"] {
       grid-template-columns: 200px 280px minmax(0, 1fr);
-      grid-template-rows: repeat(4, auto);
+      /* 4 ô ban cao cố định 56px, cách nhau 12px; 2 hàng 1fr hai đầu hấp thụ chiều cao của khung thông tin
+         nên cả cột 4 ô luôn căn giữa dọc cùng logo (các ô không bị kéo cao) */
+      grid-template-rows: 1fr repeat(4, 3.5rem) 1fr;
       column-gap: 2.5rem;
       row-gap: 0.75rem;
-      align-content: center;
     }
     .org-pill {
       width: 280px;
+      height: 3.5rem;
+      align-self: center;
+      flex: none;
     }
     .org[data-view="diagram"] .org-logo {
       grid-column: 2;
@@ -575,7 +579,7 @@
     }
     .org[data-view="detail"] .org-logo {
       grid-column: 1;
-      grid-row: 1 / span 4;
+      grid-row: 1 / -1;
       align-self: center;
     }
     .org[data-view="detail"] .org-pill {
@@ -589,7 +593,7 @@
     }
     .org[data-view="detail"] .org-panel {
       grid-column: 3;
-      grid-row: 1 / span 4;
+      grid-row: 1 / -1;
       align-self: center;
     }
   }
@@ -605,7 +609,7 @@
     transition: opacity 150ms ease;
   }
   .org-lines[data-view="diagram"] {
-    transition: opacity 300ms ease 400ms;
+    transition: opacity 200ms ease;
   }
   .org-panel-enter {
     animation: org-panel-in 300ms ease-out 150ms both;
