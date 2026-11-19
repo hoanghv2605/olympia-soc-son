@@ -4,6 +4,7 @@ import Breadcrumb from "../../components/Breadcrumb";
 import { PiCalendarBlank, PiGraduationCap, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
 import IconLabel from "../../components/IconLabel";
 import { ScoreHeads, TiebreakNote } from "../../components/MatchTable";
+import ResultBadge from "../../components/ResultBadge";
 import SeasonPhotoSwitcher from "../../components/SeasonPhotoSwitcher";
 import Timeline from "../../components/Timeline";
 import NotFound from "../NotFound";
@@ -17,7 +18,8 @@ import {
   seasonPath,
   tiebreakInfo,
 } from "../../lib/data";
-import { formatDate, formatScore } from "../../lib/format";
+import { formatScore } from "../../lib/format";
+import { medalOf } from "../../lib/medal";
 
 export default function ContestantDetail() {
   const { id } = useParams();
@@ -85,7 +87,9 @@ export default function ContestantDetail() {
                           <td>{roundLabel()}</td>
                           <td colSpan={4} />
                           <td className="num text-right font-semibold">{formatScore(p.qualifying.score)}</td>
-                          <td className="sticky-end">{resultLabel(undefined, p.qualifying)}</td>
+                          <td className="sticky-end">
+                            <ResultBadge medal={medalOf(p.qualifying.rank)}>{resultLabel(undefined, p.qualifying)}</ResultBadge>
+                          </td>
                         </tr>
                       )}
                       {p.matches.map(({ match, result }, i) => (
@@ -104,7 +108,9 @@ export default function ContestantDetail() {
                           <td className="num text-right">{formatScore(result.vd)}</td>
                           <td className="num text-right font-semibold">{formatScore(result.total)}</td>
                           <td className="sticky-end">
-                            {resultLabel(match, result)}
+                            <ResultBadge medal={match.round === "chung-ket" ? medalOf(result.placement) : medalOf(resultLabel(match, result))}>
+                              {resultLabel(match, result)}
+                            </ResultBadge>
                             {tiebreaks.some((t) => t.match.id === match.id) && <span aria-hidden>*</span>}
                           </td>
                         </tr>
@@ -123,13 +129,12 @@ export default function ContestantDetail() {
             <section>
               <h2 className="h3 text-ink">Đường lên đỉnh Olympia</h2>
               <div className="mt-3 overflow-x-auto">
-                <table className="data-table min-w-[32rem]">
+                <table className="data-table min-w-[26rem]">
                   <thead>
                     <tr>
                       <th scope="col">Năm thứ</th>
                       <th scope="col">Vòng thi</th>
                       <th scope="col">Kết quả</th>
-                      <th scope="col">Ngày</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -141,8 +146,9 @@ export default function ContestantDetail() {
                           {r.note && <span className="block text-sm font-semibold text-cube-pink">{r.note}</span>}
                           {r.beforeOss && <span className="block text-xs text-ink-soft">Tham gia trước khi dự thi OSS</span>}
                         </td>
-                        <td className="font-semibold">{r.result}</td>
-                        <td className="tabular-nums">{r.date ? formatDate(r.date) : "–"}</td>
+                        <td>
+                          <ResultBadge medal={medalOf(r.result)}>{r.result}</ResultBadge>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -162,7 +168,7 @@ export default function ContestantDetail() {
         </div>
 
         <aside className="infobox" aria-label="Thông tin nhanh">
-          <SeasonPhotoSwitcher personId={person.id} name={person.name} seasons={ossSeasonsOf(person.id)} />
+          <SeasonPhotoSwitcher personId={person.id} name={person.name} seasons={ossSeasonsOf(person.id)} olympiaYears={olympiaYears} />
           <dl>
             <dt>
               <IconLabel icon={PiGraduationCap}>Trường</IconLabel>

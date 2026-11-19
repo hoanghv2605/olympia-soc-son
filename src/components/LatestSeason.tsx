@@ -31,7 +31,7 @@ export default function LatestSeason() {
               className="group flex items-center gap-5 rounded-2xl border border-gold/50 bg-white/80 p-4 hover:border-gold"
             >
               <PersonPhoto
-                src={personPhoto(champ.person.id, n)}
+                src={personPhoto(champ.person.id, { season: n })}
                 seed={champ.person.id}
                 name={champ.person.name}
                 className="aspect-[3/4] w-[120px] shrink-0 rounded-xl"

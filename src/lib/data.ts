@@ -199,29 +199,56 @@ for (const f of personPhotoFiles({
   qualifying: qualifyingJson as QualifyingEntry[],
   olympia: olympiaJson as OlympiaRecord[],
   schools: schoolsJson as School[],
+  matches: matchesJson as Match[],
 })) {
   photoFilesByPerson.set(f.personId, [...(photoFilesByPerson.get(f.personId) ?? []), f]);
 }
 
+/** Tùy chọn chọn ảnh: `season` = ưu tiên ảnh mùa đó; `olympia: true` = ưu tiên ảnh Đường lên đỉnh Olympia. */
+export interface PhotoOptions {
+  season?: number;
+  olympia?: boolean;
+}
+
 /**
  * Danh sách ảnh ứng viên của một người, theo thứ tự ưu tiên, chỉ lấy ảnh có thật (ảnh mẫu không tính):
- * có `season` → ảnh đúng mùa đó, rồi các mùa khác (mới trước); không có → mùa mới nhất, rồi cũ hơn.
- * Người chỉ thi Đường lên đỉnh Olympia → ảnh `o…`. Không có ảnh nào → mảng rỗng (dùng ảnh giữ chỗ).
+ * - mặc định: mùa mới nhất → cũ hơn; có `season` → ảnh đúng mùa đó trước, rồi các mùa khác (mới trước);
+ * - `olympia: true`: ảnh `o…` (năm mới trước) → ảnh mùa OSS mới nhất → mùa cũ hơn;
+ * - người chỉ thi Đường lên đỉnh Olympia (không có ảnh mùa): ảnh `o…`.
+ * Không có ảnh nào → mảng rỗng (dùng ảnh giữ chỗ).
  */
-export function personPhotos(personId: string, season?: number): string[] {
-  const files = (photoFilesByPerson.get(personId) ?? []).slice().sort((a, b) => (b.season ?? 0) - (a.season ?? 0));
-  if (season !== undefined) files.sort((a, b) => Number(b.season === season) - Number(a.season === season));
-  return files.map((f) => `images/thi-sinh/${f.file}`).filter((p) => hasImage(p));
+export function personPhotos(personId: string, opts: PhotoOptions = {}): string[] {
+  const files = photoFilesByPerson.get(personId) ?? [];
+  const oss = files.filter((f) => f.kind === "oss").sort((a, b) => (b.season ?? 0) - (a.season ?? 0));
+  if (opts.season !== undefined) oss.sort((a, b) => Number(b.season === opts.season) - Number(a.season === opts.season));
+  const olym = files.filter((f) => f.kind === "olympia").sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+  const ordered = opts.olympia ? [...olym, ...oss] : oss.length ? oss : olym;
+  return ordered.map((f) => `images/thi-sinh/${f.file}`).filter((p) => hasImage(p));
 }
 
 /** Ảnh đầu tiên có thật (xem `personPhotos`), hoặc undefined nếu chưa có ảnh. */
-export function personPhoto(personId: string, season?: number): string | undefined {
-  return personPhotos(personId, season)[0];
+export function personPhoto(personId: string, opts: PhotoOptions = {}): string | undefined {
+  return personPhotos(personId, opts)[0];
+}
+
+/** Ảnh Hall of Fame của Quán quân: `…-win.jpg` của mùa vô địch gần nhất → ảnh mùa đó → ảnh mùa khác. */
+export function championPhoto(personId: string): string | undefined {
+  const win = photoFilesByPerson.get(personId)?.find((f) => f.kind === "win");
+  const winPath = win && `images/thi-sinh/${win.file}`;
+  if (winPath && hasImage(winPath)) return winPath;
+  return personPhoto(personId, { season: win?.season });
+}
+
+/** Ảnh Đường lên đỉnh Olympia đúng năm đó (không lùi về năm khác); dùng ở hồ sơ thí sinh khi chọn "O{năm}". */
+export function personOlympiaPhoto(personId: string, year: number): string | undefined {
+  const f = photoFilesByPerson.get(personId)?.find((x) => x.kind === "olympia" && x.year === year);
+  const path = f && `images/thi-sinh/${f.file}`;
+  return path && hasImage(path) ? path : undefined;
 }
 
 /** Ảnh đúng mùa đó (không lùi về mùa khác); dùng ở hồ sơ thí sinh khi chọn mùa. */
 export function personSeasonPhoto(personId: string, season: number): string | undefined {
-  const f = photoFilesByPerson.get(personId)?.find((x) => x.season === season);
+  const f = photoFilesByPerson.get(personId)?.find((x) => x.kind === "oss" && x.season === season);
   const path = f && `images/thi-sinh/${f.file}`;
   return path && hasImage(path) ? path : undefined;
 }

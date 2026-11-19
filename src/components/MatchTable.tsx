@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import PersonAvatar from "./PersonAvatar";
 import PersonLink from "./PersonLink";
 import { PLACEMENT_LABEL, personName, roundLabel, schoolName, tiebreakInfo } from "../lib/data";
 import { formatScore, joinViText } from "../lib/format";
@@ -132,19 +133,25 @@ export default function MatchTable({ match, id, photo }: { match: Match; id?: st
               return (
                 <tr key={r.person} className={tone && "className" in tone ? tone.className : undefined} data-tone={tone?.tone}>
                   <td className="sticky-start">
-                    <PersonLink
-                      id={r.person}
-                      className={onDark ? "font-bold !text-white decoration-white focus-visible:outline-white" : ""}
-                    />
-                    {tiebreak?.winner === r.person && (
-                      <span aria-hidden className={onDark ? "text-white" : undefined}>
-                        *
-                      </span>
-                    )}
-                    {tone && <span className="sr-only">. {tone.label}</span>}
-                    <span className={`block text-xs ${onDark ? "text-white/80" : "text-ink-soft"}`}>
-                      {r.class} - {schoolName(r.school)}
-                    </span>
+                    {/* ảnh tròn nhỏ bên trái; tên và dòng "lớp - trường" thẳng hàng nhau trong khối bên phải */}
+                    <div className="flex items-center gap-2.5">
+                      <PersonAvatar id={r.person} photo={{ season: match.season }} ring={onDark} />
+                      <div className="min-w-[7.5rem]">
+                        <PersonLink
+                          id={r.person}
+                          className={onDark ? "font-bold !text-white decoration-white focus-visible:outline-white" : ""}
+                        />
+                        {tiebreak?.winner === r.person && (
+                          <span aria-hidden className={onDark ? "text-white" : undefined}>
+                            *
+                          </span>
+                        )}
+                        {tone && <span className="sr-only">. {tone.label}</span>}
+                        <span className={`block text-xs ${onDark ? "text-white/80" : "text-ink-soft"}`}>
+                          {r.class} - {schoolName(r.school)}
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td className="num text-right">{formatScore(r.kd)}</td>
                   <td className="num text-right">{formatScore(r.vcnv)}</td>

@@ -27,10 +27,13 @@ export function schoolCode(schools, schoolId) {
 
 /**
  * Mọi file ảnh thí sinh theo quy ước (tên file trong public/images/thi-sinh/):
- * - mỗi dòng qualifying.json (mỗi lượt vào top 12): s{mùa}-{slug họ tên}-{mã trường của dòng đó}.jpg
- * - người chỉ thi Đường lên đỉnh Olympia (không có trong qualifying.json): o{năm Olympia nhỏ nhất}-{slug}-{mã trường}.jpg
+ * - "oss": mỗi dòng qualifying.json (mỗi lượt vào top 12): s{mùa}-{slug họ tên}-{mã trường của dòng đó}.jpg
+ * - "olympia": mỗi (người, năm Olympia) trong olympia.json: o{năm}-{slug}-{mã trường (people.json)}.jpg
+ *   (gồm cả người OSS có tham gia Đường lên đỉnh Olympia và người chỉ thi Đường lên đỉnh Olympia)
+ * - "win": ảnh Quán quân dùng ở Hall of Fame, mỗi Quán quân một ảnh của mùa vô địch gần nhất:
+ *   s{mùa}-{slug}-{mã trường}-win.jpg (cần truyền `matches`)
  */
-export function personPhotoFiles({ people, qualifying, olympia, schools }) {
+export function personPhotoFiles({ people, qualifying, olympia, schools, matches = [] }) {
   const nameOf = (id) => people.find((p) => p.id === id)?.name ?? id;
   const list = [];
   for (const q of qualifying) {
@@ -42,17 +45,40 @@ export function personPhotoFiles({ people, qualifying, olympia, schools }) {
       label: `${nameOf(q.person)} · mùa ${q.season}`,
     });
   }
-  const ossIds = new Set(qualifying.map((q) => q.person));
-  const onlyOlympia = [...new Set(olympia.map((o) => o.person))].filter((id) => !ossIds.has(id));
-  for (const id of onlyOlympia) {
-    const year = Math.min(...olympia.filter((o) => o.person === id).map((o) => o.year));
-    const school = people.find((p) => p.id === id)?.school ?? "";
+
+  const seen = new Set();
+  for (const o of olympia) {
+    const key = `${o.person}|${o.year}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const school = people.find((p) => p.id === o.person)?.school ?? "";
     list.push({
-      file: `o${year}-${slugify(nameOf(id))}-${schoolCode(schools, school)}.jpg`,
-      personId: id,
+      file: `o${o.year}-${slugify(nameOf(o.person))}-${schoolCode(schools, school)}.jpg`,
+      personId: o.person,
       kind: "olympia",
-      year,
-      label: `${nameOf(id)} · Olympia năm thứ ${year}`,
+      year: o.year,
+      label: `${nameOf(o.person)} · Olympia năm thứ ${o.year}`,
+    });
+  }
+
+  // Quán quân: mùa vô địch gần nhất của từng người
+  const latestWin = new Map(); // person → { season, school }
+  for (const m of matches) {
+    if (m.round !== "chung-ket") continue;
+    for (const r of m.results) {
+      if (r.placement !== "vo-dich") continue;
+      const cur = latestWin.get(r.person);
+      if (!cur || m.season > cur.season) latestWin.set(r.person, { season: m.season, school: r.school });
+    }
+  }
+  for (const [person, { season, school }] of latestWin) {
+    const row = qualifying.find((q) => q.person === person && q.season === season);
+    list.push({
+      file: `s${season}-${slugify(nameOf(person))}-${schoolCode(schools, row?.school ?? school)}-win.jpg`,
+      personId: person,
+      kind: "win",
+      season,
+      label: `${nameOf(person)} · Quán quân mùa ${season} (ảnh Hall of Fame)`,
     });
   }
   return list;

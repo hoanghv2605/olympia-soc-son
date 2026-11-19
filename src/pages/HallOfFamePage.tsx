@@ -167,7 +167,7 @@ function OlympiaSection() {
                 aria-haspopup="dialog"
                 className="group relative block w-full overflow-hidden rounded-2xl text-left shadow-[0_6px_18px_-12px_rgba(46,16,101,0.45)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_22px_40px_-18px_rgba(109,40,217,0.55)] focus-visible:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
               >
-                <PersonPhoto src={personPhoto(person.id)} seed={person.id} name={person.name} className="aspect-[3/4] w-full" />
+                <PersonPhoto src={personPhoto(person.id, { olympia: true })} seed={person.id} name={person.name} className="aspect-[3/4] w-full" />
                 <span className="absolute inset-x-0 bottom-0 flex flex-col bg-linear-to-t from-black/80 via-black/45 to-transparent p-3 pt-12 text-white">
                   <span className="leading-snug font-bold">{person.name}</span>
                   <span className="text-xs text-white/80">
@@ -197,7 +197,7 @@ function OlympiaSection() {
           <div>
             <div className="flex gap-5 pr-10">
               <PersonPhoto
-                src={personPhoto(current.person.id)}
+                src={personPhoto(current.person.id, { olympia: true })}
                 seed={current.person.id}
                 name={current.person.name}
                 className="aspect-[3/4] w-24 shrink-0 rounded-lg sm:w-32"

@@ -12,8 +12,8 @@ import { hasImage } from "../lib/images";
 import { CUBE_GRADIENT, HERO_GRADIENT, asset, yearOf } from "../lib/format";
 
 const LETTERS = ["O", "S", "S"];
-/** Lớp tím rất nhạt chồng lên ảnh trong chữ, để 3 chữ vẫn đồng bộ màu OSS. */
-const LETTER_TINT = "linear-gradient(rgba(124, 58, 237, 0.14), rgba(124, 58, 237, 0.14))";
+/** Lớp tím chồng lên ảnh trong chữ: vùng sáng của ảnh (áo trắng, tường) không làm chữ chìm, 3 chữ đồng bộ màu OSS. */
+const LETTER_TINT = "linear-gradient(rgba(109, 40, 217, 0.35), rgba(109, 40, 217, 0.35))";
 
 /** Nền dự phòng (khi chưa có ảnh): họa tiết khối lập phương trên nền tím chuyển màu (HERO_GRADIENT gồm 2 lớp). */
 const HERO_LAYERS = [
@@ -27,10 +27,10 @@ const HERO_BG = {
   backgroundRepeat: "no-repeat",
 };
 
-/** Lớp phủ tối trên ảnh Chung kết: đậm ở góc trên phải (chỗ khẩu hiệu), nhạt dần về trái, thêm dải tối mỏng mép dưới cho chú thích. */
+/** Lớp phủ tối trên ảnh Chung kết: đậm ở góc trên phải (chỗ khẩu hiệu, ~85% nhờ lớp radial cộng lớp 75%), nhạt dần về trái, thêm dải tối mỏng mép dưới cho chú thích. */
 const HERO_SCRIM = {
   backgroundImage:
-    "linear-gradient(to top, rgba(30, 10, 60, 0.55), transparent 22%), linear-gradient(to bottom left, rgba(30, 10, 60, 0.75), rgba(30, 10, 60, 0.15))",
+    "radial-gradient(ellipse at top right, rgba(30, 10, 60, 0.4), transparent 55%), linear-gradient(to top, rgba(30, 10, 60, 0.55), transparent 22%), linear-gradient(to bottom left, rgba(30, 10, 60, 0.75), rgba(30, 10, 60, 0.15))",
 };
 
 export default function HomePage() {

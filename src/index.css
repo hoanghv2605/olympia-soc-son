@@ -234,6 +234,7 @@
   /* Khẩu hiệu hiện ngay khi trang tải: chỉ mờ dần 200ms, không trễ */
   .hero-slogan {
     animation: fade-in 200ms ease-out both;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
   }
 
   /* ===== Dòng thời gian ===== */

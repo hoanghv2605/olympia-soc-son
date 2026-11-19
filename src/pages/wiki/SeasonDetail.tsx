@@ -280,7 +280,9 @@ export default function SeasonDetail() {
                   key={m.id}
                   match={m}
                   id={`ban-ket-${m.number}`}
-                  photo={<MatchPhoto match={m} caption={`Các thí sinh của trận Bán kết ${m.number}`} />}
+                  photo={
+                    matchPhoto(m.id) ? <MatchPhoto match={m} caption={`Các thí sinh của trận Bán kết ${m.number}`} /> : undefined
+                  }
                 />
               ))}
             </div>
@@ -298,9 +300,11 @@ export default function SeasonDetail() {
             <div className="mt-6">
               <MatchTable match={final} />
               <ClimbChart match={final} />
-              <div className="mt-8">
-                <MatchPhoto match={final} caption={`Các thí sinh trận Chung kết mùa ${n}`} />
-              </div>
+              {matchPhoto(final.id) && (
+                <div className="mt-8">
+                  <MatchPhoto match={final} caption={`Các thí sinh trận Chung kết mùa ${n}`} />
+                </div>
+              )}
             </div>
           </section>
         )}

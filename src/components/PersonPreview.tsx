@@ -140,7 +140,7 @@ export default function PersonPreview() {
       onPointerLeave={scheduleHide}
     >
       <PersonPhoto
-        src={personPhoto(info.person.id, season)}
+        src={personPhoto(info.person.id, { season })}
         seed={info.person.id}
         name={info.person.name}
         className="h-16 w-12 shrink-0 rounded-md"

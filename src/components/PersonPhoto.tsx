@@ -7,11 +7,20 @@ interface Props {
   seed: string;
   name: string;
   className?: string;
+  /** Ảnh trang trí (tên đã nằm cạnh): alt rỗng. */
+  decorative?: boolean;
 }
 
 /** Ảnh người (thí sinh, Human of OSS); luôn hiện ảnh giữ chỗ trước, ảnh thật tải xong thì mờ dần đè lên. */
-export default function PersonPhoto({ src, seed, name, className = "" }: Props) {
+export default function PersonPhoto({ src, seed, name, className = "", decorative = false }: Props) {
   return (
-    <Photo key={src} src={src} alt={`Ảnh ${name}`} className={className} fallback={<Placeholder seed={seed} name={name} />} />
+    <Photo
+      key={src}
+      src={src}
+      alt={`Ảnh ${name}`}
+      className={className}
+      decorative={decorative}
+      fallback={<Placeholder seed={seed} name={name} />}
+    />
   );
 }

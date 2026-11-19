@@ -1,15 +1,34 @@
 import { useEffect, useState } from "react";
 import PersonPhoto from "./PersonPhoto";
-import { personSeasonPhoto } from "../lib/data";
+import { personOlympiaPhoto, personSeasonPhoto } from "../lib/data";
+
+/** Một lựa chọn ảnh: mùa OSS ("s") hoặc năm Đường lên đỉnh Olympia ("o"). */
+type Pick = { kind: "s" | "o"; n: number };
+const keyOf = (p: Pick) => `${p.kind}${p.n}`;
 
 /**
- * Ảnh ở hồ sơ thí sinh. Người có từ 2 mùa OSS: hàng nút "Mùa n" dưới ảnh (bật/tắt, mặc định mùa mới nhất).
- * Chỉ lấy ảnh đúng mùa đó (mùa chưa có ảnh thì hiện ảnh giữ chỗ, không lấy mùa khác). Đổi ảnh mờ chéo 200ms.
+ * Ảnh ở hồ sơ thí sinh. Hàng nút dưới ảnh (hiện khi có từ 2 nút): "Mùa n" (tăng dần) rồi "O{năm}" (ảnh Đường lên đỉnh
+ * Olympia năm thứ N); nút bật/tắt, mặc định mùa OSS mới nhất. Chỉ lấy ảnh đúng lựa chọn (chưa có ảnh thì hiện ảnh
+ * giữ chỗ, không lấy ảnh khác). Đổi ảnh mờ chéo 200ms (giảm chuyển động: tức thì, xem .photo-swap-in).
  */
-export default function SeasonPhotoSwitcher({ personId, name, seasons }: { personId: string; name: string; seasons: number[] }) {
-  const sorted = [...seasons].sort((a, b) => a - b);
-  const [season, setSeason] = useState(sorted[sorted.length - 1]);
-  const [prev, setPrev] = useState<number | null>(null);
+export default function SeasonPhotoSwitcher({
+  personId,
+  name,
+  seasons,
+  olympiaYears = [],
+}: {
+  personId: string;
+  name: string;
+  seasons: number[];
+  olympiaYears?: number[];
+}) {
+  const picks: Pick[] = [
+    ...[...seasons].sort((a, b) => a - b).map((n): Pick => ({ kind: "s", n })),
+    ...[...olympiaYears].sort((a, b) => a - b).map((n): Pick => ({ kind: "o", n })),
+  ];
+  const lastSeason = picks.filter((p) => p.kind === "s").pop() ?? picks[0];
+  const [current, setCurrent] = useState<Pick | undefined>(lastSeason);
+  const [prev, setPrev] = useState<Pick | null>(null);
 
   // Lớp ảnh cũ nằm dưới trong lúc ảnh mới mờ dần hiện lên, xong thì gỡ
   useEffect(() => {
@@ -18,15 +37,18 @@ export default function SeasonPhotoSwitcher({ personId, name, seasons }: { perso
     return () => window.clearTimeout(t);
   }, [prev]);
 
-  function pick(n: number) {
-    if (n === season) return;
-    setPrev(season);
-    setSeason(n);
+  function pick(p: Pick) {
+    if (current && keyOf(p) === keyOf(current)) return;
+    setPrev(current ?? null);
+    setCurrent(p);
   }
 
-  const layer = (s: number, cls: string) => (
-    <div key={s} className={`absolute inset-0 ${cls}`}>
-      <PersonPhoto src={personSeasonPhoto(personId, s)} seed={personId} name={name} className="size-full" />
+  const srcOf = (p: Pick | undefined) =>
+    !p ? undefined : p.kind === "s" ? personSeasonPhoto(personId, p.n) : personOlympiaPhoto(personId, p.n);
+
+  const layer = (p: Pick | undefined, cls: string) => (
+    <div key={p ? keyOf(p) : "none"} className={`absolute inset-0 ${cls}`}>
+      <PersonPhoto src={srcOf(p)} seed={personId} name={name} className="size-full" />
     </div>
   );
 
@@ -34,19 +56,20 @@ export default function SeasonPhotoSwitcher({ personId, name, seasons }: { perso
     <div className="mb-4">
       <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg">
         {prev !== null && layer(prev, "")}
-        {layer(season, prev !== null ? "photo-swap-in" : "")}
+        {layer(current, prev !== null ? "photo-swap-in" : "")}
       </div>
-      {sorted.length >= 2 && (
+      {picks.length >= 2 && (
         <div role="group" aria-label="Ảnh theo mùa" className="mt-3 flex flex-wrap gap-2">
-          {sorted.map((n) => (
+          {picks.map((p) => (
             <button
-              key={n}
+              key={keyOf(p)}
               type="button"
-              aria-pressed={n === season}
-              onClick={() => pick(n)}
+              aria-pressed={!!current && keyOf(p) === keyOf(current)}
+              aria-label={p.kind === "o" ? `Đường lên đỉnh Olympia năm thứ ${p.n}` : undefined}
+              onClick={() => pick(p)}
               className="min-h-9 rounded-full border border-oss/25 bg-white/70 px-3.5 text-sm font-semibold text-oss hover:border-oss aria-pressed:border-oss aria-pressed:bg-oss aria-pressed:text-white"
             >
-              Mùa {n}
+              {p.kind === "o" ? `O${p.n}` : `Mùa ${p.n}`}
             </button>
           ))}
         </div>

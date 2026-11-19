@@ -26,7 +26,7 @@ export default function SeasonCard({ season }: { season: Season }) {
   const final = finalOf(n);
   const photo = final ? matchPhoto(final.id) : undefined;
   const tone = PLACEHOLDER_TONES[(n - 1) % PLACEHOLDER_TONES.length];
-  const champPhoto = champions[0] ? personPhoto(champions[0].person.id, n) : undefined;
+  const champPhoto = champions[0] ? personPhoto(champions[0].person.id, { season: n }) : undefined;
   const names = (list: typeof champions) => list.map((c) => c.person.name).join(", ");
 
   return (

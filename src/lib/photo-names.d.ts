@@ -6,7 +6,7 @@ export interface PersonPhotoFile {
   /** Tên file trong public/images/thi-sinh/ */
   file: string;
   personId: string;
-  kind: "oss" | "olympia";
+  kind: "oss" | "olympia" | "win";
   season?: number;
   year?: number;
   label: string;
@@ -17,6 +17,7 @@ export function personPhotoFiles(data: {
   qualifying: { season: number; person: string; school: string }[];
   olympia: { person: string; year: number }[];
   schools: { id: string; short: string }[];
+  matches?: { season: number; round: string; results: { person: string; school: string; placement?: string }[] }[];
 }): PersonPhotoFile[];
 
 export function findDuplicateFiles<T extends { file: string }>(list: T[]): [T, T][];

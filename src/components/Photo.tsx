@@ -9,6 +9,8 @@ interface PhotoProps {
   className?: string;
   /** Lớp giữ chỗ (phủ kín khung). Không truyền thì hiện ô icon mặc định. */
   fallback?: ReactNode;
+  /** Ảnh chỉ để trang trí (tên đã nằm cạnh): alt rỗng, không đặt role/aria-label, ẩn khỏi trình đọc màn hình. */
+  decorative?: boolean;
 }
 
 /**
@@ -16,7 +18,7 @@ interface PhotoProps {
  * ảnh thật tải xong thì mờ dần đè lên (200ms); ảnh lỗi thì giữ lớp giữ chỗ.
  * Chỉ gọi tải ảnh có trong danh sách ảnh có sẵn (src/lib/images.ts); `onError` là phương án dự phòng.
  */
-export default function Photo({ src, alt, className = "", fallback }: PhotoProps) {
+export default function Photo({ src, alt, className = "", fallback, decorative = false }: PhotoProps) {
   const [failed, setFailed] = useState(!hasImage(src));
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -33,7 +35,7 @@ export default function Photo({ src, alt, className = "", fallback }: PhotoProps
   return (
     <div
       className={`relative overflow-hidden ${className}`}
-      {...(failed || !loaded ? { role: "img", "aria-label": alt } : {})}
+      {...(decorative ? { "aria-hidden": true } : failed || !loaded ? { role: "img", "aria-label": alt } : {})}
     >
       {fallback ?? (
         <div aria-hidden className="photo-fallback absolute inset-0">
@@ -45,7 +47,7 @@ export default function Photo({ src, alt, className = "", fallback }: PhotoProps
         <img
           ref={imgRef}
           src={asset(src!)}
-          alt={loaded ? alt : ""}
+          alt={loaded && !decorative ? alt : ""}
           loading="lazy"
           onLoad={() => setLoaded(true)}
           onError={() => setFailed(true)}
