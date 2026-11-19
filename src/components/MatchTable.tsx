@@ -1,7 +1,8 @@
+import type { ReactNode } from "react";
 import PersonLink from "./PersonLink";
 import { PLACEMENT_LABEL, personName, roundLabel, schoolName, tiebreakInfo } from "../lib/data";
 import { formatScore, joinViText } from "../lib/format";
-import { MEDAL_ROW, medalOf } from "../lib/medal";
+import { MEDAL_BADGE, MEDAL_ROW, medalOf } from "../lib/medal";
 import type { Match, MatchResult } from "../types";
 
 /** Nhì cao điểm nhất: người hạng Nhì vẫn được vào Chung kết. */
@@ -41,11 +42,16 @@ export function ScoreHeads() {
   );
 }
 
-/** Dòng chú thích màu, đặt 1 lần phía trên các bảng Bán kết (kèm giải nghĩa chữ viết tắt cột điểm). */
-export function SemiLegend({ className = "" }: { className?: string }) {
+/** Dòng giải nghĩa chữ viết tắt cột điểm. */
+function ScoreLegendLine() {
+  return <p className="mt-3 text-xs text-ink-soft">{SCORE_COLUMNS.map((c) => `${c.abbr}: ${c.full}`).join(" · ")}</p>;
+}
+
+/** Nội dung hộp chú thích (nút ⓘ) của vòng Bán kết: 2 ô màu mẫu + giải nghĩa cột điểm. */
+export function SemiLegendBody() {
   return (
-    <div className={className}>
-      <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-soft">
+    <>
+      <ul className="space-y-2">
         {Object.values(SEMI_TONE).map((t) => (
           <li key={t.label} className="flex items-center gap-2">
             <span className={`size-4 shrink-0 rounded-sm ${t.swatch}`} aria-hidden />
@@ -53,8 +59,30 @@ export function SemiLegend({ className = "" }: { className?: string }) {
           </li>
         ))}
       </ul>
-      <p className="mt-2 text-xs text-ink-soft">{SCORE_COLUMNS.map((c) => `${c.abbr}: ${c.full}`).join(" · ")}</p>
-    </div>
+      <ScoreLegendLine />
+    </>
+  );
+}
+
+/** Nội dung hộp chú thích của trận Chung kết: vàng / bạc / đồng + giải nghĩa cột điểm. */
+export function FinalLegendBody() {
+  const items = [
+    { medal: "gold", label: PLACEMENT_LABEL["vo-dich"] },
+    { medal: "silver", label: PLACEMENT_LABEL["a-quan"] },
+    { medal: "bronze", label: PLACEMENT_LABEL["giai-ba"] },
+  ] as const;
+  return (
+    <>
+      <ul className="space-y-2">
+        {items.map((it) => (
+          <li key={it.medal} className="flex items-center gap-2">
+            <span className={`size-4 shrink-0 rounded-sm border ${MEDAL_BADGE[it.medal]}`} aria-hidden />
+            {it.label}
+          </li>
+        ))}
+      </ul>
+      <ScoreLegendLine />
+    </>
   );
 }
 
@@ -62,7 +90,7 @@ export function SemiLegend({ className = "" }: { className?: string }) {
  * Bảng một trận Bán kết / Chung kết. Giữ đúng thứ tự thí sinh trong matches.json
  * (thứ tự đứng trên sân khấu), không sắp xếp lại theo điểm.
  */
-export default function MatchTable({ match, id }: { match: Match; id?: string }) {
+export default function MatchTable({ match, id, photo }: { match: Match; id?: string; photo?: ReactNode }) {
   const isFinal = match.round === "chung-ket";
   const tiebreak = tiebreakInfo(match);
 
@@ -82,7 +110,8 @@ export default function MatchTable({ match, id }: { match: Match; id?: string })
   return (
     <section id={id} className="scroll-mt-24">
       <h3 className="h3 text-ink">{roundLabel(match)}</h3>
-      <div className="mt-3 overflow-x-auto">
+      {photo && <div className="mt-4">{photo}</div>}
+      <div className="mt-4 overflow-x-auto">
         <table className="data-table min-w-[32rem]">
           <thead>
             <tr>

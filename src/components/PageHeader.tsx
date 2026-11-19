@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import Breadcrumb from "./Breadcrumb";
+import { hasImage } from "../lib/images";
+import { asset } from "../lib/format";
 
 interface Crumb {
   to?: string;
@@ -20,6 +22,8 @@ interface Props {
   tone?: "light" | "dark";
   /** Cho dòng mô tả trải hết bề ngang trên màn hình lớn (vd trang chủ OSSPEDIA) */
   wideDescription?: boolean;
+  /** Ảnh làm nền mờ cho vùng đầu trang (đường dẫn trong public/); chỉ hiện khi ảnh có thật. Chỉ dùng với tông light. */
+  backdrop?: string;
 }
 
 /**
@@ -34,6 +38,7 @@ export default function PageHeader({
   leading,
   tone = "light",
   wideDescription = false,
+  backdrop,
 }: Props) {
   const dark = tone === "dark";
   const inner = (
@@ -55,5 +60,23 @@ export default function PageHeader({
       )}
     </div>
   );
-  return dark ? <header className="paper-dark text-white">{inner}</header> : <header>{inner}</header>;
+  if (dark) return <header className="paper-dark text-white">{inner}</header>;
+  if (!hasImage(backdrop)) return <header>{inner}</header>;
+  return (
+    <header className="relative isolate">
+      {/* Ảnh nền: cao 320px (điện thoại 220px), mờ nhẹ, nhạt, tan dần xuống dưới; lớp phủ màu nền giữ chữ đủ tương phản */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[220px] overflow-hidden md:h-[320px]"
+        style={{
+          maskImage: "linear-gradient(to bottom, black 45%, transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 45%, transparent)",
+        }}
+      >
+        <img src={asset(backdrop)} alt="" className="size-full object-cover opacity-35 blur-[2px]" />
+        <div className="absolute inset-0 bg-mist/40" />
+      </div>
+      {inner}
+    </header>
+  );
 }

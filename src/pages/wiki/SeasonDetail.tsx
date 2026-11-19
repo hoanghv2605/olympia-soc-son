@@ -4,13 +4,16 @@ import { PiCalendarBlank, PiCrown, PiMicrophone } from "react-icons/pi";
 import PageHeader from "../../components/PageHeader";
 import IconLabel from "../../components/IconLabel";
 import ClimbChart from "../../components/ClimbChart";
-import MatchTable, { SemiLegend } from "../../components/MatchTable";
+import LegendPopover from "../../components/LegendPopover";
+import MatchPhoto from "../../components/MatchPhoto";
+import MatchTable, { FinalLegendBody, SemiLegendBody } from "../../components/MatchTable";
 import PersonLink from "../../components/PersonLink";
 import NotFound from "../NotFound";
 import {
   finalOf,
   getSchool,
   getSeason,
+  matchPhoto,
   podium,
   qualifyingOf,
   seasonPath,
@@ -96,6 +99,7 @@ export default function SeasonDetail() {
         title={`Olympia Sóc Sơn mùa ${n}`}
         description={`Năm học ${season.schoolYear} · Chung kết ngày ${formatDate(season.finalDate)}.`}
         actions={<SeasonNav n={n} />}
+        backdrop={final ? matchPhoto(final.id) : undefined}
       />
       <article className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
         <div className="grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_18rem]">
@@ -263,11 +267,20 @@ export default function SeasonDetail() {
 
         {semis.length > 0 && (
           <section id="ban-ket" className="mt-12 scroll-mt-24 md:mt-16">
-            <h2 className="h2 text-ink">Vòng Bán kết</h2>
-            <SemiLegend className="mt-4" />
-            <div className="mt-6 space-y-10">
+            <div className="relative flex items-center gap-1">
+              <h2 className="h2 text-ink">Vòng Bán kết</h2>
+              <LegendPopover label="Chú thích bảng Bán kết">
+                <SemiLegendBody />
+              </LegendPopover>
+            </div>
+            <div className="mt-6 space-y-12">
               {semis.map((m) => (
-                <MatchTable key={m.id} match={m} id={`ban-ket-${m.number}`} />
+                <MatchTable
+                  key={m.id}
+                  match={m}
+                  id={`ban-ket-${m.number}`}
+                  photo={<MatchPhoto match={m} caption={`Các thí sinh của trận Bán kết ${m.number}`} />}
+                />
               ))}
             </div>
           </section>
@@ -275,10 +288,18 @@ export default function SeasonDetail() {
 
         {final && (
           <section id="chung-ket" className="mt-12 scroll-mt-24 md:mt-16">
-            <h2 className="h2 text-ink">Trận Chung kết</h2>
+            <div className="relative flex items-center gap-1">
+              <h2 className="h2 text-ink">Trận Chung kết</h2>
+              <LegendPopover label="Chú thích bảng Chung kết">
+                <FinalLegendBody />
+              </LegendPopover>
+            </div>
             <div className="mt-6">
               <MatchTable match={final} />
               <ClimbChart match={final} />
+              <div className="mt-8">
+                <MatchPhoto match={final} caption={`Các thí sinh trận Chung kết mùa ${n}`} />
+              </div>
             </div>
           </section>
         )}

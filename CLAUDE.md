@@ -3,6 +3,7 @@
 Website lưu trữ lịch sử, kết quả và con người của **Olympia Sóc Sơn (OSS)**: sân chơi trí tuệ mô phỏng Đường lên đỉnh Olympia (ĐLĐO) cho học sinh THPT Sóc Sơn, Hà Nội, thành lập tháng 7/2017. Chủ dự án: Kit. Trả lời bằng tiếng Việt.
 
 ## Lệnh
+- `npm run anh-con-thieu`: liệt kê ảnh còn thiếu theo nhóm (`scripts/anh-con-thieu.mjs`, chỉ đọc; dùng chung logic quét thư mục `scripts/lib/scan-images.mjs` với script danh sách ảnh)
 - `npm run dev`: chạy thử (http://localhost:5173)
 - `npm run build`: đóng gói. **Luôn chạy và phải pass trước khi báo xong.**
 - `npm run typecheck`: kiểm tra TypeScript. Chạy kèm build.
@@ -12,12 +13,16 @@ React 19, TypeScript, Vite 8, Tailwind CSS 4 (cấu hình trong `src/index.css`,
 
 ## Cấu trúc web (đã duyệt, v0.3)
 Menu chính: **Về chúng tôi · OSSPEDIA · Bảng vàng · Human of OSS · Thư viện**
-- Về chúng tôi (`/ve-chung-toi`): **Giới thiệu** (gồm cả phần Liên hệ ở cuối trang) và **Cơ cấu tổ chức**. Menu con căn phải. Không còn trang Thể lệ; `/ve-chung-toi/the-le` và `/ve-chung-toi/lien-he` chuyển hướng về `/ve-chung-toi`.
-  - Thứ tự trang Giới thiệu (xen kẽ tối/sáng): Giới thiệu (tối) → Những cột mốc đáng nhớ (sáng) → Những con số ấn tượng (tối, 2 nhóm) → Liên hệ (sáng) → Footer (tối).
+- Về chúng tôi (`/ve-chung-toi`): **Giới thiệu** và **Cơ cấu tổ chức**. Menu con căn phải. Không còn trang Thể lệ; `/ve-chung-toi/the-le` và `/ve-chung-toi/lien-he` chuyển hướng về `/ve-chung-toi`. **Không còn khối Liên hệ riêng**: liên hệ nằm ở Footer.
+  - Thứ tự trang Giới thiệu: Giới thiệu (tối) → Những cột mốc đáng nhớ (sáng) → Những con số ấn tượng (tối, 2 nhóm) → Footer (tối).
+  - **Footer** (mọi trang, 4 cột, điện thoại xếp dọc): logo + khẩu hiệu + câu giới thiệu ≤ 25 từ; **Liên hệ** (`contacts.json`: tên đậm, chức vụ dòng nhỏ); **Kết nối** (Fanpage, email, địa chỉ + "Xem bản đồ" mở Google Maps tab mới); **Khám phá** (5 mục menu, danh sách `NAV` ở `src/lib/nav.ts`). Footer **không** có bản đồ nhúng.
+  - **Cơ cấu tổ chức** (`OrgDiagram`): từ `lg` là sơ đồ tỏa (logo giữa, 4 ban ở 4 góc, 4 đường nối tự vẽ); bấm 1 ban → bố cục chi tiết (logo trái, 4 ô dọc, khung ảnh + thẻ "Trưởng ban: {leader}") bằng hiệu ứng FLIP tự viết (`element.animate()`); bấm logo hoặc Esc để quay về. Dưới `lg`: lưới 2×2, chạm mở/đóng, không FLIP. Giảm chuyển động: đổi tức thì. Mỗi ban trong `departments.json` có `leader` (Trưởng ban, hiện mặc định "Nguyễn Văn A").
 - OSSPEDIA (`/wiki`): mùa giải (`/wiki/cuoc-thi/mua-N`), thí sinh (`/wiki/thi-sinh/:id`), trường (`/wiki/truong/:id`), tìm kiếm
 - Bảng vàng (`/bang-vang`): Quán quân các mùa (Hall of Fame nền tối, mỗi người 1 thẻ, chip vàng "Mùa n · điểm CK"), THPT Sóc Sơn tại Đường lên đỉnh Olympia (2 nút Toàn bộ thí sinh / Các thí sinh từ OSS, thẻ + hộp nổi), Kỷ lục, Các thí sinh vào Chung kết 2 năm liên tiếp (dải ảnh hình bình hành, `FinalistStrips`)
+- Trang mùa (`/wiki/cuoc-thi/mua-N`): chú thích màu và giải nghĩa KĐ / VCNV / TT / VĐ nằm trong nút ⓘ (`LegendPopover`) ngay sau tiêu đề "Vòng Bán kết" và "Trận Chung kết", không còn dòng chú thích phía trên bảng. Mỗi Bán kết có ảnh trận **trên** bảng; Chung kết có ảnh **dưới** biểu đồ (`MatchPhoto`: bấm để phóng to bằng `ImageLightbox`; chưa có ảnh → dải giữ chỗ với chữ cái đầu + tên 4 thí sinh theo thứ tự `matches.json`). Có ảnh Chung kết thì đầu trang mùa có ảnh nền mờ tan dần (`PageHeader backdrop`).
+- Trang các mùa (`/wiki/cuoc-thi`): dòng số liệu tự tính + nút chuyển **Thẻ / Bảng** (mặc định Thẻ, nhớ bằng `localStorage` khóa `oss-season-view`). Thẻ mùa (`SeasonCard`): mùa 1 → 10, ảnh Chung kết hoặc số mùa to trên nền tông màu, Quán quân / Á quân / Quý quân, cả thẻ là 1 link.
 - Human of OSS (`/human-of-oss`, bài viết `/human-of-oss/:slug`), Thư viện
-- Trang chủ (thứ tự, v0.8): Ảnh lớn (lật ô) → Giới thiệu → Lối vào (ô OSSPEDIA có 3 lối tắt + ô tìm kiếm) → Mùa gần nhất (`LatestSeason`: Chung kết mùa lớn nhất, thẻ Quán quân + `ClimbChart compact`) → Bạn có biết? → Cảm nhận về Olympia Sóc Sơn (`Testimonials`) → Đối tác đồng hành (`Partners`). Không còn khối "Quán quân qua các mùa".
+- Trang chủ (thứ tự, v0.9): Ảnh lớn (lật ô) → Giới thiệu → Lối vào (ô OSSPEDIA có 3 lối tắt + ô tìm kiếm) → Mùa gần nhất (`LatestSeason`: Chung kết mùa lớn nhất, thẻ Quán quân + `ClimbChart compact`) → Bạn có biết? → Cảm nhận về Olympia Sóc Sơn (`Testimonials`) → Đối tác đồng hành (`Partners`) → **Tìm đến Olympia Sóc Sơn** (`MapSection`: bản đồ nhúng 2/3 + địa chỉ + nút "Mở trong Google Maps"; **bản đồ chỉ có ở trang chủ**). Không còn khối "Quán quân qua các mùa". Địa chỉ và link bản đồ ở `site.json` (`address`, `mapEmbedUrl`, `mapLink`).
 
 ## Dữ liệu (quy tắc bắt buộc)
 - Toàn bộ dữ liệu ở `src/data/*.json`; **mọi trang chỉ lấy dữ liệu qua `src/lib/data.ts`**.
@@ -46,6 +51,8 @@ Menu chính: **Về chúng tôi · OSSPEDIA · Bảng vàng · Human of OSS · T
 ## Ảnh (theo quy ước tên file, không khai báo trong JSON)
 - **Danh sách ảnh tự sinh:** `scripts/gen-image-manifest.mjs` quét `public/images/**` và `public/logo-oss*` → `src/data/generated/images.json` (commit file này). Tự chạy qua `predev` / `prebuild` / `pretypecheck`. **Mọi component ảnh chỉ gọi tải ảnh có trong danh sách** qua `hasImage()` / `pickImage()` (`src/lib/images.ts`); không có thì dùng ảnh giữ chỗ luôn (không còn lỗi 404). `onError` chỉ là dự phòng. Thêm ảnh mới thì chạy lại `npm run dev`.
 - Thí sinh: `public/images/thi-sinh/<mã-thí-sinh>.jpg` (mã = `id` trong `people.json`)
+- **Trận đấu (v0.9):** `public/images/tran-dau/<id trận>.jpg`, `<id trận>` = `id` trong `matches.json` (vd `oss10-bk1.jpg`, `oss10-ck.jpg`). Ảnh ngang 3:2, ~1500×1000, < 400KB. Hàm `matchPhoto(id)` trong `data.ts`. Ảnh Chung kết còn dùng cho dải mờ đầu trang mùa và ảnh đầu thẻ ở trang các mùa.
+- Ban: `photo` trong `departments.json` nếu có, không thì `public/images/ban/<id ban>.jpg` (ngang 4:3).
 - Cột mốc: `public/images/cot-moc/<YYYY-MM-DD>.jpg` (theo `date` của cột mốc)
 - Human of OSS: `public/images/human-of-oss/<slug>.jpg`
 - Logo: `public/logo-oss.svg` hoặc `public/logo-oss.png` (logo thật); `public/logo-oss-tam.svg` là logo tạm. Component `Logo` và favicon (script trong `index.html`) thử lần lượt `logo-oss.svg` → `logo-oss.png` → `logo-oss-tam.svg`.

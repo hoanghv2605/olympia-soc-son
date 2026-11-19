@@ -10,7 +10,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "pretypecheck": "node scripts/gen-image-manifest.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "anh-con-thieu": "node scripts/anh-con-thieu.mjs"
   },
   "dependencies": {
     "react": "^19.2.7",

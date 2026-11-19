@@ -24,6 +24,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `npm run build` | Đóng gói ra thư mục `dist/` (GitHub Actions tự chạy lệnh này) |
 | `npm run preview` | Xem thử bản đã đóng gói |
 | `npm run typecheck` | Kiểm tra lỗi TypeScript (không bắt buộc) |
+| `npm run anh-con-thieu` | Liệt kê ảnh còn thiếu, theo nhóm (chỉ đọc, không sửa file) |
 
 **Tìm kiếm nhanh trên web:** bấm biểu tượng kính lúp trên thanh menu, hoặc gõ phím `/` hay `Ctrl + K` (máy Mac: `⌘ + K`) ở bất kỳ trang nào. Gõ không dấu cũng được (vd `duc`, `mua 4`, `da phuc`); dùng ↑ ↓ để chọn, Enter để mở, Esc để đóng.
 
@@ -33,7 +34,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 
 | File | Nội dung |
 | --- | --- |
-| `site.json` | Tên, khẩu hiệu, 2 đoạn giới thiệu, fanpage, email, địa chỉ bản đồ, đường dẫn ảnh |
+| `site.json` | Tên, khẩu hiệu, 2 đoạn giới thiệu, fanpage, email, địa chỉ (`address`), bản đồ (`mapEmbedUrl` nhúng ở trang chủ, `mapLink` mở Google Maps ở footer), đường dẫn ảnh |
 | `schools.json` | Các trường: `id`, `name`, `short` |
 | `people.json` | Thí sinh: `id` (mã cố định, dùng làm đường dẫn), `name`, `school`. Gồm cả vài người chỉ thi ĐLĐO (không thi OSS); những người này không có hồ sơ OSSPEDIA |
 | `seasons.json` | Các mùa: ngày VL/CK, năm học, địa điểm, MC, luật ĐLĐO năm thứ, đối tượng, `notes`, `seededDraw` |
@@ -42,8 +43,8 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `olympia.json` | Thành tích Đường lên đỉnh Olympia. `ossSeason`: mùa OSS của thí sinh, `null` = không thi OSS. `beforeOss: true` = tham gia ĐLĐO trước khi dự thi OSS. Giải Nhất cuộc thi Quý được tính là 1 cầu truyền hình |
 | `milestones.json` | Dòng thời gian (`person` là mã thí sinh). `kind`: `"oss"` = chấm tím, `"olympia"` = chấm hồng |
 | `stats.json` | Những con số ấn tượng: mục `"manual": true` nhập tay, còn lại web tự tính |
-| `departments.json` | 4 ban và nhiệm vụ từng ban |
-| `contacts.json` | Người liên hệ. Ô nào để trống `""` thì web tự ẩn |
+| `departments.json` | 4 ban: tên, `leader` (Trưởng ban), nhiệm vụ, `photo` (tùy chọn) |
+| `contacts.json` | Người liên hệ, hiện ở footer (tên và chức vụ). Ô nào để trống `""` thì web tự ẩn |
 | `humans.json` | Danh sách bài Human of OSS: `slug`, `name`, `title` (vai trò), `quote` (câu trích ngắn trên thẻ) |
 
 **Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
@@ -62,21 +63,30 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 
 > **Quan trọng:** web chỉ tải những ảnh có trong danh sách ảnh tự sinh (`src/data/generated/images.json`), để không bị lỗi 404. Thêm ảnh mới vào `public/images/...` xong thì **tắt và chạy lại `npm run dev`** mới thấy ảnh. Khi đưa lên GitHub, bản build tự cập nhật danh sách này.
 
-| Đường dẫn | Vị trí trên web |
-| --- | --- |
-| `public/logo-oss.svg` **hoặc** `public/logo-oss.png` | Logo thật (cả logo trên web và favicon). Web thử lần lượt `logo-oss.svg` → `logo-oss.png` → `logo-oss-tam.svg` (logo tạm hiện có), file nào có thì dùng |
-| `public/images/hero/hero-main.jpg` | Ảnh lớn trang chủ |
-| `public/images/hero/letter-o.jpg`, `letter-s1.jpg`, `letter-s2.jpg` | Ảnh lồng trong 3 chữ O-S-S ở trang chủ |
-| `public/images/about/tap-the-1.jpg`, `tap-the-2.jpg` | 2 ảnh ở mục Giới thiệu |
-| `public/images/about/ban-chuyen-mon.jpg` | Ảnh Ban Chuyên môn (ban khác: thêm `"photo"` trong `departments.json`) |
-| `public/images/thi-sinh/<mã-thí-sinh>.jpg` | Ảnh thí sinh (hồ sơ, thẻ Bảng vàng). Mã = `id` trong `people.json`, vd `le-tra-my.jpg`. Nên dùng ảnh dọc 3:4 |
-| `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (hiện khi rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc. Nên dùng ảnh 4:3 |
-| `public/images/human-of-oss/<slug>.jpg` | Chân dung Human of OSS |
-| `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ (vuông ~600×600). `id` lấy trong `testimonials.json` |
-| `public/images/doi-tac/<id>.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc). `id` lấy trong `partners.json` |
-| `public/images/truong/<id-trường>.svg` hoặc `.png` | Logo trường (huy hiệu tròn ở trang Các trường và trang trường). Tên file = `id` trong `schools.json`: `soc-son`, `da-phuc`, `trung-gia`, `minh-phu`, `xuan-giang`. Ảnh vuông khoảng 256×256, nền trong suốt. Chưa có logo thì hiện chữ viết tắt của trường |
+| Thư mục / tên file | Dùng ở đâu | Tỉ lệ | Kích thước gợi ý |
+| --- | --- | --- | --- |
+| `public/logo-oss.svg` **hoặc** `logo-oss.png` | Logo thật (trên web và favicon). Web thử lần lượt `logo-oss.svg` → `logo-oss.png` → `logo-oss-tam.svg` (logo tạm hiện có) | vuông | SVG, hoặc PNG nền trong suốt ≥ 512×512 |
+| `public/images/hero/hero-main.jpg` | Ảnh lớn trang chủ | ngang ~3:2 | ~1800×1200, < 400 KB |
+| `public/images/hero/letter-o.jpg`, `letter-s1.jpg`, `letter-s2.jpg` | Ảnh lồng trong 3 chữ O-S-S ở trang chủ | dọc, nhiều màu | ~600×900 |
+| `public/images/about/tap-the-1.jpg`, `tap-the-2.jpg` | 2 ảnh ở mục Giới thiệu | 4:3 | ~1200×900 |
+| `public/images/ban/<id ban>.jpg` | Ảnh từng ban ở Cơ cấu tổ chức. `id` trong `departments.json`: `chuyen-mon`, `ki-thuat`, `truyen-thong`, `hau-can`. Ban có `"photo"` trong JSON thì dùng đường dẫn đó (hiện Ban Chuyên môn: `images/about/ban-chuyen-mon.jpg`) | 4:3 | ~1200×900 |
+| `public/images/thi-sinh/<mã-thí-sinh>.jpg` | Ảnh thí sinh (hồ sơ, thẻ Bảng vàng). Mã = `id` trong `people.json`, vd `le-tra-my.jpg` | dọc 3:4 | ~600×800 |
+| `public/images/tran-dau/<id trận>.jpg` | Ảnh mỗi trận Bán kết / Chung kết ở trang mùa; ảnh Chung kết còn làm dải mờ đầu trang mùa và ảnh đầu thẻ mùa. `id trận` = `id` trong `matches.json`, vd `oss10-bk1.jpg`, `oss10-ck.jpg` | ngang 3:2 | ~1500×1000, < 400 KB |
+| `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc | 4:3 | ~1200×900 |
+| `public/images/human-of-oss/<slug>.jpg` | Chân dung Human of OSS | dọc | ~800×1000 |
+| `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ. `id` trong `testimonials.json` | vuông | ~600×600 |
+| `public/images/doi-tac/<id>.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc). `id` trong `partners.json` | tự do | SVG, hoặc PNG ngang ~600 px |
+| `public/images/truong/<id-trường>.svg` hoặc `.png` | Logo trường (huy hiệu tròn). Tên file = `id` trong `schools.json`: `soc-son`, `da-phuc`, `trung-gia`, `minh-phu`, `xuan-giang`. Chưa có logo thì hiện chữ viết tắt của trường | vuông | ~256×256, nền trong suốt |
 
-Ảnh thí sinh, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người) hoặc logo OSS (cột mốc) trên nền tím. Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
+### Xem ảnh nào còn thiếu
+
+```bash
+npm run anh-con-thieu
+```
+
+Lệnh in từng nhóm (thí sinh, trận đấu, cột mốc, nhận xét, đối tác, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
+
+Ảnh thí sinh, trận đấu, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người), logo OSS (cột mốc) hoặc dải chữ cái đầu của 4 thí sinh (trận đấu). Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
 
 Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh chữ O-S-S nên là ảnh dọc, nhiều màu sắc.
 

@@ -1,6 +1,7 @@
 // Một cửa duy nhất để lấy dữ liệu. Các trang chỉ import từ đây,
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
+import { hasImage } from "./images";
 import siteJson from "../data/site.json";
 import schoolsJson from "../data/schools.json";
 import peopleJson from "../data/people.json";
@@ -197,6 +198,12 @@ export function milestonePhoto(date: string) {
 /** Ảnh ban: dùng `photo` trong departments.json nếu có, không thì images/ban/<id>.jpg (ngang 4:3). */
 export function departmentPhoto(d: Department) {
   return d.photo ?? `images/ban/${d.id}.jpg`;
+}
+
+/** Ảnh trận đấu: images/tran-dau/<id trận>.jpg (ngang 3:2). Trả về đường dẫn nếu có trong danh sách ảnh. */
+export function matchPhoto(matchId: string) {
+  const path = `images/tran-dau/${matchId}.jpg`;
+  return hasImage(path) ? path : undefined;
 }
 
 export function humanPhoto(slug: string) {
