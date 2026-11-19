@@ -793,6 +793,46 @@
   transition: opacity 250ms ease;
 }
 
+/* Thẻ xem nhanh thí sinh: hiện/ẩn mờ dần 120ms */
+.person-preview {
+  transition: opacity 120ms ease;
+}
+
+/* ===== Trang chủ: Lối vào (cả ô là link: ::after của link phủ kín ô) ===== */
+.entry-card {
+  position: relative;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in oklab, var(--color-oss) 15%, transparent);
+  background: rgb(255 255 255 / 0.8);
+  transition:
+    border-color 200ms ease,
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+.entry-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.entry-link:focus-visible {
+  outline: none;
+}
+.entry-card:hover,
+.entry-card:has(.entry-link:focus-visible) {
+  border-color: var(--color-oss);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -24px rgb(109 40 217 / 0.55);
+}
+.entry-card:has(.entry-link:focus-visible) {
+  outline: 2px solid var(--color-oss);
+  outline-offset: 3px;
+}
+/* "Bạn có biết?": đổi câu mờ chéo 200ms */
+.did-you-know {
+  transition: opacity 200ms ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tl-photo {
     animation: none;
@@ -822,6 +862,15 @@
   .climb-line,
   .climb-fade {
     transition: none !important;
+  }
+  .person-preview,
+  .did-you-know {
+    transition: none;
+  }
+  .entry-card,
+  .entry-card:hover,
+  .entry-card:has(.entry-link:focus-visible) {
+    transform: none;
   }
   .photo-img {
     transition: none;

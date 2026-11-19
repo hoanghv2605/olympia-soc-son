@@ -11,7 +11,11 @@ function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
       <p className="tl-text text-[15px] leading-snug">
         {m.personName &&
           (m.personId && linkPerson ? (
-            <Link to={personPath(m.personId)} className="font-semibold text-ink hover:text-oss hover:underline">
+            <Link
+              to={personPath(m.personId)}
+              data-person-preview={m.personId}
+              className="font-semibold text-ink hover:text-oss hover:underline"
+            >
               {m.personName}
             </Link>
           ) : (

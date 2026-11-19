@@ -1,6 +1,18 @@
 // Tìm kiếm không dấu dùng chung (hộp tìm kiếm trên header, ô tìm ở trang chủ OSSPEDIA).
 // Chỉ tìm thí sinh OSS (`people`), các mùa giải và các trường.
-import { championsList, participationsOf, people, personPath, schoolPath, schoolStat, schools, schoolName, seasonPath } from "./data";
+import {
+  championsList,
+  participationsOf,
+  people,
+  personPath,
+  schoolName,
+  schoolPath,
+  schoolStat,
+  schools,
+  seasonPath,
+  titlesOf,
+} from "./data";
+import type { Placement } from "../types";
 import { normalize } from "./format";
 
 export type SearchKind = "person" | "season" | "school";
@@ -30,12 +42,17 @@ export const SEARCH_GROUP_ORDER: SearchKind[] = ["person", "season", "school"];
 /** Số dòng tối đa mỗi nhóm */
 const LIMIT = 6;
 
+const PLACEMENT_RANK: Record<Placement, number> = { "vo-dich": 0, "a-quan": 1, "giai-ba": 2 };
+
 // Chỉ mục dựng sẵn 1 lần
 const PEOPLE = people.map((p) => {
   const key = normalize(p.name);
   const seasons = participationsOf(p.id).map((s) => s.season);
   return {
     key,
+    words: key.split(" "),
+    /** Danh hiệu OSS cao nhất: 0 Quán quân, 1 Á quân, 2 Quý quân, 3 chưa có */
+    titleRank: Math.min(3, ...titlesOf(p.id).map((t) => PLACEMENT_RANK[t.placement])),
     result: {
       id: p.id,
       kind: "person" as const,
@@ -71,7 +88,8 @@ const SCHOOLS = schools.map((s) => ({
 
 /**
  * Tìm không dấu, chia 3 nhóm (mỗi nhóm tối đa 6 dòng):
- * - Thí sinh: tên chứa từ khóa (tên có 1 từ bắt đầu bằng từ khóa xếp trước);
+ * - Thí sinh: tên chứa từ khóa. Xếp hạng: tên gọi (từ cuối) trùng từ khóa → có 1 từ trùng → có từ bắt đầu bằng
+ *   từ khóa → chỉ chứa; cùng mức thì người có danh hiệu OSS cao hơn trước, rồi theo thứ tự ABC;
  * - Mùa giải: "mùa 4", "mua 4", "oss4", "4" → Mùa 4; gõ "mua" / "oss" → các mùa;
  * - Trường: tên hoặc chữ viết tắt chứa từ khóa.
  */
@@ -79,9 +97,11 @@ export function searchAll(query: string): SearchGroups {
   const q = normalize(query).replace(/\s+/g, " ");
   if (!q) return { person: [], season: [], school: [] };
 
+  const matchLevel = (p: (typeof PEOPLE)[number]) =>
+    p.words[p.words.length - 1] === q ? 0 : p.words.includes(q) || ` ${p.key} `.includes(` ${q} `) ? 1 : ` ${p.key}`.includes(` ${q}`) ? 2 : 3;
   const person = PEOPLE.filter((p) => p.key.includes(q))
-    .map((p, i) => ({ p, i, starts: ` ${p.key}`.includes(` ${q}`) }))
-    .sort((a, b) => Number(b.starts) - Number(a.starts) || a.i - b.i)
+    .map((p, i) => ({ p, i, level: matchLevel(p) }))
+    .sort((a, b) => a.level - b.level || a.p.titleRank - b.p.titleRank || a.i - b.i)
     .slice(0, LIMIT)
     .map((x) => x.p.result);
 

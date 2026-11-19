@@ -58,8 +58,7 @@ Hiện đại, chất "học thuật", nền sáng tím nhạt kiểu màu nư�
 ### Tiêu đề và đầu trang
 - Tiêu đề `h1`/`h2`/`h3` viết **chữ thường như câu**, không `uppercase`, không giãn chữ. Chỉ giữ in hoa ở chữ "OLYMPIA SÓC SƠN" cạnh logo (`wordmark` ở header/footer, chữ đi kèm logo lớn ở khối Giới thiệu) và mục menu trên máy tính.
 - Thang cỡ chữ (lớp trong `src/index.css`): `.h1` `clamp(2rem, 4vw, 2.75rem)` đậm 700; `.h2` 1.5rem → 1.875rem đậm 700 (`.section-title` = `.h2` màu `oss`); `.h3` 1.125rem → 1.25rem đậm 600; line-height tiêu đề 1.25 (không thấp hơn, vì dấu tiếng Việt).
-- Font tiêu đề qua token `--font-display` (mặc định Be Vietnam Pro), dùng cho h1/h2/h3, chữ O-S-S và khẩu hiệu trang chủ, số lớn (Con số ấn tượng, ô Kỷ lục), tên thẻ Hall of Fame (lớp `.font-display`).
-- **TẠM (bỏ ở v0.7):** `?font=a` (Bricolage Grotesque) / `?font=b` (Fraunces) trước dấu `#` để so sánh font tiêu đề; xử lý trong `src/main.tsx` + `:root[data-font]` trong `index.css`. Không có tham số thì không nạp font nào thêm.
+- Font tiêu đề **đã chốt (v0.7): Bricolage Grotesque** (nạp cùng Be Vietnam Pro trong thẻ Google Fonts ở `index.html`), qua token `--font-display` trong `@theme`; tiêu đề đậm 700. Dùng cho h1/h2/h3, chữ O-S-S và khẩu hiệu trang chủ, số lớn (Con số ấn tượng, ô Kỷ lục), tên thẻ Hall of Fame (lớp `.font-display`). Chữ thường vẫn là Be Vietnam Pro.
 - Đầu trang dùng `PageHeader` (dòng chỉ đường, `h1`, 1 dòng mô tả, `actions`, `leading`) cho mọi trang cấp 1 và OSSPEDIA; tông `light` mặc định, `dark` **chỉ** ở Bảng vàng. Hồ sơ thí sinh giữ bố cục riêng nhưng `h1` dùng `.h1`.
 - Khoảng cách giữa các mục lớn: **2 mức** `.section` (`py-12 md:py-16`, mục thường) và `.section-band` (`py-16 md:py-24`, khối nền màu).
 
@@ -67,6 +66,11 @@ Hiện đại, chất "học thuật", nền sáng tím nhạt kiểu màu nư�
 - Ô số dùng lớp `.num` (`px-2 text-sm`, `min-width: 2.75rem`, `tabular-nums`).
 - Dưới `md`: bảng trong khung cuộn ngang; cột đầu `.sticky-start` dính trái; bảng Bán kết/Chung kết cột Tổng và bảng thành tích hồ sơ cột Kết quả `.sticky-end` dính phải; ô dính có nền đặc cùng màu dòng và bóng mờ cạnh trong. Cột phụ (Trường, Lớp) ẩn `hidden md:table-cell`, đưa thành dòng nhỏ dưới tên.
 - Bán kết: Nhất trận `data-tone="winner"` (nền `oss`, chữ trắng, dòng lớp - trường trắng 80%); Nhì cao điểm nhất `data-tone="outline"` (không tô nền, viền `oss` 2px bằng `box-shadow: inset` trên từng ô, tên đậm). Chung kết giữ vàng/bạc/đồng.
+
+### Tìm kiếm, xem nhanh, "Bạn có biết?"
+- **Tìm kiếm chung:** hàm tìm không dấu dùng chung ở `src/lib/search.ts` (`searchAll`: 3 nhóm Thí sinh (chỉ thí sinh OSS) / Mùa giải ("mùa 4", "mua 4", "oss4", "4") / Trường, mỗi nhóm tối đa 6 dòng). Hộp tìm kiếm `SearchDialog` do `SearchProvider` (bọc trong `SiteLayout`) quản lý; mở bằng nút tìm kiếm trên header, phím `/` hoặc `Ctrl/⌘ K`, hoặc `useSearch().open()` (vd `SearchTrigger` ở OSSPEDIA và ô Lối vào trang chủ). ↑ ↓ Enter Esc; đóng khi chuyển trang; trả focus về phần tử đã mở. Ô lọc ở trang danh sách Thí sinh là bộ lọc riêng.
+- **Thẻ xem nhanh thí sinh** (`PersonPreview`, 1 thẻ cho cả trang, portal): chỉ cho **link chữ** có `data-person-preview="<id>"` (`PersonLink` tự gắn; link tên ở dòng thời gian). Không gắn cho thẻ ảnh hay kết quả tìm kiếm. Chỉ bật trên thiết bị có chuột `(hover: hover) and (pointer: fine)`; hiện sau 350ms, ẩn sau 150ms; thẻ `aria-hidden`.
+- **"Bạn có biết?"** (trang chủ): mọi câu tự sinh từ dữ liệu trong `src/lib/facts.ts` (`buildFacts()`), không gõ tay số liệu. Thêm loại câu mới: viết 1 hàm trả về `Fact[]` (`{ id, text, to }`) rồi thêm vào danh sách trong `buildFacts()`. Ghi chú mùa chỉ lấy câu bắt đầu "Đây là" và ≤ 200 ký tự.
 
 ### Chuyển động
 - Chỉ 3 điểm nhấn: lật ô ảnh lớn trang chủ (`HeroTiles`, lần đầu trong phiên, cờ `sessionStorage`), biểu đồ "Diễn biến điểm số" ở trang mùa (`ClimbChart`, vẽ dần khi cuộn tới), số chạy ở "Những con số ấn tượng" (`CountUp`). Ngoài ra chỉ có chuyển trạng thái nhỏ (header thu gọn, menu, hover).

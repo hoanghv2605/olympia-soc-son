@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import { cubeOutlineDataUrl } from "../components/CubeOutline";
+import DidYouKnow from "../components/DidYouKnow";
 import HeroTiles from "../components/HeroTiles";
+import HomeEntrances from "../components/HomeEntrances";
 import { championsList, seasonPath, site } from "../lib/data";
 import { CUBE_GRADIENT, HERO_GRADIENT, asset, bgWithFallback, yearOf } from "../lib/format";
 
@@ -69,6 +71,19 @@ export default function HomePage() {
             Tìm hiểu về Olympia Sóc Sơn
           </Link>
         </div>
+      </section>
+
+      {/* ===== Lối vào ===== */}
+      <section aria-labelledby="loi-vao" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+        <h2 id="loi-vao" className="sr-only">
+          Lối vào
+        </h2>
+        <HomeEntrances />
+      </section>
+
+      {/* ===== Bạn có biết? ===== */}
+      <section aria-label="Bạn có biết?" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+        <DidYouKnow />
       </section>
 
       {/* ===== Quán quân qua các mùa ===== */}

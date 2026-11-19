@@ -25,13 +25,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `npm run preview` | Xem thử bản đã đóng gói |
 | `npm run typecheck` | Kiểm tra lỗi TypeScript (không bắt buộc) |
 
-**So sánh font tiêu đề (tạm thời, sẽ bỏ ở v0.7):** thêm `?font=a` (Bricolage Grotesque) hoặc `?font=b` (Fraunces) vào **trước** dấu `#` của đường dẫn, vd
-
-- `https://hoanghv2605.github.io/olympia-soc-son/?font=a#/bang-vang`
-- `https://hoanghv2605.github.io/olympia-soc-son/?font=b#/bang-vang`
-- Chạy trên máy: `http://localhost:5173/?font=a#/bang-vang`
-
-Bấm chuyển trang vẫn giữ font đã chọn. Không có `?font=` thì web dùng font hiện tại (Be Vietnam Pro) và không nạp thêm font nào.
+**Tìm kiếm nhanh trên web:** bấm biểu tượng kính lúp trên thanh menu, hoặc gõ phím `/` hay `Ctrl + K` (máy Mac: `⌘ + K`) ở bất kỳ trang nào. Gõ không dấu cũng được (vd `duc`, `mua 4`, `da phuc`); dùng ↑ ↓ để chọn, Enter để mở, Esc để đóng.
 
 ---
 
