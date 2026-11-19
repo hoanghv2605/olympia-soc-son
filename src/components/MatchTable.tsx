@@ -98,13 +98,22 @@ export default function MatchTable({ match, id }: { match: Match; id?: string })
           <tbody>
             {match.results.map((r) => {
               const tone = rowTone(r);
+              // Dòng Nhất trận nền oss: chữ trắng (lớp tiện ích, vì CSS lớp components bị text-oss của link đè)
+              const onDark = tone?.tone === "winner";
               return (
                 <tr key={r.person} className={tone && "className" in tone ? tone.className : undefined} data-tone={tone?.tone}>
                   <td className="sticky-start">
-                    <PersonLink id={r.person} />
-                    {tiebreak?.winner === r.person && <span aria-hidden>*</span>}
+                    <PersonLink
+                      id={r.person}
+                      className={onDark ? "font-bold !text-white decoration-white focus-visible:outline-white" : ""}
+                    />
+                    {tiebreak?.winner === r.person && (
+                      <span aria-hidden className={onDark ? "text-white" : undefined}>
+                        *
+                      </span>
+                    )}
                     {tone && <span className="sr-only">. {tone.label}</span>}
-                    <span className="row-sub block text-xs text-ink-soft">
+                    <span className={`block text-xs ${onDark ? "text-white/80" : "text-ink-soft"}`}>
                       {r.class} - {schoolName(r.school)}
                     </span>
                   </td>

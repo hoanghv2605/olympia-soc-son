@@ -57,7 +57,7 @@ export function dodgeLabels(ys: number[], gap: number, top: number, bottom: numb
  * Biểu đồ "Diễn biến điểm số": điểm cộng dồn của 4 thí sinh trận Chung kết sau từng vòng thi.
  * Tự vẽ bằng SVG; đường tự vẽ ra khi cuộn tới (1 lần), tôn trọng giảm chuyển động.
  */
-export default function ClimbChart({ match }: { match: Match }) {
+export default function ClimbChart({ match, compact = false }: { match: Match; compact?: boolean }) {
   const lines = climbSeries(match);
   const narrow = useMediaQuery("(max-width: 639px)");
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -67,9 +67,10 @@ export default function ClimbChart({ match }: { match: Match }) {
   const [active, setActive] = useState<string | null>(null);
 
   // Kích thước (đơn vị viewBox). Điện thoại dùng khung hẹp hơn để chữ không quá nhỏ, và không có nhãn cuối đường.
-  const W = narrow ? 400 : 760;
-  const H = narrow ? 300 : 340;
-  const M = { top: 16, right: narrow ? 16 : 200, bottom: 48, left: 44 };
+  // compact (trang chủ): không tiêu đề/mô tả, khung thấp hơn (~240px), vẫn giữ nhãn cuối đường trên máy tính.
+  const W = narrow ? 400 : compact ? 600 : 760;
+  const H = narrow ? (compact ? 260 : 300) : compact ? 260 : 340;
+  const M = { top: 16, right: narrow ? 16 : compact ? 180 : 200, bottom: 48, left: 44 };
   const plotW = W - M.left - M.right;
   const plotH = H - M.top - M.bottom;
 
@@ -111,15 +112,19 @@ export default function ClimbChart({ match }: { match: Match }) {
   const dim = (l: ClimbLine) => (active && active !== l.person ? 0.2 : 1);
 
   return (
-    <div ref={wrapRef} className="mt-10">
-      <h3 className="h3 text-ink">Diễn biến điểm số</h3>
-      <p className="mt-1 text-sm text-ink-soft">Điểm cộng dồn của 4 thí sinh sau từng vòng thi.</p>
+    <div ref={wrapRef} className={compact ? "" : "mt-10"}>
+      {!compact && (
+        <>
+          <h3 className="h3 text-ink">Diễn biến điểm số</h3>
+          <p className="mt-1 text-sm text-ink-soft">Điểm cộng dồn của 4 thí sinh sau từng vòng thi.</p>
+        </>
+      )}
 
       <svg
         viewBox={`0 0 ${W} ${H}`}
         role="img"
         aria-label={`Biểu đồ điểm cộng dồn trận Chung kết mùa ${match.season}: ${summary}.`}
-        className="climb-chart mt-4 w-full max-w-3xl overflow-visible"
+        className={`climb-chart w-full overflow-visible ${compact ? "max-h-[260px]" : "mt-4 max-w-3xl"}`}
         onMouseLeave={() => setActive(null)}
       >
         {/* Lưới ngang + nhãn trục dọc */}

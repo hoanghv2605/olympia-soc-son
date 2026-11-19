@@ -10,6 +10,12 @@ function parse(value: string) {
 }
 
 const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
+const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+
+/** Giá trị tại thời điểm `elapsed` (ms) — luôn trong [0, target], không bao giờ âm. */
+export function countUpValue(target: number, elapsed: number) {
+  return Math.round(target * easeOutCubic(clamp01(elapsed / DURATION)));
+}
 
 /**
  * Số chạy từ 0 tới giá trị thật khi cuộn vào màn hình (hiện ≥ 50%), 1,2 giây, chậm dần về cuối; chỉ 1 lần.
@@ -27,11 +33,13 @@ export default function CountUp({ value, className = "" }: { value: string; clas
   useEffect(() => {
     if (!parsed || reduced || !inView) return;
     let raf = 0;
-    const start = performance.now();
+    // Mốc bắt đầu lấy từ chính `now` của khung hình đầu tiên (cùng đồng hồ với các khung sau)
+    let start: number | null = null;
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / DURATION);
-      setCurrent(Math.round(parsed.n * easeOutCubic(t)));
-      if (t < 1) raf = requestAnimationFrame(tick);
+      if (start === null) start = now;
+      const elapsed = now - start;
+      setCurrent(countUpValue(parsed.n, elapsed));
+      if (elapsed < DURATION) raf = requestAnimationFrame(tick);
       else setDone(true);
     };
     raf = requestAnimationFrame(tick);

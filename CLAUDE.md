@@ -17,6 +17,7 @@ Menu chính: **Về chúng tôi · OSSPEDIA · Bảng vàng · Human of OSS · T
 - OSSPEDIA (`/wiki`): mùa giải (`/wiki/cuoc-thi/mua-N`), thí sinh (`/wiki/thi-sinh/:id`), trường (`/wiki/truong/:id`), tìm kiếm
 - Bảng vàng (`/bang-vang`): Quán quân các mùa (Hall of Fame nền tối, mỗi người 1 thẻ, chip vàng "Mùa n · điểm CK"), THPT Sóc Sơn tại Đường lên đỉnh Olympia (2 nút Toàn bộ thí sinh / Các thí sinh từ OSS, thẻ + hộp nổi), Kỷ lục, Các thí sinh vào Chung kết 2 năm liên tiếp (dải ảnh hình bình hành, `FinalistStrips`)
 - Human of OSS (`/human-of-oss`, bài viết `/human-of-oss/:slug`), Thư viện
+- Trang chủ (thứ tự, v0.8): Ảnh lớn (lật ô) → Giới thiệu → Lối vào (ô OSSPEDIA có 3 lối tắt + ô tìm kiếm) → Mùa gần nhất (`LatestSeason`: Chung kết mùa lớn nhất, thẻ Quán quân + `ClimbChart compact`) → Bạn có biết? → Cảm nhận về Olympia Sóc Sơn (`Testimonials`) → Đối tác đồng hành (`Partners`). Không còn khối "Quán quân qua các mùa".
 
 ## Dữ liệu (quy tắc bắt buộc)
 - Toàn bộ dữ liệu ở `src/data/*.json`; **mọi trang chỉ lấy dữ liệu qua `src/lib/data.ts`**.
@@ -35,11 +36,15 @@ Menu chính: **Về chúng tôi · OSSPEDIA · Bảng vàng · Human of OSS · T
 - Thuật ngữ danh hiệu OSS: dùng thống nhất **Quán quân / Á quân / Quý quân** (không viết "Vô địch", "Giải ba"). Khóa `placement` giữ nguyên (`vo-dich` / `a-quan` / `giai-ba`); nhãn hiển thị lấy từ `PLACEMENT_LABEL` trong `src/lib/data.ts`. Thành tích ĐLĐO giữ nguyên chữ trong `olympia.json` ("Giải Nhất", "Giải Nhì", "Giải Ba", "Quý quân"). Top 12 = qua vòng loại.
 - Bảng trận BK/CK giữ **đúng thứ tự thí sinh trong `matches.json`** (thứ tự đứng trên sân khấu), không sắp lại theo điểm. Bảng chỉ có cột Thí sinh (dòng phụ "lớp - tên trường đầy đủ") và điểm; kết quả thể hiện bằng màu dòng (BK: Nhất tím đậm, Nhì cao điểm nhất tím nhạt, có 1 dòng chú thích màu `SemiLegend`; CK: vàng/bạc/đồng) kèm chữ `sr-only`.
 - Kỷ lục xếp hạng **kiểu Olympic (1-1-3)**: bằng điểm cùng hạng, người tiếp theo nhảy hạng; bảng lấy mọi dòng có điểm ≥ điểm dòng thứ 10 (`topRecords` trong `data.ts`).
-- Human of OSS: thông tin bài ở `src/data/humans.json`, nội dung ở `src/content/human-of-oss/<slug>.md` (markdown, hiển thị bằng `react-markdown`, không bật HTML thô).
+- Human of OSS: thông tin bài ở `src/data/humans.json`, nội dung ở `src/content/human-of-oss/<slug>.md` (markdown, hiển thị bằng `react-markdown`, không bật HTML thô). File bắt đầu bằng `_` (vd `_mau.md`, file mẫu) bị bỏ qua. Trang Human of OSS luôn có `HUMAN_SLOTS = 10` ô (`src/lib/data.ts`, một chỗ duy nhất): câu chuyện thật trước, thiếu thì thêm ô "Câu chuyện sắp ra mắt" (aria-hidden, không phải link); số "{n} câu chuyện" ở trang chủ chỉ đếm câu chuyện thật.
+- `src/data/testimonials.json` (nhận xét trang chủ): `id`, `name` (gồm cách xưng hô, vd "Chị Nguyễn Văn A"), `role?` (vai trò với OSS), `position?` (chức danh hiện tại), `quote` (nhiều đoạn ngăn bằng `\n\n`); thứ tự hiển thị = thứ tự trong file. Ảnh `public/images/nhan-xet/<id>.jpg` (vuông ~600×600); chưa có ảnh → hình tròn tông màu + icon ngoặc kép.
+- `src/data/partners.json` (đối tác): `id`, `name`, `url` (`""` = không link), `tier?: "chinh"` (đối tác chính: hàng 1, ô to hơn). Logo `public/images/doi-tac/<id>.svg` hoặc `.png` (nền trong suốt); chưa có logo → hiện tên.
+- **Chỉ đăng nhận xét, ảnh và logo khi người / đơn vị đó đã đồng ý.**
 - Mã thí sinh (`people.json` → `id`) là cố định, dùng làm đường dẫn. Người trùng tên có hậu tố, ví dụ `nguyen-thi-ngoc-anh-xuan16`.
 - Ngày lưu `YYYY-MM-DD`, hiển thị `dd/mm/yyyy`.
 
 ## Ảnh (theo quy ước tên file, không khai báo trong JSON)
+- **Danh sách ảnh tự sinh:** `scripts/gen-image-manifest.mjs` quét `public/images/**` và `public/logo-oss*` → `src/data/generated/images.json` (commit file này). Tự chạy qua `predev` / `prebuild` / `pretypecheck`. **Mọi component ảnh chỉ gọi tải ảnh có trong danh sách** qua `hasImage()` / `pickImage()` (`src/lib/images.ts`); không có thì dùng ảnh giữ chỗ luôn (không còn lỗi 404). `onError` chỉ là dự phòng. Thêm ảnh mới thì chạy lại `npm run dev`.
 - Thí sinh: `public/images/thi-sinh/<mã-thí-sinh>.jpg` (mã = `id` trong `people.json`)
 - Cột mốc: `public/images/cot-moc/<YYYY-MM-DD>.jpg` (theo `date` của cột mốc)
 - Human of OSS: `public/images/human-of-oss/<slug>.jpg`
@@ -73,8 +78,11 @@ Hiện đại, chất "học thuật", nền sáng tím nhạt kiểu màu nư�
 - **"Bạn có biết?"** (trang chủ): mọi câu tự sinh từ dữ liệu trong `src/lib/facts.ts` (`buildFacts()`), không gõ tay số liệu. Thêm loại câu mới: viết 1 hàm trả về `Fact[]` (`{ id, text, to }`) rồi thêm vào danh sách trong `buildFacts()`. Ghi chú mùa chỉ lấy câu bắt đầu "Đây là" và ≤ 200 ký tự.
 
 ### Chuyển động
-- Chỉ 3 điểm nhấn: lật ô ảnh lớn trang chủ (`HeroTiles`, lần đầu trong phiên, cờ `sessionStorage`), biểu đồ "Diễn biến điểm số" ở trang mùa (`ClimbChart`, vẽ dần khi cuộn tới), số chạy ở "Những con số ấn tượng" (`CountUp`). Ngoài ra chỉ có chuyển trạng thái nhỏ (header thu gọn, menu, hover).
+- Điểm nhấn chuyển động: lật ô ảnh lớn trang chủ (`HeroTiles`, lần đầu trong phiên, cờ `sessionStorage`), biểu đồ "Diễn biến điểm số" (`ClimbChart`, vẽ dần khi cuộn tới), số chạy ở "Những con số ấn tượng" (`CountUp`, mốc thời gian lấy từ khung hình đầu tiên), trình chiếu nhận xét (tự chuyển 7 giây, dừng khi rê chuột/focus/tab ẩn) và hàng logo đối tác trôi ngang (dừng khi rê chuột/focus). Ngoài ra chỉ có chuyển trạng thái nhỏ (header thu gọn, menu, hover).
 - Luôn tôn trọng `prefers-reduced-motion: reduce`: không chạy hiệu ứng, hiện thẳng trạng thái cuối.
+
+### Focus
+- Vòng focus chỉ dùng `:focus-visible` (không dùng `:focus`). `src/lib/inputModality.ts` đặt `<html data-input="pointer|keyboard">`; khi đang dùng chuột thì ẩn vòng focus (kể cả focus do code trả về sau khi đóng menu / hộp tìm kiếm / hộp nổi). Dùng bàn phím vẫn luôn có vòng focus.
 
 ## Icon
 - Icon mới dùng Phosphor (`react-icons/pi`) nét thường (không Fill/Bold); icon đã có từ trước giữ nguyên.

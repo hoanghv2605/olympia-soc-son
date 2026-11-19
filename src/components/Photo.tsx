@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { PiImageBold } from "react-icons/pi";
 import { asset } from "../lib/format";
+import { hasImage } from "../lib/images";
 
 interface PhotoProps {
   src?: string; // đường dẫn trong public/, vd "images/about/tap-the-1.jpg"
@@ -13,9 +14,10 @@ interface PhotoProps {
 /**
  * Ảnh có lớp giữ chỗ: luôn hiện lớp giữ chỗ trước (không có trạng thái trống/xám khi đang tải);
  * ảnh thật tải xong thì mờ dần đè lên (200ms); ảnh lỗi thì giữ lớp giữ chỗ.
+ * Chỉ gọi tải ảnh có trong danh sách ảnh có sẵn (src/lib/images.ts); `onError` là phương án dự phòng.
  */
 export default function Photo({ src, alt, className = "", fallback }: PhotoProps) {
-  const [failed, setFailed] = useState(!src);
+  const [failed, setFailed] = useState(!hasImage(src));
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 

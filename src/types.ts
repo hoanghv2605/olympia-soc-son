@@ -144,3 +144,20 @@ export interface HumanStory {
   quote: string;
   photo?: string;
 }
+
+/** Nhận xét trên trang chủ. Ảnh: public/images/nhan-xet/<id>.jpg. Chỉ đăng khi người đó đồng ý. */
+export interface Testimonial {
+  id: string;
+  name: string; // gồm cả cách xưng hô, vd "Chị Nguyễn Văn A"
+  role?: string; // vai trò với Olympia Sóc Sơn
+  position?: string; // chức danh hiện tại
+  quote: string; // nhiều đoạn ngăn bằng "\n\n"
+}
+
+/** Đối tác đồng hành. Logo: public/images/doi-tac/<id>.svg hoặc .png. Chỉ đăng khi đơn vị đồng ý. */
+export interface Partner {
+  id: string;
+  name: string;
+  url: string; // "" = không có link
+  tier?: "chinh"; // đối tác chính (hàng 1, ô to hơn)
+}

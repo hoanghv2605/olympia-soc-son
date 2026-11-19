@@ -58,6 +58,10 @@
   .paper-dark :focus-visible {
     outline-color: #c4b2fb;
   }
+  /* Focus do code trả về sau một cú bấm chuột (đóng menu, hộp tìm kiếm…) thì không hiện vòng focus */
+  :root[data-input="pointer"] :focus-visible {
+    outline: none;
+  }
 
   /* Tiêu đề: chữ thường như câu, line-height ≥ 1.25 (tiếng Việt có dấu chồng) */
   h1,
@@ -198,8 +202,9 @@
     color: transparent;
     animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
+  /* Khẩu hiệu hiện ngay khi trang tải: chỉ mờ dần 200ms, không trễ */
   .hero-slogan {
-    animation: rise 0.8s 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: fade-in 200ms ease-out both;
   }
 
   /* ===== Dòng thời gian ===== */
@@ -542,12 +547,6 @@
     background-color: var(--color-oss);
     color: white;
   }
-  .data-table tr[data-tone="winner"] a {
-    color: white;
-  }
-  .data-table tr[data-tone="winner"] .row-sub {
-    color: rgb(255 255 255 / 0.8);
-  }
   /* viền bằng box-shadow inset trên từng ô (outline trên <tr> không ổn định ở Safari) */
   .data-table tr[data-tone="outline"] > td {
     box-shadow:
@@ -613,6 +612,15 @@
       left: -8px;
       background: linear-gradient(to left, rgb(31 27 46 / 0.08), transparent);
     }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -692,6 +700,46 @@
 .strip.is-active .strip-caption {
   opacity: 1;
 }
+/* Dải thu lại: tên dọc (đọc từ dưới lên), chữ trắng nhỏ trên lớp chuyển màu tối */
+.strip-vlabel {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  max-height: calc(100% - 2rem);
+  overflow: hidden;
+  writing-mode: vertical-rl;
+  transform: translateX(-50%) rotate(180deg);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+  transition: opacity 200ms ease;
+}
+.strip.is-active .strip-vlabel {
+  opacity: 0;
+}
+/* Nút mũi tên ở 2 mép khối: điện thoại luôn hiện; máy tính hiện khi rê chuột / focus trong khối */
+.strips-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-oss) 25%, transparent);
+  background: rgb(255 255 255 / 0.92);
+  color: var(--color-oss);
+  box-shadow: 0 8px 20px -10px rgb(46 16 101 / 0.5);
+  transform: translateY(-50%);
+  transition: opacity 200ms ease;
+}
+.strips-arrow:hover {
+  background: var(--color-oss-soft);
+}
 @media (min-width: 768px) {
   .strips {
     --strip-h: 24rem;
@@ -699,9 +747,17 @@
   }
   .strip {
     flex: 1 1 0;
+    min-width: 56px;
   }
   .strip.is-active {
     flex-grow: 4;
+  }
+  .strips-arrow {
+    opacity: 0;
+  }
+  .strips-block:hover .strips-arrow,
+  .strips-block:focus-within .strips-arrow {
+    opacity: 1;
   }
 }
 
@@ -828,9 +884,57 @@
   outline: 2px solid var(--color-oss);
   outline-offset: 3px;
 }
+/* Sau thao tác chuột: không vẽ vòng focus thay thế (xem src/lib/inputModality.ts) */
+:root[data-input="pointer"] .strip:has(:focus-visible),
+:root[data-input="pointer"] .entry-card:has(.entry-link:focus-visible) {
+  outline: none;
+}
 /* "Bạn có biết?": đổi câu mờ chéo 200ms */
 .did-you-know {
   transition: opacity 200ms ease;
+}
+
+/* ===== Trang chủ: trình chiếu nhận xét (mọi trang chồng trong 1 ô lưới → chiều cao cố định) ===== */
+.testimonial-slide {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(16px);
+  transition:
+    opacity 400ms ease,
+    transform 400ms ease,
+    visibility 400ms;
+}
+.testimonial-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* ===== Trang chủ: đối tác đồng hành (hàng logo trôi ngang, 2 hàng ngược chiều) ===== */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee.is-reverse .marquee-track {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -864,8 +968,12 @@
     transition: none !important;
   }
   .person-preview,
-  .did-you-know {
+  .did-you-know,
+  .testimonial-slide {
     transition: none;
+  }
+  .marquee-track {
+    animation: none;
   }
   .entry-card,
   .entry-card:hover,
@@ -879,7 +987,9 @@
     transition: none;
   }
   .strip,
-  .strip-caption {
+  .strip-caption,
+  .strip-vlabel,
+  .strips-arrow {
     transition: none;
   }
 }

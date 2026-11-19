@@ -14,7 +14,6 @@ import {
   podium,
   qualifyingOf,
   seasonPath,
-  seedGroup,
   semifinalsOf,
   type PlacedResult,
 } from "../../lib/data";
@@ -238,12 +237,6 @@ export default function SeasonDetail() {
                     <th scope="col" className="num text-right">
                       Điểm
                     </th>
-                    {season.seededDraw && (
-                      <th scope="col" className="num text-right">
-                        <span className="md:hidden">Nhóm</span>
-                        <span className="hidden md:inline">Nhóm hạt giống</span>
-                      </th>
-                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -260,7 +253,6 @@ export default function SeasonDetail() {
                       <td className="hidden md:table-cell">{q.class}</td>
                       <td className="hidden md:table-cell">{getSchool(q.school)?.name ?? q.school}</td>
                       <td className="num text-right font-semibold">{formatScore(q.score)}</td>
-                      {season.seededDraw && <td className="num text-right">{seedGroup(q.rank)}</td>}
                     </tr>
                   ))}
                 </tbody>

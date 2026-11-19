@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { schoolLogoCandidates } from "../lib/data";
 import { asset } from "../lib/format";
+import { pickImage } from "../lib/images";
 import type { School } from "../types";
 
 /**
- * Huy hiệu tròn của trường. Thử lần lượt public/images/truong/<id>.svg → <id>.png
- * (tải lỗi thì chuyển file kế tiếp); chưa có logo thì hiện chữ viết tắt `short` trên nền tím nhạt.
+ * Huy hiệu tròn của trường: dùng public/images/truong/<id>.svg hoặc <id>.png nếu có trong danh sách ảnh có sẵn;
+ * chưa có logo (hoặc tải lỗi) thì hiện chữ viết tắt `short` trên nền tím nhạt.
  * Cỡ truyền qua `className` (vd "size-11 md:size-14"). Tên trường luôn đứng cạnh nên ảnh để alt="".
  */
 export default function SchoolBadge({
@@ -17,10 +18,11 @@ export default function SchoolBadge({
   className?: string;
   textClass?: string;
 }) {
-  const files = schoolLogoCandidates(school.id);
-  const [index, setIndex] = useState(0);
+  // Chỉ dùng logo có trong danh sách ảnh có sẵn; lỗi tải (dự phòng) thì về chữ viết tắt
+  const file = pickImage(schoolLogoCandidates(school.id));
+  const [failed, setFailed] = useState(false);
 
-  if (index >= files.length) {
+  if (!file || failed) {
     return (
       <span
         aria-hidden="true"
@@ -33,10 +35,9 @@ export default function SchoolBadge({
 
   return (
     <img
-      key={files[index]}
-      src={asset(files[index])}
+      src={asset(file)}
       alt=""
-      onError={() => setIndex((i) => i + 1)}
+      onError={() => setFailed(true)}
       className={`shrink-0 rounded-full bg-white object-contain p-1 ring-1 ring-oss/15 ${className}`}
     />
   );

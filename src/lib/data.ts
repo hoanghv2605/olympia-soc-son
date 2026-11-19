@@ -13,6 +13,8 @@ import statsJson from "../data/stats.json";
 import departmentsJson from "../data/departments.json";
 import contactsJson from "../data/contacts.json";
 import humansJson from "../data/humans.json";
+import testimonialsJson from "../data/testimonials.json";
+import partnersJson from "../data/partners.json";
 import type {
   ContactPerson,
   Department,
@@ -22,6 +24,7 @@ import type {
   Milestone,
   OlympiaPeriod,
   OlympiaRecord,
+  Partner,
   Person,
   Placement,
   QualifyingEntry,
@@ -31,6 +34,7 @@ import type {
   StatEntry,
   StatGroup,
   StatScope,
+  Testimonial,
   TimelineItem,
 } from "../types";
 
@@ -56,6 +60,13 @@ export const olympia = olympiaJson as OlympiaRecord[];
 export const departments = departmentsJson as Department[];
 export const contacts = contactsJson as ContactPerson[];
 export const humans = humansJson as HumanStory[];
+/** Nhận xét (trang chủ), theo thứ tự trong file */
+export const testimonials = testimonialsJson as Testimonial[];
+/** Đối tác đồng hành (trang chủ) */
+export const partners = partnersJson as Partner[];
+
+/** Số ô ở trang Human of OSS: câu chuyện thật trước, còn thiếu thì thêm ô "Câu chuyện sắp ra mắt". */
+export const HUMAN_SLOTS = 10;
 
 /** Tên gọi (từ cuối) để xếp theo thứ tự ABC kiểu Việt Nam. */
 function lastNameKey(fullName: string) {
@@ -127,11 +138,6 @@ export function schoolPath(id: string) {
   return `/wiki/truong/${id}`;
 }
 
-/** Nhóm hạt giống theo hạng vòng loại: 1–3 → 1, 4–6 → 2, 7–9 → 3, 10–12 → 4. */
-export function seedGroup(rank: number) {
-  return Math.ceil(rank / 3);
-}
-
 export const PLACEMENT_LABEL: Record<Placement, string> = {
   "vo-dich": "Quán quân",
   "a-quan": "Á quân",
@@ -160,7 +166,8 @@ export function resultLabel(match: Match | undefined, entry: { rank: number; pla
 
 // ===== Human of OSS: thông tin trong humans.json, nội dung trong src/content/human-of-oss/<slug>.md =====
 
-const humanBodies = import.meta.glob("../content/human-of-oss/*.md", {
+// File bắt đầu bằng "_" (vd _mau.md) là file mẫu, không nạp
+const humanBodies = import.meta.glob(["../content/human-of-oss/*.md", "!../content/human-of-oss/_*.md"], {
   query: "?raw",
   import: "default",
   eager: true,
@@ -191,6 +198,15 @@ export function humanPhoto(slug: string) {
   return `images/human-of-oss/${slug}.jpg`;
 }
 
+export function testimonialPhoto(id: string) {
+  return `images/nhan-xet/${id}.jpg`;
+}
+
+/** Logo đối tác: .svg rồi .png trong public/images/doi-tac/. */
+export function partnerLogoCandidates(id: string) {
+  return [`images/doi-tac/${id}.svg`, `images/doi-tac/${id}.png`];
+}
+
 /** Logo trường: thử lần lượt .svg rồi .png trong public/images/truong/. */
 export function schoolLogoCandidates(id: string) {
   return [`images/truong/${id}.svg`, `images/truong/${id}.png`];
@@ -208,6 +224,12 @@ export function semifinalsOf(season: number) {
 
 export function finalOf(season: number) {
   return matches.find((m) => m.season === season && m.round === "chung-ket");
+}
+
+/** Mùa lớn nhất đã có trận Chung kết (khối "Mùa gần nhất" ở trang chủ). */
+export function latestFinalSeason() {
+  const n = Math.max(...matches.filter((m) => m.round === "chung-ket").map((m) => m.season));
+  return Number.isFinite(n) ? getSeason(n) : undefined;
 }
 
 export interface PlacedResult {

@@ -9,6 +9,7 @@ const SHOW_DELAY = 350; // ms rê chuột trên link thì hiện
 const HIDE_DELAY = 150; // ms rời link thì ẩn
 const WIDTH = 280;
 const GAP = 8; // khoảng cách với link và với mép màn hình
+const FADE = 120; // ms mờ dần; xong thì gỡ thẻ khỏi DOM
 
 /**
  * Thẻ xem nhanh thí sinh khi rê chuột vào link chữ có `data-person-preview="<id>"` (PersonLink, dòng thời gian).
@@ -20,29 +21,36 @@ export default function PersonPreview() {
   const [id, setId] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [anchorVersion, setAnchorVersion] = useState(0);
   const anchorRef = useRef<HTMLElement | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const showTimer = useRef<number | undefined>(undefined);
   const hideTimer = useRef<number | undefined>(undefined);
+  const removeTimer = useRef<number | undefined>(undefined);
   const { pathname } = useLocation();
 
   const clearTimers = () => {
     window.clearTimeout(showTimer.current);
     window.clearTimeout(hideTimer.current);
+    window.clearTimeout(removeTimer.current);
   };
 
+  /** Gỡ thẻ ngay (chuyển trang, cuộn, bấm). */
   const hide = useCallback(() => {
     clearTimers();
     anchorRef.current = null;
     setVisible(false);
+    setId(null);
   }, []);
 
+  /** Rời link / thẻ: chờ 150ms rồi mờ dần, mờ xong thì gỡ khỏi DOM. */
   const scheduleHide = useCallback(() => {
     window.clearTimeout(showTimer.current);
     window.clearTimeout(hideTimer.current);
     hideTimer.current = window.setTimeout(() => {
       anchorRef.current = null;
       setVisible(false);
+      removeTimer.current = window.setTimeout(() => setId(null), FADE);
     }, HIDE_DELAY);
   }, []);
 
@@ -54,14 +62,22 @@ export default function PersonPreview() {
       const a = (e.target as Element | null)?.closest?.<HTMLElement>("a[data-person-preview]");
       if (!a) return;
       window.clearTimeout(hideTimer.current);
-      if (a === anchorRef.current) return;
+      if (a === anchorRef.current) {
+        // đang mờ dần để gỡ thì giữ lại
+        window.clearTimeout(removeTimer.current);
+        setVisible(true);
+        return;
+      }
       window.clearTimeout(showTimer.current);
       showTimer.current = window.setTimeout(() => {
         const pid = a.dataset.personPreview;
         if (!pid || !personPreview(pid)) return;
+        window.clearTimeout(removeTimer.current);
         anchorRef.current = a;
         setId(pid);
-        setVisible(true);
+        setAnchorVersion((v) => v + 1);
+        // gắn vào DOM ở trạng thái mờ, khung hình sau mới hiện để có hiệu ứng mờ dần
+        requestAnimationFrame(() => setVisible(true));
       }, SHOW_DELAY);
     }
     function onOut(e: PointerEvent) {
@@ -92,7 +108,7 @@ export default function PersonPreview() {
 
   // Đặt vị trí: dưới link; không đủ chỗ thì lật lên trên; không tràn mép trái/phải
   useLayoutEffect(() => {
-    if (!visible || !anchorRef.current || !cardRef.current) return;
+    if (!id || !anchorRef.current || !cardRef.current) return;
     const r = anchorRef.current.getBoundingClientRect();
     const h = cardRef.current.offsetHeight;
     let top = r.bottom + GAP;
@@ -100,7 +116,7 @@ export default function PersonPreview() {
     const maxLeft = window.innerWidth - WIDTH - GAP;
     const left = Math.max(GAP, Math.min(r.left, maxLeft));
     setPos({ top, left });
-  }, [visible, id]);
+  }, [id, anchorVersion]);
 
   if (!enabled || !id) return null;
   const info = personPreview(id);
@@ -114,7 +130,11 @@ export default function PersonPreview() {
         visible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
       style={{ top: pos.top, left: pos.left, width: WIDTH }}
-      onPointerEnter={() => window.clearTimeout(hideTimer.current)}
+      onPointerEnter={() => {
+        window.clearTimeout(hideTimer.current);
+        window.clearTimeout(removeTimer.current);
+        setVisible(true);
+      }}
       onPointerLeave={scheduleHide}
     >
       <PersonPhoto

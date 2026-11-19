@@ -1,9 +1,29 @@
 import { Link } from "react-router";
+import { PiPenNib } from "react-icons/pi";
 import PageHeader from "../components/PageHeader";
 import PersonPhoto from "../components/PersonPhoto";
-import { humanPath, humanPhoto, humans } from "../lib/data";
+import { HUMAN_SLOTS, humanPath, humanPhoto, humans } from "../lib/data";
+import { placeholderTone } from "../lib/placeholder";
+
+/** Ô giữ chỗ "Câu chuyện sắp ra mắt": không phải link, không focus được, ẩn với trình đọc màn hình. */
+function ComingSoon({ index }: { index: number }) {
+  const tone = placeholderTone(`human-slot-${index}`);
+  return (
+    <div aria-hidden="true" className="flex h-full flex-col overflow-hidden rounded-xl border border-dashed border-oss/30 bg-white/40">
+      <div className="grid aspect-[4/3] w-full place-items-center opacity-70" style={{ backgroundColor: tone.bg, color: tone.ink }}>
+        <PiPenNib className="size-12 opacity-40" />
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <p className="text-lg font-bold text-ink-soft">Câu chuyện sắp ra mắt</p>
+        <p className="mt-1 text-sm text-ink-soft">Một gương mặt của Olympia Sóc Sơn sẽ xuất hiện tại đây.</p>
+      </div>
+    </div>
+  );
+}
 
 export default function HumanOfOssPage() {
+  // Câu chuyện thật trước, còn thiếu thì thêm ô giữ chỗ cho đủ HUMAN_SLOTS
+  const comingSoon = Math.max(0, HUMAN_SLOTS - humans.length);
   return (
     <>
       <PageHeader title="Human of OSS" description="Những con người và câu chuyện phía sau Olympia Sóc Sơn." />
@@ -24,7 +44,13 @@ export default function HumanOfOssPage() {
               </Link>
             </li>
           ))}
+          {Array.from({ length: comingSoon }, (_, i) => (
+            <li key={`slot-${i}`} aria-hidden="true">
+              <ComingSoon index={i} />
+            </li>
+          ))}
         </ul>
+        {comingSoon > 0 && <p className="sr-only">Còn {comingSoon} câu chuyện sắp ra mắt.</p>}
       </section>
     </>
   );

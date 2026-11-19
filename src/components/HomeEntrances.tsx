@@ -8,6 +8,7 @@ import {
   olympiaLaurelCount,
   people,
   schoolsOverview,
+  seasonPath,
   seasons,
   site,
 } from "../lib/data";
@@ -19,6 +20,16 @@ interface Entry {
   title: string;
   description: string;
   stat: string;
+}
+
+/** 3 lối tắt trong ô OSSPEDIA: mùa mới nhất (tự tính), danh sách thí sinh, các trường. */
+function shortcuts() {
+  const latest = seasons[seasons.length - 1];
+  return [
+    ...(latest ? [{ to: seasonPath(latest.season), label: `Mùa ${latest.season}` }] : []),
+    { to: "/wiki/thi-sinh", label: "Danh sách thí sinh" },
+    { to: "/wiki/truong", label: "Các trường" },
+  ];
 }
 
 /** Số liệu đều tự tính từ dữ liệu. */
@@ -73,7 +84,20 @@ export default function HomeEntrances() {
           </Link>
         </h3>
         <p className="mt-2 text-[17px] text-ink-soft">{main.description}</p>
-        <p className="mt-3 mb-6 text-sm font-semibold text-oss tabular-nums">{main.stat}</p>
+        <p className="mt-3 text-sm font-semibold text-oss tabular-nums">{main.stat}</p>
+        {/* Lối tắt: nằm trên lớp link phủ ô (relative z-10) */}
+        <ul className="relative z-10 mt-5 mb-6 flex flex-wrap gap-2">
+          {shortcuts().map((sc) => (
+            <li key={sc.to}>
+              <Link
+                to={sc.to}
+                className="inline-flex min-h-9 items-center rounded-full border border-oss/30 bg-white px-3.5 text-sm font-semibold text-oss hover:border-oss hover:bg-oss-soft"
+              >
+                {sc.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
         <SearchTrigger className="relative z-10 md:mt-auto" />
       </div>
 

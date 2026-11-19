@@ -3,7 +3,11 @@ import { cubeOutlineDataUrl } from "../components/CubeOutline";
 import DidYouKnow from "../components/DidYouKnow";
 import HeroTiles from "../components/HeroTiles";
 import HomeEntrances from "../components/HomeEntrances";
-import { championsList, seasonPath, site } from "../lib/data";
+import LatestSeason from "../components/LatestSeason";
+import Partners from "../components/Partners";
+import Testimonials from "../components/Testimonials";
+import { site } from "../lib/data";
+import { hasImage } from "../lib/images";
 import { CUBE_GRADIENT, HERO_GRADIENT, asset, bgWithFallback, yearOf } from "../lib/format";
 
 const LETTERS = ["O", "S", "S"];
@@ -13,7 +17,9 @@ const LETTERS = ["O", "S", "S"];
  * trên nền tím chuyển màu (HERO_GRADIENT gồm 2 lớp).
  */
 const HERO_LAYERS = [
-  ...(site.images.heroMain ? [{ image: `url("${asset(site.images.heroMain)}")`, size: "cover", position: "center" }] : []),
+  ...(hasImage(site.images.heroMain)
+    ? [{ image: `url("${asset(site.images.heroMain)}")`, size: "cover", position: "center" }]
+    : []),
   { image: cubeOutlineDataUrl("#ffffff", 0.22), size: "min(60%, 26rem) auto", position: "right -6% bottom -24%" },
   ...HERO_GRADIENT.split(/,\s*(?=(?:radial|linear)-gradient)/).map((image) => ({ image, size: "cover", position: "center" })),
 ];
@@ -36,7 +42,10 @@ export default function HomePage() {
                 key={i}
                 className="photo-letter"
                 style={{
-                  backgroundImage: bgWithFallback(site.images.heroLetters[i], CUBE_GRADIENT),
+                  backgroundImage: bgWithFallback(
+                    hasImage(site.images.heroLetters[i]) ? site.images.heroLetters[i] : undefined,
+                    CUBE_GRADIENT,
+                  ),
                   animationDelay: `${i * 110}ms`,
                 }}
               >
@@ -81,39 +90,35 @@ export default function HomePage() {
         <HomeEntrances />
       </section>
 
+      {/* ===== Mùa gần nhất ===== */}
+      <section className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+        <LatestSeason />
+      </section>
+
       {/* ===== Bạn có biết? ===== */}
       <section aria-label="Bạn có biết?" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
         <DidYouKnow />
       </section>
 
-      {/* ===== Quán quân qua các mùa ===== */}
-      <section className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="section-title">Quán quân qua các mùa</h2>
-          <Link to="/wiki/cuoc-thi" className="link-strong text-sm">
-            Xem trong OSSPEDIA
-          </Link>
+      {/* ===== Cảm nhận về Olympia Sóc Sơn ===== */}
+      <section aria-labelledby="cam-nhan" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+        <h2 id="cam-nhan" className="section-title">
+          Cảm nhận về Olympia Sóc Sơn
+        </h2>
+        <div className="mt-8">
+          <Testimonials />
         </div>
+      </section>
 
-        <ol className="mt-8 grid border-t border-oss/15 sm:grid-cols-2 lg:grid-cols-3">
-          {championsList().map(({ season: s, champions }) => (
-            <li key={s.season} className="border-b border-oss/15">
-              <Link to={seasonPath(s.season)} className="group flex items-center gap-5 px-1 py-5 hover:bg-white/50">
-                <span className="font-display w-14 shrink-0 text-right text-5xl leading-none font-extrabold text-oss/20 tabular-nums group-hover:text-oss/40">
-                  {s.season}
-                </span>
-                <span>
-                  <span className="block text-lg font-semibold text-ink">
-                    {champions.length ? champions.map((c) => c.person.name).join(", ") : "Đang cập nhật"}
-                  </span>
-                  <span className="block text-sm text-ink-soft">
-                    Mùa {s.season}, {yearOf(s.finalDate)}
-                  </span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
+      {/* ===== Đối tác đồng hành ===== */}
+      <section aria-labelledby="doi-tac" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+        <h2 id="doi-tac" className="section-title">
+          Đối tác đồng hành
+        </h2>
+        <p className="mt-2 text-ink-soft">Cảm ơn các đơn vị đã đồng hành cùng Olympia Sóc Sơn.</p>
+        <div className="mt-8">
+          <Partners />
+        </div>
       </section>
     </>
   );

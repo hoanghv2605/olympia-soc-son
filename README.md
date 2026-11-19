@@ -58,7 +58,9 @@ Thêm một mùa mới = thêm mùa vào `seasons.json`, top 12 vào `qualifying
 
 ## 3. Ảnh: bỏ vào `public/`, đúng tên là hiện
 
-Chưa có ảnh thì web hiện ô màu nhạt (khi chạy `npm run dev` ô đó ghi luôn đường dẫn cần đặt ảnh).
+Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô đó ghi luôn đường dẫn cần đặt ảnh).
+
+> **Quan trọng:** web chỉ tải những ảnh có trong danh sách ảnh tự sinh (`src/data/generated/images.json`), để không bị lỗi 404. Thêm ảnh mới vào `public/images/...` xong thì **tắt và chạy lại `npm run dev`** mới thấy ảnh. Khi đưa lên GitHub, bản build tự cập nhật danh sách này.
 
 | Đường dẫn | Vị trí trên web |
 | --- | --- |
@@ -70,6 +72,8 @@ Chưa có ảnh thì web hiện ô màu nhạt (khi chạy `npm run dev` ô đó
 | `public/images/thi-sinh/<mã-thí-sinh>.jpg` | Ảnh thí sinh (hồ sơ, thẻ Bảng vàng). Mã = `id` trong `people.json`, vd `le-tra-my.jpg`. Nên dùng ảnh dọc 3:4 |
 | `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (hiện khi rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc. Nên dùng ảnh 4:3 |
 | `public/images/human-of-oss/<slug>.jpg` | Chân dung Human of OSS |
+| `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ (vuông ~600×600). `id` lấy trong `testimonials.json` |
+| `public/images/doi-tac/<id>.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc). `id` lấy trong `partners.json` |
 | `public/images/truong/<id-trường>.svg` hoặc `.png` | Logo trường (huy hiệu tròn ở trang Các trường và trang trường). Tên file = `id` trong `schools.json`: `soc-son`, `da-phuc`, `trung-gia`, `minh-phu`, `xuan-giang`. Ảnh vuông khoảng 256×256, nền trong suốt. Chưa có logo thì hiện chữ viết tắt của trường |
 
 Ảnh thí sinh, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người) hoặc logo OSS (cột mốc) trên nền tím. Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
@@ -77,6 +81,43 @@ Chưa có ảnh thì web hiện ô màu nhạt (khi chạy `npm run dev` ô đó
 Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh chữ O-S-S nên là ảnh dọc, nhiều màu sắc.
 
 ---
+
+### Thêm một nhận xét (khối "Cảm nhận về Olympia Sóc Sơn" ở trang chủ)
+
+> Chỉ đăng nhận xét và ảnh khi người đó đã đồng ý.
+
+1. Mở `src/data/testimonials.json`. Sửa một mục giữ chỗ (`nhan-xet-1`…`nhan-xet-6`) hoặc thêm mục mới (nhớ dấu phẩy giữa các mục):
+   ```json
+   {
+     "id": "nhan-xet-7",
+     "name": "Chị Nguyễn Văn A",
+     "role": "Quán quân mùa 3",
+     "position": "Sinh viên Đại học Bách khoa Hà Nội",
+     "quote": "Đoạn thứ nhất.\n\nĐoạn thứ hai."
+   }
+   ```
+   `name` ghi cả cách xưng hô; `role`, `position` có thể bỏ; xuống đoạn bằng `\n\n`. Thứ tự trên web = thứ tự trong file.
+2. Ảnh (nếu có): `public/images/nhan-xet/<id>.jpg`, ảnh vuông khoảng 600×600.
+3. Chạy lại `npm run dev` để xem.
+
+### Thêm / sửa một đối tác (khối "Đối tác đồng hành")
+
+> Chỉ đăng logo khi đơn vị đó đã đồng ý.
+
+1. Mở `src/data/partners.json`, sửa mục giữ chỗ hoặc thêm mục mới:
+   ```json
+   { "id": "cong-ty-abc", "name": "Công ty ABC", "url": "https://abc.vn", "tier": "chinh" }
+   ```
+   `url` để `""` nếu không cần link. `"tier": "chinh"` (tùy chọn) = đối tác chính: xếp riêng hàng trên, ô to hơn. Xóa các mục giữ chỗ không dùng.
+2. Logo: `public/images/doi-tac/<id>.svg` hoặc `.png`, nền trong suốt. Chưa có logo thì web hiện tên đối tác.
+3. Chạy lại `npm run dev`.
+
+### Thêm một câu chuyện Human of OSS
+
+1. Chép `src/content/human-of-oss/_mau.md` thành `src/content/human-of-oss/<slug>.md` (vd `nguyen-van-a.md`). File bắt đầu bằng `_` không hiện trên web.
+2. Thêm 1 mục vào `src/data/humans.json` với cùng `slug` (mẫu có sẵn ở đầu file `_mau.md`): `slug`, `name`, `title` (vai trò), `quote` (câu trích ngắn).
+3. Ảnh chân dung (nếu có): `public/images/human-of-oss/<slug>.jpg`.
+4. Viết bài trong file `.md`, rồi chạy lại `npm run dev`. Trang Human of OSS luôn có 10 ô; mỗi câu chuyện mới thay một ô "Câu chuyện sắp ra mắt".
 
 ## 4. Đưa lên mạng (GitHub Pages)
 

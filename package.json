@@ -4,9 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/gen-image-manifest.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/gen-image-manifest.mjs",
     "build": "vite build",
     "preview": "vite preview",
+    "pretypecheck": "node scripts/gen-image-manifest.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
