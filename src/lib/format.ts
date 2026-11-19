@@ -61,3 +61,8 @@ export function scrollToId(id: string) {
   const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   document.getElementById(id)?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
 }
+
+/** Nối danh sách kiểu tiếng Việt: "A", "A và B", "A, B và C". */
+export function joinViText(parts: string[]) {
+  return parts.length <= 1 ? (parts[0] ?? "") : `${parts.slice(0, -1).join(", ")} và ${parts[parts.length - 1]}`;
+}

@@ -1,7 +1,9 @@
 import { Fragment, type ReactNode } from "react";
 import { Link, useParams } from "react-router";
+import { PiCalendarBlank, PiCrown, PiMicrophone } from "react-icons/pi";
 import Breadcrumb from "../../components/Breadcrumb";
-import MatchTable from "../../components/MatchTable";
+import IconLabel from "../../components/IconLabel";
+import MatchTable, { SemiLegend } from "../../components/MatchTable";
 import PersonLink from "../../components/PersonLink";
 import NotFound from "../NotFound";
 import {
@@ -174,11 +176,15 @@ export default function SeasonDetail() {
             <dd>{code}</dd>
             <dt>Năm học</dt>
             <dd>{season.schoolYear}</dd>
-            <dt>Thời gian</dt>
+            <dt>
+              <IconLabel icon={PiCalendarBlank}>Thời gian</IconLabel>
+            </dt>
             <dd className="tabular-nums">
               {formatDate(season.startDate)} – {formatDate(season.finalDate)}
             </dd>
-            <dt>Dẫn chương trình</dt>
+            <dt>
+              <IconLabel icon={PiMicrophone}>Dẫn chương trình</IconLabel>
+            </dt>
             <dd>
               <ul>
                 {season.hosts.map((h) => (
@@ -186,7 +192,9 @@ export default function SeasonDetail() {
                 ))}
               </ul>
             </dd>
-            <dt>Quán quân</dt>
+            <dt>
+              <IconLabel icon={PiCrown}>Quán quân</IconLabel>
+            </dt>
             <dd>
               {champions.length
                 ? champions.map((c) => (
@@ -245,6 +253,7 @@ export default function SeasonDetail() {
       {semis.length > 0 && (
         <section id="ban-ket" className="mt-14 scroll-mt-24">
           <h2 className="text-2xl font-bold text-ink">Vòng Bán kết</h2>
+          <SemiLegend className="mt-4" />
           <div className="mt-6 space-y-10">
             {semis.map((m) => (
               <MatchTable key={m.id} match={m} id={`ban-ket-${m.number}`} />

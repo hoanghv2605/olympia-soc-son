@@ -33,11 +33,11 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | --- | --- |
 | `site.json` | Tên, khẩu hiệu, 2 đoạn giới thiệu, fanpage, email, địa chỉ bản đồ, đường dẫn ảnh |
 | `schools.json` | Các trường: `id`, `name`, `short` |
-| `people.json` | Thí sinh: `id` (mã cố định, dùng làm đường dẫn), `name`, `school` |
+| `people.json` | Thí sinh: `id` (mã cố định, dùng làm đường dẫn), `name`, `school`. Gồm cả vài người chỉ thi ĐLĐO (không thi OSS); những người này không có hồ sơ OSSPEDIA |
 | `seasons.json` | Các mùa: ngày VL/CK, năm học, địa điểm, MC, luật ĐLĐO năm thứ, đối tượng, `notes`, `seededDraw` |
 | `qualifying.json` | Top 12 vòng loại mỗi mùa |
 | `matches.json` | Các trận Bán kết / Chung kết: điểm 4 phần thi, tổng, hạng, `advanced` (BK), `placement` (CK) |
-| `olympia.json` | Thành tích Đường lên đỉnh Olympia của cựu thí sinh OSS |
+| `olympia.json` | Thành tích Đường lên đỉnh Olympia. `ossSeason`: mùa OSS của thí sinh, `null` = không thi OSS. `beforeOss: true` = tham gia ĐLĐO trước khi dự thi OSS. Giải Nhất cuộc thi Quý được tính là 1 cầu truyền hình |
 | `milestones.json` | Dòng thời gian (`person` là mã thí sinh). `kind`: `"oss"` = chấm tím, `"olympia"` = chấm hồng |
 | `stats.json` | Những con số ấn tượng: mục `"manual": true` nhập tay, còn lại web tự tính |
 | `departments.json` | 4 ban và nhiệm vụ từng ban |
@@ -46,7 +46,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 
 **Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
 
-Quán quân, kỷ lục, thống kê trường, số thí sinh ĐLĐO và vòng nguyệt quế **không gõ tay**: web tự tính từ `matches.json`, `qualifying.json`, `olympia.json` (xem `src/lib/data.ts`). Ô `null` = không có dữ liệu, khác với `0` điểm.
+Quán quân, kỷ lục, thống kê trường, số thí sinh ĐLĐO, vòng nguyệt quế và cầu truyền hình **không gõ tay**: web tự tính từ `matches.json`, `qualifying.json`, `olympia.json` (xem `src/lib/data.ts`). Ô `null` = không có dữ liệu, khác với `0` điểm.
 
 Ngày luôn ghi dạng `YYYY-MM-DD` (vd `2023-10-08`); web tự hiển thị thành `08/10/2023`.
 
@@ -60,7 +60,7 @@ Chưa có ảnh thì web hiện ô màu nhạt (khi chạy `npm run dev` ô đó
 
 | Đường dẫn | Vị trí trên web |
 | --- | --- |
-| `public/logo-oss.svg` | Logo (**đang là logo tạm**, thay bằng logo thật, giữ nguyên tên file) |
+| `public/logo-oss.svg` **hoặc** `public/logo-oss.png` | Logo thật (cả logo trên web và favicon). Web thử lần lượt `logo-oss.svg` → `logo-oss.png` → `logo-oss-tam.svg` (logo tạm hiện có), file nào có thì dùng |
 | `public/images/hero/hero-main.jpg` | Ảnh lớn trang chủ |
 | `public/images/hero/letter-o.jpg`, `letter-s1.jpg`, `letter-s2.jpg` | Ảnh lồng trong 3 chữ O-S-S ở trang chủ |
 | `public/images/about/tap-the-1.jpg`, `tap-the-2.jpg` | 2 ảnh ở mục Giới thiệu |
@@ -68,6 +68,7 @@ Chưa có ảnh thì web hiện ô màu nhạt (khi chạy `npm run dev` ô đó
 | `public/images/thi-sinh/<mã-thí-sinh>.jpg` | Ảnh thí sinh (hồ sơ, thẻ Bảng vàng). Mã = `id` trong `people.json`, vd `le-tra-my.jpg`. Nên dùng ảnh dọc 3:4 |
 | `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (hiện khi rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc. Nên dùng ảnh 4:3 |
 | `public/images/human-of-oss/<slug>.jpg` | Chân dung Human of OSS |
+| `public/images/truong/<id-trường>.svg` hoặc `.png` | Logo trường (huy hiệu tròn ở trang Các trường và trang trường). Tên file = `id` trong `schools.json`: `soc-son`, `da-phuc`, `trung-gia`, `minh-phu`, `xuan-giang`. Ảnh vuông khoảng 256×256, nền trong suốt. Chưa có logo thì hiện chữ viết tắt của trường |
 
 Ảnh thí sinh, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người) hoặc logo OSS (cột mốc) trên nền tím. Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
 

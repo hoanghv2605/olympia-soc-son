@@ -50,8 +50,8 @@ export interface MatchResult {
   vd: number | null; // Về đích
   total: number | null; // không âm
   rank: number;
-  advanced?: boolean; // BK: vào Chung kết
-  placement?: Placement; // CK
+  advanced?: boolean; // Bán kết: vào Chung kết
+  placement?: Placement; // Chung kết
 }
 
 export interface Match {
@@ -68,14 +68,18 @@ export type OlympiaStage = "tuan" | "thang" | "quy" | "nam";
 
 export interface OlympiaRecord {
   person: string;
-  ossSeason: number;
+  ossSeason: number | null; // null = thí sinh không thi OSS
   year: number; // Olympia năm thứ ...
   stage: OlympiaStage;
   round: string; // "Tuần 3 - Tháng 1 - Quý 3"
   result: string; // giữ nguyên văn: "Giải Nhất", "Quý quân"...
   date?: string;
   note?: string | null;
+  beforeOss?: boolean; // true = tham gia Đường lên đỉnh Olympia trước khi dự thi OSS
 }
+
+/** Phạm vi thời gian khi tính thành tích Đường lên đỉnh Olympia: "oss" = từ OSS (ossSeason khác null, không beforeOss); "all" = toàn bộ. */
+export type OlympiaPeriod = "oss" | "all";
 
 export type MilestoneKind = "oss" | "olympia";
 

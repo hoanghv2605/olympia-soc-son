@@ -29,10 +29,9 @@
   },
   {
     "key": "tvBridges",
-    "value": "1",
     "label": "cầu truyền hình",
     "icon": "tv",
-    "manual": true,
+    "scope": "soc-son",
     "group": "soc-son-olympia"
   }
 ]

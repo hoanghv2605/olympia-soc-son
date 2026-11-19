@@ -453,5 +453,20 @@
     "id": "doan-duy-khanh",
     "name": "Đoàn Duy Khánh",
     "school": "trung-gia"
+  },
+  {
+    "id": "dang-hong-thai",
+    "name": "Đặng Hồng Thái",
+    "school": "soc-son"
+  },
+  {
+    "id": "nguyen-hoang-phi",
+    "name": "Nguyễn Hoàng Phi",
+    "school": "soc-son"
+  },
+  {
+    "id": "ha-viet-hoang",
+    "name": "Hà Việt Hoàng",
+    "school": "soc-son"
   }
 ]

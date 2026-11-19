@@ -21,6 +21,7 @@ import type {
   Match,
   MatchResult,
   Milestone,
+  OlympiaPeriod,
   OlympiaRecord,
   Person,
   Placement,
@@ -38,7 +39,14 @@ import type {
 
 export const site = siteJson;
 export const schools = schoolsJson as School[];
-export const seasons: Season[] = (seasonsJson as Season[]).slice().sort((a, b) => a.season - b.season);
+/** Mở rộng chữ viết tắt tên vòng trong chữ nhập tay: "BK" → "Bán kết", "CK" → "Chung kết". */
+function expandRoundAbbr(text: string) {
+  return text.replace(/\bBK\b/g, "Bán kết").replace(/\bCK\b/g, "Chung kết");
+}
+
+export const seasons: Season[] = (seasonsJson as Season[])
+  .map((s) => ({ ...s, hosts: s.hosts.map(expandRoundAbbr) }))
+  .sort((a, b) => a.season - b.season);
 export const qualifying = (qualifyingJson as QualifyingEntry[])
   .slice()
   .sort((a, b) => a.season - b.season || a.rank - b.rank);
@@ -60,7 +68,18 @@ export function byVietnameseName(a: Person, b: Person) {
   return lastNameKey(a.name).localeCompare(lastNameKey(b.name), "vi");
 }
 
-export const people: Person[] = (peopleJson as Person[]).slice().sort(byVietnameseName);
+/** Mọi người trong people.json (gồm cả người chỉ thi Đường lên đỉnh Olympia, không thi OSS). Chỉ dùng nội bộ. */
+const allPeople: Person[] = (peopleJson as Person[]).slice().sort(byVietnameseName);
+
+/** Thí sinh OSS = người có ít nhất 1 dòng trong qualifying.json. */
+const ossIds = new Set(qualifying.map((q) => q.person));
+
+export function isOssContestant(id: string) {
+  return ossIds.has(id);
+}
+
+/** Thí sinh OSS (OSSPEDIA chỉ dùng danh sách này). */
+export const people: Person[] = allPeople.filter((p) => ossIds.has(p.id));
 
 function roundOrder(m: Match) {
   return m.round === "chung-ket" ? 100 : m.number;
@@ -69,14 +88,16 @@ function roundOrder(m: Match) {
 // ===== Tra cứu =====
 
 const peopleById = new Map(people.map((p) => [p.id, p]));
+const allPeopleById = new Map(allPeople.map((p) => [p.id, p]));
 const schoolsById = new Map(schools.map((s) => [s.id, s]));
 
+/** Thí sinh OSS theo mã (người không thi OSS → undefined, nên hồ sơ ra 404). */
 export function getPerson(id: string | undefined) {
   return id ? peopleById.get(id) : undefined;
 }
 
 export function personName(id: string) {
-  return peopleById.get(id)?.name ?? id;
+  return allPeopleById.get(id)?.name ?? id;
 }
 
 export function getSchool(id: string | undefined) {
@@ -112,21 +133,31 @@ export function seedGroup(rank: number) {
   return Math.ceil(rank / 3);
 }
 
-/** "BK1", "BK2", "CK" */
-export function matchShortLabel(m: Match) {
-  return m.round === "chung-ket" ? "CK" : `BK${m.number}`;
-}
-
-/** "Bán kết 1", "Chung kết" */
-export function matchLabel(m: Match) {
-  return m.round === "chung-ket" ? "Chung kết" : `Bán kết ${m.number}`;
-}
-
 export const PLACEMENT_LABEL: Record<Placement, string> = {
   "vo-dich": "Quán quân",
   "a-quan": "Á quân",
   "giai-ba": "Quý quân",
 };
+
+/** Tên vòng đầy đủ (không viết tắt): không truyền trận = "Vòng loại"; "Bán kết 3"; "Chung kết". */
+export function roundLabel(match?: Match) {
+  if (!match) return "Vòng loại";
+  return match.round === "chung-ket" ? "Chung kết" : `Bán kết ${match.number}`;
+}
+
+const SEMI_RESULT = ["Giải Nhất", "Giải Nhì", "Giải Ba", "Giải Ba"];
+
+/**
+ * Kết quả của một thí sinh ở một vòng:
+ * - Vòng loại (không truyền trận): "Hạng {rank}";
+ * - Bán kết: theo `rank` (đã tính sẵn đồng hạng, câu hỏi phụ): 1 → Giải Nhất, 2 → Giải Nhì, 3 hoặc 4 → Giải Ba;
+ * - Chung kết: theo `placement` → Quán quân / Á quân / Quý quân.
+ */
+export function resultLabel(match: Match | undefined, entry: { rank: number; placement?: Placement }) {
+  if (!match) return `Hạng ${entry.rank}`;
+  if (match.round === "chung-ket") return entry.placement ? PLACEMENT_LABEL[entry.placement] : `Hạng ${entry.rank}`;
+  return SEMI_RESULT[entry.rank - 1] ?? "Giải Ba";
+}
 
 // ===== Human of OSS: thông tin trong humans.json, nội dung trong src/content/human-of-oss/<slug>.md =====
 
@@ -159,6 +190,11 @@ export function milestonePhoto(date: string) {
 
 export function humanPhoto(slug: string) {
   return `images/human-of-oss/${slug}.jpg`;
+}
+
+/** Logo trường: thử lần lượt .svg rồi .png trong public/images/truong/. */
+export function schoolLogoCandidates(id: string) {
+  return [`images/truong/${id}.svg`, `images/truong/${id}.png`];
 }
 
 // ===== Theo mùa =====
@@ -277,14 +313,21 @@ export interface SchoolStat {
   runnersUp: number;
   thirds: number;
   people: Person[];
+  /** Tổng lượt vào top 12 của mọi trường (= số dòng qualifying.json). */
+  totalTop12: number;
+  /** Phần trăm lượt top 12 của trường trên tổng, làm tròn số nguyên. */
+  share: number;
 }
 
 export function schoolStat(school: School): SchoolStat {
   const finals = matches.filter((m) => m.round === "chung-ket").flatMap((m) => m.results);
   const count = (p: Placement) => finals.filter((r) => r.school === school.id && r.placement === p).length;
+  const top12 = qualifying.filter((q) => q.school === school.id).length;
   return {
     school,
-    top12: qualifying.filter((q) => q.school === school.id).length,
+    top12,
+    totalTop12: qualifying.length,
+    share: qualifying.length ? Math.round((top12 / qualifying.length) * 100) : 0,
     champions: count("vo-dich"),
     runnersUp: count("a-quan"),
     thirds: count("giai-ba"),
@@ -292,10 +335,23 @@ export function schoolStat(school: School): SchoolStat {
   };
 }
 
+/** Thống kê các trường: lượt top 12 giảm dần → số thí sinh giảm dần → tên trường. */
 export function schoolStats() {
   return schools
     .map(schoolStat)
-    .sort((a, b) => b.champions - a.champions || b.top12 - a.top12);
+    .sort(
+      (a, b) =>
+        b.top12 - a.top12 || b.people.length - a.people.length || a.school.name.localeCompare(b.school.name, "vi"),
+    );
+}
+
+/** Câu tổng quan trang Các trường: số thí sinh OSS, số trường có thí sinh, số mùa. */
+export function schoolsOverview() {
+  return {
+    people: people.length,
+    schools: new Set(people.map((p) => p.school)).size,
+    seasons: seasons.length,
+  };
 }
 
 // ===== Kỷ lục =====
@@ -343,16 +399,49 @@ export function topRecords(field: RecordField, n = 10): RecordRow[] {
     .map((r) => ({ ...r, rank: 1 + rows.filter((x) => x.value > r.value).length }));
 }
 
-/** Thí sinh vào Chung kết ít nhất `min` lần. */
-export function multipleFinalists(min = 2) {
-  const map = new Map<string, number[]>();
-  matches
-    .filter((m) => m.round === "chung-ket")
-    .forEach((m) => m.results.forEach((r) => map.set(r.person, [...(map.get(r.person) ?? []), m.season])));
-  return [...map.entries()]
-    .filter(([, ss]) => ss.length >= min)
-    .map(([id, ss]) => ({ person: getPerson(id)!, seasons: ss.sort((a, b) => a - b) }))
-    .sort((a, b) => a.seasons[0] - b.seasons[0] || byVietnameseName(a.person, b.person));
+/** Thí sinh có mặt ở Chung kết mùa n và mùa n+1 (kèm danh hiệu 2 mùa đó). */
+export function consecutiveFinalists() {
+  const finals = matches.filter((m) => m.round === "chung-ket");
+  const out: { person: Person; entries: { season: number; placement?: Placement }[] }[] = [];
+  finals.forEach((m) => {
+    const next = finals.find((x) => x.season === m.season + 1);
+    if (!next) return;
+    m.results.forEach((r) => {
+      const r2 = next.results.find((x) => x.person === r.person);
+      if (!r2) return;
+      out.push({
+        person: getPerson(r.person)!,
+        entries: [
+          { season: m.season, placement: r.placement },
+          { season: next.season, placement: r2.placement },
+        ],
+      });
+    });
+  });
+  return out.sort((a, b) => a.entries[0].season - b.entries[0].season || byVietnameseName(a.person, b.person));
+}
+
+/** Quán quân gộp theo người (mỗi người 1 thẻ), xếp theo mùa vô địch đầu tiên. */
+export function championCards() {
+  const map = new Map<string, { person: Person; wins: { season: number; total: number | null }[] }>();
+  championsList().forEach(({ season, champions }) =>
+    champions.forEach((c) => {
+      const e = map.get(c.person.id) ?? { person: c.person, wins: [] };
+      e.wins.push({ season: season.season, total: c.result.total });
+      map.set(c.person.id, e);
+    }),
+  );
+  return [...map.values()];
+}
+
+/** Câu hỏi phụ của trận: người thắng và những người bằng điểm với người đó. */
+export function tiebreakInfo(match: Match) {
+  const winner = match.results.find((r) => r.person === match.tiebreakWinner);
+  if (!winner) return undefined;
+  return {
+    winner: winner.person,
+    tiedWith: match.results.filter((r) => r.person !== winner.person && r.total === winner.total).map((r) => r.person),
+  };
 }
 
 /** Thí sinh bảo vệ thành công ngôi Quán quân (Quán quân hai mùa liền nhau). */
@@ -372,57 +461,69 @@ export function defendingChampions() {
   return out;
 }
 
-// ===== OSS tại Đường lên đỉnh Olympia =====
+// ===== Đường lên đỉnh Olympia =====
 
-function inScope(personId: string, scope: StatScope) {
-  return scope === "all" || getPerson(personId)?.school === scope;
+/**
+ * Dòng Đường lên đỉnh Olympia trong phạm vi:
+ * - trường: "soc-son" = chỉ thí sinh THPT Sóc Sơn, "all" = mọi trường;
+ * - thời gian: "oss" = từ OSS (ossSeason khác null, không beforeOss), "all" = toàn bộ.
+ */
+export function olympiaRows(school: StatScope = "all", period: OlympiaPeriod = "all") {
+  return olympia.filter(
+    (o) =>
+      (school === "all" || allPeopleById.get(o.person)?.school === school) &&
+      (period === "all" || (o.ossSeason !== null && !o.beforeOss)),
+  );
 }
 
-/** Cựu thí sinh OSS tham gia ĐLĐO, xếp theo mùa OSS. */
-export function olympiaPeople(scope: StatScope = "all") {
-  const ids: string[] = [];
-  olympia.forEach((o) => !ids.includes(o.person) && inScope(o.person, scope) && ids.push(o.person));
+/** Thí sinh Đường lên đỉnh Olympia trong phạm vi, xếp theo năm Olympia đầu tiên. `records` chỉ gồm các dòng trong phạm vi. */
+export function olympiaPeople(school: StatScope = "all", period: OlympiaPeriod = "all") {
+  const rows = olympiaRows(school, period);
+  const ids = [...new Set(rows.map((o) => o.person))];
   return ids
     .map((id) => {
-      const records = olympiaOf(id);
-      return { person: getPerson(id)!, records, ossSeason: Math.min(...records.map((r) => r.ossSeason)) };
+      const records = rows.filter((o) => o.person === id);
+      const ossSeasons = olympiaOf(id).flatMap((r) => (r.ossSeason === null ? [] : [r.ossSeason]));
+      const person = allPeopleById.get(id) ?? { id, name: id, school: "" };
+      return {
+        person,
+        records,
+        /** Các năm Olympia (năm thứ ...) trong phạm vi, tăng dần: thẻ ghi "Olympia năm thứ 17, 18". */
+        years: [...new Set(records.map((r) => r.year))].sort((a, b) => a - b),
+        ossSeason: ossSeasons.length ? Math.min(...ossSeasons) : null,
+        isOss: ossIds.has(id),
+      };
     })
-    .sort((a, b) => a.ossSeason - b.ossSeason);
+    .sort((a, b) => a.years[0] - b.years[0] || (a.ossSeason ?? 0) - (b.ossSeason ?? 0) || byVietnameseName(a.person, b.person));
 }
 
-const STAGE_LEVEL: Record<OlympiaRecord["stage"], number> = { tuan: 1, thang: 2, quy: 3, nam: 4 };
-const RESULT_LEVEL: Record<string, number> = { "Giải Nhất": 3, "Giải Nhì": 2, "Giải Ba": 1, "Quý quân": 1 };
-
-/** Thành tích cao nhất: vòng cao hơn trước (Chung kết năm > Quý > Tháng > Tuần), cùng vòng thì Nhất > Nhì > Ba/Quý quân. */
-export function bestOlympiaRecord(records: OlympiaRecord[]) {
-  return records
-    .slice()
-    .sort(
-      (a, b) =>
-        STAGE_LEVEL[b.stage] - STAGE_LEVEL[a.stage] || (RESULT_LEVEL[b.result] ?? 0) - (RESULT_LEVEL[a.result] ?? 0),
-    )[0];
+/** Các mùa OSS mà thí sinh dự thi (theo qualifying.json), tăng dần. Người không thi OSS → []. */
+export function ossSeasonsOf(personId: string) {
+  return [...new Set(qualifying.filter((q) => q.person === personId).map((q) => q.season))].sort((a, b) => a - b);
 }
 
-/** "Quý quân Chung kết năm, năm thứ 23" */
-export function describeOlympiaRecord(r: OlympiaRecord) {
-  return `${r.result} ${r.round}, năm thứ ${r.year}`;
-}
-
-export function olympiaContestantCount(scope: StatScope = "all") {
-  return olympiaPeople(scope).length;
+export function olympiaContestantCount(school: StatScope = "all", period: OlympiaPeriod = "all") {
+  return new Set(olympiaRows(school, period).map((o) => o.person)).size;
 }
 
 /** Vòng nguyệt quế = số lần đạt "Giải Nhất". */
-export function olympiaLaurelCount(scope: StatScope = "all") {
-  return olympia.filter((o) => o.result === "Giải Nhất" && inScope(o.person, scope)).length;
+export function olympiaLaurelCount(school: StatScope = "all", period: OlympiaPeriod = "all") {
+  return olympiaRows(school, period).filter((o) => o.result === "Giải Nhất").length;
+}
+
+/** Cầu truyền hình = số lần đạt "Giải Nhất" cuộc thi Quý. */
+export function olympiaTvBridgeCount(school: StatScope = "all", period: OlympiaPeriod = "all") {
+  return olympiaRows(school, period).filter((o) => o.stage === "quy" && o.result === "Giải Nhất").length;
 }
 
 // ===== Con số ấn tượng =====
 
+// Con số Đường lên đỉnh Olympia ở trang Giới thiệu tính theo phạm vi "từ OSS".
 const COMPUTED_STATS: Record<string, (scope: StatScope) => number> = {
   seasons: () => seasons.length,
-  olympiaContestants: olympiaContestantCount,
-  olympiaLaurels: olympiaLaurelCount,
+  olympiaContestants: (scope) => olympiaContestantCount(scope, "oss"),
+  olympiaLaurels: (scope) => olympiaLaurelCount(scope, "oss"),
+  tvBridges: (scope) => olympiaTvBridgeCount(scope, "oss"),
 };
 
 export const stats: Stat[] = (statsJson as StatEntry[]).map((s) => {
@@ -433,7 +534,7 @@ export const stats: Stat[] = (statsJson as StatEntry[]).map((s) => {
 
 export const STAT_GROUPS: { id: StatGroup; label: string }[] = [
   { id: "oss", label: "Olympia Sóc Sơn" },
-  { id: "soc-son-olympia", label: "THPT Sóc Sơn tại Đường lên đỉnh Olympia" },
+  { id: "soc-son-olympia", label: "Thí sinh OSS của THPT Sóc Sơn tại Đường lên đỉnh Olympia" },
 ];
 
 /** Con số ấn tượng chia theo nhóm (theo thứ tự STAT_GROUPS). */

@@ -213,5 +213,87 @@
     "round": "Tháng 1 - Quý 2",
     "result": "Giải Nhì",
     "note": null
+  },
+  {
+    "person": "nguyen-thi-ngoc-anh-xuan16",
+    "ossSeason": 2,
+    "year": 18,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 3 - Quý 1",
+    "result": "Giải Ba",
+    "note": null,
+    "beforeOss": true
+  },
+  {
+    "person": "phan-huy-cuong",
+    "ossSeason": 4,
+    "year": 22,
+    "stage": "tuan",
+    "round": "Tuần 2 - Tháng 1 - Quý 2",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "phan-huy-cuong",
+    "ossSeason": 4,
+    "year": 22,
+    "stage": "thang",
+    "round": "Tháng 1 - Quý 2",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "dang-hong-thai",
+    "ossSeason": null,
+    "year": 7,
+    "stage": "tuan",
+    "round": "Tuần ? - Tháng ? - Quý ?",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "nguyen-hoang-phi",
+    "ossSeason": null,
+    "year": 13,
+    "stage": "tuan",
+    "round": "Tuần 2 - Tháng 1 - Quý 4",
+    "result": "Giải Ba",
+    "note": null
+  },
+  {
+    "person": "ha-viet-hoang",
+    "ossSeason": null,
+    "year": 17,
+    "stage": "tuan",
+    "round": "Tuần 3 - Tháng 1 - Quý 2",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "ha-viet-hoang",
+    "ossSeason": null,
+    "year": 17,
+    "stage": "thang",
+    "round": "Tháng 1 - Quý 2",
+    "result": "Giải Nhất",
+    "note": null
+  },
+  {
+    "person": "ha-viet-hoang",
+    "ossSeason": null,
+    "year": 17,
+    "stage": "quy",
+    "round": "Quý 2",
+    "result": "Giải Nhất",
+    "note": "Cầu truyền hình Chung kết Đường lên đỉnh Olympia lần đầu tiên của THPT Sóc Sơn"
+  },
+  {
+    "person": "ha-viet-hoang",
+    "ossSeason": null,
+    "year": 17,
+    "stage": "nam",
+    "round": "Chung kết năm",
+    "result": "Quý quân",
+    "note": null
   }
 ]

@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router";
 import Breadcrumb from "../../components/Breadcrumb";
 import PersonLink from "../../components/PersonLink";
+import SchoolBadge from "../../components/SchoolBadge";
 import NotFound from "../NotFound";
 import { describeTitles, getSchool, participationsOf, schoolStat, seasonPath, titlesOf } from "../../lib/data";
 
@@ -27,7 +28,10 @@ export default function SchoolDetail() {
           { label: school.name },
         ]}
       />
-      <h1 className="mt-4 text-3xl font-bold text-ink md:text-4xl">{school.name}</h1>
+      <div className="mt-4 flex items-center gap-4">
+        <SchoolBadge school={school} className="size-16" textClass="text-lg" />
+        <h1 className="text-3xl font-bold text-ink md:text-4xl">{school.name}</h1>
+      </div>
 
       <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-5">
         {numbers.map((n) => (

@@ -1,24 +1,36 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router";
+import type { IconType } from "react-icons";
+import {
+  PiChartBar,
+  PiClipboardText,
+  PiFlagCheckered,
+  PiLightning,
+  PiPuzzlePiece,
+  PiRepeat,
+  PiRocketLaunch,
+  PiTelevisionSimple,
+  PiTrophy,
+} from "react-icons/pi";
+import FinalistStrips from "../components/FinalistStrips";
+import IconLabel from "../components/IconLabel";
 import MedalBadge from "../components/MedalBadge";
 import Modal from "../components/Modal";
 import PersonLink from "../components/PersonLink";
 import PersonPhoto from "../components/PersonPhoto";
 import {
   RECORD_LABEL,
-  bestOlympiaRecord,
-  championsList,
-  defendingChampions,
-  describeOlympiaRecord,
+  championCards,
   describeTitles,
   getSchool,
-  matchShortLabel,
-  multipleFinalists,
   olympiaContestantCount,
   olympiaLaurelCount,
   olympiaPeople,
+  olympiaTvBridgeCount,
+  ossSeasonsOf,
   personPath,
   personPhoto,
+  roundLabel,
   seasonPath,
   titlesOf,
   topRecords,
@@ -26,13 +38,78 @@ import {
 } from "../lib/data";
 import { formatDate, formatScore } from "../lib/format";
 import { MEDAL_DOT, MEDAL_ROW, medalOf } from "../lib/medal";
+import type { OlympiaPeriod } from "../types";
 
 const RECORD_FIELDS: RecordField[] = ["vl", "kd", "vcnv", "tt", "vd", "total"];
 
-// ===== OSS tại Đường lên đỉnh Olympia (chỉ THPT Sóc Sơn) =====
+const RECORD_ICON: Record<RecordField, IconType> = {
+  vl: PiClipboardText,
+  kd: PiLightning,
+  vcnv: PiPuzzlePiece,
+  tt: PiRocketLaunch,
+  vd: PiFlagCheckered,
+  total: PiTrophy,
+};
+
+/** Cỡ icon tiêu đề mục (~0.9em cỡ chữ tiêu đề). */
+const TITLE_ICON = "size-[0.9em]";
+
+// ===== Quán quân các mùa (Hall of Fame, nền tối, điểm nhấn vàng kim) =====
+
+function ChampionsSection() {
+  const cards = championCards();
+  return (
+    <section className="paper-dark border-t border-white/10 text-white">
+      <div className="mx-auto max-w-6xl px-5 py-16">
+        <p className="text-sm font-semibold tracking-[0.2em] text-gold uppercase">Hall of Fame</p>
+        <h2 className="section-title mt-2 text-white">
+          <IconLabel icon={PiTrophy} iconClass={`${TITLE_ICON} text-gold`}>
+            Quán quân các mùa
+          </IconLabel>
+        </h2>
+        <ul className="mt-8 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
+          {cards.map(({ person, wins }) => (
+            <li key={person.id}>
+              <Link
+                to={personPath(person.id)}
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gold/40 bg-white/5 transition-colors hover:border-gold hover:bg-white/10"
+              >
+                <PersonPhoto src={personPhoto(person.id)} name={person.name} className="aspect-[3/4] w-full" />
+                <span className="flex flex-1 flex-col p-4">
+                  <span className="text-lg leading-snug font-bold text-white group-hover:text-gold-bg">{person.name}</span>
+                  {wins.length > 1 && (
+                    <span className="text-xs font-semibold text-gold">{wins.length} lần Quán quân</span>
+                  )}
+                  <span className="mt-auto flex flex-wrap gap-1.5 pt-3">
+                    {wins.map((w) => (
+                      <span
+                        key={w.season}
+                        className="rounded-full border border-gold bg-gold-bg px-2.5 py-0.5 text-xs font-bold text-gold-ink tabular-nums"
+                      >
+                        Mùa {w.season} · {formatScore(w.total)}
+                      </span>
+                    ))}
+                  </span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+// ===== THPT Sóc Sơn tại Đường lên đỉnh Olympia =====
+
+const PERIODS: { id: OlympiaPeriod; label: string }[] = [
+  { id: "all", label: "Toàn bộ thí sinh" },
+  { id: "oss", label: "Các thí sinh từ OSS" },
+];
 
 function OlympiaSection() {
-  const people = olympiaPeople("soc-son");
+  const [period, setPeriod] = useState<OlympiaPeriod>("all");
+  const people = olympiaPeople("soc-son", period);
   const [selected, setSelected] = useState<string | null>(null);
   const cardRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const current = people.find((p) => p.person.id === selected);
@@ -47,48 +124,67 @@ function OlympiaSection() {
   return (
     <section className="border-y border-oss/10 bg-white/40">
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="section-title">OSS tại Đường lên đỉnh Olympia</h2>
-        <p className="mt-3 text-sm text-ink-soft">
-          Cựu thí sinh trường THPT Sóc Sơn: <strong className="text-ink tabular-nums">{olympiaContestantCount("soc-son")}</strong>{" "}
-          thí sinh · <strong className="text-ink tabular-nums">{olympiaLaurelCount("soc-son")}</strong> vòng nguyệt quế
+        <h2 className="section-title">
+          <IconLabel icon={PiTelevisionSimple} iconClass={TITLE_ICON}>
+            THPT Sóc Sơn tại Đường lên đỉnh Olympia
+          </IconLabel>
+        </h2>
+
+        <div className="mt-5 inline-flex rounded-full border border-oss/20 bg-white/80 p-1" role="group" aria-label="Phạm vi thí sinh">
+          {PERIODS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              aria-pressed={period === p.id}
+              onClick={() => setPeriod(p.id)}
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
+                period === p.id ? "bg-oss text-white" : "text-oss hover:bg-oss-soft"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+        <p className="mt-3 text-sm text-ink-soft" aria-live="polite">
+          <strong className="text-ink tabular-nums">{olympiaContestantCount("soc-son", period)}</strong> thí sinh ·{" "}
+          <strong className="text-ink tabular-nums">{olympiaLaurelCount("soc-son", period)}</strong> vòng nguyệt quế ·{" "}
+          <strong className="text-ink tabular-nums">{olympiaTvBridgeCount("soc-son", period)}</strong> cầu truyền hình
         </p>
 
-        <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
-          {people.map(({ person, records, ossSeason }) => {
-            const best = bestOlympiaRecord(records);
-            return (
-              <li key={person.id}>
-                <button
-                  type="button"
-                  ref={(el) => {
-                    cardRefs.current[person.id] = el;
-                  }}
-                  onClick={() => setSelected(person.id)}
-                  aria-haspopup="dialog"
-                  className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-oss/15 bg-white/80 text-left transition-shadow hover:shadow-[0_18px_40px_-20px_rgba(109,40,217,0.5)]"
-                >
-                  <PersonPhoto src={personPhoto(person.id)} name={person.name} className="aspect-[3/4] w-full" />
-                  <span className="flex flex-1 flex-col p-4">
-                    <span className="font-bold text-ink group-hover:text-oss">{person.name}</span>
-                    <span className="text-xs text-ink-soft">OSS mùa {ossSeason}</span>
-                    {best && <span className="mt-2 text-sm leading-snug text-ink">{describeOlympiaRecord(best)}</span>}
-                    <span className="mt-auto flex flex-wrap gap-1.5 pt-3" aria-label={`${records.length} thành tích`}>
-                      {records.map((r, i) => {
-                        const medal = medalOf(r.result);
-                        return (
-                          <span
-                            key={i}
-                            className={`size-2.5 rounded-full ${medal ? MEDAL_DOT[medal] : "bg-oss/30"}`}
-                            title={`${r.result} ${r.round}`}
-                          />
-                        );
-                      })}
-                    </span>
+        <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-5">
+          {people.map(({ person, records, years }) => (
+            <li key={person.id}>
+              <button
+                type="button"
+                ref={(el) => {
+                  cardRefs.current[person.id] = el;
+                }}
+                onClick={() => setSelected(person.id)}
+                aria-haspopup="dialog"
+                className="group relative block w-full overflow-hidden rounded-2xl text-left shadow-[0_6px_18px_-12px_rgba(46,16,101,0.45)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_22px_40px_-18px_rgba(109,40,217,0.55)] focus-visible:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
+              >
+                <PersonPhoto src={personPhoto(person.id)} name={person.name} className="aspect-[3/4] w-full" />
+                <span className="absolute inset-x-0 bottom-0 flex flex-col bg-linear-to-t from-black/80 via-black/45 to-transparent p-3 pt-12 text-white">
+                  <span className="leading-snug font-bold">{person.name}</span>
+                  <span className="text-xs text-white/80">
+                    Olympia năm thứ {years.join(", ")}
                   </span>
-                </button>
-              </li>
-            );
-          })}
+                  <span className="mt-2 flex flex-wrap gap-1.5" aria-label={`${records.length} thành tích`}>
+                    {records.map((r, i) => {
+                      const medal = medalOf(r.result);
+                      return (
+                        <span
+                          key={i}
+                          className={`size-2.5 rounded-full ring-1 ring-white/60 ${medal ? MEDAL_DOT[medal] : "bg-white/40"}`}
+                          title={`${r.result} ${r.round}`}
+                        />
+                      );
+                    })}
+                  </span>
+                </span>
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -106,7 +202,11 @@ function OlympiaSection() {
                 <h2 id="olympia-dialog-title" className="text-2xl font-bold text-ink">
                   {current.person.name}
                 </h2>
+                <p className="text-sm font-semibold text-ink">Olympia năm thứ {current.years.join(", ")}</p>
                 <p className="text-sm text-ink-soft">{getSchool(current.person.school)?.name}</p>
+                {current.isOss && (
+                  <p className="text-xs text-ink-soft">Thí sinh OSS mùa {ossSeasonsOf(current.person.id).join(", ")}</p>
+                )}
                 {describeTitles(titlesOf(current.person.id)).map((t) => (
                   <p key={t} className="mt-1 text-sm font-semibold text-oss">
                     {t}
@@ -126,14 +226,17 @@ function OlympiaSection() {
                     </span>
                     {r.date && <span className="block text-xs text-ink-soft tabular-nums">{formatDate(r.date)}</span>}
                     {r.note && <span className="block text-sm font-semibold text-cube-pink">{r.note}</span>}
+                    {r.beforeOss && <span className="block text-xs text-ink-soft">Tham gia trước khi dự thi OSS</span>}
                   </span>
                 </li>
               ))}
             </ul>
 
-            <Link to={personPath(current.person.id)} className="btn-primary mt-6">
-              Xem hồ sơ đầy đủ
-            </Link>
+            {current.isOss && (
+              <Link to={personPath(current.person.id)} className="btn-primary mt-6">
+                Xem hồ sơ đầy đủ
+              </Link>
+            )}
           </div>
         )}
       </Modal>
@@ -153,7 +256,11 @@ function RecordsSection() {
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-16">
-      <h2 className="section-title">Kỷ lục</h2>
+      <h2 className="section-title">
+        <IconLabel icon={PiChartBar} iconClass={TITLE_ICON}>
+          Kỷ lục
+        </IconLabel>
+      </h2>
       <p className="mt-3 text-ink-soft">Bấm vào từng ô để xem bảng xếp hạng top 10 (giữ nguyên những người bằng điểm).</p>
 
       <ul className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
@@ -172,7 +279,11 @@ function RecordsSection() {
                   expanded ? "border-oss bg-oss text-white" : "border-oss/15 bg-white/80 hover:border-oss/50"
                 }`}
               >
-                <span className={`text-sm font-semibold ${expanded ? "text-white/80" : "text-ink-soft"}`}>{RECORD_LABEL[f]}</span>
+                <span className={`text-sm font-semibold ${expanded ? "text-white/80" : "text-ink-soft"}`}>
+                  <IconLabel icon={RECORD_ICON[f]} iconClass={`size-5 ${expanded ? "text-white" : "text-oss"}`}>
+                    {RECORD_LABEL[f]}
+                  </IconLabel>
+                </span>
                 <span className={`mt-1 text-4xl font-extrabold tabular-nums ${expanded ? "text-white" : "text-oss"}`}>
                   {holders[0]?.value ?? "–"}
                 </span>
@@ -218,7 +329,7 @@ function RecordsSection() {
                           Mùa {r.season}
                         </Link>
                       </td>
-                      <td>{r.match ? matchShortLabel(r.match) : "Vòng loại"}</td>
+                      <td>{roundLabel(r.match)}</td>
                       <td className="text-right font-bold tabular-nums">{r.value}</td>
                     </tr>
                   );
@@ -233,76 +344,33 @@ function RecordsSection() {
 }
 
 export default function HallOfFamePage() {
-  const champions = championsList();
-  const finalists = multipleFinalists(2);
-  const defenders = defendingChampions();
-
   return (
     <>
       <section className="paper-dark text-white">
-        <div className="mx-auto max-w-6xl px-5 py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-5 pt-16 pb-6 md:pt-20">
           <h1 className="text-3xl font-bold tracking-[0.06em] uppercase md:text-[2.5rem]">Bảng vàng</h1>
           <p className="mt-3 max-w-[60ch] text-white/75">
-            Quán quân các mùa, những cựu thí sinh OSS bước lên sân khấu Đường lên đỉnh Olympia và các kỷ lục điểm số.
+            Quán quân các mùa, những thí sinh THPT Sóc Sơn bước lên sân khấu Đường lên đỉnh Olympia và các kỷ lục điểm số.
           </p>
         </div>
       </section>
 
-      {/* ===== Quán quân ===== */}
-      <section className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="section-title">Quán quân các mùa</h2>
-        <div className="mt-8 overflow-x-auto">
-          <table className="data-table min-w-[36rem]">
-            <thead>
-              <tr>
-                <th scope="col">Mùa</th>
-                <th scope="col">Quán quân</th>
-                <th scope="col">Trường</th>
-                <th scope="col" className="text-right">Điểm Chung kết</th>
-              </tr>
-            </thead>
-            <tbody>
-              {champions.flatMap(({ season: s, champions: cs }) =>
-                cs.map((c) => (
-                  <tr key={`${s.season}-${c.person.id}`}>
-                    <td>
-                      <Link to={seasonPath(s.season)} className="font-semibold text-oss hover:underline">
-                        Mùa {s.season}
-                      </Link>
-                    </td>
-                    <td>
-                      <PersonLink id={c.person.id} className="font-semibold" />
-                      {defenders.some((d) => d.person.id === c.person.id && d.seasons[1] === s.season) && (
-                        <span className="block text-xs font-semibold text-cube-pink">Bảo vệ thành công ngôi Quán quân</span>
-                      )}
-                    </td>
-                    <td>{getSchool(c.result.school)?.name}</td>
-                    <td className="text-right font-bold tabular-nums">{formatScore(c.result.total)}</td>
-                  </tr>
-                )),
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <ChampionsSection />
 
       <OlympiaSection />
 
       <RecordsSection />
 
-      {/* ===== Vào CK nhiều lần ===== */}
+      {/* ===== Các thí sinh vào Chung kết 2 năm liên tiếp ===== */}
       <section className="mx-auto mb-12 max-w-6xl px-5 pb-16">
-        <h2 className="section-title">Vào Chung kết nhiều lần</h2>
-        <ul className="mt-8 grid border-t border-oss/15 sm:grid-cols-2 lg:grid-cols-3">
-          {finalists.map((f) => (
-            <li key={f.person.id} className="border-b border-oss/15 px-1 py-4">
-              <PersonLink id={f.person.id} className="text-lg font-semibold" />
-              <span className="block text-sm text-ink-soft">
-                {f.seasons.length} lần: mùa {f.seasons.join(", ")}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <h2 className="section-title">
+          <IconLabel icon={PiRepeat} iconClass={TITLE_ICON}>
+            Các thí sinh vào Chung kết 2 năm liên tiếp
+          </IconLabel>
+        </h2>
+        <div className="mt-8">
+          <FinalistStrips />
+        </div>
       </section>
     </>
   );

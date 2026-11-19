@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
-import { PiMagnifyingGlassBold } from "react-icons/pi";
+import { PiCalendarBlank, PiGraduationCap, PiMagnifyingGlassBold, PiUsersThree } from "react-icons/pi";
+import IconLabel from "../../components/IconLabel";
 import { championsList, people, schoolPath, schools, search, seasonPath } from "../../lib/data";
 
 const KIND_LABEL = { season: "Mùa giải", person: "Thí sinh", school: "Trường" } as const;
@@ -54,7 +55,11 @@ export default function WikiHome() {
       ) : (
         <div className="mt-14 grid gap-14 md:grid-cols-3">
           <div>
-            <h2 className="text-xl font-bold text-ink">Các mùa giải</h2>
+            <h2 className="text-xl font-bold text-ink">
+              <IconLabel icon={PiCalendarBlank} iconClass="size-[0.9em] text-oss">
+                Các mùa giải
+              </IconLabel>
+            </h2>
             <ul className="mt-4 divide-y divide-oss/10 border-y border-oss/10">
               {championsList().map(({ season: s, champions }) => (
                 <li key={s.season}>
@@ -71,7 +76,11 @@ export default function WikiHome() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-ink">Thí sinh</h2>
+            <h2 className="text-xl font-bold text-ink">
+              <IconLabel icon={PiUsersThree} iconClass="size-[0.9em] text-oss">
+                Thí sinh
+              </IconLabel>
+            </h2>
             <p className="mt-4 text-ink-soft">
               Hồ sơ {people.length} thí sinh lọt vào top 12: điểm từng trận, danh hiệu và hành trình tại Đường lên đỉnh Olympia.
             </p>
@@ -81,7 +90,11 @@ export default function WikiHome() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-ink">Trường</h2>
+            <h2 className="text-xl font-bold text-ink">
+              <IconLabel icon={PiGraduationCap} iconClass="size-[0.9em] text-oss">
+                Trường
+              </IconLabel>
+            </h2>
             <ul className="mt-4 divide-y divide-oss/10 border-y border-oss/10">
               {schools.map((s) => (
                 <li key={s.id}>

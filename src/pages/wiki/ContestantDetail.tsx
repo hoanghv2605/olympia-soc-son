@@ -1,17 +1,21 @@
 import { Fragment } from "react";
 import { Link, useParams } from "react-router";
 import Breadcrumb from "../../components/Breadcrumb";
+import { PiCalendarBlank, PiGraduationCap, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
+import IconLabel from "../../components/IconLabel";
+import { ScoreHeads, TiebreakNote } from "../../components/MatchTable";
 import PersonPhoto from "../../components/PersonPhoto";
 import Timeline from "../../components/Timeline";
 import NotFound from "../NotFound";
 import {
-  PLACEMENT_LABEL,
   describeTitles,
-  matchShortLabel,
   personPhoto,
   personProfile,
   schoolPath,
+  resultLabel,
+  roundLabel,
   seasonPath,
+  tiebreakInfo,
 } from "../../lib/data";
 import { formatDate, formatScore } from "../../lib/format";
 
@@ -23,6 +27,13 @@ export default function ContestantDetail() {
   const { person, school, participations, titles, olympia, timeline } = profile;
   const titleText = describeTitles(titles);
   const olympiaYears = [...new Set(olympia.map((r) => r.year))];
+  // Các trận người này thắng câu hỏi phụ (chú thích dưới bảng, đánh dấu *)
+  const tiebreaks = participations.flatMap((p) =>
+    p.matches.flatMap(({ match }) => {
+      const t = tiebreakInfo(match);
+      return t?.winner === person.id ? [{ match, ...t }] : [];
+    }),
+  );
 
   return (
     <article className="mx-auto max-w-6xl px-5 py-14 md:py-20">
@@ -33,11 +44,14 @@ export default function ContestantDetail() {
           { label: person.name },
         ]}
       />
-      <h1 className="mt-4 text-3xl font-bold text-ink md:text-4xl">{person.name}</h1>
-      {titleText.length > 0 && <p className="mt-2 text-lg font-semibold text-oss">{titleText.join(" · ")}</p>}
 
-      <div className="mt-8 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_18rem]">
+      <div className="mt-4 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_18rem]">
         <div className="min-w-0 space-y-12">
+          <header>
+            <h1 className="text-3xl font-bold text-ink md:text-4xl">{person.name}</h1>
+            {titleText.length > 0 && <p className="mt-2 text-lg font-semibold text-oss">{titleText.join(" · ")}</p>}
+          </header>
+
           <section>
             <h2 className="text-xl font-bold text-ink">Olympia Sóc Sơn</h2>
             <div className="mt-3 overflow-x-auto">
@@ -46,10 +60,7 @@ export default function ContestantDetail() {
                   <tr>
                     <th scope="col">Mùa</th>
                     <th scope="col">Vòng</th>
-                    <th scope="col" className="text-right" title="Khởi động">KĐ</th>
-                    <th scope="col" className="text-right" title="Vượt chướng ngại vật">VCNV</th>
-                    <th scope="col" className="text-right" title="Tăng tốc">TT</th>
-                    <th scope="col" className="text-right" title="Về đích">VĐ</th>
+                    <ScoreHeads />
                     <th scope="col" className="text-right">Điểm</th>
                     <th scope="col">Kết quả</th>
                   </tr>
@@ -65,10 +76,10 @@ export default function ContestantDetail() {
                             </Link>
                             <span className="block text-xs text-ink-soft">Lớp {p.qualifying.class}</span>
                           </td>
-                          <td>Vòng loại</td>
+                          <td>{roundLabel()}</td>
                           <td colSpan={4} />
                           <td className="text-right font-semibold tabular-nums">{formatScore(p.qualifying.score)}</td>
-                          <td>Hạng {p.qualifying.rank}</td>
+                          <td>{resultLabel(undefined, p.qualifying)}</td>
                         </tr>
                       )}
                       {p.matches.map(({ match, result }, i) => (
@@ -80,21 +91,15 @@ export default function ContestantDetail() {
                               </Link>
                             </td>
                           )}
-                          <td>{matchShortLabel(match)}</td>
+                          <td>{roundLabel(match)}</td>
                           <td className="text-right tabular-nums">{formatScore(result.kd)}</td>
                           <td className="text-right tabular-nums">{formatScore(result.vcnv)}</td>
                           <td className="text-right tabular-nums">{formatScore(result.tt)}</td>
                           <td className="text-right tabular-nums">{formatScore(result.vd)}</td>
                           <td className="text-right font-semibold tabular-nums">{formatScore(result.total)}</td>
                           <td>
-                            {result.placement
-                              ? PLACEMENT_LABEL[result.placement]
-                              : result.advanced
-                                ? "Vào Chung kết"
-                                : `Hạng ${result.rank}`}
-                            {match.tiebreakWinner === person.id && (
-                              <span className="block text-xs font-semibold text-cube-pink">Thắng câu hỏi phụ</span>
-                            )}
+                            {resultLabel(match, result)}
+                            {tiebreaks.some((t) => t.match.id === match.id) && <span aria-hidden>*</span>}
                           </td>
                         </tr>
                       ))}
@@ -103,6 +108,9 @@ export default function ContestantDetail() {
                 </tbody>
               </table>
             </div>
+            {tiebreaks.map((t) => (
+              <TiebreakNote key={t.match.id} winner={t.winner} tiedWith={t.tiedWith} />
+            ))}
           </section>
 
           {olympia.length > 0 && (
@@ -125,6 +133,7 @@ export default function ContestantDetail() {
                         <td>
                           {r.round}
                           {r.note && <span className="block text-sm font-semibold text-cube-pink">{r.note}</span>}
+                          {r.beforeOss && <span className="block text-xs text-ink-soft">Tham gia trước khi dự thi OSS</span>}
                         </td>
                         <td className="font-semibold">{r.result}</td>
                         <td className="tabular-nums">{r.date ? formatDate(r.date) : "–"}</td>
@@ -149,7 +158,9 @@ export default function ContestantDetail() {
         <aside className="infobox" aria-label="Thông tin nhanh">
           <PersonPhoto src={personPhoto(person.id)} name={person.name} className="mb-4 aspect-[3/4] w-full rounded-lg" textClass="text-6xl" />
           <dl>
-            <dt>Trường</dt>
+            <dt>
+              <IconLabel icon={PiGraduationCap}>Trường</IconLabel>
+            </dt>
             <dd>
               {school ? (
                 <Link to={schoolPath(school.id)} className="text-oss hover:underline">
@@ -159,22 +170,32 @@ export default function ContestantDetail() {
                 "–"
               )}
             </dd>
-            <dt>Mùa tham dự</dt>
+            <dt>
+              <IconLabel icon={PiCalendarBlank}>Mùa tham dự</IconLabel>
+            </dt>
             <dd>{participations.map((p) => p.season).join(", ") || "–"}</dd>
-            <dt>Danh hiệu OSS</dt>
-            <dd>
-              {titleText.length ? (
-                <ul>
-                  {titleText.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              ) : (
-                "–"
-              )}
-            </dd>
-            <dt>Tham dự Đường lên đỉnh Olympia</dt>
-            <dd>{olympiaYears.length ? `Năm thứ ${olympiaYears.join(", ")}` : "–"}</dd>
+            {titleText.length > 0 && (
+              <>
+                <dt>
+                  <IconLabel icon={PiTrophy}>Danh hiệu OSS</IconLabel>
+                </dt>
+                <dd>
+                  <ul>
+                    {titleText.map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )}
+            {olympiaYears.length > 0 && (
+              <>
+                <dt>
+                  <IconLabel icon={PiTelevisionSimple}>Tham dự Đường lên đỉnh Olympia</IconLabel>
+                </dt>
+                <dd>Năm thứ {olympiaYears.join(", ")}</dd>
+              </>
+            )}
           </dl>
         </aside>
       </div>
