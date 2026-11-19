@@ -86,6 +86,8 @@ npm run anh-con-thieu
 
 Lệnh in từng nhóm (thí sinh, trận đấu, cột mốc, nhận xét, đối tác, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
 
+**Ảnh mẫu giữ chỗ:** nếu một file ảnh có chuỗi `OSS-ANH-MAU` trong 4 KB đầu (vd nằm trong phần chú thích của file SVG, hoặc trong metadata của JPG) thì web và `npm run anh-con-thieu` coi như **chưa có ảnh**: web vẫn hiện ảnh giữ chỗ, lệnh vẫn báo thiếu. Khi thay bằng ảnh thật (không còn chuỗi này) thì ảnh tự được tính là đã có.
+
 Ảnh thí sinh, trận đấu, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người), logo OSS (cột mốc) hoặc dải chữ cái đầu của 4 thí sinh (trận đấu). Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
 
 Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh chữ O-S-S nên là ảnh dọc, nhiều màu sắc.

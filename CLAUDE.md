@@ -50,6 +50,7 @@ Menu chính: **Về chúng tôi · OSSPEDIA · Bảng vàng · Human of OSS · T
 
 ## Ảnh (theo quy ước tên file, không khai báo trong JSON)
 - **Danh sách ảnh tự sinh:** `scripts/gen-image-manifest.mjs` quét `public/images/**` và `public/logo-oss*` → `src/data/generated/images.json` (commit file này). Tự chạy qua `predev` / `prebuild` / `pretypecheck`. **Mọi component ảnh chỉ gọi tải ảnh có trong danh sách** qua `hasImage()` / `pickImage()` (`src/lib/images.ts`); không có thì dùng ảnh giữ chỗ luôn (không còn lỗi 404). `onError` chỉ là dự phòng. Thêm ảnh mới thì chạy lại `npm run dev`.
+- **Ảnh mẫu giữ chỗ:** file ảnh nào có chuỗi `OSS-ANH-MAU` trong 4KB đầu là ảnh mẫu, coi như **chưa có ảnh**: không vào danh sách ảnh tự sinh (web hiện ảnh giữ chỗ) và `npm run anh-con-thieu` vẫn báo thiếu. Quy tắc nằm ở `scripts/lib/scan-images.mjs` (`SAMPLE_MARKER`), dùng chung cho cả hai script.
 - Thí sinh: `public/images/thi-sinh/<mã-thí-sinh>.jpg` (mã = `id` trong `people.json`)
 - **Trận đấu (v0.9):** `public/images/tran-dau/<id trận>.jpg`, `<id trận>` = `id` trong `matches.json` (vd `oss10-bk1.jpg`, `oss10-ck.jpg`). Ảnh ngang 3:2, ~1500×1000, < 400KB. Hàm `matchPhoto(id)` trong `data.ts`. Ảnh Chung kết còn dùng cho dải mờ đầu trang mùa và ảnh đầu thẻ ở trang các mùa.
 - Ban: `photo` trong `departments.json` nếu có, không thì `public/images/ban/<id ban>.jpg` (ngang 4:3).
