@@ -155,10 +155,13 @@ export interface Testimonial {
   quote: string; // nhiều đoạn ngăn bằng "\n\n"
 }
 
+/** Hạng đối tác: Vàng, Bạc, Đồng hành (đổi hạng = đổi `tier`, và đổi tên file logo theo `id` mới). */
+export type PartnerTier = "vang" | "bac" | "dong-hanh";
+
 /** Đối tác đồng hành. Logo: public/images/doi-tac/<id>.svg hoặc .png. Chỉ đăng khi đơn vị đồng ý. */
 export interface Partner {
   id: string;
   name: string;
   url: string; // "" = không có link
-  tier?: "chinh"; // đối tác chính (hàng 1, ô to hơn)
+  tier: PartnerTier;
 }

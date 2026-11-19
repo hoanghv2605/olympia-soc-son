@@ -17,6 +17,7 @@ const milestones = read("milestones");
 const testimonials = read("testimonials");
 const partners = read("partners");
 const humans = read("humans");
+const matchesAll = matches;
 const departments = read("departments");
 const schools = read("schools");
 
@@ -28,15 +29,14 @@ const groups = [];
 const group = (title, items) => groups.push({ title, items });
 const dedupe = (items) => [...new Map(items.map((i) => [i.options.join("|"), i])).values()];
 
-// 1. Thí sinh: mỗi lượt vào top 12 một ảnh s{mùa}-{slug}-{mã trường}.jpg + người chỉ thi Đường lên đỉnh Olympia o{năm}-...
-//    (tên file tính bằng hàm dùng chung src/lib/photo-names.js, cùng hàm với web)
-group(
-  "Thí sinh (mỗi lượt vào top 12 một ảnh, và người chỉ thi Đường lên đỉnh Olympia)",
-  personPhotoFiles({ people, qualifying, olympia, schools }).map((f) => ({
-    label: f.label,
-    options: [`images/thi-sinh/${f.file}`],
-  })),
-);
+// 1. Ảnh thí sinh (tên file tính bằng hàm dùng chung src/lib/photo-names.js, cùng hàm với web), chia 3 nhóm:
+//    theo mùa s{mùa}-..., Đường lên đỉnh Olympia o{năm}-..., Quán quân Hall of Fame s{mùa}-...-win
+const photoFiles = personPhotoFiles({ people, qualifying, olympia, schools, matches: matchesAll });
+const photoItems = (kind) =>
+  photoFiles.filter((f) => f.kind === kind).map((f) => ({ label: f.label, options: [`images/thi-sinh/${f.file}`] }));
+group("Thí sinh theo mùa (mỗi lượt vào top 12 một ảnh)", photoItems("oss"));
+group("Ảnh Olympia (mỗi năm Đường lên đỉnh Olympia một ảnh)", photoItems("olympia"));
+group("Quán quân Hall of Fame (ảnh vuông ~800×800 của mùa vô địch gần nhất)", photoItems("win"));
 
 // 2. Trận đấu
 group(
@@ -64,11 +64,19 @@ group(
   testimonials.map((t) => ({ label: t.name, options: [`images/nhan-xet/${t.id}.jpg`] })),
 );
 
-// 5. Đối tác (svg hoặc png)
-group(
-  "Đối tác",
-  partners.map((p) => ({ label: p.name, options: [`images/doi-tac/${p.id}.svg`, `images/doi-tac/${p.id}.png`] })),
-);
+// 5. Đối tác theo hạng (svg hoặc png): doi-tac/{id}.svg|png, id = vang-n / bac-n / dong-hanh-n trong partners.json
+for (const [tier, title] of [
+  ["vang", "Đối tác Vàng"],
+  ["bac", "Đối tác Bạc"],
+  ["dong-hanh", "Đối tác đồng hành"],
+]) {
+  group(
+    title,
+    partners
+      .filter((p) => p.tier === tier)
+      .map((p) => ({ label: p.name, options: [`images/doi-tac/${p.id}.svg`, `images/doi-tac/${p.id}.png`] })),
+  );
+}
 
 // 6. Human of OSS: đủ HUMAN_SLOTS ô, ảnh human-of-oss/{stt 2 chữ số}.jpg
 group(

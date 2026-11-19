@@ -20,6 +20,7 @@
   --color-gold-bg: #fbf1c7;
   --color-gold: #c9a227;
   --color-gold-ink: #7a5c00;
+  --color-gold-text: #e9c46a; /* chữ vàng trên nền tối (Hall of Fame) */
   --color-silver-bg: #eef1f5;
   --color-silver: #9aa4b2;
   --color-silver-ink: #4b5563;
@@ -627,6 +628,36 @@
       align-self: center;
     }
   }
+  /* Hall of Fame: ảnh tròn + vòng nguyệt quế. Rê chuột / focus: ảnh phóng nhẹ, nguyệt quế sáng lên */
+  .hof-photo {
+    transition: transform 200ms ease;
+  }
+  .hof-laurel {
+    transition: filter 200ms ease;
+  }
+  .hof-card:hover .hof-photo,
+  .hof-card:focus-visible .hof-photo {
+    transform: scale(1.03);
+  }
+  .hof-card:hover .hof-laurel,
+  .hof-card:focus-visible .hof-laurel {
+    filter: drop-shadow(0 0 8px rgba(242, 210, 122, 0.75));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hof-photo,
+    .hof-laurel {
+      transition: none;
+    }
+    .hof-card:hover .hof-photo,
+    .hof-card:focus-visible .hof-photo {
+      transform: none;
+    }
+    .hof-card:hover .hof-laurel,
+    .hof-card:focus-visible .hof-laurel {
+      filter: brightness(1.25); /* giảm chuyển động: chỉ đổi độ sáng */
+    }
+  }
+
   .org-lines path {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;

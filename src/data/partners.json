@@ -1,52 +1,152 @@
 [
   {
-    "id": "doi-tac-1",
-    "name": "Đối tác 1",
-    "url": ""
+    "id": "vang-1",
+    "name": "Đối tác Vàng 1",
+    "url": "",
+    "tier": "vang"
   },
   {
-    "id": "doi-tac-2",
-    "name": "Đối tác 2",
-    "url": ""
+    "id": "vang-2",
+    "name": "Đối tác Vàng 2",
+    "url": "",
+    "tier": "vang"
   },
   {
-    "id": "doi-tac-3",
-    "name": "Đối tác 3",
-    "url": ""
+    "id": "vang-3",
+    "name": "Đối tác Vàng 3",
+    "url": "",
+    "tier": "vang"
   },
   {
-    "id": "doi-tac-4",
-    "name": "Đối tác 4",
-    "url": ""
+    "id": "vang-4",
+    "name": "Đối tác Vàng 4",
+    "url": "",
+    "tier": "vang"
   },
   {
-    "id": "doi-tac-5",
-    "name": "Đối tác 5",
-    "url": ""
+    "id": "vang-5",
+    "name": "Đối tác Vàng 5",
+    "url": "",
+    "tier": "vang"
   },
   {
-    "id": "doi-tac-6",
-    "name": "Đối tác 6",
-    "url": ""
+    "id": "bac-1",
+    "name": "Đối tác Bạc 1",
+    "url": "",
+    "tier": "bac"
   },
   {
-    "id": "doi-tac-7",
-    "name": "Đối tác 7",
-    "url": ""
+    "id": "bac-2",
+    "name": "Đối tác Bạc 2",
+    "url": "",
+    "tier": "bac"
   },
   {
-    "id": "doi-tac-8",
-    "name": "Đối tác 8",
-    "url": ""
+    "id": "bac-3",
+    "name": "Đối tác Bạc 3",
+    "url": "",
+    "tier": "bac"
   },
   {
-    "id": "doi-tac-9",
-    "name": "Đối tác 9",
-    "url": ""
+    "id": "bac-4",
+    "name": "Đối tác Bạc 4",
+    "url": "",
+    "tier": "bac"
   },
   {
-    "id": "doi-tac-10",
-    "name": "Đối tác 10",
-    "url": ""
+    "id": "bac-5",
+    "name": "Đối tác Bạc 5",
+    "url": "",
+    "tier": "bac"
+  },
+  {
+    "id": "bac-6",
+    "name": "Đối tác Bạc 6",
+    "url": "",
+    "tier": "bac"
+  },
+  {
+    "id": "bac-7",
+    "name": "Đối tác Bạc 7",
+    "url": "",
+    "tier": "bac"
+  },
+  {
+    "id": "bac-8",
+    "name": "Đối tác Bạc 8",
+    "url": "",
+    "tier": "bac"
+  },
+  {
+    "id": "bac-9",
+    "name": "Đối tác Bạc 9",
+    "url": "",
+    "tier": "bac"
+  },
+  {
+    "id": "bac-10",
+    "name": "Đối tác Bạc 10",
+    "url": "",
+    "tier": "bac"
+  },
+  {
+    "id": "dong-hanh-1",
+    "name": "Đối tác đồng hành 1",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-2",
+    "name": "Đối tác đồng hành 2",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-3",
+    "name": "Đối tác đồng hành 3",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-4",
+    "name": "Đối tác đồng hành 4",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-5",
+    "name": "Đối tác đồng hành 5",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-6",
+    "name": "Đối tác đồng hành 6",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-7",
+    "name": "Đối tác đồng hành 7",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-8",
+    "name": "Đối tác đồng hành 8",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-9",
+    "name": "Đối tác đồng hành 9",
+    "url": "",
+    "tier": "dong-hanh"
+  },
+  {
+    "id": "dong-hanh-10",
+    "name": "Đối tác đồng hành 10",
+    "url": "",
+    "tier": "dong-hanh"
   }
 ]

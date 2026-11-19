@@ -74,7 +74,9 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 | `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc | 4:3 | ~1200×900 |
 | `public/images/human-of-oss/{stt 2 chữ số}.jpg` | Chân dung Human of OSS, theo `stt` trong `humans.json` (vd `01.jpg`). Thư mục `images/humans/` không còn dùng | dọc | ~800×1000 |
 | `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ. `id` trong `testimonials.json` | vuông | ~600×600 |
-| `public/images/doi-tac/<id>.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc). `id` trong `partners.json` | tự do | SVG, hoặc PNG ngang ~600 px |
+| `public/images/doi-tac/{id}.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc), tên file = `id` trong `partners.json`: `vang-1`…`vang-5`, `bac-1`…`bac-10`, `dong-hanh-1`…`dong-hanh-10`. Đổi hạng: xem mục "Thêm / sửa một đối tác" | tự do | SVG, hoặc PNG ngang ~600 px |
+| `public/images/thi-sinh/o{năm}-{slug họ tên}-{mã trường}.jpg` | Ảnh **Đường lên đỉnh Olympia**, mỗi năm một ảnh, cho cả thí sinh OSS và người chỉ thi Olympia (vd `o26-nghiem-trung-duc-ss.jpg`). Mã trường theo trường của người đó trong `people.json`. Hiện ở hồ sơ (nút "O26") và mục THPT Sóc Sơn tại Đường lên đỉnh Olympia ở Bảng vàng | dọc 3:4 | ~600×800 |
+| `public/images/thi-sinh/s{mùa}-{slug họ tên}-{mã trường}-win.jpg` | Ảnh **Quán quân** ở Hall of Fame (Bảng vàng), mùa vô địch gần nhất của người đó (vd `s9-nghiem-trung-duc-ss-win.jpg`). Chưa có thì dùng ảnh mùa đó (không `-win`), rồi ảnh mùa khác | vuông | ~800×800 |
 | `public/images/truong/<id-trường>.svg` hoặc `.png` | Logo trường (huy hiệu tròn). Tên file = `id` trong `schools.json`: `soc-son`, `da-phuc`, `trung-gia`, `minh-phu`, `xuan-giang`. Chưa có logo thì hiện chữ viết tắt của trường | vuông | ~256×256, nền trong suốt |
 
 ### Cách đặt tên ảnh thí sinh (tự tính, không phải nhớ)
@@ -89,7 +91,7 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 | THPT Minh Phú | `mp` |
 | THPT Xuân Giang | `xg` |
 
-**Web chọn ảnh thế nào:** ở trang một mùa (vòng tròn thí sinh, thẻ xem nhanh) và khối "Chung kết mùa n" trang chủ thì ưu tiên ảnh đúng mùa đó, chưa có thì dùng ảnh mùa khác (mới trước). Ở chỗ khác (Bảng vàng, danh sách, trang trường, tìm kiếm...) dùng ảnh mùa mới nhất. Hồ sơ thí sinh có từ 2 mùa thì có nút "Mùa n" dưới ảnh để xem ảnh từng mùa (mùa chưa có ảnh thì hiện ảnh giữ chỗ). Hai lượt thi khác nhau mà ra cùng một tên file thì `npm run build` dừng lại và báo 2 lượt đó.
+**Web chọn ảnh thế nào:** ở trang một mùa (ảnh tròn nhỏ cạnh tên trong bảng Bán kết / Chung kết, thẻ xem nhanh) và khối "Chung kết mùa n" trang chủ thì ưu tiên ảnh đúng mùa đó, chưa có thì dùng ảnh mùa khác (mới trước). Ở chỗ khác (Bảng vàng, danh sách, trang trường, tìm kiếm...) dùng ảnh mùa mới nhất. Hồ sơ thí sinh có nút "Mùa n" và "O{năm}" dưới ảnh (hiện khi có từ 2 nút) để xem ảnh từng mùa / từng năm Olympia (chưa có ảnh thì hiện ảnh giữ chỗ). Mục THPT Sóc Sơn tại Đường lên đỉnh Olympia ưu tiên ảnh `o…`. Hall of Fame dùng ảnh `-win`. Hai lượt thi khác nhau mà ra cùng một tên file thì `npm run build` dừng lại và báo 2 lượt đó.
 
 ### Xem ảnh nào còn thiếu
 
@@ -97,11 +99,11 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 npm run anh-con-thieu
 ```
 
-Lệnh in từng nhóm (thí sinh, trận đấu, cột mốc, nhận xét, đối tác, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
+Lệnh in từng nhóm (thí sinh theo mùa, ảnh Olympia, Quán quân Hall of Fame, trận đấu, cột mốc, nhận xét, đối tác Vàng / Bạc / Đồng hành, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
 
 **Ảnh mẫu giữ chỗ:** nếu một file ảnh có chuỗi `OSS-ANH-MAU` trong 4 KB đầu (vd nằm trong phần chú thích của file SVG, hoặc trong metadata của JPG) thì web và `npm run anh-con-thieu` coi như **chưa có ảnh**: web vẫn hiện ảnh giữ chỗ, lệnh vẫn báo thiếu. Khi thay bằng ảnh thật (không còn chuỗi này) thì ảnh tự được tính là đã có.
 
-Ảnh thí sinh, trận đấu, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người), logo OSS (cột mốc) hoặc dải chữ cái đầu của 4 thí sinh (trận đấu). Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
+Ảnh thí sinh, trận đấu, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người), logo OSS (cột mốc) hoặc không hiện gì (ảnh trận đấu; không còn dải giữ chỗ). Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
 
 Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh chữ O-S-S nên là ảnh dọc, nhiều màu sắc.
 
@@ -129,13 +131,16 @@ Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh ch�
 
 > Chỉ đăng logo khi đơn vị đó đã đồng ý.
 
+Đối tác chia 3 hạng, hiện thành 3 hàng trên trang chủ theo thứ tự **Vàng → Bạc → Đồng hành** (hạng nào không có đối tác thì ẩn cả hàng). Mặc định có 25 mục giữ chỗ: `vang-1`…`vang-5`, `bac-1`…`bac-10`, `dong-hanh-1`…`dong-hanh-10`.
+
 1. Mở `src/data/partners.json`, sửa mục giữ chỗ hoặc thêm mục mới:
    ```json
-   { "id": "cong-ty-abc", "name": "Công ty ABC", "url": "https://abc.vn", "tier": "chinh" }
+   { "id": "vang-1", "name": "Công ty ABC", "url": "https://abc.vn", "tier": "vang" }
    ```
-   `url` để `""` nếu không cần link. `"tier": "chinh"` (tùy chọn) = đối tác chính: xếp riêng hàng trên, ô to hơn. Xóa các mục giữ chỗ không dùng.
-2. Logo: `public/images/doi-tac/<id>.svg` hoặc `.png`, nền trong suốt. Chưa có logo thì web hiện tên đối tác.
-3. Chạy lại `npm run dev`.
+   `tier` là `"vang"`, `"bac"` hoặc `"dong-hanh"`. `url` để `""` nếu không cần link. Xóa các mục giữ chỗ không dùng.
+2. Logo: `public/images/doi-tac/{id}.svg` hoặc `.png` (tên file = `id`), nền trong suốt. Chưa có logo thì web hiện tên đối tác.
+3. **Đổi hạng một đối tác** (vd từ Bạc lên Vàng): đổi `"tier"` trong `partners.json`, rồi đổi `id` cho hợp hạng mới (vd `bac-3` → `vang-6`) và đổi tên file logo theo `id` mới. Thứ tự trong hàng = thứ tự trong file.
+4. Chạy lại `npm run dev`.
 
 ### Thêm một câu chuyện Human of OSS
 

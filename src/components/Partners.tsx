@@ -3,39 +3,46 @@ import { partnerLogoCandidates, partners } from "../lib/data";
 import { asset } from "../lib/format";
 import { prefersReducedMotion } from "../lib/hooks";
 import { pickImage } from "../lib/images";
-import type { Partner } from "../types";
-
-const SPEED = 30; // px mỗi giây
-const ONE_ROW_MAX = 6; // ≤ 6 đối tác thì 1 hàng
+import type { Partner, PartnerTier } from "../types";
 
 /**
- * Chia hàng: ≤ 6 → 1 hàng; có đối tác chính (tier "chinh") → hàng 1 đối tác chính (ô to), hàng 2 còn lại;
- * không có thì chia đôi danh sách.
+ * 3 hạng đối tác, từ trên xuống: Vàng → Bạc → Đồng hành. Mỗi hàng trôi ngang, chiều xen kẽ
+ * (Vàng sang trái, Bạc sang phải, Đồng hành sang trái); Vàng chậm hơn (20px/giây, 2 hàng kia 30px/giây).
+ * `tile` = cỡ ô + viền (máy tính / điện thoại); chuỗi class viết đầy đủ để Tailwind nhận ra.
  */
-function splitRows(list: Partner[]): { items: Partner[]; big: boolean }[] {
-  if (list.length <= ONE_ROW_MAX) return [{ items: list, big: false }];
-  const main = list.filter((p) => p.tier === "chinh");
-  if (main.length) {
-    const rest = list.filter((p) => p.tier !== "chinh");
-    return [{ items: main, big: true }, ...(rest.length ? [{ items: rest, big: false }] : [])];
-  }
-  const half = Math.ceil(list.length / 2);
-  return [
-    { items: list.slice(0, half), big: false },
-    { items: list.slice(half), big: false },
-  ];
-}
+const TIERS: { tier: PartnerTier; label: string; speed: number; reverse: boolean; tile: string }[] = [
+  {
+    tier: "vang",
+    label: "Đối tác Vàng",
+    speed: 20,
+    reverse: false,
+    tile: "h-[110px] w-[176px] md:h-[150px] md:w-[240px] border-2 border-gold shadow-[0_6px_18px_-8px_rgba(201,162,39,0.55)]",
+  },
+  {
+    tier: "bac",
+    label: "Đối tác Bạc",
+    speed: 30,
+    reverse: true,
+    tile: "h-[88px] w-[136px] md:h-[112px] md:w-[176px] border-[1.5px] border-silver",
+  },
+  {
+    tier: "dong-hanh",
+    label: "Đối tác đồng hành",
+    speed: 30,
+    reverse: false,
+    tile: "h-[76px] w-[120px] md:h-24 md:w-[152px] border border-oss/30",
+  },
+];
 
 /** Một ô logo. Bản sao (cho vòng lặp liền mạch) thì aria-hidden và không focus được. */
-function Tile({ p, big, clone }: { p: Partner; big: boolean; clone: boolean }) {
+function Tile({ p, tile, clone }: { p: Partner; tile: string; clone: boolean }) {
   const logo = pickImage(partnerLogoCandidates(p.id));
-  const size = big ? "h-[132px] w-[204px] md:h-[168px] md:w-[264px]" : "h-[88px] w-[136px] md:h-28 md:w-44";
   const inner = logo ? (
     <img src={asset(logo)} alt={clone ? "" : p.name} loading="lazy" className="size-full object-contain p-4" />
   ) : (
     <span className="px-3 text-center text-sm font-semibold text-ink-soft">{p.name}</span>
   );
-  const cls = `grid shrink-0 place-items-center overflow-hidden rounded-2xl border border-oss/15 bg-white ${size}`;
+  const cls = `grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-white ${tile}`;
   return (
     <li className="mr-4 shrink-0" aria-hidden={clone || undefined}>
       {p.url ? (
@@ -55,14 +62,14 @@ function Tile({ p, big, clone }: { p: Partner; big: boolean; clone: boolean }) {
   );
 }
 
-/** Một hàng logo trôi ngang liên tục (~30px/giây); dừng khi rê chuột / focus. */
-function MarqueeRow({ items, big, reverse }: { items: Partner[]; big: boolean; reverse: boolean }) {
+/** Một hàng logo trôi ngang liên tục với tốc độ `speed` (px/giây); dừng khi rê chuột / focus. */
+function MarqueeRow({ items, tile, speed, reverse }: { items: Partner[]; tile: string; speed: number; reverse: boolean }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const halfRef = useRef<HTMLUListElement>(null);
   const [reps, setReps] = useState(1);
   const [duration, setDuration] = useState(40);
 
-  // Lặp danh sách đủ phủ bề ngang khung, thời lượng = bề rộng 1 nửa / tốc độ
+  // Lặp danh sách đủ phủ bề ngang khung (kể cả hàng ít đối tác), thời lượng = bề rộng 1 nửa / tốc độ
   useLayoutEffect(() => {
     const box = boxRef.current;
     const half = halfRef.current;
@@ -72,24 +79,24 @@ function MarqueeRow({ items, big, reverse }: { items: Partner[]; big: boolean; r
       if (!single) return;
       const need = Math.max(1, Math.ceil(box.clientWidth / single));
       if (need !== reps) setReps(need);
-      setDuration((single * need) / SPEED);
+      setDuration((single * need) / speed);
     };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(box);
     return () => ro.disconnect();
-  }, [reps]);
+  }, [reps, speed]);
 
   const half = (copy: number) => (
     <ul ref={copy === 0 ? halfRef : undefined} className="flex shrink-0" aria-hidden={copy > 0 || undefined}>
       {Array.from({ length: reps }, (_, r) =>
-        items.map((p) => <Tile key={`${r}-${p.id}`} p={p} big={big} clone={copy > 0 || r > 0} />),
+        items.map((p) => <Tile key={`${r}-${p.id}`} p={p} tile={tile} clone={copy > 0 || r > 0} />),
       )}
     </ul>
   );
 
   return (
-    <div ref={boxRef} className={`marquee py-1 ${reverse ? "is-reverse" : ""}`}>
+    <div ref={boxRef} className={`marquee py-3 ${reverse ? "is-reverse" : ""}`}>
       <div className="marquee-track" style={{ ["--marquee-duration" as string]: `${duration}s` }}>
         {half(0)}
         {half(1)}
@@ -98,30 +105,27 @@ function MarqueeRow({ items, big, reverse }: { items: Partner[]; big: boolean; r
   );
 }
 
-/** Đối tác đồng hành: hàng logo trôi (2 hàng ngược chiều); giảm chuyển động thì xếp lưới tĩnh. */
+/** Đối tác đồng hành theo 3 hạng; hạng nào không có đối tác thì ẩn cả hàng. Giảm chuyển động: lưới tĩnh căn giữa. */
 export default function Partners() {
   const [reduced] = useState(prefersReducedMotion);
-  if (!partners.length) return null;
-  const rows = splitRows(partners);
-
-  if (reduced) {
-    return (
-      <div className="space-y-4">
-        {rows.map((row, i) => (
-          <ul key={i} className="flex flex-wrap justify-center gap-y-4">
-            {row.items.map((p) => (
-              <Tile key={p.id} p={p} big={row.big} clone={false} />
-            ))}
-          </ul>
-        ))}
-      </div>
-    );
-  }
+  const rows = TIERS.map((t) => ({ ...t, items: partners.filter((p) => p.tier === t.tier) })).filter((r) => r.items.length > 0);
+  if (!rows.length) return null;
 
   return (
-    <div className="space-y-4">
-      {rows.map((row, i) => (
-        <MarqueeRow key={i} items={row.items} big={row.big} reverse={i % 2 === 1} />
+    <div className="space-y-6">
+      {rows.map((r) => (
+        <section key={r.tier} aria-label={r.label}>
+          <h3 className="text-sm font-semibold text-ink-soft">{r.label}</h3>
+          {reduced ? (
+            <ul className="mt-3 flex flex-wrap justify-center gap-y-4">
+              {r.items.map((p) => (
+                <Tile key={p.id} p={p} tile={r.tile} clone={false} />
+              ))}
+            </ul>
+          ) : (
+            <MarqueeRow items={r.items} tile={r.tile} speed={r.speed} reverse={r.reverse} />
+          )}
+        </section>
       ))}
     </div>
   );

@@ -14,6 +14,7 @@ import {
 } from "react-icons/pi";
 import FinalistStrips from "../components/FinalistStrips";
 import IconLabel from "../components/IconLabel";
+import Laurel from "../components/Laurel";
 import MedalBadge from "../components/MedalBadge";
 import Modal from "../components/Modal";
 import PageHeader from "../components/PageHeader";
@@ -22,6 +23,7 @@ import PersonPhoto from "../components/PersonPhoto";
 import {
   RECORD_LABEL,
   championCards,
+  championPhoto,
   describeTitles,
   getSchool,
   olympiaContestantCount,
@@ -37,7 +39,7 @@ import {
   topRecords,
   type RecordField,
 } from "../lib/data";
-import { formatDate, formatScore } from "../lib/format";
+import { formatDate } from "../lib/format";
 import { MEDAL_DOT, MEDAL_ROW, medalOf } from "../lib/medal";
 import type { OlympiaPeriod } from "../types";
 
@@ -69,31 +71,26 @@ function ChampionsSection() {
             Quán quân các mùa
           </IconLabel>
         </h2>
-        <ul className="mt-8 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
+        <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 md:gap-x-6 lg:grid-cols-4">
           {cards.map(({ person, wins }) => (
             <li key={person.id}>
               <Link
                 to={personPath(person.id)}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gold/40 bg-white/5 transition-colors hover:border-gold hover:bg-white/10"
+                className="hof-card group flex flex-col items-center text-center focus-visible:outline-gold"
               >
-                <PersonPhoto src={personPhoto(person.id)} seed={person.id} name={person.name} className="aspect-[3/4] w-full" />
-                <span className="flex flex-1 flex-col p-4">
-                  <span className="font-display text-lg leading-snug font-bold text-white group-hover:text-gold-bg">
+                {/* Khung vuông: ảnh tròn ~68% bề rộng (tối đa 200px) nằm giữa vòng nguyệt quế tự vẽ */}
+                <span className="relative block aspect-square w-full max-w-[294px]">
+                  <Laurel className="hof-laurel absolute inset-0 size-full" />
+                  <span className="hof-photo absolute inset-[16%] overflow-hidden rounded-full border border-gold">
+                    <PersonPhoto src={championPhoto(person.id)} seed={person.id} name={person.name} className="size-full" />
+                  </span>
+                </span>
+                {/* 2 dòng vàng căn giữa (khối cao tối thiểu bằng 2 dòng tên + dòng Quán quân để các ô thẳng hàng); tên in hoa là ngoại lệ có chủ đích của quy tắc "không in hoa" */}
+                <span className="mt-3 flex min-h-[4.75rem] flex-col items-center gap-1 text-gold-text">
+                  <span className="font-display line-clamp-2 text-base leading-tight font-bold tracking-[0.02em] text-balance uppercase md:text-lg">
                     {person.name}
                   </span>
-                  {wins.length > 1 && (
-                    <span className="text-xs font-semibold text-gold">{wins.length} lần Quán quân</span>
-                  )}
-                  <span className="mt-auto flex flex-wrap gap-1.5 pt-3">
-                    {wins.map((w) => (
-                      <span
-                        key={w.season}
-                        className="rounded-full border border-gold bg-gold-bg px-2.5 py-0.5 text-xs font-bold text-gold-ink tabular-nums"
-                      >
-                        Mùa {w.season} · {formatScore(w.total)}
-                      </span>
-                    ))}
-                  </span>
+                  <span className="text-sm font-bold">Quán quân {wins.map((w) => `OSS${w.season}`).join(", ")}</span>
                 </span>
               </Link>
             </li>

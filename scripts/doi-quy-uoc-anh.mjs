@@ -6,6 +6,8 @@
 //   thi-sinh/<person id>.jpg     mẫu → xoá; thật → đổi sang tên MÙA MỚI NHẤT của người đó (người chỉ thi Đường lên đỉnh Olympia: tên o…)
 //   humans/<slug>.jpg            mẫu → xoá; thật → human-of-oss/{stt 2 chữ số}.jpg theo humans.json; xoá thư mục humans/ nếu trống
 //   about/ban-<id>.jpg, ban/<id>.jpg   mẫu → xoá; thật → ban/ban-<id>.jpg
+//   doi-tac/doi-tac-{n}.png|svg  mẫu → xoá; THẬT → không xoá, báo Kit và DỪNG lượt chạy thật (Kit tự đổi tên logo theo hạng:
+//                                vang-{n} / bac-{n} / dong-hanh-{n}, xem README)
 //   File đích đã có: đích là ảnh mẫu → ghi đè; đích là ảnh thật → KHÔNG ghi đè, in cảnh báo.
 //   Chỉ xử lý .jpg; .jpeg / .JPG / .png trong thi-sinh/ chỉ in cảnh báo.
 //   "Ảnh mẫu" = có chuỗi OSS-ANH-MAU trong 4KB đầu (cùng quy tắc với danh sách ảnh).
@@ -23,7 +25,13 @@ const qualifying = read("qualifying");
 const olympia = read("olympia");
 const schools = read("schools");
 const humans = read("humans");
+const matches = read("matches");
 const departments = read("departments");
+
+const print = (title, rows) => {
+  console.log(`\n## ${title}: ${rows.length}`);
+  for (const r of rows) console.log(`  - ${r}`);
+};
 
 const abs = (rel) => join(imagesDir, rel);
 const listDir = (dir) => {
@@ -36,7 +44,7 @@ const listDir = (dir) => {
 
 // ----- Trạng thái ảo của các file (rel → ảnh mẫu?) để lập kế hoạch giống hệt khi thử và khi chạy thật -----
 const state = new Map(); // rel → { sample: boolean }
-for (const dir of ["thi-sinh", "humans", "about", "ban", "human-of-oss"]) {
+for (const dir of ["thi-sinh", "humans", "about", "ban", "human-of-oss", "doi-tac"]) {
   for (const n of listDir(dir)) {
     const rel = `${dir}/${n}`;
     if (statSync(abs(rel)).isFile()) state.set(rel, { sample: isSampleImage(abs(rel)) });
@@ -74,12 +82,14 @@ function handle(rel, to) {
 }
 
 // ----- 1. thi-sinh/<person id>.jpg → tên mùa mới nhất (hoặc o…) -----
-const photoFiles = personPhotoFiles({ people, qualifying, olympia, schools });
+const photoFiles = personPhotoFiles({ people, qualifying, olympia, schools, matches });
 const allNew = new Set(photoFiles.map((f) => f.file));
-const targetOf = new Map(); // person id → { file, season }
+const targetOf = new Map(); // person id → { file, rank }: ảnh mùa OSS mới nhất; người chỉ thi Đường lên đỉnh Olympia → ảnh o…
 for (const f of photoFiles) {
+  if (f.kind !== "oss" && f.kind !== "olympia") continue;
+  const rank = f.kind === "oss" ? 1000 + f.season : 0;
   const cur = targetOf.get(f.personId);
-  if (!cur || (f.season ?? 0) > cur.season) targetOf.set(f.personId, { file: f.file, season: f.season ?? 0 });
+  if (!cur || rank > cur.rank) targetOf.set(f.personId, { file: f.file, rank });
 }
 for (const name of listDir("thi-sinh")) {
   const rel = `thi-sinh/${name}`;
@@ -110,6 +120,18 @@ for (const d of departments) {
   }
 }
 
+// ----- 4. Logo đối tác cũ doi-tac/doi-tac-{n}: mẫu → xoá; thật → không xoá, dừng lượt chạy thật -----
+const realOldLogos = [];
+for (const name of listDir("doi-tac")) {
+  const rel = `doi-tac/${name}`;
+  if (!state.has(rel) || !/^doi-tac-\d+\.(png|svg)$/.test(name)) continue;
+  if (state.get(rel).sample) remove(rel, "logo mẫu cũ");
+  else {
+    realOldLogos.push(rel);
+    warnings.push(`${rel}: là logo THẬT, không xoá. Kit tự đổi tên theo hạng (vang-{n} / bac-{n} / dong-hanh-{n}) rồi chạy lại`);
+  }
+}
+
 // ----- Thư mục humans/ trống (không còn file nào sau khi xử lý) thì xoá -----
 let removeHumansDir = false;
 if (existsSync(abs("humans"))) {
@@ -123,6 +145,11 @@ if (existsSync(abs("humans"))) {
 }
 
 // ----- Thực hiện -----
+if (!dryRun && realOldLogos.length > 0) {
+  print("Cảnh báo", warnings);
+  console.error(`\nDỪNG: còn ${realOldLogos.length} logo đối tác cũ là ảnh thật. Chưa đổi gì. Báo Kit đổi tên theo hạng rồi chạy lại.`);
+  process.exit(1);
+}
 if (!dryRun) {
   for (const op of ops) {
     if (op.kind === "delete") rmSync(abs(op.from));
@@ -135,10 +162,6 @@ if (!dryRun) {
 }
 
 // ----- In bảng -----
-const print = (title, rows) => {
-  console.log(`\n## ${title}: ${rows.length}`);
-  for (const r of rows) console.log(`  - ${r}`);
-};
 console.log(dryRun ? "[THỬ] Chỉ in kết quả dự kiến, chưa đổi gì." : "[CHẠY THẬT]");
 print(dryRun ? "Sẽ đổi tên (cũ → mới)" : "Đã đổi tên (cũ → mới)", renamed);
 print(dryRun ? "Sẽ xoá" : "Đã xoá", deleted);
