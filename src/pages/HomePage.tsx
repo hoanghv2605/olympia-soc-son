@@ -1,8 +1,26 @@
 import { Link } from "react-router";
+import { cubeOutlineDataUrl } from "../components/CubeOutline";
+import HeroTiles from "../components/HeroTiles";
 import { championsList, seasonPath, site } from "../lib/data";
-import { CUBE_GRADIENT, HERO_GRADIENT, bgWithFallback, yearOf } from "../lib/format";
+import { CUBE_GRADIENT, HERO_GRADIENT, asset, bgWithFallback, yearOf } from "../lib/format";
 
 const LETTERS = ["O", "S", "S"];
+
+/**
+ * Nền ảnh lớn: ảnh thật (nếu có) phủ trên cùng; chưa có ảnh thì lộ ra họa tiết khối lập phương
+ * trên nền tím chuyển màu (HERO_GRADIENT gồm 2 lớp).
+ */
+const HERO_LAYERS = [
+  ...(site.images.heroMain ? [{ image: `url("${asset(site.images.heroMain)}")`, size: "cover", position: "center" }] : []),
+  { image: cubeOutlineDataUrl("#ffffff", 0.22), size: "min(60%, 26rem) auto", position: "right -6% bottom -24%" },
+  ...HERO_GRADIENT.split(/,\s*(?=(?:radial|linear)-gradient)/).map((image) => ({ image, size: "cover", position: "center" })),
+];
+const HERO_BG = {
+  backgroundImage: HERO_LAYERS.map((l) => l.image).join(", "),
+  backgroundSize: HERO_LAYERS.map((l) => l.size).join(", "),
+  backgroundPosition: HERO_LAYERS.map((l) => l.position).join(", "),
+  backgroundRepeat: "no-repeat",
+};
 
 export default function HomePage() {
   return (
@@ -26,25 +44,25 @@ export default function HomePage() {
           </div>
 
           <div
-            className="relative min-h-[22rem] overflow-hidden rounded-2xl bg-cover bg-center md:min-h-[30rem]"
-            style={{ backgroundImage: bgWithFallback(site.images.heroMain, HERO_GRADIENT) }}
+            className="relative min-h-[22rem] overflow-hidden rounded-2xl md:min-h-[30rem]"
+            style={HERO_BG}
             role="img"
             aria-label={site.images.heroCaption}
           >
             <div className="absolute inset-0 bg-gradient-to-bl from-black/55 via-black/10 to-black/25" />
-            <h1 className="hero-slogan absolute top-5 right-5 max-w-[13ch] text-right text-3xl leading-[1.05] font-extrabold text-white uppercase drop-shadow-sm md:top-8 md:right-9 md:text-[3.25rem]">
+            {/* Thứ tự lớp: ảnh < các ô lật (z-10) < chữ trên ảnh (z-20) */}
+            <HeroTiles />
+            <h1 className="hero-slogan font-display absolute top-5 right-5 z-20 max-w-[13ch] text-right text-3xl leading-[1.25] font-extrabold text-white drop-shadow-sm md:top-8 md:right-9 md:text-[3.25rem]">
               <span className="sr-only">{site.name}: </span>“{site.slogan}”
             </h1>
-            <p className="absolute bottom-4 left-5 text-xs text-white/85 md:text-sm">{site.images.heroCaption}</p>
+            <p className="absolute bottom-4 left-5 z-20 text-xs text-white/85 md:text-sm">{site.images.heroCaption}</p>
           </div>
         </div>
       </section>
 
       {/* ===== Giới thiệu ngắn ===== */}
-      <section className="mx-auto mt-20 grid max-w-6xl gap-8 px-5 md:mt-28 md:grid-cols-[1fr_1.25fr] md:gap-16">
-        <h2 className="text-3xl leading-tight font-bold text-oss md:text-[2.5rem]">
-          Sân chơi kiến thức của học sinh Sóc Sơn từ năm {yearOf(site.foundedDate)}
-        </h2>
+      <section className="section mx-auto grid max-w-6xl gap-8 px-5 md:grid-cols-[1fr_1.25fr] md:gap-16">
+        <h2 className="h1 text-oss">Sân chơi kiến thức của học sinh Sóc Sơn từ năm {yearOf(site.foundedDate)}</h2>
         <div className="max-w-[62ch] space-y-5 text-[17px] leading-relaxed text-ink-soft">
           <p>{site.intro[0]}</p>
           <Link to="/ve-chung-toi" className="link-strong">
@@ -54,7 +72,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Quán quân qua các mùa ===== */}
-      <section className="mx-auto mt-20 mb-24 max-w-6xl px-5 md:mt-28">
+      <section className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="section-title">Quán quân qua các mùa</h2>
           <Link to="/wiki/cuoc-thi" className="link-strong text-sm">
@@ -66,7 +84,7 @@ export default function HomePage() {
           {championsList().map(({ season: s, champions }) => (
             <li key={s.season} className="border-b border-oss/15">
               <Link to={seasonPath(s.season)} className="group flex items-center gap-5 px-1 py-5 hover:bg-white/50">
-                <span className="w-14 shrink-0 text-right text-5xl leading-none font-extrabold text-oss/20 tabular-nums group-hover:text-oss/40">
+                <span className="font-display w-14 shrink-0 text-right text-5xl leading-none font-extrabold text-oss/20 tabular-nums group-hover:text-oss/40">
                   {s.season}
                 </span>
                 <span>

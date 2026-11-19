@@ -9,10 +9,13 @@ function isBestSecond(r: MatchResult) {
   return r.rank === 2 && !!r.advanced;
 }
 
-/** Màu tô dòng Bán kết, dùng chung cho bảng và dòng chú thích màu. */
+/**
+ * Kiểu dòng Bán kết, dùng chung cho bảng và dòng chú thích màu (CSS trong index.css theo `data-tone`):
+ * Nhất trận: nền oss, chữ trắng; Nhì cao điểm nhất: không tô nền, viền oss 2px quanh dòng, tên đậm.
+ */
 export const SEMI_TONE = {
-  winner: { className: "bg-oss/20", label: "Nhất trận, vào Chung kết" },
-  bestSecond: { className: "bg-oss-soft", label: "Nhì cao điểm nhất, vào Chung kết" },
+  winner: { tone: "winner", swatch: "bg-oss", label: "Nhất trận, vào Chung kết" },
+  bestSecond: { tone: "outline", swatch: "border-2 border-oss", label: "Nhì cao điểm nhất, vào Chung kết" },
 } as const;
 
 /** 4 cột điểm: tiêu đề viết tắt (để bảng không vỡ trên điện thoại), rê chuột hiện tên đầy đủ. */
@@ -28,7 +31,7 @@ export function ScoreHeads() {
   return (
     <>
       {SCORE_COLUMNS.map((c) => (
-        <th key={c.abbr} scope="col" className="text-right">
+        <th key={c.abbr} scope="col" className="num text-right">
           <abbr title={c.full} className="cursor-help">
             {c.abbr}
           </abbr>
@@ -45,7 +48,7 @@ export function SemiLegend({ className = "" }: { className?: string }) {
       <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-soft">
         {Object.values(SEMI_TONE).map((t) => (
           <li key={t.label} className="flex items-center gap-2">
-            <span className={`size-4 rounded border border-oss/20 ${t.className}`} aria-hidden />
+            <span className={`size-4 shrink-0 rounded-sm ${t.swatch}`} aria-hidden />
             {t.label}
           </li>
         ))}
@@ -64,10 +67,12 @@ export default function MatchTable({ match, id }: { match: Match; id?: string })
   const tiebreak = tiebreakInfo(match);
 
   /** Màu dòng + chữ ẩn cho trình đọc màn hình nói kết quả tương ứng. */
-  function rowTone(r: MatchResult): { className: string; label: string } | undefined {
+  function rowTone(r: MatchResult): { tone: string; className?: string; label: string } | undefined {
     if (isFinal) {
       const medal = medalOf(r.placement);
-      return medal && r.placement ? { className: MEDAL_ROW[medal], label: PLACEMENT_LABEL[r.placement] } : undefined;
+      return medal && r.placement
+        ? { tone: "medal", className: MEDAL_ROW[medal], label: PLACEMENT_LABEL[r.placement] }
+        : undefined;
     }
     if (r.rank === 1) return SEMI_TONE.winner;
     if (isBestSecond(r)) return SEMI_TONE.bestSecond;
@@ -76,34 +81,38 @@ export default function MatchTable({ match, id }: { match: Match; id?: string })
 
   return (
     <section id={id} className="scroll-mt-24">
-      <h3 className="text-lg font-bold text-ink">{roundLabel(match)}</h3>
+      <h3 className="h3 text-ink">{roundLabel(match)}</h3>
       <div className="mt-3 overflow-x-auto">
         <table className="data-table min-w-[32rem]">
           <thead>
             <tr>
-              <th scope="col">Thí sinh</th>
+              <th scope="col" className="sticky-start">
+                Thí sinh
+              </th>
               <ScoreHeads />
-              <th scope="col" className="text-right">Tổng</th>
+              <th scope="col" className="sticky-end num text-right">
+                Tổng
+              </th>
             </tr>
           </thead>
           <tbody>
             {match.results.map((r) => {
               const tone = rowTone(r);
               return (
-                <tr key={r.person} className={tone?.className} data-tone={tone ? "" : undefined}>
-                  <td>
+                <tr key={r.person} className={tone && "className" in tone ? tone.className : undefined} data-tone={tone?.tone}>
+                  <td className="sticky-start">
                     <PersonLink id={r.person} />
                     {tiebreak?.winner === r.person && <span aria-hidden>*</span>}
                     {tone && <span className="sr-only">. {tone.label}</span>}
-                    <span className="block text-xs text-ink-soft">
+                    <span className="row-sub block text-xs text-ink-soft">
                       {r.class} - {schoolName(r.school)}
                     </span>
                   </td>
-                  <td className="text-right tabular-nums">{formatScore(r.kd)}</td>
-                  <td className="text-right tabular-nums">{formatScore(r.vcnv)}</td>
-                  <td className="text-right tabular-nums">{formatScore(r.tt)}</td>
-                  <td className="text-right tabular-nums">{formatScore(r.vd)}</td>
-                  <td className="text-right font-bold tabular-nums">{formatScore(r.total)}</td>
+                  <td className="num text-right">{formatScore(r.kd)}</td>
+                  <td className="num text-right">{formatScore(r.vcnv)}</td>
+                  <td className="num text-right">{formatScore(r.tt)}</td>
+                  <td className="num text-right">{formatScore(r.vd)}</td>
+                  <td className="sticky-end num text-right font-bold">{formatScore(r.total)}</td>
                 </tr>
               );
             })}

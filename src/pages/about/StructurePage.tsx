@@ -29,8 +29,8 @@ export default function StructurePage() {
   if (!active) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-14 md:py-20">
-      <h1 className="section-title">Cơ cấu tổ chức</h1>
+    <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
+      <h2 className="section-title">Cơ cấu tổ chức</h2>
       <p className="mt-3 max-w-[60ch] text-ink-soft">Olympia Sóc Sơn vận hành với bốn ban. Chọn từng ban để xem nhiệm vụ.</p>
 
       <div className="mt-10 grid items-start gap-10 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.25fr)] md:gap-14">
@@ -76,7 +76,7 @@ export default function StructurePage() {
             className="aspect-[16/10] w-full rounded-2xl"
           />
           <div className="relative mx-4 -mt-10 rounded-xl border-l-4 border-oss bg-white p-5 shadow-[0_16px_40px_-20px_rgba(31,27,46,0.45)]">
-            <h2 className="font-semibold text-oss">{active.name}</h2>
+            <h3 className="h3 text-oss">{active.name}</h3>
             {active.duties.length > 0 ? (
               <ul className="mt-2 list-disc space-y-1.5 pl-5 text-[15px] leading-relaxed text-ink marker:text-oss">
                 {active.duties.map((duty) => (

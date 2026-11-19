@@ -4,6 +4,7 @@ import { TbLaurelWreath, TbPodium } from "react-icons/tb";
 import Logo from "../../components/Logo";
 import Photo from "../../components/Photo";
 import ContactSection from "../../components/ContactSection";
+import CountUp from "../../components/CountUp";
 import Timeline from "../../components/Timeline";
 import { site, statGroups, timeline } from "../../lib/data";
 import type { Stat } from "../../types";
@@ -21,14 +22,15 @@ export default function IntroPage() {
     <>
       {/* ===== Giới thiệu (nền giấy đen) ===== */}
       <section className="paper-dark text-white">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:py-24">
+        <div className="section-band mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-[0.8fr_1.2fr]">
           <div className="flex flex-col items-center gap-5">
             <Logo className="w-36 md:w-52" />
-            <h1 className="text-xl font-bold tracking-[0.16em] uppercase md:text-2xl">
+            {/* Chữ đi kèm logo (giữ in hoa như wordmark), không phải tiêu đề trang */}
+            <p className="text-xl font-bold tracking-[0.16em] uppercase md:text-2xl">
               <span className="bg-gradient-to-r from-cube-blue via-[#a07cf0] to-cube-pink bg-clip-text text-transparent">
                 {site.name}
               </span>
-            </h1>
+            </p>
           </div>
 
           <div className="grid items-center gap-6 sm:grid-cols-2">
@@ -41,7 +43,7 @@ export default function IntroPage() {
       </section>
 
       {/* ===== Những cột mốc đáng nhớ ===== */}
-      <section className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+      <section className="section mx-auto max-w-6xl px-5">
         <h2 className="section-title text-center">Những cột mốc đáng nhớ</h2>
         <ul className="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-ink-soft">
           <li className="flex items-center gap-2">
@@ -58,8 +60,8 @@ export default function IntroPage() {
 
       {/* ===== Những con số ấn tượng ===== */}
       <section className="paper-dark text-white">
-        <div className="mx-auto max-w-6xl px-5 py-16 md:py-20">
-          <h2 className="text-center text-2xl font-bold tracking-[0.06em] uppercase md:text-[2rem]">Những con số ấn tượng</h2>
+        <div className="section-band mx-auto max-w-6xl px-5">
+          <h2 className="h2 text-center">Những con số ấn tượng</h2>
           <div className="mt-12 grid gap-10 md:grid-cols-[2fr_auto_3fr] md:gap-8">
             {statGroups().map((g, gi) => (
               <Fragment key={g.id}>
@@ -67,7 +69,7 @@ export default function IntroPage() {
                 <section aria-labelledby={`stat-group-${g.id}`}>
                   <h3
                     id={`stat-group-${g.id}`}
-                    className="text-center text-sm font-semibold tracking-[0.08em] text-white/60 uppercase text-balance"
+                    className="text-center text-base font-semibold text-balance text-white/70"
                   >
                     {g.label}
                   </h3>
@@ -77,7 +79,7 @@ export default function IntroPage() {
                       return (
                         <li key={s.key} className="flex flex-col items-center px-2 text-center">
                           <Icon className="size-12 text-white/90 md:size-14" aria-hidden />
-                          <span className="mt-4 text-4xl font-extrabold tabular-nums md:text-5xl">{s.value}</span>
+                          <CountUp value={s.value} className="font-display mt-4 text-4xl font-extrabold tabular-nums md:text-5xl" />
                           <span className="mt-2 max-w-[16ch] text-sm text-white/70">{s.label}</span>
                         </li>
                       );

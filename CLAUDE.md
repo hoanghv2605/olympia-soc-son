@@ -45,7 +45,8 @@ Menu chính: **Về chúng tôi · OSSPEDIA · Bảng vàng · Human of OSS · T
 - Human of OSS: `public/images/human-of-oss/<slug>.jpg`
 - Logo: `public/logo-oss.svg` hoặc `public/logo-oss.png` (logo thật); `public/logo-oss-tam.svg` là logo tạm. Component `Logo` và favicon (script trong `index.html`) thử lần lượt `logo-oss.svg` → `logo-oss.png` → `logo-oss-tam.svg`.
 - Logo trường: `public/images/truong/<id-trường>.svg` hoặc `.png` (id trong `schools.json`); `SchoolBadge` thử svg → png, chưa có thì hiện chữ `short`.
-- Chưa có ảnh: người → chữ viết tắt (chữ cái đầu 2 từ cuối, vd Lê Trà My → "TM") trên gradient tím (`PersonPhoto`); cột mốc → logo OSS trên gradient tím (`MilestonePhoto`).
+- Chưa có ảnh: người → ảnh giữ chỗ `Placeholder` (qua `PersonPhoto`, truyền `seed` = id thí sinh / slug Human of OSS): 1 trong 5 tông (tím, chàm, xanh, hồng, tím hồng; `src/lib/placeholder.ts`) chọn cố định theo tổng mã ký tự của `seed` chia dư 5; chữ viết tắt (chữ cái đầu 2 từ cuối, vd Lê Trà My → "TM") ~28% bề ngang khung, font `--font-display`; họa tiết khối lập phương chỉ vẽ nét (`CubeOutline`) tràn góc dưới phải. Cột mốc → logo OSS trên gradient tím (`MilestonePhoto`).
+- `Photo` luôn hiện lớp giữ chỗ trước, ảnh thật tải xong thì mờ dần đè lên (200ms); lỗi tải thì giữ lớp giữ chỗ. Không có trạng thái trống/xám.
 
 ## Quyền riêng tư (đa số thí sinh dưới 18 tuổi)
 Chỉ hiển thị họ tên, lớp, trường, kết quả thi. Không thêm số điện thoại, Facebook cá nhân, học lực hay lý do riêng của thí sinh. Ảnh cá nhân chỉ dùng khi có đồng ý.
@@ -53,6 +54,23 @@ Chỉ hiển thị họ tên, lớp, trường, kết quả thi. Không thêm s�
 ## Thiết kế
 Hiện đại, chất "học thuật", nền sáng tím nhạt kiểu màu nước, chữ tối (`ink`), màu chủ đạo tím `oss` (#6d28d9), điểm nhấn xanh/hồng lấy từ logo khối lập phương. Các mảng tối dùng lớp `paper-dark`. Font Be Vietnam Pro. Hiệu ứng chuyển động tiết chế, tôn trọng `prefers-reduced-motion`. Không nhồi chi tiết thừa. Giữ các token màu và lớp dùng chung trong `src/index.css` thay vì viết màu cứng.
 - Màu huy chương: token `gold-*`, `silver-*`, `bronze-*` (nền `-bg`, viền, chữ `-ink`) trong `@theme`. Dùng `medalOf()` (`src/lib/medal.ts`) + component `MedalBadge`. Ánh xạ: hạng 1 / Quán quân / Giải Nhất → vàng; hạng 2 / Á quân / Giải Nhì → bạc; hạng 3 / Quý quân / Giải Ba → đồng.
+
+### Tiêu đề và đầu trang
+- Tiêu đề `h1`/`h2`/`h3` viết **chữ thường như câu**, không `uppercase`, không giãn chữ. Chỉ giữ in hoa ở chữ "OLYMPIA SÓC SƠN" cạnh logo (`wordmark` ở header/footer, chữ đi kèm logo lớn ở khối Giới thiệu) và mục menu trên máy tính.
+- Thang cỡ chữ (lớp trong `src/index.css`): `.h1` `clamp(2rem, 4vw, 2.75rem)` đậm 700; `.h2` 1.5rem → 1.875rem đậm 700 (`.section-title` = `.h2` màu `oss`); `.h3` 1.125rem → 1.25rem đậm 600; line-height tiêu đề 1.25 (không thấp hơn, vì dấu tiếng Việt).
+- Font tiêu đề qua token `--font-display` (mặc định Be Vietnam Pro), dùng cho h1/h2/h3, chữ O-S-S và khẩu hiệu trang chủ, số lớn (Con số ấn tượng, ô Kỷ lục), tên thẻ Hall of Fame (lớp `.font-display`).
+- **TẠM (bỏ ở v0.7):** `?font=a` (Bricolage Grotesque) / `?font=b` (Fraunces) trước dấu `#` để so sánh font tiêu đề; xử lý trong `src/main.tsx` + `:root[data-font]` trong `index.css`. Không có tham số thì không nạp font nào thêm.
+- Đầu trang dùng `PageHeader` (dòng chỉ đường, `h1`, 1 dòng mô tả, `actions`, `leading`) cho mọi trang cấp 1 và OSSPEDIA; tông `light` mặc định, `dark` **chỉ** ở Bảng vàng. Hồ sơ thí sinh giữ bố cục riêng nhưng `h1` dùng `.h1`.
+- Khoảng cách giữa các mục lớn: **2 mức** `.section` (`py-12 md:py-16`, mục thường) và `.section-band` (`py-16 md:py-24`, khối nền màu).
+
+### Bảng
+- Ô số dùng lớp `.num` (`px-2 text-sm`, `min-width: 2.75rem`, `tabular-nums`).
+- Dưới `md`: bảng trong khung cuộn ngang; cột đầu `.sticky-start` dính trái; bảng Bán kết/Chung kết cột Tổng và bảng thành tích hồ sơ cột Kết quả `.sticky-end` dính phải; ô dính có nền đặc cùng màu dòng và bóng mờ cạnh trong. Cột phụ (Trường, Lớp) ẩn `hidden md:table-cell`, đưa thành dòng nhỏ dưới tên.
+- Bán kết: Nhất trận `data-tone="winner"` (nền `oss`, chữ trắng, dòng lớp - trường trắng 80%); Nhì cao điểm nhất `data-tone="outline"` (không tô nền, viền `oss` 2px bằng `box-shadow: inset` trên từng ô, tên đậm). Chung kết giữ vàng/bạc/đồng.
+
+### Chuyển động
+- Chỉ 3 điểm nhấn: lật ô ảnh lớn trang chủ (`HeroTiles`, lần đầu trong phiên, cờ `sessionStorage`), biểu đồ "Diễn biến điểm số" ở trang mùa (`ClimbChart`, vẽ dần khi cuộn tới), số chạy ở "Những con số ấn tượng" (`CountUp`). Ngoài ra chỉ có chuyển trạng thái nhỏ (header thu gọn, menu, hover).
+- Luôn tôn trọng `prefers-reduced-motion: reduce`: không chạy hiệu ứng, hiện thẳng trạng thái cuối.
 
 ## Icon
 - Icon mới dùng Phosphor (`react-icons/pi`) nét thường (không Fill/Bold); icon đã có từ trước giữ nguyên.

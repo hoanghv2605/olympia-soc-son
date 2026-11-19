@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import Breadcrumb from "../../components/Breadcrumb";
+import PageHeader from "../../components/PageHeader";
 import SchoolBadge from "../../components/SchoolBadge";
 import { schoolPath, schoolStats, schoolsOverview, type SchoolStat } from "../../lib/data";
 
@@ -67,20 +67,21 @@ export default function SchoolList() {
   const stats = schoolStats();
   const overview = schoolsOverview();
   return (
-    <section className="mx-auto max-w-6xl px-5 py-14 md:py-20">
-      <Breadcrumb items={[{ to: "/wiki", label: "OSSPEDIA" }, { label: "Trường" }]} />
-      <h1 className="mt-4 text-3xl font-bold text-ink md:text-4xl">Các trường</h1>
-      <p className="mt-3 max-w-[60ch] text-ink-soft">
-        {overview.people} thí sinh từ {overview.schools} trường đã vào top 12 qua {overview.seasons} mùa OSS.
-      </p>
-
-      <ul className="mt-8 space-y-3.5">
-        {stats.map((s) => (
-          <li key={s.school.id}>
-            <SchoolCard stat={s} />
-          </li>
-        ))}
-      </ul>
-    </section>
+    <>
+      <PageHeader
+        breadcrumb={[{ to: "/wiki", label: "OSSPEDIA" }, { label: "Trường" }]}
+        title="Các trường"
+        description={`${overview.people} thí sinh từ ${overview.schools} trường đã vào top 12 qua ${overview.seasons} mùa OSS.`}
+      />
+      <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
+        <ul className="space-y-3.5">
+          {stats.map((s) => (
+            <li key={s.school.id}>
+              <SchoolCard stat={s} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
   );
 }

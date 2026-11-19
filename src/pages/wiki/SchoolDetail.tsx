@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router";
-import Breadcrumb from "../../components/Breadcrumb";
+import PageHeader from "../../components/PageHeader";
 import PersonLink from "../../components/PersonLink";
 import SchoolBadge from "../../components/SchoolBadge";
 import NotFound from "../NotFound";
@@ -20,64 +20,66 @@ export default function SchoolDetail() {
   ];
 
   return (
-    <article className="mx-auto max-w-6xl px-5 py-14 md:py-20">
-      <Breadcrumb
-        items={[
+    <>
+      <PageHeader
+        breadcrumb={[
           { to: "/wiki", label: "OSSPEDIA" },
           { to: "/wiki/truong", label: "Trường" },
           { label: school.name },
         ]}
+        leading={<SchoolBadge school={school} className="size-16" textClass="text-lg" />}
+        title={school.name}
+        description={`Thí sinh và thành tích của ${school.name} tại Olympia Sóc Sơn.`}
       />
-      <div className="mt-4 flex items-center gap-4">
-        <SchoolBadge school={school} className="size-16" textClass="text-lg" />
-        <h1 className="text-3xl font-bold text-ink md:text-4xl">{school.name}</h1>
-      </div>
+      <article className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+          {numbers.map((n) => (
+            <li key={n.label} className="rounded-xl border border-oss/15 bg-white/75 p-4 text-center">
+              <span className="block text-3xl font-extrabold text-oss tabular-nums">{n.value}</span>
+              <span className="mt-1 block text-sm text-ink-soft">{n.label}</span>
+            </li>
+          ))}
+        </ul>
 
-      <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-5">
-        {numbers.map((n) => (
-          <li key={n.label} className="rounded-xl border border-oss/15 bg-white/75 p-4 text-center">
-            <span className="block text-3xl font-extrabold text-oss tabular-nums">{n.value}</span>
-            <span className="mt-1 block text-sm text-ink-soft">{n.label}</span>
-          </li>
-        ))}
-      </ul>
-
-      <h2 className="mt-14 text-xl font-bold text-ink">Thí sinh</h2>
-      <div className="mt-4 overflow-x-auto">
-        <table className="data-table min-w-[36rem]">
-          <thead>
-            <tr>
-              <th scope="col">Thí sinh</th>
-              <th scope="col">Mùa (hạng vòng loại)</th>
-              <th scope="col">Danh hiệu OSS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stat.people.map((p) => {
-              const titles = describeTitles(titlesOf(p.id));
-              return (
-                <tr key={p.id}>
-                  <td>
-                    <PersonLink id={p.id} className="font-semibold" />
-                  </td>
-                  <td>
-                    {participationsOf(p.id).map((s, i) => (
-                      <span key={s.season}>
-                        {i > 0 && ", "}
-                        <Link to={seasonPath(s.season)} className="hover:text-oss hover:underline">
-                          Mùa {s.season}
-                        </Link>
-                        {s.qualifying && <span className="text-ink-soft"> ({s.qualifying.rank})</span>}
-                      </span>
-                    ))}
-                  </td>
-                  <td>{titles.length ? titles.join("; ") : "–"}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </article>
+        <h2 className="h2 mt-12 text-ink">Thí sinh</h2>
+        <div className="mt-4 overflow-x-auto">
+          <table className="data-table min-w-[36rem]">
+            <thead>
+              <tr>
+                <th scope="col" className="sticky-start">
+                  Thí sinh
+                </th>
+                <th scope="col">Mùa (hạng vòng loại)</th>
+                <th scope="col">Danh hiệu OSS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stat.people.map((p) => {
+                const titles = describeTitles(titlesOf(p.id));
+                return (
+                  <tr key={p.id}>
+                    <td className="sticky-start">
+                      <PersonLink id={p.id} className="font-semibold" />
+                    </td>
+                    <td>
+                      {participationsOf(p.id).map((s, i) => (
+                        <span key={s.season}>
+                          {i > 0 && ", "}
+                          <Link to={seasonPath(s.season)} className="hover:text-oss hover:underline">
+                            Mùa {s.season}
+                          </Link>
+                          {s.qualifying && <span className="text-ink-soft"> ({s.qualifying.rank})</span>}
+                        </span>
+                      ))}
+                    </td>
+                    <td>{titles.length ? titles.join("; ") : "–"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </>
   );
 }

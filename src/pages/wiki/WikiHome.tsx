@@ -1,61 +1,24 @@
-import { useMemo, useState } from "react";
 import { Link } from "react-router";
-import { PiCalendarBlank, PiGraduationCap, PiMagnifyingGlassBold, PiUsersThree } from "react-icons/pi";
+import { PiCalendarBlank, PiGraduationCap, PiUsersThree } from "react-icons/pi";
 import IconLabel from "../../components/IconLabel";
-import { championsList, people, schoolPath, schools, search, seasonPath } from "../../lib/data";
-
-const KIND_LABEL = { season: "Mùa giải", person: "Thí sinh", school: "Trường" } as const;
+import PageHeader from "../../components/PageHeader";
+import SearchTrigger from "../../components/SearchTrigger";
+import { championsList, people, schoolPath, schools, seasonPath } from "../../lib/data";
 
 export default function WikiHome() {
-  const [query, setQuery] = useState("");
-  const results = useMemo(() => search(query), [query]);
-
   return (
-    <section className="mx-auto max-w-6xl px-5 py-14 md:py-20">
-      <h1 className="text-4xl font-extrabold tracking-tight text-oss md:text-5xl">OSSPEDIA</h1>
-      <p className="mt-3 max-w-[60ch] text-[17px] text-balance text-ink-soft lg:max-w-none">
-        Bách khoa thư về Olympia Sóc Sơn: các mùa giải, thí sinh, trường và thành tích tại Đường lên đỉnh Olympia.
-      </p>
+    <>
+      <PageHeader
+        title="OSSPEDIA"
+        description="Bách khoa thư về Olympia Sóc Sơn: các mùa giải, thí sinh, trường và thành tích tại Đường lên đỉnh Olympia."
+        wideDescription
+      />
+      <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
+        <SearchTrigger label="Tìm trong OSSPEDIA: thí sinh, mùa giải, trường" className="max-w-xl" />
 
-      <label className="mt-8 flex max-w-xl items-center gap-3 rounded-full border border-oss/20 bg-white/80 px-5 py-3 focus-within:border-oss">
-        <PiMagnifyingGlassBold className="size-5 shrink-0 text-oss" aria-hidden />
-        <span className="sr-only">Tìm trong OSSPEDIA</span>
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Tìm thí sinh, mùa giải, trường, vd: mùa 5, Trà My, Đa Phúc"
-          className="w-full bg-transparent text-[15px] outline-none placeholder:text-ink-soft/70"
-        />
-      </label>
-
-      {query ? (
-        <div className="mt-10" aria-live="polite">
-          <p className="text-sm text-ink-soft">
-            {results.length
-              ? `${results.length} kết quả cho “${query}”`
-              : `Không có kết quả cho “${query}”. Thử tìm tên không dấu hoặc số mùa.`}
-          </p>
-          <ul className="mt-4 divide-y divide-oss/10 border-y border-oss/10">
-            {results.map((r) => (
-              <li key={r.to}>
-                <Link to={r.to} className="flex items-start justify-between gap-4 px-1 py-3 hover:bg-white/50">
-                  <span>
-                    <span className="block font-semibold text-ink">{r.title}</span>
-                    <span className="block text-sm text-ink-soft">{r.subtitle}</span>
-                  </span>
-                  <span className="shrink-0 rounded-full bg-oss-soft px-2 py-0.5 text-xs font-semibold text-oss">
-                    {KIND_LABEL[r.kind]}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div className="mt-14 grid gap-14 md:grid-cols-3">
+        <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-3">
           <div>
-            <h2 className="text-xl font-bold text-ink">
+            <h2 className="h3 text-ink">
               <IconLabel icon={PiCalendarBlank} iconClass="size-[0.9em] text-oss">
                 Các mùa giải
               </IconLabel>
@@ -76,7 +39,7 @@ export default function WikiHome() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-ink">
+            <h2 className="h3 text-ink">
               <IconLabel icon={PiUsersThree} iconClass="size-[0.9em] text-oss">
                 Thí sinh
               </IconLabel>
@@ -90,7 +53,7 @@ export default function WikiHome() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-ink">
+            <h2 className="h3 text-ink">
               <IconLabel icon={PiGraduationCap} iconClass="size-[0.9em] text-oss">
                 Trường
               </IconLabel>
@@ -109,7 +72,7 @@ export default function WikiHome() {
             </Link>
           </div>
         </div>
-      )}
-    </section>
+      </section>
+    </>
   );
 }

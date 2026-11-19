@@ -8,7 +8,7 @@ export default function ContactSection() {
 
   return (
     <section aria-labelledby="lien-he" className="text-ink">
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 py-14 md:grid-cols-[0.75fr_1.25fr_1fr] md:py-20">
+      <div className="section mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-[0.75fr_1.25fr_1fr]">
         <div className="flex flex-col items-center gap-8 md:items-start">
           <Logo className="w-32 md:w-40" />
           <ul className="space-y-3 text-sm">

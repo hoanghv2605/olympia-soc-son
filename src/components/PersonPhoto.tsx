@@ -1,31 +1,17 @@
 import Photo from "./Photo";
-import { CUBE_GRADIENT, initials } from "../lib/format";
+import Placeholder from "./Placeholder";
 
 interface Props {
   src: string; // vd images/thi-sinh/<id>.jpg
+  /** Mã cố định (id thí sinh / slug Human of OSS) để chọn tông màu ảnh giữ chỗ */
+  seed: string;
   name: string;
   className?: string;
-  /** Cỡ chữ viết tắt khi chưa có ảnh */
-  textClass?: string;
 }
 
-/** Ảnh người (thí sinh, Human of OSS); chưa có ảnh thì hiện chữ viết tắt trên nền gradient OSS. */
-export default function PersonPhoto({ src, name, className = "", textClass = "text-5xl" }: Props) {
+/** Ảnh người (thí sinh, Human of OSS); luôn hiện ảnh giữ chỗ trước, ảnh thật tải xong thì mờ dần đè lên. */
+export default function PersonPhoto({ src, seed, name, className = "" }: Props) {
   return (
-    <Photo
-      key={src}
-      src={src}
-      alt={`Ảnh ${name}`}
-      className={className}
-      fallback={
-        <span
-          aria-hidden
-          className={`absolute inset-0 grid place-items-center font-extrabold tracking-wide text-white/95 ${textClass}`}
-          style={{ backgroundImage: CUBE_GRADIENT }}
-        >
-          {initials(name)}
-        </span>
-      }
-    />
+    <Photo key={src} src={src} alt={`Ảnh ${name}`} className={className} fallback={<Placeholder seed={seed} name={name} />} />
   );
 }

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { PiImageBold } from "react-icons/pi";
 import { asset } from "../lib/format";
 
@@ -6,38 +6,50 @@ interface PhotoProps {
   src?: string; // đường dẫn trong public/, vd "images/about/tap-the-1.jpg"
   alt: string;
   className?: string;
-  /** Nội dung thay thế khi chưa có ảnh (phủ kín khung). Không truyền thì hiện ô icon mặc định. */
+  /** Lớp giữ chỗ (phủ kín khung). Không truyền thì hiện ô icon mặc định. */
   fallback?: ReactNode;
 }
 
-/** Ảnh có ô thay thế: chưa bỏ ảnh vào public/ thì hiện ô màu nhạt thay vì ảnh vỡ. */
+/**
+ * Ảnh có lớp giữ chỗ: luôn hiện lớp giữ chỗ trước (không có trạng thái trống/xám khi đang tải);
+ * ảnh thật tải xong thì mờ dần đè lên (200ms); ảnh lỗi thì giữ lớp giữ chỗ.
+ */
 export default function Photo({ src, alt, className = "", fallback }: PhotoProps) {
   const [failed, setFailed] = useState(!src);
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
-  if (failed && fallback) {
-    return (
-      <div role="img" aria-label={alt} className={`relative overflow-hidden ${className}`}>
-        {fallback}
-      </div>
-    );
-  }
-
-  if (failed) {
-    return (
-      <div role="img" aria-label={alt} className={`photo-fallback ${className}`}>
-        <PiImageBold aria-hidden className="size-7 opacity-50" />
-        {import.meta.env.DEV && src && <span className="mt-2 px-3 text-[11px] opacity-70">public/{src}</span>}
-      </div>
-    );
-  }
+  // Ảnh đã có trong bộ nhớ đệm có thể tải xong trước khi React gắn onLoad
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete) {
+      if (img.naturalWidth > 0) setLoaded(true);
+      else setFailed(true);
+    }
+  }, []);
 
   return (
-    <img
-      src={asset(src!)}
-      alt={alt}
-      loading="lazy"
-      onError={() => setFailed(true)}
-      className={`object-cover ${className}`}
-    />
+    <div
+      className={`relative overflow-hidden ${className}`}
+      {...(failed || !loaded ? { role: "img", "aria-label": alt } : {})}
+    >
+      {fallback ?? (
+        <div aria-hidden className="photo-fallback absolute inset-0">
+          <PiImageBold className="size-7 opacity-50" />
+          {import.meta.env.DEV && src && <span className="mt-2 px-3 text-[11px] opacity-70">public/{src}</span>}
+        </div>
+      )}
+      {!failed && (
+        <img
+          ref={imgRef}
+          src={asset(src!)}
+          alt={loaded ? alt : ""}
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+          onError={() => setFailed(true)}
+          className={`photo-img absolute inset-0 size-full object-cover ${loaded ? "opacity-100" : "opacity-0"}`}
+        />
+      )}
+    </div>
   );
 }

@@ -1,0 +1,105 @@
+// Tìm kiếm không dấu dùng chung (hộp tìm kiếm trên header, ô tìm ở trang chủ OSSPEDIA).
+// Chỉ tìm thí sinh OSS (`people`), các mùa giải và các trường.
+import { championsList, participationsOf, people, personPath, schoolPath, schoolStat, schools, schoolName, seasonPath } from "./data";
+import { normalize } from "./format";
+
+export type SearchKind = "person" | "season" | "school";
+
+export interface SearchResult {
+  id: string;
+  kind: SearchKind;
+  to: string;
+  title: string;
+  subtitle: string;
+}
+
+export interface SearchGroups {
+  person: SearchResult[];
+  season: SearchResult[];
+  school: SearchResult[];
+}
+
+export const SEARCH_GROUP_LABEL: Record<SearchKind, string> = {
+  person: "Thí sinh",
+  season: "Mùa giải",
+  school: "Trường",
+};
+
+export const SEARCH_GROUP_ORDER: SearchKind[] = ["person", "season", "school"];
+
+/** Số dòng tối đa mỗi nhóm */
+const LIMIT = 6;
+
+// Chỉ mục dựng sẵn 1 lần
+const PEOPLE = people.map((p) => {
+  const key = normalize(p.name);
+  const seasons = participationsOf(p.id).map((s) => s.season);
+  return {
+    key,
+    result: {
+      id: p.id,
+      kind: "person" as const,
+      to: personPath(p.id),
+      title: p.name,
+      subtitle: [schoolName(p.school), seasons.length ? `Mùa ${seasons.join(", ")}` : ""].filter(Boolean).join(" · "),
+    },
+  };
+});
+
+const SEASONS = championsList().map(({ season: s, champions }) => ({
+  n: s.season,
+  result: {
+    id: `mua-${s.season}`,
+    kind: "season" as const,
+    to: seasonPath(s.season),
+    title: `Mùa ${s.season}`,
+    subtitle: champions.length ? `Quán quân ${champions.map((c) => c.person.name).join(", ")}` : "Đang cập nhật",
+  },
+}));
+
+const SCHOOLS = schools.map((s) => ({
+  key: normalize(`${s.name} ${s.short}`),
+  keyNoPrefix: normalize(s.name.replace(/^THPT\s+/i, "")),
+  result: {
+    id: s.id,
+    kind: "school" as const,
+    to: schoolPath(s.id),
+    title: s.name,
+    subtitle: `${schoolStat(s).people.length} thí sinh`,
+  },
+}));
+
+/**
+ * Tìm không dấu, chia 3 nhóm (mỗi nhóm tối đa 6 dòng):
+ * - Thí sinh: tên chứa từ khóa (tên có 1 từ bắt đầu bằng từ khóa xếp trước);
+ * - Mùa giải: "mùa 4", "mua 4", "oss4", "4" → Mùa 4; gõ "mua" / "oss" → các mùa;
+ * - Trường: tên hoặc chữ viết tắt chứa từ khóa.
+ */
+export function searchAll(query: string): SearchGroups {
+  const q = normalize(query).replace(/\s+/g, " ");
+  if (!q) return { person: [], season: [], school: [] };
+
+  const person = PEOPLE.filter((p) => p.key.includes(q))
+    .map((p, i) => ({ p, i, starts: ` ${p.key}`.includes(` ${q}`) }))
+    .sort((a, b) => Number(b.starts) - Number(a.starts) || a.i - b.i)
+    .slice(0, LIMIT)
+    .map((x) => x.p.result);
+
+  const num = /^(?:mua|oss)?\s*(\d+)$/.exec(q);
+  const season = num
+    ? SEASONS.filter((s) => s.n === Number(num[1])).map((s) => s.result)
+    : /^(mua|oss)$/.test(q)
+      ? SEASONS.slice(0, LIMIT).map((s) => s.result)
+      : [];
+
+  const school = SCHOOLS.filter((s) => s.key.includes(q) || s.keyNoPrefix.includes(q))
+    .slice(0, LIMIT)
+    .map((s) => s.result);
+
+  return { person, season, school };
+}
+
+/** Gộp 3 nhóm thành 1 danh sách theo thứ tự hiển thị (dùng cho phím ↑ ↓). */
+export function flattenGroups(groups: SearchGroups) {
+  return SEARCH_GROUP_ORDER.flatMap((k) => groups[k]);
+}

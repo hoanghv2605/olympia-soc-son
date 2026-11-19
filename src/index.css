@@ -3,6 +3,8 @@
 /* ===== Bảng màu & font (theo file Canva + logo OSS) ===== */
 @theme {
   --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Font tiêu đề, số lớn, chữ O-S-S (đã chốt ở v0.7: Bricolage Grotesque, nạp trong index.html) */
+  --font-display: "Bricolage Grotesque", "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --color-mist: #f5f2fc; /* nền tím nhạt */
   --color-oss: #6d28d9; /* tím chủ đạo */
@@ -56,6 +58,14 @@
   .paper-dark :focus-visible {
     outline-color: #c4b2fb;
   }
+
+  /* Tiêu đề: chữ thường như câu, line-height ≥ 1.25 (tiếng Việt có dấu chồng) */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 1.25;
+  }
 }
 
 @layer components {
@@ -69,8 +79,53 @@
     @apply font-bold uppercase tracking-[0.14em] text-oss;
   }
 
+  /* ===== Thang cỡ chữ tiêu đề ===== */
+  .h1,
+  .h2,
+  .h3 {
+    font-family: var(--font-display);
+    line-height: 1.25;
+  }
+  .h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+  }
+  .h2,
   .section-title {
-    @apply text-2xl font-bold uppercase tracking-[0.04em] text-oss md:text-[2rem];
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  @media (min-width: 768px) {
+    .h2,
+    .section-title {
+      font-size: 1.875rem;
+    }
+    .h3 {
+      font-size: 1.25rem;
+    }
+  }
+  /* Tiêu đề mục màu tím (cùng cỡ .h2) */
+  .section-title {
+    font-family: var(--font-display);
+    line-height: 1.25;
+    color: var(--color-oss);
+  }
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* ===== Nhịp khoảng cách: 2 mức ===== */
+  /* Mục thường */
+  .section {
+    @apply py-12 md:py-16;
+  }
+  /* Khối nền màu (Hall of Fame, mảng tối, dải nền) */
+  .section-band {
+    @apply py-16 md:py-24;
   }
 
   /* Menu: chữ in hoa như Canva, gạch chân khi đang ở trang đó */
@@ -118,6 +173,10 @@
   }
 
   /* Ô thay thế khi ảnh chưa có */
+  /* Ảnh thật mờ dần đè lên lớp giữ chỗ */
+  .photo-img {
+    transition: opacity 200ms ease;
+  }
   .photo-fallback {
     @apply flex flex-col items-center justify-center text-center text-oss;
     background:
@@ -128,6 +187,7 @@
   /* ===== Hero: chữ O-S-S lồng ảnh ===== */
   .photo-letter {
     display: block;
+    font-family: var(--font-display);
     font-weight: 800;
     line-height: 0.8;
     font-size: clamp(5rem, 12.5vw, 11rem);
@@ -350,6 +410,33 @@
     }
   }
 
+  /* ===== Hộp tìm kiếm chung ===== */
+  .search-modal {
+    width: min(36rem, calc(100% - 2rem));
+    margin-top: 12vh;
+  }
+  .search-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: min(32rem, calc(100dvh - 16vh));
+    padding: 0;
+    overflow: hidden;
+  }
+  .search-results {
+    flex: 1;
+    overflow-y: auto;
+  }
+  @media (max-width: 767px) {
+    .search-modal {
+      width: 100%;
+      margin: 0;
+    }
+    .search-panel {
+      max-height: none;
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+  }
+
   /* ===== Bài viết markdown (Human of OSS) ===== */
   .prose-oss {
     max-width: 68ch;
@@ -444,6 +531,89 @@
   .data-table tbody tr:not([data-tone]):hover {
     @apply bg-white/60;
   }
+  /* Ô số: gọn, thẳng cột (mọi cỡ màn hình) */
+  .data-table .num {
+    @apply px-2 text-sm tabular-nums;
+    min-width: 2.75rem;
+  }
+
+  /* ===== Bán kết: Nhất trận (nền oss, chữ trắng) / Nhì cao điểm nhất (viền oss 2px) ===== */
+  .data-table tr[data-tone="winner"] {
+    background-color: var(--color-oss);
+    color: white;
+  }
+  .data-table tr[data-tone="winner"] a {
+    color: white;
+  }
+  .data-table tr[data-tone="winner"] .row-sub {
+    color: rgb(255 255 255 / 0.8);
+  }
+  /* viền bằng box-shadow inset trên từng ô (outline trên <tr> không ổn định ở Safari) */
+  .data-table tr[data-tone="outline"] > td {
+    box-shadow:
+      inset 0 2px 0 var(--color-oss),
+      inset 0 -2px 0 var(--color-oss);
+  }
+  .data-table tr[data-tone="outline"] > td:first-child {
+    box-shadow:
+      inset 0 2px 0 var(--color-oss),
+      inset 0 -2px 0 var(--color-oss),
+      inset 2px 0 0 var(--color-oss);
+  }
+  .data-table tr[data-tone="outline"] > td:last-child {
+    box-shadow:
+      inset 0 2px 0 var(--color-oss),
+      inset 0 -2px 0 var(--color-oss),
+      inset -2px 0 0 var(--color-oss);
+  }
+  .data-table tr[data-tone="outline"] a {
+    font-weight: 700;
+  }
+
+  /* ===== Bảng trên điện thoại: cột đầu dính trái, cột cuối (Tổng / Kết quả) dính phải ===== */
+  @media (max-width: 767px) {
+    .data-table .sticky-start,
+    .data-table .sticky-end {
+      position: sticky;
+      z-index: 1;
+      /* nền đặc: dòng thường dùng màu nền trang; dòng tô màu thừa hưởng nền của dòng */
+      background-color: var(--color-mist);
+    }
+    .data-table tr[data-tone] > .sticky-start,
+    .data-table tr[data-tone] > .sticky-end {
+      background-color: inherit;
+    }
+    /* dòng viền (Nhì cao điểm nhất) không tô nền: dùng nền trang */
+    .data-table tr[data-tone="outline"] > .sticky-start,
+    .data-table tr[data-tone="outline"] > .sticky-end {
+      background-color: var(--color-mist);
+    }
+    .data-table .sticky-start {
+      left: 0;
+    }
+    .data-table .sticky-end {
+      right: 0;
+      z-index: 2;
+    }
+    /* bóng mờ ở cạnh trong báo còn nội dung cuộn được */
+    .data-table .sticky-start::after,
+    .data-table .sticky-end::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      pointer-events: none;
+    }
+    .data-table .sticky-start::after {
+      right: -8px;
+      background: linear-gradient(to right, rgb(31 27 46 / 0.08), transparent);
+    }
+    .data-table .sticky-end::before {
+      left: -8px;
+      background: linear-gradient(to left, rgb(31 27 46 / 0.08), transparent);
+    }
+  }
 }
 
 @keyframes rise {
@@ -535,6 +705,94 @@
   }
 }
 
+/* ===== Trang chủ: ô che ảnh lớn lật mở như ô Vượt chướng ngại vật ===== */
+.hero-tiles {
+  perspective: 1200px;
+}
+.hero-tile {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  backface-visibility: hidden;
+  animation-name: tile-flip;
+  animation-timing-function: ease-in;
+  animation-fill-mode: both;
+}
+/* 4 phần tư, khe 3px giữa các ô */
+.hero-tile.tile-q {
+  width: calc(50% - 1.5px);
+  height: calc(50% - 1.5px);
+}
+/* ô trung tâm ~34% × 34%, đè lên 4 ô góc, viền sáng 3px làm khe */
+.hero-tile.tile-center {
+  left: 33%;
+  top: 33%;
+  width: 34%;
+  height: 34%;
+  box-shadow: 0 0 0 3px rgba(245, 242, 252, 0.9);
+}
+@keyframes tile-flip {
+  from {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+}
+
+/* ===== Header: thu gọn khi cuộn (64px → 52px), menu điện thoại trượt xuống ===== */
+:root {
+  --header-h: 4rem;
+}
+.site-header {
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+.site-header-bar {
+  height: 4rem;
+  transition: height 200ms ease;
+}
+.site-header.is-scrolled .site-header-bar {
+  height: 3.25rem;
+}
+.site-header-logo {
+  width: 2rem;
+  height: 2rem;
+  transition:
+    width 200ms ease,
+    height 200ms ease;
+}
+.site-header.is-scrolled .site-header-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+.mobile-nav {
+  top: var(--header-h);
+  animation: menu-in 200ms ease-out both;
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===== Biểu đồ "Diễn biến điểm số" (trang mùa) ===== */
+.climb-line {
+  transition-property: stroke-dashoffset, stroke-width;
+  transition-timing-function: ease-out;
+}
+.climb-fade {
+  transition: opacity 250ms ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tl-photo {
     animation: none;
@@ -549,6 +807,24 @@
   .photo-letter,
   .hero-slogan {
     animation: none;
+  }
+  .hero-tiles {
+    display: none;
+  }
+  .site-header,
+  .site-header-bar,
+  .site-header-logo {
+    transition: none;
+  }
+  .mobile-nav {
+    animation: none;
+  }
+  .climb-line,
+  .climb-fade {
+    transition: none !important;
+  }
+  .photo-img {
+    transition: none;
   }
   .nav-link::after {
     transition: none;

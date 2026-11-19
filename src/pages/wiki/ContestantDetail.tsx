@@ -36,7 +36,7 @@ export default function ContestantDetail() {
   );
 
   return (
-    <article className="mx-auto max-w-6xl px-5 py-14 md:py-20">
+    <article className="mx-auto max-w-6xl px-5 pt-12 pb-12 md:pt-16 md:pb-16">
       <Breadcrumb
         items={[
           { to: "/wiki", label: "OSSPEDIA" },
@@ -48,21 +48,27 @@ export default function ContestantDetail() {
       <div className="mt-4 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_18rem]">
         <div className="min-w-0 space-y-12">
           <header>
-            <h1 className="text-3xl font-bold text-ink md:text-4xl">{person.name}</h1>
+            <h1 className="h1 text-ink">{person.name}</h1>
             {titleText.length > 0 && <p className="mt-2 text-lg font-semibold text-oss">{titleText.join(" · ")}</p>}
           </header>
 
           <section>
-            <h2 className="text-xl font-bold text-ink">Olympia Sóc Sơn</h2>
+            <h2 className="h3 text-ink">Olympia Sóc Sơn</h2>
             <div className="mt-3 overflow-x-auto">
               <table className="data-table min-w-[40rem]">
                 <thead>
                   <tr>
-                    <th scope="col">Mùa</th>
+                    <th scope="col" className="sticky-start">
+                      Mùa
+                    </th>
                     <th scope="col">Vòng</th>
                     <ScoreHeads />
-                    <th scope="col" className="text-right">Điểm</th>
-                    <th scope="col">Kết quả</th>
+                    <th scope="col" className="num text-right">
+                      Điểm
+                    </th>
+                    <th scope="col" className="sticky-end">
+                      Kết quả
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -70,7 +76,7 @@ export default function ContestantDetail() {
                     <Fragment key={p.season}>
                       {p.qualifying && (
                         <tr>
-                          <td rowSpan={p.matches.length + 1} className="align-top">
+                          <td rowSpan={p.matches.length + 1} className="sticky-start align-top">
                             <Link to={seasonPath(p.season)} className="font-semibold text-oss hover:underline">
                               Mùa {p.season}
                             </Link>
@@ -78,26 +84,26 @@ export default function ContestantDetail() {
                           </td>
                           <td>{roundLabel()}</td>
                           <td colSpan={4} />
-                          <td className="text-right font-semibold tabular-nums">{formatScore(p.qualifying.score)}</td>
-                          <td>{resultLabel(undefined, p.qualifying)}</td>
+                          <td className="num text-right font-semibold">{formatScore(p.qualifying.score)}</td>
+                          <td className="sticky-end">{resultLabel(undefined, p.qualifying)}</td>
                         </tr>
                       )}
                       {p.matches.map(({ match, result }, i) => (
                         <tr key={match.id}>
                           {!p.qualifying && i === 0 && (
-                            <td rowSpan={p.matches.length} className="align-top">
+                            <td rowSpan={p.matches.length} className="sticky-start align-top">
                               <Link to={seasonPath(p.season)} className="font-semibold text-oss hover:underline">
                                 Mùa {p.season}
                               </Link>
                             </td>
                           )}
                           <td>{roundLabel(match)}</td>
-                          <td className="text-right tabular-nums">{formatScore(result.kd)}</td>
-                          <td className="text-right tabular-nums">{formatScore(result.vcnv)}</td>
-                          <td className="text-right tabular-nums">{formatScore(result.tt)}</td>
-                          <td className="text-right tabular-nums">{formatScore(result.vd)}</td>
-                          <td className="text-right font-semibold tabular-nums">{formatScore(result.total)}</td>
-                          <td>
+                          <td className="num text-right">{formatScore(result.kd)}</td>
+                          <td className="num text-right">{formatScore(result.vcnv)}</td>
+                          <td className="num text-right">{formatScore(result.tt)}</td>
+                          <td className="num text-right">{formatScore(result.vd)}</td>
+                          <td className="num text-right font-semibold">{formatScore(result.total)}</td>
+                          <td className="sticky-end">
                             {resultLabel(match, result)}
                             {tiebreaks.some((t) => t.match.id === match.id) && <span aria-hidden>*</span>}
                           </td>
@@ -115,7 +121,7 @@ export default function ContestantDetail() {
 
           {olympia.length > 0 && (
             <section>
-              <h2 className="text-xl font-bold text-ink">Đường lên đỉnh Olympia</h2>
+              <h2 className="h3 text-ink">Đường lên đỉnh Olympia</h2>
               <div className="mt-3 overflow-x-auto">
                 <table className="data-table min-w-[32rem]">
                   <thead>
@@ -147,7 +153,7 @@ export default function ContestantDetail() {
 
           {timeline.length > 0 && (
             <section>
-              <h2 className="text-xl font-bold text-ink">Dòng thời gian</h2>
+              <h2 className="h3 text-ink">Dòng thời gian</h2>
               <div className="mt-4">
                 <Timeline items={timeline} compact />
               </div>
@@ -156,7 +162,7 @@ export default function ContestantDetail() {
         </div>
 
         <aside className="infobox" aria-label="Thông tin nhanh">
-          <PersonPhoto src={personPhoto(person.id)} name={person.name} className="mb-4 aspect-[3/4] w-full rounded-lg" textClass="text-6xl" />
+          <PersonPhoto src={personPhoto(person.id)} seed={person.id} name={person.name} className="mb-4 aspect-[3/4] w-full rounded-lg" />
           <dl>
             <dt>
               <IconLabel icon={PiGraduationCap}>Trường</IconLabel>

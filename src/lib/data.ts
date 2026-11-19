@@ -13,7 +13,6 @@ import statsJson from "../data/stats.json";
 import departmentsJson from "../data/departments.json";
 import contactsJson from "../data/contacts.json";
 import humansJson from "../data/humans.json";
-import { normalize } from "./format";
 import type {
   ContactPerson,
   Department,
@@ -296,6 +295,21 @@ export function personProfile(id: string | undefined) {
   };
 }
 
+/** Thông tin cho thẻ xem nhanh thí sinh (rê chuột vào tên). Chỉ thí sinh OSS. */
+export function personPreview(id: string) {
+  const person = getPerson(id);
+  if (!person) return undefined;
+  const years = [...new Set(olympiaOf(id).map((r) => r.year))].sort((a, b) => a - b);
+  return {
+    person,
+    school: schoolName(person.school),
+    seasons: participationsOf(id).map((p) => p.season),
+    /** Danh hiệu OSS cao nhất, vd "Quán quân mùa 9" (thứ tự Quán quân > Á quân > Quý quân) */
+    topTitle: describeTitles(titlesOf(id))[0],
+    olympiaYears: years,
+  };
+}
+
 /** "Quán quân mùa 5, 6" ... gộp danh hiệu theo loại. */
 export function describeTitles(titles: Title[]) {
   return (Object.keys(PLACEMENT_LABEL) as Placement[]).flatMap((p) => {
@@ -434,6 +448,35 @@ export function championCards() {
   return [...map.values()];
 }
 
+/** Mốc của biểu đồ "Diễn biến điểm số" (trục ngang). */
+export const CLIMB_STEPS = ["Xuất phát", "Khởi động", "Vượt chướng ngại vật", "Tăng tốc", "Về đích"] as const;
+
+export interface ClimbLine {
+  person: string;
+  name: string;
+  placement?: Placement;
+  /** 5 điểm cộng dồn: 0 → kd → kd+vcnv → kd+vcnv+tt → total (null nếu thiếu dữ liệu) */
+  points: (number | null)[];
+  total: number | null;
+}
+
+/**
+ * Điểm cộng dồn của từng thí sinh trong trận (dùng cho trận Chung kết).
+ * Điểm cuối lấy đúng `total` trong dữ liệu (đã áp quy tắc tổng không âm). Ô null → mốc đó null.
+ */
+export function climbSeries(match: Match): ClimbLine[] {
+  return match.results.map((r) => {
+    const after = (vals: (number | null)[]) => (vals.some((v) => v === null) ? null : (vals as number[]).reduce((a, b) => a + b, 0));
+    return {
+      person: r.person,
+      name: personName(r.person),
+      placement: r.placement,
+      points: [0, after([r.kd]), after([r.kd, r.vcnv]), after([r.kd, r.vcnv, r.tt]), r.total],
+      total: r.total,
+    };
+  });
+}
+
 /** Câu hỏi phụ của trận: người thắng và những người bằng điểm với người đó. */
 export function tiebreakInfo(match: Match) {
   const winner = match.results.find((r) => r.person === match.tiebreakWinner);
@@ -557,48 +600,3 @@ export function toTimeline(list: Milestone[]): TimelineItem[] {
 }
 
 export const timeline = toTimeline(milestones);
-
-// ===== Tìm kiếm OSSPEDIA =====
-
-export interface SearchEntry {
-  to: string;
-  title: string;
-  subtitle: string;
-  kind: "season" | "person" | "school";
-  key: string;
-}
-
-export const searchIndex: SearchEntry[] = [
-  ...championsList().map(({ season: s, champions }) => {
-    const champ = champions.map((c) => c.person.name).join(", ");
-    return {
-      to: seasonPath(s.season),
-      title: `Olympia Sóc Sơn mùa ${s.season}`,
-      subtitle: `Năm học ${s.schoolYear}${champ ? `. Quán quân: ${champ}` : ""}`,
-      kind: "season" as const,
-      key: normalize(`mua ${s.season} ${s.code} olympia soc son ${s.schoolYear} ${champ}`),
-    };
-  }),
-  ...people.map((p) => {
-    const titles = describeTitles(titlesOf(p.id));
-    return {
-      to: personPath(p.id),
-      title: p.name,
-      subtitle: [schoolName(p.school), ...titles].join(" · "),
-      kind: "person" as const,
-      key: normalize(p.name),
-    };
-  }),
-  ...schools.map((s) => ({
-    to: schoolPath(s.id),
-    title: s.name,
-    subtitle: "Trường",
-    kind: "school" as const,
-    key: normalize(`truong ${s.name} ${s.short}`),
-  })),
-];
-
-export function search(query: string) {
-  const q = normalize(query);
-  return q ? searchIndex.filter((r) => r.key.includes(q)) : [];
-}

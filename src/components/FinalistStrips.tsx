@@ -44,7 +44,7 @@ export default function FinalistStrips() {
               onBlur={() => setActive((a) => (a === i ? null : a))}
               onClick={(e) => onClick(e, i)}
             >
-              <PersonPhoto src={personPhoto(person.id)} name={person.name} className="size-full" textClass="text-4xl" />
+              <PersonPhoto src={personPhoto(person.id)} seed={person.id} name={person.name} className="size-full" />
               <span className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/80 to-transparent" aria-hidden />
               <span className="strip-caption" aria-hidden>
                 <span className="block text-lg leading-tight font-bold">{person.name}</span>

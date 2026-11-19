@@ -16,6 +16,7 @@ import FinalistStrips from "../components/FinalistStrips";
 import IconLabel from "../components/IconLabel";
 import MedalBadge from "../components/MedalBadge";
 import Modal from "../components/Modal";
+import PageHeader from "../components/PageHeader";
 import PersonLink from "../components/PersonLink";
 import PersonPhoto from "../components/PersonPhoto";
 import {
@@ -59,9 +60,10 @@ const TITLE_ICON = "size-[0.9em]";
 function ChampionsSection() {
   const cards = championCards();
   return (
-    <section className="paper-dark border-t border-white/10 text-white">
-      <div className="mx-auto max-w-6xl px-5 py-16">
-        <p className="text-sm font-semibold tracking-[0.2em] text-gold uppercase">Hall of Fame</p>
+    <section className="paper-dark text-white">
+      {/* nối liền đầu trang tối phía trên nên không có khoảng đệm trên */}
+      <div className="section-band mx-auto max-w-6xl px-5 pt-2 md:pt-4">
+        <p className="text-sm font-semibold text-gold">Hall of Fame</p>
         <h2 className="section-title mt-2 text-white">
           <IconLabel icon={PiTrophy} iconClass={`${TITLE_ICON} text-gold`}>
             Quán quân các mùa
@@ -74,9 +76,11 @@ function ChampionsSection() {
                 to={personPath(person.id)}
                 className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gold/40 bg-white/5 transition-colors hover:border-gold hover:bg-white/10"
               >
-                <PersonPhoto src={personPhoto(person.id)} name={person.name} className="aspect-[3/4] w-full" />
+                <PersonPhoto src={personPhoto(person.id)} seed={person.id} name={person.name} className="aspect-[3/4] w-full" />
                 <span className="flex flex-1 flex-col p-4">
-                  <span className="text-lg leading-snug font-bold text-white group-hover:text-gold-bg">{person.name}</span>
+                  <span className="font-display text-lg leading-snug font-bold text-white group-hover:text-gold-bg">
+                    {person.name}
+                  </span>
                   {wins.length > 1 && (
                     <span className="text-xs font-semibold text-gold">{wins.length} lần Quán quân</span>
                   )}
@@ -123,7 +127,7 @@ function OlympiaSection() {
 
   return (
     <section className="border-y border-oss/10 bg-white/40">
-      <div className="mx-auto max-w-6xl px-5 py-16">
+      <div className="section-band mx-auto max-w-6xl px-5">
         <h2 className="section-title">
           <IconLabel icon={PiTelevisionSimple} iconClass={TITLE_ICON}>
             THPT Sóc Sơn tại Đường lên đỉnh Olympia
@@ -163,7 +167,7 @@ function OlympiaSection() {
                 aria-haspopup="dialog"
                 className="group relative block w-full overflow-hidden rounded-2xl text-left shadow-[0_6px_18px_-12px_rgba(46,16,101,0.45)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_22px_40px_-18px_rgba(109,40,217,0.55)] focus-visible:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
               >
-                <PersonPhoto src={personPhoto(person.id)} name={person.name} className="aspect-[3/4] w-full" />
+                <PersonPhoto src={personPhoto(person.id)} seed={person.id} name={person.name} className="aspect-[3/4] w-full" />
                 <span className="absolute inset-x-0 bottom-0 flex flex-col bg-linear-to-t from-black/80 via-black/45 to-transparent p-3 pt-12 text-white">
                   <span className="leading-snug font-bold">{person.name}</span>
                   <span className="text-xs text-white/80">
@@ -194,12 +198,12 @@ function OlympiaSection() {
             <div className="flex gap-5 pr-10">
               <PersonPhoto
                 src={personPhoto(current.person.id)}
+                seed={current.person.id}
                 name={current.person.name}
                 className="aspect-[3/4] w-24 shrink-0 rounded-lg sm:w-32"
-                textClass="text-3xl"
               />
               <div>
-                <h2 id="olympia-dialog-title" className="text-2xl font-bold text-ink">
+                <h2 id="olympia-dialog-title" className="h2 text-ink">
                   {current.person.name}
                 </h2>
                 <p className="text-sm font-semibold text-ink">Olympia năm thứ {current.years.join(", ")}</p>
@@ -215,7 +219,7 @@ function OlympiaSection() {
               </div>
             </div>
 
-            <h3 className="mt-6 text-sm font-semibold tracking-wide text-ink-soft uppercase">Đường lên đỉnh Olympia</h3>
+            <h3 className="h3 mt-6 text-ink">Đường lên đỉnh Olympia</h3>
             <ul className="mt-2 divide-y divide-oss/10 border-y border-oss/10">
               {current.records.map((r) => (
                 <li key={`${r.year}-${r.round}`} className="flex flex-wrap items-start gap-x-3 gap-y-1 py-3">
@@ -255,7 +259,7 @@ function RecordsSection() {
   const rows = openField ? tables[openField] : [];
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-16">
+    <section className="section mx-auto max-w-6xl px-5">
       <h2 className="section-title">
         <IconLabel icon={PiChartBar} iconClass={TITLE_ICON}>
           Kỷ lục
@@ -284,7 +288,7 @@ function RecordsSection() {
                     {RECORD_LABEL[f]}
                   </IconLabel>
                 </span>
-                <span className={`mt-1 text-4xl font-extrabold tabular-nums ${expanded ? "text-white" : "text-oss"}`}>
+                <span className={`font-display mt-1 text-4xl font-extrabold tabular-nums ${expanded ? "text-white" : "text-oss"}`}>
                   {holders[0]?.value ?? "–"}
                 </span>
                 <span className={`mt-1 text-sm leading-snug ${expanded ? "text-white" : "text-ink"}`}>
@@ -304,11 +308,17 @@ function RecordsSection() {
               <caption className="pb-3 text-left text-lg font-bold text-ink">Bảng xếp hạng: {RECORD_LABEL[openField]}</caption>
               <thead>
                 <tr>
-                  <th scope="col">Hạng</th>
-                  <th scope="col">Thí sinh</th>
+                  <th scope="col" className="num">
+                    Hạng
+                  </th>
+                  <th scope="col" className="sticky-start">
+                    Thí sinh
+                  </th>
                   <th scope="col">Mùa</th>
                   <th scope="col">Trận</th>
-                  <th scope="col" className="text-right">Điểm</th>
+                  <th scope="col" className="sticky-end num text-right">
+                    Điểm
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -318,10 +328,10 @@ function RecordsSection() {
                     <tr
                       key={`${r.person.id}-${r.season}-${r.match?.id ?? "vl"}`}
                       className={medal ? MEDAL_ROW[medal] : undefined}
-                      data-tone={medal ? "" : undefined}
+                      data-tone={medal ? "medal" : undefined}
                     >
-                      <td className="font-semibold tabular-nums">{r.rank}</td>
-                      <td>
+                      <td className="num font-semibold">{r.rank}</td>
+                      <td className="sticky-start">
                         <PersonLink id={r.person.id} />
                       </td>
                       <td>
@@ -330,7 +340,7 @@ function RecordsSection() {
                         </Link>
                       </td>
                       <td>{roundLabel(r.match)}</td>
-                      <td className="text-right font-bold tabular-nums">{r.value}</td>
+                      <td className="sticky-end num text-right font-bold">{r.value}</td>
                     </tr>
                   );
                 })}
@@ -346,14 +356,11 @@ function RecordsSection() {
 export default function HallOfFamePage() {
   return (
     <>
-      <section className="paper-dark text-white">
-        <div className="mx-auto max-w-6xl px-5 pt-16 pb-6 md:pt-20">
-          <h1 className="text-3xl font-bold tracking-[0.06em] uppercase md:text-[2.5rem]">Bảng vàng</h1>
-          <p className="mt-3 max-w-[60ch] text-white/75">
-            Quán quân các mùa, những thí sinh THPT Sóc Sơn bước lên sân khấu Đường lên đỉnh Olympia và các kỷ lục điểm số.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        tone="dark"
+        title="Bảng vàng"
+        description="Quán quân các mùa, những thí sinh THPT Sóc Sơn bước lên sân khấu Đường lên đỉnh Olympia và các kỷ lục điểm số."
+      />
 
       <ChampionsSection />
 
@@ -362,7 +369,7 @@ export default function HallOfFamePage() {
       <RecordsSection />
 
       {/* ===== Các thí sinh vào Chung kết 2 năm liên tiếp ===== */}
-      <section className="mx-auto mb-12 max-w-6xl px-5 pb-16">
+      <section className="section mx-auto max-w-6xl px-5">
         <h2 className="section-title">
           <IconLabel icon={PiRepeat} iconClass={TITLE_ICON}>
             Các thí sinh vào Chung kết 2 năm liên tiếp
