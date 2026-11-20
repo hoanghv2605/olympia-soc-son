@@ -1,19 +1,49 @@
-import { PiImagesBold } from "react-icons/pi";
+import { Link } from "react-router";
 import PageHeader from "../components/PageHeader";
-import { site } from "../lib/data";
+import SeasonCover from "../components/SeasonCover";
+import { libraryPath, libraryPhotos, seasons, site } from "../lib/data";
+
+function Cover({ n, schoolYear }: { n: number; schoolYear: string }) {
+  const photos = libraryPhotos(n);
+  const has = photos.length > 0;
+  const body = (
+    <>
+      <SeasonCover season={n} src={photos[0]?.src} />
+      <span className="block p-4">
+        <span className="block text-lg font-bold text-ink">Mùa {n}</span>
+        <span className="block text-sm text-ink-soft tabular-nums">
+          {schoolYear} · {has ? `${photos.length} ảnh` : "Chưa có ảnh"}
+        </span>
+      </span>
+    </>
+  );
+  const base = "block overflow-hidden rounded-2xl border border-oss/15 bg-white/80";
+  if (!has) return <div className={`${base} opacity-55`}>{body}</div>;
+  return (
+    <Link
+      to={libraryPath(n)}
+      className={`${base} transition duration-200 hover:-translate-y-0.5 hover:border-oss focus-visible:-translate-y-0.5 focus-visible:border-oss motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
+    >
+      {body}
+    </Link>
+  );
+}
 
 export default function LibraryPage() {
   return (
     <>
       <PageHeader title="Thư viện" description="Ảnh và tư liệu qua các mùa Olympia Sóc Sơn." />
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
-        <div className="rounded-2xl border border-dashed border-oss/30 bg-white/50 px-6 py-14 text-center">
-          <PiImagesBold className="mx-auto size-10 text-oss" aria-hidden />
-          <p className="mt-4 text-lg font-semibold text-ink">Thư viện ảnh và tư liệu đang được xây dựng</p>
-          <p className="mx-auto mt-2 max-w-[52ch] text-ink-soft">
-            Trong lúc chờ, bạn có thể xem ảnh và video các mùa thi trên fanpage của Olympia Sóc Sơn.
-          </p>
-          <a href={site.facebook} target="_blank" rel="noreferrer" className="btn-primary mt-7">
+        <ul className="grid gap-5 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          {seasons.map((s) => (
+            <li key={s.season}>
+              <Cover n={s.season} schoolYear={s.schoolYear} />
+            </li>
+          ))}
+        </ul>
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-oss/15 bg-white/60 px-6 py-5">
+          <p className="text-ink">Xem thêm ảnh và video trên fanpage Olympia Sóc Sơn</p>
+          <a href={site.facebook} target="_blank" rel="noreferrer" className="btn-primary">
             Mở fanpage Olympia Sóc Sơn
           </a>
         </div>

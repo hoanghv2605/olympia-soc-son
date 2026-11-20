@@ -7,10 +7,11 @@
 // Trước khi sinh, kiểm tra quy ước tên (dừng build nếu sai):
 //  - 2 lượt thi khác nhau ra cùng một tên file ảnh thí sinh;
 //  - 2 câu chuyện Human of OSS trùng `stt`.
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+// Ngoài ra in cảnh báo (không dừng build) cho mọi ảnh trong public/images/ lớn hơn 500KB.
+import { mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { findDuplicateFiles, findDuplicateStt, personPhotoFiles } from "../src/lib/photo-names.js";
-import { root, scanImages } from "./lib/scan-images.mjs";
+import { publicDir, root, scanImages } from "./lib/scan-images.mjs";
 
 const read = (name) => JSON.parse(readFileSync(join(root, "src", "data", `${name}.json`), "utf8"));
 
@@ -20,6 +21,7 @@ const photoFiles = personPhotoFiles({
   qualifying: read("qualifying"),
   olympia: read("olympia"),
   schools: read("schools"),
+  matches: read("matches"),
 });
 for (const [a, b] of findDuplicateFiles(photoFiles)) {
   errors.push(`Trùng tên file ảnh thí sinh "${a.file}":\n    - ${a.label} (${a.personId})\n    - ${b.label} (${b.personId})`);
@@ -37,4 +39,11 @@ const list = scanImages();
 
 mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, JSON.stringify(list, null, 2) + "\n");
+// Cảnh báo (không dừng build) ảnh lớn hơn 500KB để nén lại
+const MAX_BYTES = 500 * 1024;
+for (const rel of list) {
+  if (!rel.startsWith("images/")) continue;
+  const size = statSync(join(publicDir, rel)).size;
+  if (size > MAX_BYTES) console.warn(`[images] CẢNH BÁO: public/${rel} nặng ${(size / 1024).toFixed(0)}KB (> 500KB), nên nén lại`);
+}
 console.log(`[images] ${list.length} ảnh có sẵn → src/data/generated/images.json`);

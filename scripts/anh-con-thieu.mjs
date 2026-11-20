@@ -131,3 +131,12 @@ console.log(
     have.has(heroMain) ? "đã có" : "chưa có"
   } public/${heroMain}`,
 );
+
+// Thông tin: Thư viện ảnh theo mùa (public/images/thu-vien/mua-{n}/, tên file tùy ý). Không tính là thiếu.
+const seasonNums = [...new Set(read("seasons").map((s) => s.season))].sort((a, b) => a - b);
+console.log("\n## Thư viện (thông tin, không tính là thiếu): số ảnh trong public/images/thu-vien/mua-{n}/");
+for (const n of seasonNums) {
+  const dir = `images/thu-vien/mua-${n}/`;
+  const c = [...have].filter((p) => p.startsWith(dir)).length;
+  console.log(`  - Mùa ${n}: ${c} ảnh`);
+}

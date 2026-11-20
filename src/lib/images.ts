@@ -13,3 +13,11 @@ export function hasImage(path: string | undefined | null): path is string {
 export function pickImage(candidates: string[]) {
   return candidates.find((c) => hasImage(c));
 }
+
+/** Mọi ảnh có thật có đường dẫn bắt đầu bằng `prefix` (vd "images/thu-vien/mua-10/"), sắp theo tên file kiểu tự nhiên (2.jpg trước 10.jpg). */
+export function listImages(prefix: string) {
+  const pre = prefix.replace(/^\//, "");
+  return [...available]
+    .filter((p) => p.startsWith(pre))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+}

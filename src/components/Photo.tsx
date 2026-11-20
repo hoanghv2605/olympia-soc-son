@@ -49,6 +49,7 @@ export default function Photo({ src, alt, className = "", fallback, decorative =
           src={asset(src!)}
           alt={loaded && !decorative ? alt : ""}
           loading="lazy"
+          decoding="async"
           onLoad={() => setLoaded(true)}
           onError={() => setFailed(true)}
           className={`photo-img absolute inset-0 size-full object-cover ${loaded ? "opacity-100" : "opacity-0"}`}

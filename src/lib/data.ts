@@ -1,7 +1,7 @@
 // Một cửa duy nhất để lấy dữ liệu. Các trang chỉ import từ đây,
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
-import { hasImage } from "./images";
+import { hasImage, listImages } from "./images";
 import { departmentPhotoFile, humanPhotoFile, personPhotoFiles } from "./photo-names";
 import siteJson from "../data/site.json";
 import schoolsJson from "../data/schools.json";
@@ -131,6 +131,10 @@ export function seasonSlug(n: number) {
 
 export function seasonPath(n: number) {
   return `/wiki/cuoc-thi/${seasonSlug(n)}`;
+}
+
+export function libraryPath(n: number) {
+  return `/thu-vien/mua-${n}`;
 }
 
 export function personPath(id: string) {
@@ -266,6 +270,26 @@ export function departmentPhoto(d: Department) {
 export function matchPhoto(matchId: string) {
   const path = `images/tran-dau/${matchId}.jpg`;
   return hasImage(path) ? path : undefined;
+}
+
+/** Ảnh trong thư viện của mùa n: ảnh trận đấu có thật (Bán kết 1…, rồi Chung kết) đứng đầu, sau đó ảnh trong images/thu-vien/mua-{n}/ (tên file kiểu tự nhiên). */
+export function libraryPhotos(season: number): { src: string; alt: string }[] {
+  const out: { src: string; alt: string }[] = [];
+  for (const m of semifinalsOf(season).slice().sort((a, b) => a.number - b.number)) {
+    const src = matchPhoto(m.id);
+    if (src) out.push({ src, alt: `Các thí sinh trận Bán kết ${m.number} mùa ${season}` });
+  }
+  const final = finalOf(season);
+  const finalSrc = final && matchPhoto(final.id);
+  if (finalSrc) out.push({ src: finalSrc, alt: `Các thí sinh trận Chung kết mùa ${season}` });
+  listImages(`images/thu-vien/mua-${season}/`).forEach((src, i) =>
+    out.push({ src, alt: `Ảnh Olympia Sóc Sơn mùa ${season} (${i + 1})` }),
+  );
+  return out;
+}
+
+export function libraryCount(season: number) {
+  return libraryPhotos(season).length;
 }
 
 /** Ảnh Chung kết của mùa n (images/tran-dau/oss{n}-ck.jpg) nếu có thật. */

@@ -1,6 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import { Link, useParams } from "react-router";
-import { PiCalendarBlank, PiCrown, PiMicrophone } from "react-icons/pi";
+import { PiCalendarBlank, PiCrown, PiImages, PiMicrophone } from "react-icons/pi";
 import PageHeader from "../../components/PageHeader";
 import IconLabel from "../../components/IconLabel";
 import ClimbChart from "../../components/ClimbChart";
@@ -13,6 +13,8 @@ import {
   finalOf,
   getSchool,
   getSeason,
+  libraryCount,
+  libraryPath,
   matchPhoto,
   podium,
   qualifyingOf,
@@ -99,7 +101,20 @@ export default function SeasonDetail() {
         ]}
         title={`Olympia Sóc Sơn mùa ${n}`}
         description={`Năm học ${season.schoolYear} · Chung kết ngày ${formatDate(season.finalDate)}.`}
-        actions={<SeasonNav n={n} />}
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            {libraryCount(n) > 0 && (
+              <Link
+                to={libraryPath(n)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-oss/25 bg-white/70 px-3.5 py-1.5 text-sm font-semibold text-oss hover:border-oss"
+              >
+                <PiImages className="size-4" aria-hidden />
+                Thư viện ảnh
+              </Link>
+            )}
+            <SeasonNav n={n} />
+          </div>
+        }
         backdrop={final ? matchPhoto(final.id) : undefined}
       />
       <article className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">

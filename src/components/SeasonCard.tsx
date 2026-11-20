@@ -1,12 +1,10 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
-import CubeOutline from "./CubeOutline";
-import Photo from "./Photo";
+import SeasonCover from "./SeasonCover";
 import PersonPhoto from "./PersonPhoto";
-import { finalOf, matchPhoto, personPhoto, podium, seasonPath } from "../lib/data";
+import { finalOf, libraryCount, matchPhoto, personPhoto, libraryPath, podium, seasonPath } from "../lib/data";
 import { formatDate, formatScore } from "../lib/format";
 import { MEDAL_DOT, type Medal } from "../lib/medal";
-import { PLACEHOLDER_TONES } from "../lib/placeholder";
 import type { Season } from "../types";
 
 function Row({ medal, children, aside }: { medal: Medal; children: ReactNode; aside?: ReactNode }) {
@@ -24,31 +22,15 @@ export default function SeasonCard({ season }: { season: Season }) {
   const n = season.season;
   const { champions, runnersUp, thirds } = podium(n);
   const final = finalOf(n);
+  const photos = libraryCount(n);
   const photo = final ? matchPhoto(final.id) : undefined;
-  const tone = PLACEHOLDER_TONES[(n - 1) % PLACEHOLDER_TONES.length];
   const champPhoto = champions[0] ? personPhoto(champions[0].person.id, { season: n }) : undefined;
   const names = (list: typeof champions) => list.map((c) => c.person.name).join(", ");
 
   return (
     <article className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-oss/15 bg-white/80 transition duration-200 hover:-translate-y-0.5 hover:border-oss focus-within:-translate-y-0.5 focus-within:border-oss">
-      <div className="relative aspect-[3/2]">
-        <Photo
-          src={photo}
-          alt=""
-          className="size-full"
-          fallback={
-            <span
-              aria-hidden
-              className="absolute inset-0 overflow-hidden"
-              style={{ backgroundColor: tone.bg, color: tone.ink, containerType: "size" }}
-            >
-              <CubeOutline color={tone.ink} className="absolute -right-[22%] -bottom-[18%] w-[78%]" />
-              <span className="font-display absolute inset-0 grid place-items-center text-[clamp(4rem,52cqmin,9rem)] leading-none font-bold">
-                {n}
-              </span>
-            </span>
-          }
-        />
+      <div className="relative">
+        <SeasonCover season={n} src={photo} />
         <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-oss shadow-sm">Mùa {n}</span>
       </div>
       <div className="flex flex-1 flex-col p-5">
@@ -75,6 +57,12 @@ export default function SeasonCard({ season }: { season: Season }) {
         <p className="mt-auto pt-4 text-xs text-ink-soft tabular-nums">
           {season.schoolYear} · Chung kết {formatDate(season.finalDate)}
         </p>
+        {photos > 0 && (
+          // Link phủ cả thẻ nằm sau (z-10); link thư viện đặt cao hơn (z-20) và là phần tử riêng, không lồng link trong link
+          <Link to={libraryPath(n)} className="link-strong relative z-20 mt-2 inline-block self-start text-sm">
+            Thư viện ảnh ({photos})
+          </Link>
+        )}
       </div>
       <Link to={seasonPath(n)} aria-label={`Olympia Sóc Sơn mùa ${n}`} className="absolute inset-0 z-10 rounded-2xl" />
     </article>

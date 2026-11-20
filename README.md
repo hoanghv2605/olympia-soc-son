@@ -71,7 +71,8 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 | `public/images/ban/ban-{id}.jpg` | Ảnh từng ban ở Cơ cấu tổ chức: `ban-chuyen-mon.jpg`, `ban-ki-thuat.jpg`, `ban-truyen-thong.jpg`, `ban-hau-can.jpg` | 4:3 | ~1200×900 |
 | `public/images/thi-sinh/s{mùa}-{slug họ tên}-{mã trường}.jpg` | Ảnh thí sinh, **mỗi lượt vào top 12 một ảnh** (vd `s10-pham-ngo-bao-minh-ss.jpg`, `s8-nguyen-thi-ngoc-anh-ss.jpg`). Người chỉ thi Đường lên đỉnh Olympia: `o{năm}-{slug}-{mã trường}.jpg` (vd `o17-ha-viet-hoang-ss.jpg`). Cách tính tên: xem mục dưới | dọc 3:4 | ~600×800 |
 | `public/images/tran-dau/<id trận>.jpg` | Ảnh mỗi trận Bán kết / Chung kết ở trang mùa; ảnh Chung kết còn làm dải mờ đầu trang mùa và ảnh đầu thẻ mùa. `id trận` = `id` trong `matches.json`, vd `oss10-bk1.jpg`, `oss10-ck.jpg` | ngang 3:2 | ~1500×1000, < 400 KB |
-| `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc (rê chuột/chạm vào dòng thời gian), theo `date` của cột mốc | 4:3 | ~1200×900 |
+| `public/images/cot-moc/<YYYY-MM-DD>.jpg` | Ảnh cột mốc ở trang Giới thiệu, theo `date` của cột mốc. Chỉ cột mốc có ảnh thật mới có nút máy ảnh, ảnh xem trước khi rê chuột và hộp xem ảnh lớn | 4:3 | ~1200×900 |
+| `public/images/thu-vien/mua-{n}/<tên tùy ý>.jpg` | **Ảnh Thư viện** của mùa n (`.jpg`, `.jpeg`, `.png`, `.webp`). Tên file đặt tùy ý, web xếp theo tên kiểu tự nhiên (`2.jpg` trước `10.jpg`), đứng sau các ảnh trận đấu của mùa. Thêm ảnh xong chạy lại `npm run dev`. Ảnh lớn hơn 500KB sẽ bị cảnh báo khi chạy | nên ngang, ~1600px rộng | < 400 KB |
 | `public/images/human-of-oss/{stt 2 chữ số}.jpg` | Chân dung Human of OSS, theo `stt` trong `humans.json` (vd `01.jpg`). Thư mục `images/humans/` không còn dùng | dọc | ~800×1000 |
 | `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ. `id` trong `testimonials.json` | vuông | ~600×600 |
 | `public/images/doi-tac/{id}.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc), tên file = `id` trong `partners.json`: `vang-1`…`vang-5`, `bac-1`…`bac-10`, `dong-hanh-1`…`dong-hanh-10`. Đổi hạng: xem mục "Thêm / sửa một đối tác" | tự do | SVG, hoặc PNG ngang ~600 px |
@@ -104,6 +105,8 @@ Lệnh in từng nhóm (thí sinh theo mùa, ảnh Olympia, Quán quân Hall of 
 **Ảnh mẫu giữ chỗ:** nếu một file ảnh có chuỗi `OSS-ANH-MAU` trong 4 KB đầu (vd nằm trong phần chú thích của file SVG, hoặc trong metadata của JPG) thì web và `npm run anh-con-thieu` coi như **chưa có ảnh**: web vẫn hiện ảnh giữ chỗ, lệnh vẫn báo thiếu. Khi thay bằng ảnh thật (không còn chuỗi này) thì ảnh tự được tính là đã có.
 
 Ảnh thí sinh, trận đấu, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người), logo OSS (cột mốc) hoặc không hiện gì (ảnh trận đấu; không còn dải giữ chỗ). Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
+
+**Link danh sách thí sinh đã lọc:** bộ lọc nằm trên địa chỉ trang, vd `/#/wiki/thi-sinh?mua=4&giai=a-quan` (Mùa 4, Á quân), `?truong=soc-son`, `?giai=quan-quan&sap-xep=mua`. Các khóa: `q` (tên), `truong` (id trường trong `schools.json`), `mua` (số), `giai` (`quan-quan` | `a-quan` | `quy-quan` | `top-12`), `sap-xep` (`ten` | `thanh-tich` | `mua`).
 
 Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh chữ O-S-S nên là ảnh dọc, nhiều màu sắc.
 

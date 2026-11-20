@@ -6,6 +6,7 @@ import AboutLayout from "./pages/about/AboutLayout";
 import IntroPage from "./pages/about/IntroPage";
 import StructurePage from "./pages/about/StructurePage";
 import LibraryPage from "./pages/LibraryPage";
+import LibrarySeasonPage from "./pages/LibrarySeasonPage";
 import HumanOfOssPage from "./pages/HumanOfOssPage";
 import HallOfFamePage from "./pages/HallOfFamePage";
 import WikiHome from "./pages/wiki/WikiHome";
@@ -36,6 +37,7 @@ export default function App() {
 
         <Route path="bang-vang" element={<HallOfFamePage />} />
         <Route path="thu-vien" element={<LibraryPage />} />
+        <Route path="thu-vien/:slug" element={<LibrarySeasonPage />} />
         <Route path="human-of-oss" element={<HumanOfOssPage />} />
         <Route
           path="human-of-oss/:slug"
