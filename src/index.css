@@ -543,6 +543,15 @@
     font-style: italic;
     color: var(--color-ink-soft);
   }
+  /* Câu hỏi phỏng vấn: đoạn chỉ gồm chữ đậm */
+  .prose-oss p:has(> strong:only-child) {
+    color: var(--color-oss-deep);
+  }
+  .prose-oss hr {
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-oss) 25%, transparent);
+    margin-block: 2em;
+  }
   .prose-oss img {
     border-radius: 0.75rem;
   }

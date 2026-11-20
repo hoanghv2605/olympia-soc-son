@@ -45,7 +45,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `stats.json` | Những con số ấn tượng: mục `"manual": true` nhập tay, còn lại web tự tính |
 | `departments.json` | 4 ban: tên, `leader` (Trưởng ban), nhiệm vụ (ảnh ban đặt theo `id`, không khai báo trong JSON) |
 | `contacts.json` | Người liên hệ, hiện ở footer (tên và chức vụ). Ô nào để trống `""` thì web tự ẩn |
-| `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `quote` (câu trích ngắn trên thẻ) |
+| `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn trên thẻ), `date` (YYYY-MM-DD), `person` (tuỳ chọn: id thí sinh OSSPEDIA) |
 
 **Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
 
@@ -110,7 +110,7 @@ Giá trị thứ hai nhỏ hơn = lấy phần cao hơn của ảnh (0% = sát m
 npm run anh-con-thieu
 ```
 
-Lệnh in từng nhóm (thí sinh theo mùa, ảnh Olympia, Quán quân Hall of Fame, trận đấu, cột mốc, nhận xét, đối tác Vàng / Bạc / Đồng hành, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
+Lệnh in từng nhóm (thí sinh theo mùa, ảnh Olympia, Quán quân Hall of Fame, ảnh bìa mùa, trận đấu, cột mốc, nhận xét, đối tác Vàng / Bạc / Đồng hành, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
 
 **Ảnh mẫu giữ chỗ:** nếu một file ảnh có chuỗi `OSS-ANH-MAU` trong 4 KB đầu (vd nằm trong phần chú thích của file SVG, hoặc trong metadata của JPG) thì web và `npm run anh-con-thieu` coi như **chưa có ảnh**: web vẫn hiện ảnh giữ chỗ, lệnh vẫn báo thiếu. Khi thay bằng ảnh thật (không còn chuỗi này) thì ảnh tự được tính là đã có.
 
@@ -158,8 +158,8 @@ Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh ch�
 ### Thêm một câu chuyện Human of OSS
 
 1. Chép `src/content/human-of-oss/_mau.md` thành `src/content/human-of-oss/<slug>.md` (vd `nguyen-van-a.md`). File bắt đầu bằng `_` không hiện trên web.
-2. Thêm 1 mục vào `src/data/humans.json` với cùng `slug` (mẫu có sẵn ở đầu file `_mau.md`): `slug`, `stt`, `name`, `title` (vai trò), `quote` (câu trích ngắn). **`stt` = số tiếp theo chưa dùng** (1, 2, 3...), không được trùng; trùng thì build báo lỗi.
-3. Ảnh chân dung (nếu có): `public/images/human-of-oss/{stt 2 chữ số}.jpg`, vd `stt` là 2 thì `02.jpg`.
+2. Thêm 1 mục vào `src/data/humans.json` với cùng `slug` (mẫu có sẵn ở đầu file `_mau.md`): `slug`, `stt`, `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn), `date`, `person` (tuỳ chọn, id thí sinh: có thì cuối bài có link hồ sơ OSSPEDIA và dùng ảnh thí sinh khi chưa có ảnh riêng). **`stt` = số tiếp theo chưa dùng** (1, 2, 3...), không được trùng; trùng thì build báo lỗi.
+3. Ảnh chân dung (nếu có): `public/images/human-of-oss/{stt 2 chữ số}.jpg` (vd `stt` là 2 thì `02.jpg`); chưa có thì dùng ảnh thí sinh của `person`, không có nữa thì ảnh giữ chỗ. Trang danh sách xếp thẻ ngang so le: tập lẻ ảnh bên trái, tập chẵn ảnh bên phải.
 4. Viết bài trong file `.md`, rồi chạy lại `npm run dev`. Trang Human of OSS luôn có 10 ô; mỗi câu chuyện mới thay một ô "Câu chuyện sắp ra mắt".
 
 ## 4. Đưa lên mạng (GitHub Pages)

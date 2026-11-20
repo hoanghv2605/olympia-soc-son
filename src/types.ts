@@ -141,7 +141,14 @@ export interface HumanStory {
   slug: string;
   name: string;
   title: string;
+  /** Tiêu đề bài viết (hiện trong ngoặc kép, in nghiêng) */
+  headline: string;
+  /** Câu trích ngắn hiện trên thẻ */
   quote: string;
+  /** Ngày đăng, YYYY-MM-DD */
+  date: string;
+  /** Tuỳ chọn: id thí sinh OSSPEDIA (dùng ảnh thí sinh khi chưa có ảnh riêng + link hồ sơ) */
+  person?: string;
   /** Số thứ tự câu chuyện (duy nhất): xếp trang Human of OSS và đặt tên ảnh human-of-oss/{stt 2 chữ số}.jpg */
   stt: number;
 }

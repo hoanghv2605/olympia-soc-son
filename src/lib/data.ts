@@ -319,6 +319,19 @@ export function humanPhoto(stt: number) {
   return `images/${humanPhotoFile(stt)}`;
 }
 
+/** Ảnh hiển thị của một câu chuyện: ảnh riêng → ảnh thí sinh mùa mới nhất (nếu có `person`) → undefined (ảnh giữ chỗ). */
+export function humanImage(h: HumanStory): string | undefined {
+  const own = humanPhoto(h.stt);
+  if (hasImage(own)) return own;
+  return h.person ? personPhoto(h.person) : undefined;
+}
+
+/** Tập trước / tập sau (chỉ các tập thật). */
+export function humanNeighbors(slug: string) {
+  const i = humans.findIndex((h) => h.slug === slug);
+  return { prev: i > 0 ? humans[i - 1] : undefined, next: i >= 0 ? humans[i + 1] : undefined };
+}
+
 export function testimonialPhoto(id: string) {
   return `images/nhan-xet/${id}.jpg`;
 }

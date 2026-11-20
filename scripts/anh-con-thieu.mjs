@@ -38,6 +38,14 @@ group("Thí sinh theo mùa (mỗi lượt vào top 12 một ảnh)", photoItems(
 group("Ảnh Olympia (mỗi năm Đường lên đỉnh Olympia một ảnh)", photoItems("olympia"));
 group("Quán quân Hall of Fame (ảnh vuông ~800×800 của mùa vô địch gần nhất)", photoItems("win"));
 
+// 1b. Ảnh bìa mùa: bia/oss{n}-bia.jpg
+group(
+  `Ảnh bìa mùa (${[...new Set(matches.map((m) => m.season))].length})`,
+  [...new Set(matches.map((m) => m.season))]
+    .sort((a, b) => a - b)
+    .map((n) => ({ label: `Mùa ${n}`, options: [`images/bia/oss${n}-bia.jpg`] })),
+);
+
 // 2. Trận đấu
 group(
   "Trận đấu (Bán kết và Chung kết)",
@@ -78,14 +86,19 @@ for (const [tier, title] of [
   );
 }
 
-// 6. Human of OSS: đủ HUMAN_SLOTS ô, ảnh human-of-oss/{stt 2 chữ số}.jpg
-group(
-  `Human of OSS (${HUMAN_SLOTS} ô)`,
-  Array.from({ length: HUMAN_SLOTS }, (_, i) => {
-    const story = humans.find((h) => h.stt === i + 1);
-    return { label: story ? story.name : "chưa có câu chuyện", options: [`images/${humanPhotoFile(i + 1)}`] };
-  }),
-);
+// 6. Human of OSS: đủ HUMAN_SLOTS ô, ảnh human-of-oss/{stt 2 chữ số}.jpg.
+//    Tập có `person` mà chưa có ảnh riêng vẫn dùng được ảnh thí sinh (tính là có, ghi chú "đang dùng ảnh thí sinh").
+const humanItems = Array.from({ length: HUMAN_SLOTS }, (_, i) => {
+  const story = humans.find((h) => h.stt === i + 1);
+  const file = `images/${humanPhotoFile(i + 1)}`;
+  const label = story ? story.name : "chưa có câu chuyện";
+  if (story?.person && !have.has(file)) {
+    const own = photoFiles.find((f) => f.personId === story.person && have.has(`images/thi-sinh/${f.file}`));
+    if (own) return { label: `${label} (đang dùng ảnh thí sinh)`, options: [`images/thi-sinh/${own.file}`] };
+  }
+  return { label, options: [file] };
+});
+group(`Human of OSS (${HUMAN_SLOTS} ô, theo stt)`, humanItems);
 
 // 7. Các ban: ban/ban-{id}.jpg
 group(
