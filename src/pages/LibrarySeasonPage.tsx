@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router";
 import Lightbox from "../components/Lightbox";
 import PageHeader from "../components/PageHeader";
 import NotFound from "./NotFound";
+import { imageFocus } from "../lib/images";
 import { getSeason, libraryCount, libraryPath, libraryPhotos, seasonPath, site } from "../lib/data";
 import { asset } from "../lib/format";
 
@@ -56,7 +57,7 @@ export default function LibrarySeasonPage() {
           </div>
         ) : (
           <>
-            <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+            <ul className="grid grid-cols-2 gap-2 min-[560px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
               {photos.map((p, i) => (
                 <li key={p.src}>
                   <button
@@ -70,6 +71,7 @@ export default function LibrarySeasonPage() {
                       alt={p.alt}
                       loading="lazy"
                       decoding="async"
+                      style={{ objectPosition: imageFocus(p.src) }}
                       className="size-full object-cover transition-transform duration-200 hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100"
                     />
                   </button>

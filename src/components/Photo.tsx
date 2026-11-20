@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { PiImageBold } from "react-icons/pi";
 import { asset } from "../lib/format";
-import { hasImage } from "../lib/images";
+import { hasImage, imageFocus } from "../lib/images";
 
 interface PhotoProps {
   src?: string; // đường dẫn trong public/, vd "images/about/tap-the-1.jpg"
@@ -52,6 +52,7 @@ export default function Photo({ src, alt, className = "", fallback, decorative =
           decoding="async"
           onLoad={() => setLoaded(true)}
           onError={() => setFailed(true)}
+          style={{ objectPosition: imageFocus(src) }}
           className={`photo-img absolute inset-0 size-full object-cover ${loaded ? "opacity-100" : "opacity-0"}`}
         />
       )}

@@ -1,6 +1,7 @@
 // Danh sách ảnh có sẵn trong public/ (sinh tự động bởi scripts/gen-image-manifest.mjs).
 // Mọi component ảnh chỉ gọi tải ảnh có trong danh sách; không có thì dùng ảnh giữ chỗ luôn.
 import manifest from "../data/generated/images.json";
+import focusJson from "../data/tieu-diem-anh.json";
 
 const available = new Set((manifest as string[]).map((p) => p.replace(/^\//, "")));
 
@@ -20,4 +21,21 @@ export function listImages(prefix: string) {
   return [...available]
     .filter((p) => p.startsWith(pre))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+}
+
+/** Tiêu điểm riêng từng ảnh: { "thi-sinh/s8-ten-ss.jpg": "50% 10%" } (đường dẫn tính từ images/). */
+const focusOverrides = focusJson as Record<string, string>;
+
+export type ImageKind = "person" | "wide";
+
+/**
+ * `object-position` cho ảnh cắt bằng object-fit: cover. Ưu tiên: tuỳ chỉnh trong src/data/tieu-diem-anh.json →
+ * ảnh người (thi-sinh, human-of-oss, nhan-xet) `50% 25%` → ảnh ngang / còn lại `50% 35%`.
+ * `kind` ghi đè theo thư mục khi cần. Giá trị thứ hai nhỏ hơn = lấy phần cao hơn của ảnh.
+ */
+export function imageFocus(path: string | undefined | null, kind?: ImageKind): string {
+  const key = (path ?? "").replace(/^\//, "").replace(/^images\//, "");
+  if (focusOverrides[key]) return focusOverrides[key];
+  const person = kind ? kind === "person" : /^(thi-sinh|human-of-oss|nhan-xet)\//.test(key);
+  return person ? "50% 25%" : "50% 35%";
 }

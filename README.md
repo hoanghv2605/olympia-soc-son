@@ -94,6 +94,16 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 
 **Web chọn ảnh thế nào:** ở trang một mùa (ảnh tròn nhỏ cạnh tên trong bảng Bán kết / Chung kết, thẻ xem nhanh) và khối "Chung kết mùa n" trang chủ thì ưu tiên ảnh đúng mùa đó, chưa có thì dùng ảnh mùa khác (mới trước). Ở chỗ khác (Bảng vàng, danh sách, trang trường, tìm kiếm...) dùng ảnh mùa mới nhất. Hồ sơ thí sinh có nút "Mùa n" và "O{năm}" dưới ảnh (hiện khi có từ 2 nút) để xem ảnh từng mùa / từng năm Olympia (chưa có ảnh thì hiện ảnh giữ chỗ). Mục THPT Sóc Sơn tại Đường lên đỉnh Olympia ưu tiên ảnh `o…`. Hall of Fame dùng ảnh `-win`. Hai lượt thi khác nhau mà ra cùng một tên file thì `npm run build` dừng lại và báo 2 lượt đó.
 
+### Ảnh bìa mùa
+`public/images/bia/oss{n}-bia.jpg` (ngang 3:2, ~1500×1000). Ưu tiên: ô mùa ở Thư viện = ảnh bìa → ảnh đầu thư viện → giữ chỗ; thư viện mùa = ảnh bìa đứng đầu, rồi ảnh trận đấu, rồi `thu-vien/mua-{n}/`; thẻ mùa và dải mờ đầu trang mùa (OSSPEDIA) = ảnh bìa → ảnh Chung kết. Ảnh lớn trang chủ vẫn dùng ảnh Chung kết.
+
+### Ảnh bị cắt mất mặt? Chỉnh tiêu điểm
+Ảnh cắt khung (`object-fit: cover`) lấy vị trí mặc định: ảnh người (`thi-sinh`, `human-of-oss`, `nhan-xet`) `50% 25%`, ảnh ngang (`tran-dau`, `bia`, `thu-vien`, `cot-moc`, ảnh lớn) `50% 35%`. Muốn chỉnh riêng một ảnh, thêm vào `src/data/tieu-diem-anh.json` (đường dẫn tính từ `images/`):
+```json
+{ "thi-sinh/s8-nguyen-huu-phu-an-ss.jpg": "50% 10%" }
+```
+Giá trị thứ hai nhỏ hơn = lấy phần cao hơn của ảnh (0% = sát mép trên, 100% = sát mép dưới).
+
 ### Xem ảnh nào còn thiếu
 
 ```bash

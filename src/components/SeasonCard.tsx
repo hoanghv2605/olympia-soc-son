@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router";
 import SeasonCover from "./SeasonCover";
 import PersonPhoto from "./PersonPhoto";
-import { finalOf, libraryCount, matchPhoto, personPhoto, libraryPath, podium, seasonPath } from "../lib/data";
+import { coverPhoto, finalOf, libraryCount, matchPhoto, personPhoto, libraryPath, podium, seasonPath } from "../lib/data";
 import { formatDate, formatScore } from "../lib/format";
 import { MEDAL_DOT, type Medal } from "../lib/medal";
 import type { Season } from "../types";
@@ -23,7 +23,7 @@ export default function SeasonCard({ season }: { season: Season }) {
   const { champions, runnersUp, thirds } = podium(n);
   const final = finalOf(n);
   const photos = libraryCount(n);
-  const photo = final ? matchPhoto(final.id) : undefined;
+  const photo = coverPhoto(n) ?? (final ? matchPhoto(final.id) : undefined);
   const champPhoto = champions[0] ? personPhoto(champions[0].person.id, { season: n }) : undefined;
   const names = (list: typeof champions) => list.map((c) => c.person.name).join(", ");
 

@@ -3,7 +3,7 @@ import { PiPause, PiPlay, PiQuotes } from "react-icons/pi";
 import { testimonialPhoto, testimonials } from "../lib/data";
 import { asset } from "../lib/format";
 import { prefersReducedMotion } from "../lib/hooks";
-import { hasImage } from "../lib/images";
+import { hasImage, imageFocus } from "../lib/images";
 import { placeholderTone } from "../lib/placeholder";
 import type { Testimonial } from "../types";
 
@@ -23,6 +23,7 @@ function Portrait({ t }: { t: Testimonial }) {
           src={asset(photo)}
           alt={`Ảnh ${t.name}`}
           loading="lazy"
+          style={{ objectPosition: imageFocus(photo) }}
           className="size-[120px] rounded-full object-cover md:size-40"
         />
       ) : (

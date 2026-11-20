@@ -9,9 +9,9 @@ function Cover({ n, schoolYear }: { n: number; schoolYear: string }) {
   const body = (
     <>
       <SeasonCover season={n} src={photos[0]?.src} />
-      <span className="block p-4">
-        <span className="block text-lg font-bold text-ink">Mùa {n}</span>
-        <span className="block text-sm text-ink-soft tabular-nums">
+      <span className="block p-3">
+        <span className="block text-base font-bold text-ink">Mùa {n}</span>
+        <span className="block text-[0.8rem] text-ink-soft tabular-nums">
           {schoolYear} · {has ? `${photos.length} ảnh` : "Chưa có ảnh"}
         </span>
       </span>
@@ -34,7 +34,7 @@ export default function LibraryPage() {
     <>
       <PageHeader title="Thư viện" description="Ảnh và tư liệu qua các mùa Olympia Sóc Sơn." />
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
-        <ul className="grid gap-5 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {seasons.map((s) => (
             <li key={s.season}>
               <Cover n={s.season} schoolYear={s.schoolYear} />

@@ -10,6 +10,7 @@ import MatchTable, { FinalLegendBody, SemiLegendBody } from "../../components/Ma
 import PersonLink from "../../components/PersonLink";
 import NotFound from "../NotFound";
 import {
+  coverPhoto,
   finalOf,
   getSchool,
   getSeason,
@@ -115,7 +116,7 @@ export default function SeasonDetail() {
             <SeasonNav n={n} />
           </div>
         }
-        backdrop={final ? matchPhoto(final.id) : undefined}
+        backdrop={coverPhoto(n) ?? (final ? matchPhoto(final.id) : undefined)}
       />
       <article className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
         <div className="grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_18rem]">

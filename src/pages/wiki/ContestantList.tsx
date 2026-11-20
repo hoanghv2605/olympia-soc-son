@@ -58,15 +58,15 @@ function Card({ r, mua }: { r: Row; mua: number | null }) {
         name={r.person.name}
         className="aspect-[3/4] w-full"
       />
-      <span className="flex flex-1 flex-col gap-1 p-3.5">
-        <span className="font-bold text-ink group-hover:text-oss">{r.person.name}</span>
-        {r.school && <span className="text-xs text-ink-soft">{r.school.name}</span>}
-        <span className="text-xs text-ink-soft">Mùa {seasonsText}</span>
+      <span className="flex flex-1 flex-col gap-1 p-3">
+        <span className="text-[0.95rem] leading-[1.4] font-bold text-ink group-hover:text-oss">{r.person.name}</span>
+        {r.school && <span className="text-[0.8rem] leading-snug text-ink-soft">{r.school.name}</span>}
+        <span className="text-[0.8rem] text-ink-soft">Mùa {seasonsText}</span>
         <span className="mt-auto pt-2">
           {title ? (
-            <ResultBadge medal={medalOf(title.placement)}>{title.label}</ResultBadge>
+            <ResultBadge medal={medalOf(title.placement)} size="sm">{title.label}</ResultBadge>
           ) : (
-            <span className="text-xs text-ink-soft">Top 12</span>
+            <span className="text-[0.8rem] text-ink-soft">Top 12</span>
           )}
         </span>
       </span>
@@ -209,7 +209,7 @@ export default function ContestantList() {
             </button>
           </div>
         ) : view === "cards" ? (
-          <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-4">
+          <ul className="mt-4 grid grid-cols-2 gap-3 min-[560px]:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5 xl:grid-cols-6">
             {rows.map((r) => (
               <li key={r.person.id}>
                 <Card r={r} mua={filters.mua} />

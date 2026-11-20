@@ -8,7 +8,7 @@ import MapSection from "../components/MapSection";
 import Partners from "../components/Partners";
 import Testimonials from "../components/Testimonials";
 import { finalPhoto, heroSeason, seasonPath, site } from "../lib/data";
-import { hasImage } from "../lib/images";
+import { hasImage, imageFocus } from "../lib/images";
 import { CUBE_GRADIENT, HERO_GRADIENT, asset, yearOf } from "../lib/format";
 
 const LETTERS = ["O", "S", "S"];
@@ -60,7 +60,7 @@ export default function HomePage() {
                     style={{
                       backgroundImage: `${LETTER_TINT}, url("${asset(photo)}")`,
                       backgroundSize: "cover",
-                      backgroundPosition: "center",
+                      backgroundPosition: imageFocus(photo),
                       animationDelay: `${i * 110}ms`,
                     }}
                   >
@@ -89,7 +89,7 @@ export default function HomePage() {
                 src={asset(mainImage)}
                 alt={caption}
                 className="absolute inset-0 size-full object-cover"
-                style={{ filter: "saturate(0.85)" }}
+                style={{ filter: "saturate(0.85)", objectPosition: imageFocus(mainImage) }}
               />
             )}
             {finalImage ? (

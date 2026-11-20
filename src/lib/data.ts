@@ -272,9 +272,17 @@ export function matchPhoto(matchId: string) {
   return hasImage(path) ? path : undefined;
 }
 
-/** Ảnh trong thư viện của mùa n: ảnh trận đấu có thật (Bán kết 1…, rồi Chung kết) đứng đầu, sau đó ảnh trong images/thu-vien/mua-{n}/ (tên file kiểu tự nhiên). */
+/** Ảnh bìa mùa n: images/bia/oss{n}-bia.jpg (ngang 3:2) nếu có thật (ảnh mẫu không tính). */
+export function coverPhoto(season: number) {
+  const path = `images/bia/oss${season}-bia.jpg`;
+  return hasImage(path) ? path : undefined;
+}
+
+/** Ảnh trong thư viện của mùa n: ảnh bìa đứng đầu, rồi ảnh trận đấu có thật (Bán kết 1…, rồi Chung kết), sau đó ảnh trong images/thu-vien/mua-{n}/ (tên file kiểu tự nhiên). */
 export function libraryPhotos(season: number): { src: string; alt: string }[] {
   const out: { src: string; alt: string }[] = [];
+  const cover = coverPhoto(season);
+  if (cover) out.push({ src: cover, alt: `Ảnh bìa Olympia Sóc Sơn mùa ${season}` });
   for (const m of semifinalsOf(season).slice().sort((a, b) => a.number - b.number)) {
     const src = matchPhoto(m.id);
     if (src) out.push({ src, alt: `Các thí sinh trận Bán kết ${m.number} mùa ${season}` });

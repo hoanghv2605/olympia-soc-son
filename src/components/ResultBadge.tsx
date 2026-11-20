@@ -5,10 +5,10 @@ import { MEDAL_BADGE, type Medal } from "../lib/medal";
  * (vàng / bạc / đồng). Không có huy chương (Hạng 4 trở xuống, kết quả khác) thì chỉ chữ đậm màu `ink`, không nhãn.
  * Chữ đã nói kết quả nên không cần thêm chữ sr-only.
  */
-export default function ResultBadge({ medal, children }: { medal: Medal | null; children: React.ReactNode }) {
+export default function ResultBadge({ medal, children, size = "md" }: { medal: Medal | null; children: React.ReactNode; size?: "sm" | "md" }) {
   if (!medal) return <span className="font-bold text-ink">{children}</span>;
   return (
-    <span className={`inline-block rounded-full border px-2.5 py-0.5 text-sm font-bold whitespace-nowrap ${MEDAL_BADGE[medal]}`}>
+    <span className={`inline-block rounded-full border ${size === "sm" ? "px-2 py-px text-xs" : "px-2.5 py-0.5 text-sm"} font-bold whitespace-nowrap ${MEDAL_BADGE[medal]}`}>
       {children}
     </span>
   );

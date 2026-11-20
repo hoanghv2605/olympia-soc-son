@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Breadcrumb from "./Breadcrumb";
-import { hasImage } from "../lib/images";
+import { hasImage, imageFocus } from "../lib/images";
 import { asset } from "../lib/format";
 
 interface Crumb {
@@ -73,7 +73,7 @@ export default function PageHeader({
           WebkitMaskImage: "linear-gradient(to bottom, black 45%, transparent)",
         }}
       >
-        <img src={asset(backdrop)} alt="" className="size-full object-cover opacity-35 blur-[2px]" />
+        <img src={asset(backdrop)} alt="" style={{ objectPosition: imageFocus(backdrop) }} className="size-full object-cover opacity-35 blur-[2px]" />
         <div className="absolute inset-0 bg-mist/40" />
       </div>
       {inner}
