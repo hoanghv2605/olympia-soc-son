@@ -65,11 +65,11 @@ function ChampionsSection() {
     <section className="paper-dark text-white">
       {/* nối liền đầu trang tối phía trên nên không có khoảng đệm trên */}
       <div className="section-band mx-auto max-w-6xl px-5 pt-2 md:pt-4">
-        <p className="text-sm font-semibold text-gold">Hall of Fame</p>
-        <h2 className="section-title mt-2 text-white">
-          <IconLabel icon={PiTrophy} iconClass={`${TITLE_ICON} text-gold`}>
-            Quán quân các mùa
-          </IconLabel>
+        {/* Tiêu đề in hoa (ngoại lệ có chủ đích): line-height ≥ 1.35 và không overflow để không cắt dấu chồng (Ầ, Ễ…) */}
+        <h2 className="font-display flex items-center justify-center gap-4 text-2xl leading-[1.4] font-bold tracking-[0.08em] text-gold-text uppercase md:text-3xl">
+          <span aria-hidden className="h-px w-12 bg-gold-text/40" />
+          Hall of Fame
+          <span aria-hidden className="h-px w-12 bg-gold-text/40" />
         </h2>
         <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 md:gap-x-6 lg:grid-cols-4">
           {cards.map(({ person, wins }) => (
@@ -87,7 +87,7 @@ function ChampionsSection() {
                 </span>
                 {/* 2 dòng vàng căn giữa (khối cao tối thiểu bằng 2 dòng tên + dòng Quán quân để các ô thẳng hàng); tên in hoa là ngoại lệ có chủ đích của quy tắc "không in hoa" */}
                 <span className="mt-3 flex min-h-[4.75rem] flex-col items-center gap-1 text-gold-text">
-                  <span className="font-display line-clamp-2 text-base leading-tight font-bold tracking-[0.02em] text-balance uppercase md:text-lg">
+                  <span className="font-display pt-[0.12em] text-base leading-[1.4] font-bold tracking-[0.02em] text-balance uppercase md:text-lg">
                     {person.name}
                   </span>
                   <span className="text-sm font-bold">Quán quân {wins.map((w) => `OSS${w.season}`).join(", ")}</span>

@@ -1,11 +1,62 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router";
+import type { IconType } from "react-icons";
 import { PiCalendarBlank, PiGraduationCap, PiUsersThree } from "react-icons/pi";
-import IconLabel from "../../components/IconLabel";
 import PageHeader from "../../components/PageHeader";
+import PersonPhoto from "../../components/PersonPhoto";
+import SchoolBadge from "../../components/SchoolBadge";
 import SearchTrigger from "../../components/SearchTrigger";
-import { championsList, people, schoolPath, schools, seasonPath } from "../../lib/data";
+import { championsList, people, personPhoto, schools, seasons } from "../../lib/data";
+import { yearOf } from "../../lib/format";
+
+const SHOWN = 5;
+
+function Tile({
+  to,
+  icon: Icon,
+  title,
+  description,
+  figure,
+  preview,
+}: {
+  to: string;
+  icon: IconType;
+  title: string;
+  description: string;
+  figure: string;
+  preview: ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      className="group flex h-full flex-col rounded-2xl border border-oss/15 bg-white/80 p-6 transition duration-200 hover:-translate-y-0.5 hover:border-oss focus-visible:-translate-y-0.5 focus-visible:border-oss motion-reduce:transition-none motion-reduce:hover:translate-y-0 md:p-7"
+    >
+      <span aria-hidden className="grid size-14 place-items-center rounded-full bg-oss-soft text-oss">
+        <Icon className="size-10" />
+      </span>
+      <h2 className="h2 mt-5 text-ink group-hover:text-oss">{title}</h2>
+      <p className="mt-2 text-ink-soft">{description}</p>
+      <p className="mt-4 text-lg font-bold text-oss tabular-nums">{figure}</p>
+      <div aria-hidden className="mt-auto pt-5">
+        {preview}
+      </div>
+    </Link>
+  );
+}
 
 export default function WikiHome() {
+  const first = seasons[0];
+  const last = seasons[seasons.length - 1];
+  const years = `${yearOf(first.startDate)}–${yearOf(last.startDate)}`;
+  // Quán quân 5 mùa gần nhất (ảnh mùa của họ); người vô địch nhiều mùa chỉ tính 1 lần
+  const seen = new Set<string>();
+  const recent = championsList()
+    .slice()
+    .reverse()
+    .flatMap(({ season, champions }) => champions.map((c) => ({ id: c.person.id, name: c.person.name, season: season.season })))
+    .filter((c) => !seen.has(c.id) && !!seen.add(c.id))
+    .slice(0, SHOWN);
+
   return (
     <>
       <PageHeader
@@ -16,61 +67,63 @@ export default function WikiHome() {
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
         <SearchTrigger label="Tìm trong OSSPEDIA: thí sinh, mùa giải, trường" className="max-w-xl" />
 
-        <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-3">
-          <div>
-            <h2 className="h3 text-ink">
-              <IconLabel icon={PiCalendarBlank} iconClass="size-[0.9em] text-oss">
-                Các mùa giải
-              </IconLabel>
-            </h2>
-            <ul className="mt-4 divide-y divide-oss/10 border-y border-oss/10">
-              {championsList().map(({ season: s, champions }) => (
-                <li key={s.season}>
-                  <Link to={seasonPath(s.season)} className="flex justify-between gap-4 px-1 py-2.5 hover:bg-white/50">
-                    <span className="font-medium text-oss">Mùa {s.season}</span>
-                    <span className="text-right text-ink-soft">{champions.map((c) => c.person.name).join(", ")}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <Link to="/wiki/cuoc-thi" className="link-strong mt-4 inline-block text-sm">
-              Bảng tổng hợp các mùa
-            </Link>
-          </div>
-
-          <div>
-            <h2 className="h3 text-ink">
-              <IconLabel icon={PiUsersThree} iconClass="size-[0.9em] text-oss">
-                Thí sinh
-              </IconLabel>
-            </h2>
-            <p className="mt-4 text-ink-soft">
-              Hồ sơ {people.length} thí sinh lọt vào top 12: điểm từng trận, danh hiệu và hành trình tại Đường lên đỉnh Olympia.
-            </p>
-            <Link to="/wiki/thi-sinh" className="link-strong mt-4 inline-block text-sm">
-              Danh sách thí sinh
-            </Link>
-          </div>
-
-          <div>
-            <h2 className="h3 text-ink">
-              <IconLabel icon={PiGraduationCap} iconClass="size-[0.9em] text-oss">
-                Trường
-              </IconLabel>
-            </h2>
-            <ul className="mt-4 divide-y divide-oss/10 border-y border-oss/10">
-              {schools.map((s) => (
-                <li key={s.id}>
-                  <Link to={schoolPath(s.id)} className="block px-1 py-2.5 font-medium text-oss hover:bg-white/50">
-                    {s.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <Link to="/wiki/truong" className="link-strong mt-4 inline-block text-sm">
-              Thống kê các trường
-            </Link>
-          </div>
+        <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3 md:gap-6">
+          <Tile
+            to="/wiki/cuoc-thi"
+            icon={PiCalendarBlank}
+            title="Mùa giải"
+            description="Kết quả từng vòng, bảng điểm và diễn biến các trận Chung kết."
+            figure={`${seasons.length} mùa · ${years}`}
+            preview={
+              <span className="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-oss tabular-nums">
+                {seasons.slice(0, 3).map((s) => (
+                  <span key={s.season} className="grid h-7 min-w-7 place-items-center rounded-full bg-oss-soft px-2">
+                    {s.season}
+                  </span>
+                ))}
+                <span>…</span>
+                <span className="grid h-7 min-w-7 place-items-center rounded-full bg-oss-soft px-2">{last.season}</span>
+              </span>
+            }
+          />
+          <Tile
+            to="/wiki/thi-sinh"
+            icon={PiUsersThree}
+            title="Thí sinh"
+            description="Hồ sơ, điểm số và danh hiệu của các thí sinh từng vào top 12."
+            figure={`${people.length} thí sinh`}
+            preview={
+              <span className="flex items-center">
+                {recent.map((c, i) => (
+                  <PersonPhoto
+                    key={c.id}
+                    decorative
+                    src={personPhoto(c.id, { season: c.season })}
+                    seed={c.id}
+                    name={c.name}
+                    className={`size-10 shrink-0 rounded-full ring-2 ring-white ${i > 0 ? "-ml-3" : ""}`}
+                  />
+                ))}
+                <span className="ml-3 text-sm font-semibold text-oss tabular-nums">+{Math.max(people.length - recent.length, 0)}</span>
+              </span>
+            }
+          />
+          <Tile
+            to="/wiki/truong"
+            icon={PiGraduationCap}
+            title="Trường"
+            description="Thành tích của các trường có thí sinh vào top 12."
+            figure={`${schools.length} trường`}
+            preview={
+              <span className="flex items-center">
+                {schools.slice(0, SHOWN).map((s, i) => (
+                  <span key={s.id} className={`rounded-full bg-white ring-2 ring-white ${i > 0 ? "-ml-2" : ""}`}>
+                    <SchoolBadge school={s} className="size-8" textClass="text-[10px]" />
+                  </span>
+                ))}
+              </span>
+            }
+          />
         </div>
       </section>
     </>

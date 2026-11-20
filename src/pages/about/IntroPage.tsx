@@ -25,7 +25,7 @@ export default function IntroPage() {
           <div className="flex flex-col items-center gap-5">
             <Logo className="w-36 md:w-52" />
             {/* Chữ đi kèm logo (giữ in hoa như wordmark), không phải tiêu đề trang */}
-            <p className="text-xl font-bold tracking-[0.16em] uppercase md:text-2xl">
+            <p className="pt-[0.12em] text-xl leading-[1.4] font-bold tracking-[0.16em] uppercase md:text-2xl">
               <span className="bg-gradient-to-r from-cube-blue via-[#a07cf0] to-cube-pink bg-clip-text text-transparent">
                 {site.name}
               </span>

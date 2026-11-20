@@ -14,7 +14,7 @@ export default function SiteFooter() {
           <div className="flex items-center gap-4">
             <Logo className="size-12" />
             <div>
-              <p className="font-bold tracking-[0.14em] text-white uppercase">{site.name}</p>
+              <p className="pt-[0.12em] leading-[1.4] font-bold tracking-[0.14em] text-white uppercase">{site.name}</p>
               <p className="mt-1 text-sm text-white/70">{site.slogan}</p>
             </div>
           </div>

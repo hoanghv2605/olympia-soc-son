@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ImageLightbox from "./ImageLightbox";
+import Lightbox from "./Lightbox";
 import Photo from "./Photo";
 import { matchPhoto } from "../lib/data";
 import { asset } from "../lib/format";
@@ -26,7 +26,7 @@ export default function MatchPhoto({ match, caption }: { match: Match; caption: 
         <Photo src={src} alt={caption} className="aspect-[3/2] w-full" />
       </button>
       <figcaption className="mt-2 text-center text-sm text-ink-soft italic">{caption}</figcaption>
-      <ImageLightbox open={zoom} onClose={() => setZoom(false)} src={asset(src)} alt={caption} />
+      <Lightbox open={zoom} onClose={() => setZoom(false)} images={[{ src: asset(src), alt: caption }]} />
     </figure>
   );
 }
