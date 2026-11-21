@@ -2,7 +2,7 @@
 // Chạy: npm run anh-con-thieu
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUMAN_SLOTS, departmentPhotoFile, humanPhotoFile, personPhotoFiles } from "../src/lib/photo-names.js";
+import { HUMAN_SLOTS, departmentPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles } from "../src/lib/photo-names.js";
 import { root, scanImages } from "./lib/scan-images.mjs";
 
 const have = new Set(scanImages());
@@ -20,6 +20,7 @@ const humans = read("humans");
 const matchesAll = matches;
 const departments = read("departments");
 const schools = read("schools");
+const events = read("events").sort((a, b) => a.stt - b.stt);
 
 const personName = new Map(people.map((p) => [p.id, p.name]));
 const nameOf = (id) => personName.get(id) ?? id;
@@ -44,6 +45,18 @@ group(
   [...new Set(matches.map((m) => m.season))]
     .sort((a, b) => a - b)
     .map((n) => ({ label: `Mùa ${n}`, options: [`images/bia/oss${n}-bia.jpg`] })),
+);
+
+// 1c. Ảnh sự kiện (events.json, nằm ngoài nhóm Thí sinh): ảnh bìa bia/{id}-bia.jpg và ảnh người chơi
+//     thi-sinh/{photoKey}-{slug}-{mã trường}.jpg (chỉ người chơi có trường trong schools.json)
+group(
+  `Ảnh bìa sự kiện (${events.length})`,
+  events.map((e) => ({ label: e.shortName ?? e.name, options: [`images/bia/${e.id}-bia.jpg`] })),
+);
+const eventPlayers = eventPhotoFiles(events, schools);
+group(
+  `Người chơi tại sự kiện (${eventPlayers.length})`,
+  eventPlayers.map((f) => ({ label: f.label, options: [`images/thi-sinh/${f.file}`] })),
 );
 
 // 2. Trận đấu
@@ -152,4 +165,12 @@ for (const n of seasonNums) {
   const dir = `images/thu-vien/mua-${n}/`;
   const c = [...have].filter((p) => p.startsWith(dir)).length;
   console.log(`  - Mùa ${n}: ${c} ảnh`);
+}
+
+// Thông tin: Thư viện ảnh theo sự kiện (public/images/thu-vien/su-kien/{id}/, tên file tùy ý). Không tính là thiếu.
+console.log("\n## Thư viện sự kiện (thông tin, không tính là thiếu): số ảnh trong public/images/thu-vien/su-kien/{id}/");
+for (const e of events) {
+  const dir = `images/thu-vien/su-kien/${e.id}/`;
+  const c = [...have].filter((p) => p.startsWith(dir)).length;
+  console.log(`  - ${e.shortName ?? e.name}: ${c} ảnh`);
 }

@@ -124,7 +124,7 @@ export interface Stat {
 export interface Department {
   id: string;
   name: string;
-  icon: "book" | "gear" | "megaphone" | "people";
+  icon: "compass" | "book" | "gear" | "megaphone" | "people";
   leader: string; // Trưởng ban
   duties: string[];
 }

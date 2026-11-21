@@ -1,5 +1,14 @@
 [
   {
+    "id": "to-chuc",
+    "name": "Ban Tổ chức",
+    "icon": "compass",
+    "leader": "Nguyễn Văn A",
+    "duties": [
+      "Điều phối chung hoạt động của Olympia Sóc Sơn: lên kế hoạch cho từng mùa thi và sự kiện, phân công và kết nối công việc giữa các ban."
+    ]
+  },
+  {
     "id": "chuyen-mon",
     "name": "Ban Chuyên môn",
     "icon": "book",

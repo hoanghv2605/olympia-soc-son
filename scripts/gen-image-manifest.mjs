@@ -5,12 +5,12 @@
 // Thêm ảnh mới vào public/images/... thì chạy lại `npm run dev` để danh sách cập nhật.
 //
 // Trước khi sinh, kiểm tra quy ước tên (dừng build nếu sai):
-//  - 2 lượt thi khác nhau ra cùng một tên file ảnh thí sinh;
+//  - 2 lượt thi khác nhau ra cùng một tên file ảnh thí sinh (kể cả ảnh người chơi sự kiện);
 //  - 2 câu chuyện Human of OSS trùng `stt`.
 // Ngoài ra in cảnh báo (không dừng build) cho mọi ảnh trong public/images/ lớn hơn 500KB.
 import { mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { findDuplicateFiles, findDuplicateStt, personPhotoFiles } from "../src/lib/photo-names.js";
+import { eventPhotoFiles, findDuplicateFiles, findDuplicateStt, personPhotoFiles } from "../src/lib/photo-names.js";
 import { publicDir, root, scanImages } from "./lib/scan-images.mjs";
 
 const read = (name) => JSON.parse(readFileSync(join(root, "src", "data", `${name}.json`), "utf8"));
@@ -25,6 +25,10 @@ const photoFiles = personPhotoFiles({
 });
 for (const [a, b] of findDuplicateFiles(photoFiles)) {
   errors.push(`Trùng tên file ảnh thí sinh "${a.file}":\n    - ${a.label} (${a.personId})\n    - ${b.label} (${b.personId})`);
+}
+for (const [a, b] of findDuplicateFiles([...photoFiles, ...eventPhotoFiles(read("events"), read("schools"))])) {
+  if (photoFiles.includes(a) && photoFiles.includes(b)) continue; // đã báo ở trên
+  errors.push(`Trùng tên file ảnh người chơi sự kiện "${a.file}":\n    - ${a.label}\n    - ${b.label}`);
 }
 for (const [a, b] of findDuplicateStt(read("humans"))) {
   errors.push(`Trùng "stt": ${a.stt} giữa Human of OSS "${a.slug}" và "${b.slug}" (src/data/humans.json)`);

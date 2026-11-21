@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
-import { PiBookOpenTextBold, PiGearSixBold, PiMegaphoneBold, PiUserCircle, PiUsersThreeBold } from "react-icons/pi";
+import { PiBookOpenTextBold, PiCompassBold, PiGearSixBold, PiMegaphoneBold, PiUserCircle, PiUsersThreeBold } from "react-icons/pi";
 import IconLabel from "./IconLabel";
 import Logo from "./Logo";
 import Photo from "./Photo";
@@ -8,6 +8,7 @@ import { prefersReducedMotion, useInViewOnce, useMediaQuery } from "../lib/hooks
 import type { Department } from "../types";
 
 const ICONS: Record<Department["icon"], ComponentType<{ className?: string }>> = {
+  compass: PiCompassBold,
   book: PiBookOpenTextBold,
   gear: PiGearSixBold,
   megaphone: PiMegaphoneBold,
@@ -20,8 +21,10 @@ const FLIP_EASE = "cubic-bezier(0.2, 0.7, 0.2, 1)";
 
 /**
  * Cơ cấu tổ chức.
- * Từ lg: sơ đồ tỏa (logo giữa, 4 ban ở 4 góc, 4 đường nối tự vẽ) → bấm 1 ban thì logo và các ô trượt (FLIP bằng
- * element.animate) sang bố cục chi tiết; bấm logo hoặc Esc để quay về. Dưới lg: lưới 2×2, chạm để mở / đóng khung, không FLIP.
+ * Từ lg: sơ đồ tỏa (logo giữa, Ban Tổ chức chính giữa phía trên logo với đường nối thẳng đứng, 4 ban còn lại ở 4 góc,
+ * 5 đường nối tự vẽ) → bấm 1 ban thì logo và 5 ô trượt (FLIP bằng element.animate) sang bố cục chi tiết;
+ * bấm logo hoặc Esc để quay về. Dưới lg: Ban Tổ chức một hàng, 4 ban còn lại lưới 2×2; chạm để mở / đóng khung, không FLIP.
+ * Ban đầu tiên trong departments.json (index 0) là Ban Tổ chức.
  */
 export default function OrgDiagram() {
   const isLg = useMediaQuery("(min-width: 1024px)");
@@ -41,7 +44,7 @@ export default function OrgDiagram() {
   const active = departments.find((d) => d.id === activeId);
   const drawn = useInViewOnce(orgRef, 0.3);
 
-  /** Chụp vị trí cũ của logo và 4 ô trước khi đổi bố cục (bước "First" của FLIP). */
+  /** Chụp vị trí cũ của logo và 5 ô trước khi đổi bố cục (bước "First" của FLIP). */
   function snapshot() {
     if (!isLg || prefersReducedMotion()) return;
     const map = new Map<Element, DOMRect>();
@@ -86,7 +89,7 @@ export default function OrgDiagram() {
     pillRefs.current[i]?.focus();
   }, [activeId]);
 
-  // Đo lại 4 đường nối theo vị trí hiện tại (chỉ khi ở sơ đồ, từ lg). Hàm luôn đọc state mới nhất qua ref
+  // Đo lại 5 đường nối theo vị trí hiện tại (chỉ khi ở sơ đồ, từ lg). Hàm luôn đọc state mới nhất qua ref
   const measureRef = useRef<() => void>(() => {});
   measureRef.current = () => {
     const org = orgRef.current;
@@ -100,7 +103,12 @@ export default function OrgDiagram() {
       pillRefs.current.map((pill, i) => {
         if (!pill) return "";
         const p = pill.getBoundingClientRect();
-        const e = { x: (i % 2 === 0 ? p.right : p.left) - o.left, y: p.top + p.height / 2 - o.top };
+        if (i === 0) {
+          // Ban Tổ chức: đường thẳng đứng từ đỉnh vòng tròn logo tới giữa cạnh dưới ô
+          const x = p.left + p.width / 2 - o.left;
+          return `M ${c.x} ${c.y - r} L ${x} ${p.bottom - o.top}`;
+        }
+        const e = { x: ((i - 1) % 2 === 0 ? p.right : p.left) - o.left, y: p.top + p.height / 2 - o.top };
         const d = Math.hypot(e.x - c.x, e.y - c.y) || 1;
         const st = { x: c.x + ((e.x - c.x) / d) * r, y: c.y + ((e.y - c.y) / d) * r };
         const mx = (st.x + e.x) / 2;
@@ -156,12 +164,16 @@ export default function OrgDiagram() {
     });
   }, [view, isLg]);
 
-  const pillStyle = (i: number): CSSProperties =>
-    ({
-      "--org-col": i % 2 === 0 ? 1 : 3,
-      "--org-row": view === "detail" ? i + 2 : i < 2 ? 1 : 2, // chi tiết: hàng 1 và 6 là hàng đệm 1fr
-      "--org-align": i < 2 ? "start" : "end",
-    }) as CSSProperties;
+  // Sơ đồ: Ban Tổ chức (i = 0) hàng 1 giữa; 4 ban còn lại ở 4 góc (hàng 3 và 4). Chi tiết: 5 ô dọc ở hàng 2–6 (hàng 1 và 7 là hàng đệm 1fr)
+  const pillStyle = (i: number): CSSProperties => {
+    const j = i - 1;
+    return {
+      "--org-col": i === 0 ? 2 : j % 2 === 0 ? 1 : 3,
+      "--org-row": view === "detail" ? i + 2 : i === 0 ? 1 : j < 2 ? 3 : 4,
+      "--org-align": i === 0 ? "center" : j < 2 ? "start" : "end",
+      "--org-justify": i === 0 ? "center" : "normal",
+    } as CSSProperties;
+  };
 
   return (
     <div ref={orgRef} className="org" data-view={view}>
@@ -210,6 +222,7 @@ export default function OrgDiagram() {
               aria-controls={PANEL_ID}
               onClick={() => select(d.id)}
               className="dept-pill org-pill"
+              data-lead={i === 0 ? "true" : undefined}
               style={pillStyle(i)}
             >
               <span className="dept-icon">
