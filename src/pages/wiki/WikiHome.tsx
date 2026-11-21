@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 import type { IconType } from "react-icons";
-import { PiCalendarBlank, PiGraduationCap, PiUsersThree } from "react-icons/pi";
+import { PiCalendarBlank, PiConfetti, PiGraduationCap, PiUsersThree } from "react-icons/pi";
 import PageHeader from "../../components/PageHeader";
 import PersonPhoto from "../../components/PersonPhoto";
 import SchoolBadge from "../../components/SchoolBadge";
 import SearchTrigger from "../../components/SearchTrigger";
-import { championsList, people, personPhoto, schools, seasons } from "../../lib/data";
+import { EVENT_TYPE_LABEL, championsList, events, people, personPhoto, schools, seasons } from "../../lib/data";
 import { yearOf } from "../../lib/format";
 
 const SHOWN = 5;
@@ -57,6 +57,9 @@ export default function WikiHome() {
     .filter((c) => !seen.has(c.id) && !!seen.add(c.id))
     .slice(0, SHOWN);
 
+  // 3 loại sự kiện đầu tiên khác nhau theo stt
+  const eventTypes = [...new Set(events.map((e) => e.type))].slice(0, 3);
+
   return (
     <>
       <PageHeader
@@ -67,7 +70,7 @@ export default function WikiHome() {
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
         <SearchTrigger label="Tìm trong OSSPEDIA: thí sinh, mùa giải, trường" className="max-w-xl" />
 
-        <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3 md:gap-6">
+        <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-4">
           <Tile
             to="/wiki/cuoc-thi"
             icon={PiCalendarBlank}
@@ -93,7 +96,7 @@ export default function WikiHome() {
             description="Hồ sơ, điểm số và danh hiệu của các thí sinh từng vào top 12."
             figure={`${people.length} thí sinh`}
             preview={
-              <span className="flex items-center">
+              <span className="flex flex-wrap items-center gap-y-2">
                 {recent.map((c, i) => (
                   <PersonPhoto
                     key={c.id}
@@ -115,10 +118,26 @@ export default function WikiHome() {
             description="Thành tích của các trường có thí sinh vào top 12."
             figure={`${schools.length} trường`}
             preview={
-              <span className="flex items-center">
+              <span className="flex flex-wrap items-center gap-y-2">
                 {schools.slice(0, SHOWN).map((s, i) => (
                   <span key={s.id} className={`rounded-full bg-white ring-2 ring-white ${i > 0 ? "-ml-2" : ""}`}>
                     <SchoolBadge school={s} className="size-8" textClass="text-[10px]" />
+                  </span>
+                ))}
+              </span>
+            }
+          />
+          <Tile
+            to="/wiki/su-kien"
+            icon={PiConfetti}
+            title="Sự kiện khác"
+            description="Rung chuông vàng, tọa đàm giao lưu và các sự kiện OSS tổ chức hoặc phối hợp tổ chức."
+            figure={`${events.length} sự kiện · ${Math.min(...events.map((e) => e.year))}–${Math.max(...events.map((e) => e.year))}`}
+            preview={
+              <span className="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-oss">
+                {eventTypes.map((t) => (
+                  <span key={t} className="rounded-full bg-oss-soft px-2.5 py-1">
+                    {EVENT_TYPE_LABEL[t]}
                   </span>
                 ))}
               </span>

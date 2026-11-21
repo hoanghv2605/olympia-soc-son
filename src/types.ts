@@ -172,3 +172,40 @@ export interface Partner {
   url: string; // "" = không có link
   tier: PartnerTier;
 }
+
+// ===== Sự kiện khác (src/data/events.json) =====
+
+export type EventType = "rung-chuong-vang" | "toa-dam" | "giao-luu" | "dac-biet" | "cuoc-thi";
+export type EventRole = "to-chuc" | "dong-to-chuc" | "tham-gia";
+export type EventFormat = "xep-hang" | "nguoi-choi" | "mua-thi";
+
+export interface EventParticipant {
+  name: string;
+  person?: string; // People.id (có thể không có hồ sơ OSSPEDIA)
+  class?: string;
+  school?: string; // School.id
+  schoolName?: string; // trường ngoài schools.json, chỉ hiện chữ
+  rank?: number; // 1 Giải Nhất, 2 Giải Nhì, 3 Giải Ba
+  note?: string;
+}
+
+export interface SiteEvent {
+  id: string;
+  stt: number;
+  name: string;
+  shortName?: string;
+  type: EventType;
+  year: number;
+  schoolYear: string | null; // "2023-2024"
+  date: string | null; // YYYY-MM-DD
+  scope: string | null;
+  organizer: string | null;
+  role: EventRole | null;
+  intro: string | null; // markdown
+  format: EventFormat | null;
+  photoKey?: string;
+  photoLabel?: string;
+  sectionTitle?: string;
+  participantLabel?: string;
+  participants?: EventParticipant[];
+}

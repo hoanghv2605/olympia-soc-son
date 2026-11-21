@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { PiMagnifyingGlass, PiXBold } from "react-icons/pi";
+import { EVENT_ICON } from "../lib/eventIcons";
 import { SEARCH_GROUP_LABEL, SEARCH_GROUP_ORDER, flattenGroups, searchAll } from "../lib/search";
 
 /**
@@ -101,7 +102,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
 
         <div className="search-results px-2 py-3 md:px-3">
           {!q ? (
-            <p className="px-3 py-2 text-sm text-ink-soft">Gõ tên thí sinh, mùa (vd: mùa 4) hoặc tên trường</p>
+            <p className="px-3 py-2 text-sm text-ink-soft">Gõ tên thí sinh, mùa (vd: mùa 4), tên trường hoặc sự kiện</p>
           ) : !flat.length ? (
             <p className="px-3 py-2 text-sm text-ink-soft" role="status">
               Không tìm thấy “{q}”. Thử gõ ngắn hơn, ví dụ chỉ tên.
@@ -130,7 +131,13 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
                           onClick={onClose}
                           className={`block rounded-lg px-3 py-2 ${selected ? "bg-oss-soft" : ""}`}
                         >
-                          <span className={`block font-semibold ${selected ? "text-oss" : "text-ink"}`}>{r.title}</span>
+                          <span className={`flex items-center gap-2 font-semibold ${selected ? "text-oss" : "text-ink"}`}>
+                            {r.eventType && (() => {
+                              const Icon = EVENT_ICON[r.eventType];
+                              return <Icon className="size-[0.9em] shrink-0" aria-hidden />;
+                            })()}
+                            {r.title}
+                          </span>
                           <span className="block text-sm text-ink-soft">{r.subtitle}</span>
                         </Link>
                       );

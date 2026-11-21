@@ -16,9 +16,12 @@ import ContestantList from "./pages/wiki/ContestantList";
 import ContestantDetail from "./pages/wiki/ContestantDetail";
 import SchoolList from "./pages/wiki/SchoolList";
 import SchoolDetail from "./pages/wiki/SchoolDetail";
+import EventList from "./pages/wiki/EventList";
 import NotFound from "./pages/NotFound";
 
 // Trang bài viết dùng react-markdown: tách thành gói riêng, chỉ tải khi mở bài
+// Trang sự kiện dùng react-markdown (phần giới thiệu): cũng tải riêng
+const EventDetail = lazy(() => import("./pages/wiki/EventDetail"));
 const HumanStoryPage = lazy(() => import("./pages/HumanStoryPage"));
 
 export default function App() {
@@ -56,6 +59,15 @@ export default function App() {
           <Route path="thi-sinh/:id" element={<ContestantDetail />} />
           <Route path="truong" element={<SchoolList />} />
           <Route path="truong/:id" element={<SchoolDetail />} />
+          <Route path="su-kien" element={<EventList />} />
+          <Route
+            path="su-kien/:id"
+            element={
+              <Suspense fallback={<div className="min-h-[60vh]" />}>
+                <EventDetail />
+              </Suspense>
+            }
+          />
         </Route>
 
         <Route path="*" element={<NotFound />} />

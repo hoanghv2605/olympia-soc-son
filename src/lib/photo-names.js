@@ -84,6 +84,29 @@ export function personPhotoFiles({ people, qualifying, olympia, schools, matches
   return list;
 }
 
+/**
+ * Ảnh người chơi tại sự kiện: thi-sinh/{photoKey}-{slug họ tên}-{mã trường}.jpg, chỉ cho người chơi có `school`
+ * thuộc schools.json (trường ngoài thì không có ảnh theo quy ước). `participant` = vị trí trong `participants`.
+ */
+export function eventPhotoFiles(events, schools) {
+  const list = [];
+  for (const e of events) {
+    if (!e.photoKey) continue;
+    (e.participants ?? []).forEach((p, index) => {
+      if (!p.school || !schools.some((s) => s.id === p.school)) return;
+      list.push({
+        file: `${e.photoKey}-${slugify(p.name)}-${schoolCode(schools, p.school)}.jpg`,
+        personId: p.person,
+        kind: "event",
+        eventId: e.id,
+        participant: index,
+        label: `${p.name} · ${e.shortName ?? e.name}`,
+      });
+    });
+  }
+  return list;
+}
+
 /** Các cặp lượt khác nhau ra cùng một tên file: [[a, b], ...]. */
 export function findDuplicateFiles(list) {
   const seen = new Map();

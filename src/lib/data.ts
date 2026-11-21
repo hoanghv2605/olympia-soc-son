@@ -2,7 +2,7 @@
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
 import { hasImage, listImages } from "./images";
-import { departmentPhotoFile, humanPhotoFile, personPhotoFiles } from "./photo-names";
+import { departmentPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles } from "./photo-names";
 import siteJson from "../data/site.json";
 import schoolsJson from "../data/schools.json";
 import peopleJson from "../data/people.json";
@@ -17,8 +17,11 @@ import contactsJson from "../data/contacts.json";
 import humansJson from "../data/humans.json";
 import testimonialsJson from "../data/testimonials.json";
 import partnersJson from "../data/partners.json";
+import eventsJson from "../data/events.json";
 import type {
   ContactPerson,
+  EventParticipant,
+  EventType,
   Department,
   HumanStory,
   Match,
@@ -31,6 +34,7 @@ import type {
   Placement,
   QualifyingEntry,
   School,
+  SiteEvent,
   Season,
   Stat,
   StatEntry,
@@ -171,6 +175,97 @@ export function resultLabel(match: Match | undefined, entry: { rank: number; pla
   return SEMI_RESULT[entry.rank - 1] ?? "Giải Ba";
 }
 
+// ===== Sự kiện khác: src/data/events.json (nằm ngoài mọi thống kê OSS) =====
+
+/** Sự kiện xếp theo `stt` tăng dần (thứ tự hiển thị ở mọi nơi). */
+export const events = (eventsJson as SiteEvent[]).slice().sort((a, b) => a.stt - b.stt);
+
+export const EVENT_TYPE_LABEL: Record<EventType, string> = {
+  "rung-chuong-vang": "Rung chuông vàng",
+  "toa-dam": "Tọa đàm",
+  "giao-luu": "Giao lưu",
+  "dac-biet": "Sự kiện đặc biệt",
+  "cuoc-thi": "Cuộc thi",
+};
+
+export const EVENT_ROLE_LABEL = {
+  "to-chuc": "Tổ chức",
+  "dong-to-chuc": "Đồng tổ chức",
+  "tham-gia": "Tham gia",
+} as const;
+
+export function getEvent(id: string | undefined) {
+  return id ? events.find((e) => e.id === id) : undefined;
+}
+
+export function eventPath(id: string) {
+  return `/wiki/su-kien/${id}`;
+}
+
+export function eventLibraryPath(id: string) {
+  return `/thu-vien/su-kien/${id}`;
+}
+
+/** Tên ngắn ở chỗ chật (dòng chỉ đường, bảng hồ sơ, ô thư viện). */
+export function eventShortName(e: SiteEvent) {
+  return e.shortName ?? e.name;
+}
+
+/** Nhãn thời gian: "Năm học 2023–2024" (có schoolYear) hoặc "{year}"; `short` bỏ chữ "Năm học". */
+export function eventTimeLabel(e: SiteEvent, opts: { short?: boolean } = {}) {
+  if (!e.schoolYear) return String(e.year);
+  const y = e.schoolYear.replace("-", "–");
+  return opts.short ? y : `Năm học ${y}`;
+}
+
+/** Sự kiện trước / sau theo `stt`; `only` lọc (vd chỉ sự kiện có ảnh). */
+export function eventNeighbors(id: string, only: (e: SiteEvent) => boolean = () => true) {
+  const i = events.findIndex((e) => e.id === id);
+  return {
+    prev: events.slice(0, Math.max(i, 0)).reverse().find(only),
+    next: events.slice(i + 1).find(only),
+  };
+}
+
+const EVENT_RANK_LABEL = ["Giải Nhất", "Giải Nhì", "Giải Ba"];
+/** Kết quả của người chơi sự kiện theo `rank`: 1 Giải Nhất, 2 Giải Nhì, 3 Giải Ba. */
+export function eventRankLabel(rank: number) {
+  return EVENT_RANK_LABEL[rank - 1] ?? `Hạng ${rank}`;
+}
+
+/** Các sự kiện một người tham gia (theo `stt`), kèm dòng người chơi của họ. */
+export function eventsOfPerson(personId: string): { event: SiteEvent; participant: EventParticipant }[] {
+  return events.flatMap((event) => {
+    const participant = event.participants?.find((p) => p.person === personId);
+    return participant ? [{ event, participant }] : [];
+  });
+}
+
+/** Ảnh bìa sự kiện: images/bia/{id}-bia.jpg (ngang 3:2) nếu có thật. */
+export function eventCoverPhoto(id: string) {
+  const path = `images/bia/${id}-bia.jpg`;
+  return hasImage(path) ? path : undefined;
+}
+
+/** Ảnh trong thư viện sự kiện: ảnh bìa → ảnh trong images/thu-vien/su-kien/{id}/ (tên file kiểu tự nhiên). */
+export function eventPhotos(id: string): { src: string; alt: string }[] {
+  const name = getEvent(id)?.name ?? id;
+  const out: { src: string; alt: string }[] = [];
+  const cover = eventCoverPhoto(id);
+  if (cover) out.push({ src: cover, alt: `Ảnh bìa ${name}` });
+  listImages(`images/thu-vien/su-kien/${id}/`).forEach((src, i) => out.push({ src, alt: `Ảnh ${name} (${i + 1})` }));
+  return out;
+}
+
+export function eventLibraryCount(id: string) {
+  return eventPhotos(id).length;
+}
+
+/** Ảnh dùng làm bìa (thẻ, ô thư viện, dải ảnh mờ): ảnh bìa → ảnh đầu tiên của thư viện sự kiện. */
+export function eventImage(id: string) {
+  return eventPhotos(id)[0]?.src;
+}
+
 // ===== Human of OSS: thông tin trong humans.json, nội dung trong src/content/human-of-oss/<slug>.md =====
 
 // File bắt đầu bằng "_" (vd _mau.md) là file mẫu, không nạp
@@ -207,11 +302,15 @@ for (const f of personPhotoFiles({
 })) {
   photoFilesByPerson.set(f.personId, [...(photoFilesByPerson.get(f.personId) ?? []), f]);
 }
+// Ảnh người chơi tại sự kiện (tách riêng, không lẫn vào ảnh mùa OSS / Olympia)
+const eventPhotoList = eventPhotoFiles(eventsJson as SiteEvent[], schoolsJson as School[]);
 
-/** Tùy chọn chọn ảnh: `season` = ưu tiên ảnh mùa đó; `olympia: true` = ưu tiên ảnh Đường lên đỉnh Olympia. */
+/** Tùy chọn chọn ảnh: `season` = ưu tiên ảnh mùa đó; `olympia: true` = ưu tiên ảnh Đường lên đỉnh Olympia; `event` = ưu tiên ảnh tại sự kiện. */
 export interface PhotoOptions {
   season?: number;
   olympia?: boolean;
+  /** Mã sự kiện: ưu tiên ảnh người đó tại sự kiện (thi-sinh/{photoKey}-…), rồi theo thứ tự mặc định. */
+  event?: string;
 }
 
 /**
@@ -227,7 +326,8 @@ export function personPhotos(personId: string, opts: PhotoOptions = {}): string[
   if (opts.season !== undefined) oss.sort((a, b) => Number(b.season === opts.season) - Number(a.season === opts.season));
   const olym = files.filter((f) => f.kind === "olympia").sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
   const ordered = opts.olympia ? [...olym, ...oss] : oss.length ? oss : olym;
-  return ordered.map((f) => `images/thi-sinh/${f.file}`).filter((p) => hasImage(p));
+  const ev = opts.event ? eventPhotoList.filter((f) => f.personId === personId && f.eventId === opts.event) : [];
+  return [...ev, ...ordered].map((f) => `images/thi-sinh/${f.file}`).filter((p) => hasImage(p));
 }
 
 /** Ảnh đầu tiên có thật (xem `personPhotos`), hoặc undefined nếu chưa có ảnh. */
@@ -255,6 +355,22 @@ export function personSeasonPhoto(personId: string, season: number): string | un
   const f = photoFilesByPerson.get(personId)?.find((x) => x.kind === "oss" && x.season === season);
   const path = f && `images/thi-sinh/${f.file}`;
   return path && hasImage(path) ? path : undefined;
+}
+
+/** Ảnh người đó tại sự kiện (không lùi về ảnh khác); dùng ở hồ sơ thí sinh khi chọn nút sự kiện. */
+export function personEventPhoto(personId: string, eventId: string): string | undefined {
+  const f = eventPhotoList.find((x) => x.personId === personId && x.eventId === eventId);
+  const path = f && `images/thi-sinh/${f.file}`;
+  return path && hasImage(path) ? path : undefined;
+}
+
+/** Ảnh người chơi (theo vị trí trong `participants`): ảnh tại sự kiện → ảnh mặc định của người đó → undefined (giữ chỗ). */
+export function eventParticipantPhoto(event: SiteEvent, index: number): string | undefined {
+  const f = eventPhotoList.find((x) => x.eventId === event.id && x.participant === index);
+  const own = f && `images/thi-sinh/${f.file}`;
+  if (own && hasImage(own)) return own;
+  const person = event.participants?.[index]?.person;
+  return person ? personPhoto(person) : undefined;
 }
 
 export function milestonePhoto(date: string) {

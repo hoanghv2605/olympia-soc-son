@@ -20,6 +20,21 @@ export function personPhotoFiles(data: {
   matches?: { season: number; round: string; results: { person: string; school: string; placement?: string }[] }[];
 }): PersonPhotoFile[];
 
+export interface EventPhotoFile {
+  /** Tên file trong public/images/thi-sinh/ */
+  file: string;
+  personId?: string;
+  kind: "event";
+  eventId: string;
+  participant: number;
+  label: string;
+}
+
+export function eventPhotoFiles(
+  events: { id: string; name: string; shortName?: string; photoKey?: string; participants?: { name: string; person?: string; school?: string }[] }[],
+  schools: { id: string; short: string }[],
+): EventPhotoFile[];
+
 export function findDuplicateFiles<T extends { file: string }>(list: T[]): [T, T][];
 export function humanPhotoFile(stt: number): string;
 export function departmentPhotoFile(id: string): string;

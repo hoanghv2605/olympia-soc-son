@@ -10,6 +10,11 @@ import Timeline from "../../components/Timeline";
 import NotFound from "../NotFound";
 import {
   describeTitles,
+  eventPath,
+  eventRankLabel,
+  eventShortName,
+  eventTimeLabel,
+  eventsOfPerson,
   ossSeasonsOf,
   personProfile,
   schoolPath,
@@ -28,6 +33,7 @@ export default function ContestantDetail() {
 
   const { person, school, participations, titles, olympia, timeline } = profile;
   const titleText = describeTitles(titles);
+  const personEvents = eventsOfPerson(person.id);
   const olympiaYears = [...new Set(olympia.map((r) => r.year))];
   // Các trận người này thắng câu hỏi phụ (chú thích dưới bảng, đánh dấu *)
   const tiebreaks = participations.flatMap((p) =>
@@ -165,10 +171,52 @@ export default function ContestantDetail() {
               </div>
             </section>
           )}
+
+          {personEvents.length > 0 && (
+            <section>
+              <h2 className="h3 text-ink">Sự kiện khác</h2>
+              <div className="mt-3 overflow-x-auto">
+                <table className="data-table min-w-[26rem]">
+                  <thead>
+                    <tr>
+                      <th scope="col">Sự kiện</th>
+                      <th scope="col">Năm</th>
+                      <th scope="col">Kết quả</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {personEvents.map(({ event, participant }) => (
+                      <tr key={event.id}>
+                        <td>
+                          <Link to={eventPath(event.id)} className="font-semibold text-oss hover:underline">
+                            {eventShortName(event)}
+                          </Link>
+                        </td>
+                        <td className="tabular-nums">{eventTimeLabel(event, { short: true })}</td>
+                        <td>
+                          {participant.rank ? (
+                            <ResultBadge medal={medalOf(participant.rank)}>{eventRankLabel(participant.rank)}</ResultBadge>
+                          ) : (
+                            (event.participantLabel ?? "—")
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
         </div>
 
         <aside className="infobox" aria-label="Thông tin nhanh">
-          <SeasonPhotoSwitcher personId={person.id} name={person.name} seasons={ossSeasonsOf(person.id)} olympiaYears={olympiaYears} />
+          <SeasonPhotoSwitcher
+            personId={person.id}
+            name={person.name}
+            seasons={ossSeasonsOf(person.id)}
+            olympiaYears={olympiaYears}
+            events={personEvents.filter((e) => e.event.photoKey).map((e) => ({ id: e.event.id, label: e.event.photoLabel ?? e.event.name }))}
+          />
           <dl>
             <dt>
               <IconLabel icon={PiGraduationCap}>Trường</IconLabel>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import PersonPhoto from "./PersonPhoto";
-import { personOlympiaPhoto, personSeasonPhoto } from "../lib/data";
+import { personEventPhoto, personOlympiaPhoto, personSeasonPhoto } from "../lib/data";
 
-/** Một lựa chọn ảnh: mùa OSS ("s") hoặc năm Đường lên đỉnh Olympia ("o"). */
-type Pick = { kind: "s" | "o"; n: number };
-const keyOf = (p: Pick) => `${p.kind}${p.n}`;
+/** Một lựa chọn ảnh: mùa OSS ("s"), năm Đường lên đỉnh Olympia ("o") hoặc sự kiện ("e", `id` = mã sự kiện, `label` = nhãn nút). */
+type Pick = { kind: "s" | "o" | "e"; n: number; id?: string; label?: string };
+const keyOf = (p: Pick) => (p.kind === "e" ? `e:${p.id}` : `${p.kind}${p.n}`);
 
 /**
  * Ảnh ở hồ sơ thí sinh. Hàng nút dưới ảnh (hiện khi có từ 2 nút): "Mùa n" (tăng dần) rồi "O{năm}" (ảnh Đường lên đỉnh
@@ -16,15 +16,18 @@ export default function SeasonPhotoSwitcher({
   name,
   seasons,
   olympiaYears = [],
+  events = [],
 }: {
   personId: string;
   name: string;
   seasons: number[];
   olympiaYears?: number[];
+  events?: { id: string; label: string }[];
 }) {
   const picks: Pick[] = [
     ...[...seasons].sort((a, b) => a - b).map((n): Pick => ({ kind: "s", n })),
     ...[...olympiaYears].sort((a, b) => a - b).map((n): Pick => ({ kind: "o", n })),
+    ...events.map((e): Pick => ({ kind: "e", n: 0, id: e.id, label: e.label })),
   ];
   const lastSeason = picks.filter((p) => p.kind === "s").pop() ?? picks[0];
   const [current, setCurrent] = useState<Pick | undefined>(lastSeason);
@@ -44,7 +47,13 @@ export default function SeasonPhotoSwitcher({
   }
 
   const srcOf = (p: Pick | undefined) =>
-    !p ? undefined : p.kind === "s" ? personSeasonPhoto(personId, p.n) : personOlympiaPhoto(personId, p.n);
+    !p
+      ? undefined
+      : p.kind === "s"
+        ? personSeasonPhoto(personId, p.n)
+        : p.kind === "o"
+          ? personOlympiaPhoto(personId, p.n)
+          : personEventPhoto(personId, p.id!);
 
   const layer = (p: Pick | undefined, cls: string) => (
     <div key={p ? keyOf(p) : "none"} className={`absolute inset-0 ${cls}`}>
@@ -69,7 +78,7 @@ export default function SeasonPhotoSwitcher({
               onClick={() => pick(p)}
               className="min-h-9 rounded-full border border-oss/25 bg-white/70 px-3.5 text-sm font-semibold text-oss hover:border-oss aria-pressed:border-oss aria-pressed:bg-oss aria-pressed:text-white"
             >
-              {p.kind === "o" ? `O${p.n}` : `Mùa ${p.n}`}
+              {p.kind === "e" ? p.label : p.kind === "o" ? `O${p.n}` : `Mùa ${p.n}`}
             </button>
           ))}
         </div>
