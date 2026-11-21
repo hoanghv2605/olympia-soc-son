@@ -5,6 +5,12 @@
     "highlight": "Olympia Sóc Sơn được thành lập"
   },
   {
+    "date": "2017-08-27",
+    "kind": "oss",
+    "highlight": "Olympia Sóc Sơn giành giải Nhất phần thi các điểm cầu",
+    "detail": "Chung kết năm Đường lên đỉnh Olympia năm thứ 17"
+  },
+  {
     "date": "2017-10-01",
     "kind": "oss",
     "person": "chu-duc-huy",
@@ -33,6 +39,14 @@
     "action": "giành",
     "highlight": "giải Nhất",
     "detail": "Tuần 3 - Tháng 1 - Quý 3 - Olympia năm thứ 19"
+  },
+  {
+    "date": "2019-04-07",
+    "kind": "olympia",
+    "person": "chu-duc-huy",
+    "action": "giành",
+    "highlight": "giải Nhì",
+    "detail": "Tháng 1 - Quý 3 - Olympia năm thứ 19"
   },
   {
     "date": "2019-09-08",
@@ -79,6 +93,22 @@
     "highlight": "Quán quân Olympia Sóc Sơn mùa 6"
   },
   {
+    "date": "2022-12-18",
+    "kind": "olympia",
+    "person": "nguyen-viet-thanh",
+    "action": "giành",
+    "highlight": "giải Nhất",
+    "detail": "Tuần 3 - Tháng 3 - Quý 1 - Olympia năm thứ 23"
+  },
+  {
+    "date": "2022-12-25",
+    "kind": "olympia",
+    "person": "nguyen-viet-thanh",
+    "action": "giành",
+    "highlight": "giải Nhất",
+    "detail": "Tháng 3 - Quý 1 - Olympia năm thứ 23"
+  }, 
+  {
     "date": "2023-01-01",
     "kind": "olympia",
     "person": "nguyen-viet-thanh",
@@ -110,6 +140,14 @@
     "detail": "Tuần 3 - Tháng 3 - Quý 2 - Olympia năm thứ 24"
   },
   {
+    "date": "2024-03-31",
+    "kind": "olympia",
+    "person": "le-tra-my",
+    "action": "giành",
+    "highlight": "giải Ba",
+    "detail": "Tháng 3 - Quý 2 - Olympia năm thứ 24"
+  },
+  {
     "date": "2024-10-20",
     "kind": "oss",
     "person": "nguyen-minh-chinh",
@@ -130,6 +168,14 @@
     "action": "giành",
     "highlight": "giải Nhất",
     "detail": "Tuần 1 - Tháng 1 - Quý 2 - Olympia năm thứ 26"
+  },
+  {
+    "date": "2026-02-22",
+    "kind": "olympia",
+    "person": "nghiem-trung-duc",
+    "action": "giành",
+    "highlight": "giải Nhì",
+    "detail": "Tháng 1 - Quý 2 - Olympia năm thứ 26"
   },
   {
     "date": "2026-11-08",
