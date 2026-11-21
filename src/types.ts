@@ -209,3 +209,49 @@ export interface SiteEvent {
   participantLabel?: string;
   participants?: EventParticipant[];
 }
+
+// ===== DAPHUC Olympia Championship 3 (src/data/su-kien/doc3.json): cùng hình dạng dữ liệu OSS, tách riêng khỏi thống kê OSS =====
+
+export interface Doc3Person {
+  id: string; // mã trong doc3.json (qualifying / matches trỏ tới mã này)
+  name: string;
+  school: string; // School.id
+  ossPerson?: string; // mã hồ sơ OSSPEDIA nếu người này cũng thi OSS
+}
+
+export interface Doc3Season {
+  season: number;
+  code: string;
+  schoolYear: string;
+  startDate: string | null;
+  finalDate: string | null;
+  venue: string | null;
+  hosts: string[];
+  rulesBasedOn: number[];
+  eligibility: string | null;
+  notes: string[];
+  seededDraw: boolean;
+}
+
+export interface Doc3Data {
+  season: Doc3Season;
+  people: Doc3Person[];
+  qualifying: QualifyingEntry[];
+  matches: Match[];
+}
+
+/**
+ * Nguồn dữ liệu của một cuộc thi (OSS hoặc DOC3) cho các bảng / biểu đồ dùng chung:
+ * tên, link hồ sơ, tên trường, ảnh. Mặc định là OSS (xem CompetitionContext).
+ */
+export interface Competition {
+  personName(id: string): string;
+  /** Đường dẫn hồ sơ OSSPEDIA; undefined = không có hồ sơ (hiện chữ thường). */
+  personTo(id: string): string | undefined;
+  /** Mã thí sinh OSS cho thẻ xem nhanh (rê chuột) */
+  previewId(id: string): string | undefined;
+  schoolName(id: string): string;
+  avatar(id: string, season?: number): string | undefined;
+  /** "mùa 10" / "DOC3" (dùng trong mô tả biểu đồ) */
+  seasonLabel(match: Match): string;
+}

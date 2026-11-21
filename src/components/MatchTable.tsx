@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import PersonAvatar from "./PersonAvatar";
 import PersonLink from "./PersonLink";
-import { PLACEMENT_LABEL, personName, roundLabel, schoolName, tiebreakInfo } from "../lib/data";
+import { useCompetition } from "../lib/competitionContext";
+import { PLACEMENT_LABEL, roundLabel, tiebreakInfo } from "../lib/data";
 import { formatScore, joinViText } from "../lib/format";
 import { MEDAL_BADGE, MEDAL_ROW, medalOf } from "../lib/medal";
 import type { Match, MatchResult } from "../types";
@@ -92,6 +93,7 @@ export function FinalLegendBody() {
  * (thứ tự đứng trên sân khấu), không sắp xếp lại theo điểm.
  */
 export default function MatchTable({ match, id, photo }: { match: Match; id?: string; photo?: ReactNode }) {
+  const comp = useCompetition();
   const isFinal = match.round === "chung-ket";
   const tiebreak = tiebreakInfo(match);
 
@@ -148,7 +150,7 @@ export default function MatchTable({ match, id, photo }: { match: Match; id?: st
                         )}
                         {tone && <span className="sr-only">. {tone.label}</span>}
                         <span className={`block text-xs ${onDark ? "text-white/80" : "text-ink-soft"}`}>
-                          {r.class} - {schoolName(r.school)}
+                          {r.class} - {comp.schoolName(r.school)}
                         </span>
                       </div>
                     </div>
@@ -176,6 +178,7 @@ export default function MatchTable({ match, id, photo }: { match: Match; id?: st
 
 /** "* A thắng câu hỏi phụ trước B." */
 export function TiebreakNote({ winner, tiedWith }: { winner: string; tiedWith: string[] }) {
+  const { personName } = useCompetition();
   return (
     <p className="mt-2 text-sm text-ink-soft">
       * {personName(winner)} thắng câu hỏi phụ{tiedWith.length > 0 && ` trước ${joinViText(tiedWith.map(personName))}`}.

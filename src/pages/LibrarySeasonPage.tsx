@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { Link, useParams } from "react-router";
-import Lightbox from "../components/Lightbox";
+import PhotoGrid from "../components/PhotoGrid";
 import PageHeader from "../components/PageHeader";
 import NotFound from "./NotFound";
-import { imageFocus } from "../lib/images";
-import { getSeason, libraryCount, libraryPath, libraryPhotos, seasonPath, site } from "../lib/data";
-import { asset } from "../lib/format";
+import { getSeason, libraryCount, libraryPath, libraryPhotos, seasonPath } from "../lib/data";
 
 const pill =
   "rounded-full border border-oss/25 bg-white/70 px-3.5 py-1.5 text-sm font-semibold text-oss hover:border-oss";
@@ -14,7 +11,6 @@ export default function LibrarySeasonPage() {
   const { slug } = useParams();
   const n = Number(slug?.replace("mua-", ""));
   const season = Number.isInteger(n) ? getSeason(n) : undefined;
-  const [zoom, setZoom] = useState<number | null>(null);
   if (!season) return <NotFound />;
 
   const photos = libraryPhotos(n);
@@ -47,45 +43,7 @@ export default function LibrarySeasonPage() {
         }
       />
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
-        {photos.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-oss/30 bg-white/50 px-6 py-14 text-center">
-            <p className="text-lg font-semibold text-ink">Mùa này chưa có ảnh</p>
-            <p className="mx-auto mt-2 max-w-[52ch] text-ink-soft">Bạn có thể xem ảnh và video các mùa thi trên fanpage của Olympia Sóc Sơn.</p>
-            <a href={site.facebook} target="_blank" rel="noreferrer" className="btn-primary mt-7">
-              Mở fanpage Olympia Sóc Sơn
-            </a>
-          </div>
-        ) : (
-          <>
-            <ul className="grid grid-cols-2 gap-2 min-[560px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-              {photos.map((p, i) => (
-                <li key={p.src}>
-                  <button
-                    type="button"
-                    onClick={() => setZoom(i)}
-                    aria-label={`Phóng to: ${p.alt}`}
-                    className="block aspect-square w-full cursor-zoom-in overflow-hidden rounded-xl bg-oss-soft"
-                  >
-                    <img
-                      src={asset(p.src)}
-                      alt={p.alt}
-                      loading="lazy"
-                      decoding="async"
-                      style={{ objectPosition: imageFocus(p.src) }}
-                      className="size-full object-cover transition-transform duration-200 hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100"
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <Lightbox
-              open={zoom !== null}
-              onClose={() => setZoom(null)}
-              images={photos.map((p) => ({ src: asset(p.src), alt: p.alt }))}
-              start={zoom ?? 0}
-            />
-          </>
-        )}
+        <PhotoGrid photos={photos} emptyTitle="Mùa này chưa có ảnh" />
       </section>
     </>
   );

@@ -1,12 +1,8 @@
 import { Fragment, type ReactNode } from "react";
 import { Link, useParams } from "react-router";
-import { PiCalendarBlank, PiCrown, PiImages, PiMicrophone } from "react-icons/pi";
+import { PiImages } from "react-icons/pi";
 import PageHeader from "../../components/PageHeader";
-import IconLabel from "../../components/IconLabel";
-import ClimbChart from "../../components/ClimbChart";
-import LegendPopover from "../../components/LegendPopover";
-import MatchPhoto from "../../components/MatchPhoto";
-import MatchTable, { FinalLegendBody, SemiLegendBody } from "../../components/MatchTable";
+import CompetitionSections, { SeasonInfobox } from "../../components/CompetitionSections";
 import PersonLink from "../../components/PersonLink";
 import NotFound from "../NotFound";
 import {
@@ -24,7 +20,7 @@ import {
   type PlacedResult,
 } from "../../lib/data";
 import { SeasonContext } from "../../lib/seasonContext";
-import { formatDate, formatScore, scrollToId, seasonOrdinal } from "../../lib/format";
+import { formatDate, scrollToId, seasonOrdinal } from "../../lib/format";
 
 /** Nối các phần: "A", "A và B", "A, B và C". */
 function joinVi(parts: ReactNode[]) {
@@ -190,140 +186,23 @@ export default function SeasonDetail() {
             )}
           </div>
 
-          <aside className="infobox" aria-label="Thông tin nhanh">
-            <dl>
-              <dt>Tên khác</dt>
-              <dd>{code}</dd>
-              <dt>Năm học</dt>
-              <dd>{season.schoolYear}</dd>
-              <dt>
-                <IconLabel icon={PiCalendarBlank}>Thời gian</IconLabel>
-              </dt>
-              <dd className="tabular-nums">
-                {formatDate(season.startDate)} – {formatDate(season.finalDate)}
-              </dd>
-              <dt>
-                <IconLabel icon={PiMicrophone}>Dẫn chương trình</IconLabel>
-              </dt>
-              <dd>
-                <ul>
-                  {season.hosts.map((h) => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </ul>
-              </dd>
-              <dt>
-                <IconLabel icon={PiCrown}>Quán quân</IconLabel>
-              </dt>
-              <dd>
-                {champions.length
-                  ? champions.map((c) => (
-                      <span key={c.person.id} className="block">
-                        <PersonLink id={c.person.id} className="font-semibold" />
-                        <span className="block text-xs font-normal text-ink-soft">
-                          Lớp {c.result.class}, {getSchool(c.result.school)?.name ?? c.result.school}
-                        </span>
-                      </span>
-                    ))
-                  : "Đang cập nhật"}
-              </dd>
-            </dl>
-          </aside>
+          <SeasonInfobox
+            code={code}
+            schoolYear={season.schoolYear}
+            startDate={season.startDate}
+            finalDate={season.finalDate}
+            hosts={season.hosts}
+            champions={champions.map((c) => ({ id: c.person.id, class: c.result.class, school: c.result.school }))}
+          />
         </div>
 
-        {quals.length > 0 && (
-          <section id="vong-loai" className="mt-12 scroll-mt-24 md:mt-16">
-            <h2 className="h2 text-ink">Vòng loại</h2>
-            <p className="mt-2 max-w-[70ch] text-ink-soft">
-              {quals.length} thí sinh có kết quả cao nhất vào vòng Bán kết.
-              {season.seededDraw &&
-                " Các thí sinh được chia vào 3 trận Bán kết bằng bốc thăm theo nhóm hạt giống: nhóm 1 gồm hạng 1–3, nhóm 2 hạng 4–6, nhóm 3 hạng 7–9, nhóm 4 hạng 10–12."}
-            </p>
-            <div className="mt-4 overflow-x-auto">
-              <table className="data-table md:min-w-[36rem]">
-                <thead>
-                  <tr>
-                    <th scope="col" className="num">
-                      Hạng
-                    </th>
-                    <th scope="col" className="sticky-start">
-                      Thí sinh
-                    </th>
-                    <th scope="col" className="hidden md:table-cell">
-                      Lớp
-                    </th>
-                    <th scope="col" className="hidden md:table-cell">
-                      Trường
-                    </th>
-                    <th scope="col" className="num text-right">
-                      Điểm
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {quals.map((q) => (
-                    <tr key={q.person}>
-                      <td className="num">{q.rank}</td>
-                      <td className="sticky-start">
-                        <PersonLink id={q.person} />
-                        {/* Điện thoại: "{lớp} - {trường}" thành dòng nhỏ (cột Lớp, Trường bị ẩn) */}
-                        <span className="block text-xs text-ink-soft md:hidden">
-                          {q.class} - {getSchool(q.school)?.name ?? q.school}
-                        </span>
-                      </td>
-                      <td className="hidden md:table-cell">{q.class}</td>
-                      <td className="hidden md:table-cell">{getSchool(q.school)?.name ?? q.school}</td>
-                      <td className="num text-right font-semibold">{formatScore(q.score)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-        )}
-
-        {semis.length > 0 && (
-          <section id="ban-ket" className="mt-12 scroll-mt-24 md:mt-16">
-            <div className="relative flex items-center gap-1">
-              <h2 className="h2 text-ink">Vòng Bán kết</h2>
-              <LegendPopover label="Chú thích bảng Bán kết">
-                <SemiLegendBody />
-              </LegendPopover>
-            </div>
-            <div className="mt-6 space-y-12">
-              {semis.map((m) => (
-                <MatchTable
-                  key={m.id}
-                  match={m}
-                  id={`ban-ket-${m.number}`}
-                  photo={
-                    matchPhoto(m.id) ? <MatchPhoto match={m} caption={`Các thí sinh của trận Bán kết ${m.number}`} /> : undefined
-                  }
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {final && (
-          <section id="chung-ket" className="mt-12 scroll-mt-24 md:mt-16">
-            <div className="relative flex items-center gap-1">
-              <h2 className="h2 text-ink">Trận Chung kết</h2>
-              <LegendPopover label="Chú thích bảng Chung kết">
-                <FinalLegendBody />
-              </LegendPopover>
-            </div>
-            <div className="mt-6">
-              <MatchTable match={final} />
-              <ClimbChart match={final} />
-              {matchPhoto(final.id) && (
-                <div className="mt-8">
-                  <MatchPhoto match={final} caption={`Các thí sinh trận Chung kết mùa ${n}`} />
-                </div>
-              )}
-            </div>
-          </section>
-        )}
+        <CompetitionSections
+          quals={quals}
+          semis={semis}
+          final={final}
+          seededDraw={season.seededDraw}
+          finalCaption={`Các thí sinh trận Chung kết mùa ${n}`}
+        />
 
         <SeasonNav n={n} spread className="mt-12 justify-between border-t border-oss/15 pt-6 md:mt-16" />
       </article>

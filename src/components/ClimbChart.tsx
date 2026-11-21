@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useCompetition } from "../lib/competitionContext";
 import { CLIMB_STEPS, climbSeries, type ClimbLine } from "../lib/data";
 import { prefersReducedMotion, useInViewOnce, useMediaQuery } from "../lib/hooks";
 import type { Match, Placement } from "../types";
@@ -58,7 +59,8 @@ export function dodgeLabels(ys: number[], gap: number, top: number, bottom: numb
  * Tự vẽ bằng SVG; đường tự vẽ ra khi cuộn tới (1 lần), tôn trọng giảm chuyển động.
  */
 export default function ClimbChart({ match, compact = false }: { match: Match; compact?: boolean }) {
-  const lines = climbSeries(match);
+  const comp = useCompetition();
+  const lines = climbSeries(match, comp.personName);
   const narrow = useMediaQuery("(max-width: 639px)");
   const wrapRef = useRef<HTMLDivElement>(null);
   const inView = useInViewOnce(wrapRef, 0.3);
@@ -123,7 +125,7 @@ export default function ClimbChart({ match, compact = false }: { match: Match; c
       <svg
         viewBox={`0 0 ${W} ${H}`}
         role="img"
-        aria-label={`Biểu đồ điểm cộng dồn trận Chung kết mùa ${match.season}: ${summary}.`}
+        aria-label={`Biểu đồ điểm cộng dồn trận Chung kết ${comp.seasonLabel(match)}: ${summary}.`}
         className={`climb-chart w-full overflow-visible ${compact ? "max-h-[260px]" : "mt-4 max-w-3xl"}`}
         onMouseLeave={() => setActive(null)}
       >

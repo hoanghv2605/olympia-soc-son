@@ -11,7 +11,6 @@ import NotFound from "../NotFound";
 import {
   describeTitles,
   eventPath,
-  eventRankLabel,
   eventShortName,
   eventTimeLabel,
   eventsOfPerson,
@@ -185,7 +184,7 @@ export default function ContestantDetail() {
                     </tr>
                   </thead>
                   <tbody>
-                    {personEvents.map(({ event, participant }) => (
+                    {personEvents.map(({ event, result, plain }) => (
                       <tr key={event.id}>
                         <td>
                           <Link to={eventPath(event.id)} className="font-semibold text-oss hover:underline">
@@ -194,11 +193,7 @@ export default function ContestantDetail() {
                         </td>
                         <td className="tabular-nums">{eventTimeLabel(event, { short: true })}</td>
                         <td>
-                          {participant.rank ? (
-                            <ResultBadge medal={medalOf(participant.rank)}>{eventRankLabel(participant.rank)}</ResultBadge>
-                          ) : (
-                            (event.participantLabel ?? "—")
-                          )}
+                          {result ? <ResultBadge medal={result.medal}>{result.label}</ResultBadge> : (plain ?? "—")}
                         </td>
                       </tr>
                     ))}

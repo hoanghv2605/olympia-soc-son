@@ -2,7 +2,8 @@
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
 import { hasImage, listImages } from "./images";
-import { departmentPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles } from "./photo-names";
+import { departmentPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles, schoolCode, slugify } from "./photo-names";
+import { medalOf, type Medal } from "./medal";
 import siteJson from "../data/site.json";
 import schoolsJson from "../data/schools.json";
 import peopleJson from "../data/people.json";
@@ -18,9 +19,11 @@ import humansJson from "../data/humans.json";
 import testimonialsJson from "../data/testimonials.json";
 import partnersJson from "../data/partners.json";
 import eventsJson from "../data/events.json";
+import doc3Json from "../data/su-kien/doc3.json";
 import type {
+  Competition,
   ContactPerson,
-  EventParticipant,
+  Doc3Data,
   EventType,
   Department,
   HumanStory,
@@ -177,6 +180,9 @@ export function resultLabel(match: Match | undefined, entry: { rank: number; pla
 
 // ===== Sự kiện khác: src/data/events.json (nằm ngoài mọi thống kê OSS) =====
 
+/** DAPHUC Olympia Championship 3: dữ liệu ở src/data/su-kien/doc3.json, tách khỏi mọi thống kê OSS. */
+export const doc3 = doc3Json as unknown as Doc3Data;
+
 /** Sự kiện xếp theo `stt` tăng dần (thứ tự hiển thị ở mọi nơi). */
 export const events = (eventsJson as SiteEvent[]).slice().sort((a, b) => a.stt - b.stt);
 
@@ -233,12 +239,51 @@ export function eventRankLabel(rank: number) {
   return EVENT_RANK_LABEL[rank - 1] ?? `Hạng ${rank}`;
 }
 
-/** Các sự kiện một người tham gia (theo `stt`), kèm dòng người chơi của họ. */
-export function eventsOfPerson(personId: string): { event: SiteEvent; participant: EventParticipant }[] {
-  return events.flatMap((event) => {
+/**
+ * Các sự kiện một người tham gia (theo `stt`) kèm kết quả để hiện ở hồ sơ:
+ * `result` (nhãn + màu huy chương) khi có `rank` (hoặc kết quả cao nhất ở DOC3), `plain` = `participantLabel` khi không có hạng.
+ */
+export interface PersonEvent {
+  event: SiteEvent;
+  result?: { label: string; medal: Medal | null };
+  plain?: string;
+}
+export function eventsOfPerson(personId: string): PersonEvent[] {
+  return events.flatMap((event): PersonEvent[] => {
+    if (event.id === "doc3") {
+      const ids = doc3.people.filter((p) => p.ossPerson === personId).map((p) => p.id);
+      return ids.length ? [{ event, result: doc3ResultOf(ids) }] : [];
+    }
     const participant = event.participants?.find((p) => p.person === personId);
-    return participant ? [{ event, participant }] : [];
+    if (!participant) return [];
+    return [
+      participant.rank
+        ? { event, result: { label: eventRankLabel(participant.rank), medal: medalOf(participant.rank) } }
+        : { event, plain: event.participantLabel },
+    ];
   });
+}
+
+/** Kết quả cao nhất của một người ở DOC3 theo cách gọi OSS: Chung kết (danh hiệu) → Bán kết (giải) → Vòng loại (hạng). */
+function doc3ResultOf(ids: string[]): { label: string; medal: Medal | null } | undefined {
+  for (const id of ids) {
+    for (const m of doc3.matches.filter((x) => x.round === "chung-ket")) {
+      const r = m.results.find((x) => x.person === id);
+      if (r) return { label: resultLabel(m, r), medal: medalOf(r.placement) };
+    }
+  }
+  for (const id of ids) {
+    const best = doc3.matches
+      .filter((x) => x.round === "ban-ket")
+      .flatMap((m) => m.results.filter((x) => x.person === id).map((r) => ({ m, r })))
+      .sort((a, b) => a.r.rank - b.r.rank)[0];
+    if (best) return { label: resultLabel(best.m, best.r), medal: medalOf(resultLabel(best.m, best.r)) };
+  }
+  for (const id of ids) {
+    const q = doc3.qualifying.find((x) => x.person === id);
+    if (q) return { label: resultLabel(undefined, q), medal: medalOf(q.rank) };
+  }
+  return undefined;
 }
 
 /** Ảnh bìa sự kiện: images/bia/{id}-bia.jpg (ngang 3:2) nếu có thật. */
@@ -253,6 +298,15 @@ export function eventPhotos(id: string): { src: string; alt: string }[] {
   const out: { src: string; alt: string }[] = [];
   const cover = eventCoverPhoto(id);
   if (cover) out.push({ src: cover, alt: `Ảnh bìa ${name}` });
+  if (id === "doc3") {
+    // Ảnh trận đấu DOC3: tran-dau/doc3-bk1…, rồi doc3-ck
+    for (let k = 1; k <= 9; k++) {
+      const src = matchPhoto(`doc3-bk${k}`);
+      if (src) out.push({ src, alt: `Các thí sinh trận Bán kết ${k} ${name}` });
+    }
+    const ck = matchPhoto("doc3-ck");
+    if (ck) out.push({ src: ck, alt: `Các thí sinh trận Chung kết ${name}` });
+  }
   listImages(`images/thu-vien/su-kien/${id}/`).forEach((src, i) => out.push({ src, alt: `Ảnh ${name} (${i + 1})` }));
   return out;
 }
@@ -265,6 +319,40 @@ export function eventLibraryCount(id: string) {
 export function eventImage(id: string) {
   return eventPhotos(id)[0]?.src;
 }
+
+// ===== Nguồn dữ liệu cuộc thi cho bảng / biểu đồ dùng chung =====
+
+/** OSS (mặc định): mọi thí sinh trong trận đều có hồ sơ OSSPEDIA. */
+export const ossCompetition: Competition = {
+  personName,
+  personTo: personPath,
+  previewId: (id) => id,
+  schoolName,
+  avatar: (id, season) => personPhoto(id, { season }),
+  seasonLabel: (m) => `mùa ${m.season}`,
+};
+
+const doc3PeopleById = new Map(doc3.people.map((p) => [p.id, p]));
+/** Mã hồ sơ OSSPEDIA của người thi DOC3 (chỉ khi người đó có hồ sơ). */
+const doc3Profile = (id: string) => {
+  const o = doc3PeopleById.get(id)?.ossPerson;
+  return o && getPerson(o) ? o : undefined;
+};
+export const doc3Competition: Competition = {
+  personName: (id) => doc3PeopleById.get(id)?.name ?? id,
+  personTo: (id) => {
+    const o = doc3Profile(id);
+    return o ? personPath(o) : undefined;
+  },
+  previewId: doc3Profile,
+  schoolName,
+  avatar: (id) => {
+    const p = doc3PeopleById.get(id);
+    const path = p && `images/thi-sinh/${doc3PhotoFile(p)}`;
+    return path && hasImage(path) ? path : undefined;
+  },
+  seasonLabel: () => "DOC3",
+};
 
 // ===== Human of OSS: thông tin trong humans.json, nội dung trong src/content/human-of-oss/<slug>.md =====
 
@@ -303,7 +391,14 @@ for (const f of personPhotoFiles({
   photoFilesByPerson.set(f.personId, [...(photoFilesByPerson.get(f.personId) ?? []), f]);
 }
 // Ảnh người chơi tại sự kiện (tách riêng, không lẫn vào ảnh mùa OSS / Olympia)
-const eventPhotoList = eventPhotoFiles(eventsJson as SiteEvent[], schoolsJson as School[]);
+const doc3PhotoFile = (p: { name: string; school: string }) => `doc3-${slugify(p.name)}-${schoolCode(schoolsJson as School[], p.school)}.jpg`;
+const eventPhotoList = [
+  ...eventPhotoFiles(eventsJson as SiteEvent[], schoolsJson as School[]),
+  // DOC3: người thi DOC3 cũng thi OSS có ảnh tại sự kiện (nút "DOC3" ở hồ sơ)
+  ...doc3.people
+    .filter((p) => p.ossPerson)
+    .map((p) => ({ file: doc3PhotoFile(p), personId: p.ossPerson, kind: "event" as const, eventId: "doc3", participant: -1, label: `${p.name} · DOC3` })),
+];
 
 /** Tùy chọn chọn ảnh: `season` = ưu tiên ảnh mùa đó; `olympia: true` = ưu tiên ảnh Đường lên đỉnh Olympia; `event` = ưu tiên ảnh tại sự kiện. */
 export interface PhotoOptions {
@@ -736,12 +831,12 @@ export interface ClimbLine {
  * Điểm cộng dồn của từng thí sinh trong trận (dùng cho trận Chung kết).
  * Điểm cuối lấy đúng `total` trong dữ liệu (đã áp quy tắc tổng không âm). Ô null → mốc đó null.
  */
-export function climbSeries(match: Match): ClimbLine[] {
+export function climbSeries(match: Match, nameOf: (id: string) => string = personName): ClimbLine[] {
   return match.results.map((r) => {
     const after = (vals: (number | null)[]) => (vals.some((v) => v === null) ? null : (vals as number[]).reduce((a, b) => a + b, 0));
     return {
       person: r.person,
-      name: personName(r.person),
+      name: nameOf(r.person),
       placement: r.placement,
       points: [0, after([r.kd]), after([r.kd, r.vcnv]), after([r.kd, r.vcnv, r.tt]), r.total],
       total: r.total,

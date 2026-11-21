@@ -2,6 +2,9 @@ import { Fragment, type ReactNode } from "react";
 import Markdown from "react-markdown";
 import { Link, useParams } from "react-router";
 import { PiImages } from "react-icons/pi";
+import CompetitionSections, { SeasonInfobox } from "../../components/CompetitionSections";
+import { CompetitionContext } from "../../lib/competitionContext";
+import { PiHourglass } from "react-icons/pi";
 import PageHeader from "../../components/PageHeader";
 import EventTypeChip from "../../components/EventTypeChip";
 import LegendPopover from "../../components/LegendPopover";
@@ -10,6 +13,8 @@ import PersonLink from "../../components/PersonLink";
 import NotFound from "../NotFound";
 import {
   EVENT_ROLE_LABEL,
+  doc3,
+  doc3Competition,
   EVENT_TYPE_LABEL,
   eventImage,
   eventLibraryCount,
@@ -162,6 +167,7 @@ export default function EventDetail() {
   if (!event) return <NotFound />;
 
   const photos = eventLibraryCount(event.id);
+  const doc3Final = doc3.matches.find((m) => m.round === "chung-ket");
   const rows: { label: string; value: ReactNode }[] = [
     { label: "Loại", value: EVENT_TYPE_LABEL[event.type] },
     { label: "Năm học", value: event.schoolYear ? event.schoolYear.replace("-", "–") : <Pending /> },
@@ -216,20 +222,60 @@ export default function EventDetail() {
           </div>
 
           {/* Điện thoại: khung thông tin ở trên; máy tính: bên phải */}
-          <aside className="infobox order-first md:order-last" aria-label="Thông tin nhanh">
-            <dl>
-              {rows.map((r) => (
-                <Fragment key={r.label}>
-                  <dt>{r.label}</dt>
-                  <dd>{r.value}</dd>
-                </Fragment>
-              ))}
-            </dl>
-          </aside>
+          {event.format === "mua-thi" ? (
+            // DOC3: infobox của trang mùa (dữ liệu doc3.json) + Đơn vị tổ chức, Vai trò của OSS
+            <CompetitionContext.Provider value={doc3Competition}>
+              <SeasonInfobox
+                className="order-first md:order-last"
+                code={doc3.season.code}
+                schoolYear={doc3.season.schoolYear}
+                startDate={doc3.season.startDate}
+                finalDate={doc3.season.finalDate}
+                hosts={doc3.season.hosts}
+                champions={doc3Final?.results
+                  .filter((r) => r.placement === "vo-dich")
+                  .map((r) => ({ id: r.person, class: r.class, school: r.school })) ?? []}
+                extraRows={[
+                  ...(event.organizer ? [{ label: "Đơn vị tổ chức", value: event.organizer as ReactNode }] : []),
+                  { label: "Vai trò của OSS", value: event.role ? EVENT_ROLE_LABEL[event.role] : <Pending /> },
+                ]}
+              />
+            </CompetitionContext.Provider>
+          ) : (
+            <aside className="infobox order-first md:order-last" aria-label="Thông tin nhanh">
+              <dl>
+                {rows.map((r) => (
+                  <Fragment key={r.label}>
+                    <dt>{r.label}</dt>
+                    <dd>{r.value}</dd>
+                  </Fragment>
+                ))}
+              </dl>
+            </aside>
+          )}
         </div>
 
         {event.format === "xep-hang" && <RankingSection event={event} />}
         {event.format === "nguoi-choi" && <PlayersSection event={event} />}
+        {event.format === "mua-thi" &&
+          (doc3.qualifying.length === 0 && doc3.matches.length === 0 ? (
+            <section className="mt-12 md:mt-16">
+              <p className="flex items-center gap-2 rounded-2xl border border-dashed border-oss/30 bg-white/50 px-6 py-8 text-ink-soft">
+                <PiHourglass className="size-5 shrink-0 text-oss" aria-hidden />
+                Dữ liệu DOC3 đang được cập nhật.
+              </p>
+            </section>
+          ) : (
+            <CompetitionContext.Provider value={doc3Competition}>
+              <CompetitionSections
+                quals={doc3.qualifying}
+                semis={doc3.matches.filter((m) => m.round === "ban-ket").sort((a, b) => a.number - b.number)}
+                final={doc3Final}
+                seededDraw={doc3.season.seededDraw}
+                finalCaption={`Các thí sinh trận Chung kết ${doc3.season.code}`}
+              />
+            </CompetitionContext.Provider>
+          ))}
 
         <EventNav id={event.id} spread className="mt-12 justify-between border-t border-oss/15 pt-6 md:mt-16" />
       </article>

@@ -1,0 +1,18 @@
+{
+  "season": {
+    "season": 3,
+    "code": "DOC3",
+    "schoolYear": "2024-2025",
+    "startDate": null,
+    "finalDate": null,
+    "venue": null,
+    "hosts": [],
+    "rulesBasedOn": [],
+    "eligibility": null,
+    "notes": [],
+    "seededDraw": false
+  },
+  "people": [],
+  "qualifying": [],
+  "matches": []
+}
