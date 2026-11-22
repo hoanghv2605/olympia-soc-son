@@ -24,6 +24,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `npm run build` | Đóng gói ra thư mục `dist/` (GitHub Actions tự chạy lệnh này) |
 | `npm run preview` | Xem thử bản đã đóng gói |
 | `npm run typecheck` | Kiểm tra lỗi TypeScript (không bắt buộc) |
+| `npm run thu-nho-anh` | Thu nhỏ ảnh trong `public/` (chỉ macOS, dùng lệnh `sips` có sẵn). Thêm `-- --thu` để chỉ xem danh sách, không sửa file. **Nên chạy trước mỗi lần commit ảnh mới** (bảng giới hạn ở mục 3) |
 | `npm run anh-con-thieu` | Liệt kê ảnh còn thiếu, theo nhóm (chỉ đọc, không sửa file) |
 
 **Tìm kiếm nhanh trên web:** bấm biểu tượng kính lúp trên thanh menu, hoặc gõ phím `/` hay `Ctrl + K` (máy Mac: `⌘ + K`) ở bất kỳ trang nào. Gõ không dấu cũng được (vd `duc`, `mua 4`, `da phuc`); dùng ↑ ↓ để chọn, Enter để mở, Esc để đóng.
@@ -47,7 +48,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `events.json` | **Sự kiện khác** (OSSPEDIA, Thư viện). Mỗi sự kiện: `id` (mã, dùng cho đường dẫn, ảnh bìa, thư mục thư viện), `stt` (thứ tự hiển thị ở mọi nơi), `name`, `shortName` (tuỳ chọn, chỗ chật), `type` (`rung-chuong-vang` / `toa-dam` / `giao-luu` / `dac-biet` / `cuoc-thi`), `year`, `schoolYear` (vd `"2023-2024"` hoặc `null`), `date` (`YYYY-MM-DD` hoặc `null`), `scope`, `organizer`, `role` (`to-chuc` / `dong-to-chuc` / `tham-gia` / `null`), `intro` (markdown hoặc `null`), `format` (`null` / `xep-hang` / `nguoi-choi` / `mua-thi`), `photoKey` + `photoLabel` (tiền tố tên ảnh người chơi; nhãn nút ảnh ở hồ sơ), `sectionTitle`, `participantLabel`, `participants[]` (`name`, `person`, `class`, `school` **hoặc** `schoolName`, `rank` 1–3, `note`). Ô trống hiện "Đang cập nhật". Sự kiện nằm **ngoài mọi thống kê OSS**. **Bổ sung thông tin:** điền `date`, `role`, `intro`... vào đúng sự kiện. **Thêm sự kiện mới:** thêm một mục với `id` và `stt` mới, đặt ảnh bìa `bia/{id}-bia.jpg` |
 | `su-kien/doc3.json` | Dữ liệu cuộc thi **DOC3** (DAPHUC Olympia Championship 3), cùng hình dạng dữ liệu OSS: `season`, `people[]` (`id`, `name`, `school`, `ossPerson?` = id hồ sơ OSSPEDIA nếu người đó cũng thi OSS), `qualifying[]`, `matches[]` (id trận `doc3-bk1`, `doc3-ck`...; `person` trỏ tới `people` của DOC3). Rỗng thì trang DOC3 ghi "Dữ liệu DOC3 đang được cập nhật."; có dữ liệu thì tự hiện bảng, biểu đồ như trang mùa. **Không** tính vào thống kê OSS |
 | `contacts.json` | Người liên hệ, hiện ở footer (tên và chức vụ). Ô nào để trống `""` thì web tự ẩn |
-| `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn trên thẻ), `date` (YYYY-MM-DD), `person` (tuỳ chọn: id thí sinh OSSPEDIA) |
+| `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn trên thẻ), `date` (YYYY-MM-DD, **để `null` nếu chưa có**: thẻ chỉ ghi "Tập n"), `person` (tuỳ chọn: id người trong `people.json`; link hồ sơ OSSPEDIA chỉ hiện khi người đó có hồ sơ) |
 
 **Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
 
@@ -109,6 +110,15 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 ```
 Giá trị thứ hai nhỏ hơn = lấy phần cao hơn của ảnh (0% = sát mép trên, 100% = sát mép dưới).
 
+### Thu nhỏ ảnh (`npm run thu-nho-anh`)
+Chỉ chạy trên macOS (dùng `sips`). `npm run thu-nho-anh -- --thu` in danh sách ảnh sẽ xử lý, không sửa file; `npm run thu-nho-anh` thu nhỏ thật (ghi đè đúng file cũ, PNG giữ PNG, bỏ qua ảnh mẫu). Không bao giờ phóng to; JPEG chất lượng 80; JPEG nặng hơn 400KB mà chưa vượt giới hạn cạnh thì chỉ nén lại.
+
+| Thư mục | Cạnh dài tối đa |
+| --- | --- |
+| `thi-sinh/`, `human-of-oss/`, `nhan-xet/`, `ban/` | 1200px |
+| `bia/`, `tran-dau/`, `thu-vien/**`, `cot-moc/`, `hero/`, `about/` | 1600px |
+| `truong/`, `doi-tac/`, `logo-oss.png` | 600px |
+
 ### Xem ảnh nào còn thiếu
 
 ```bash
@@ -166,6 +176,29 @@ Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh ch�
 2. Thêm 1 mục vào `src/data/humans.json` với cùng `slug` (mẫu có sẵn ở đầu file `_mau.md`): `slug`, `stt`, `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn), `date`, `person` (tuỳ chọn, id thí sinh: có thì cuối bài có link hồ sơ OSSPEDIA và dùng ảnh thí sinh khi chưa có ảnh riêng). **`stt` = số tiếp theo chưa dùng** (1, 2, 3...), không được trùng; trùng thì build báo lỗi.
 3. Ảnh chân dung (nếu có): `public/images/human-of-oss/{stt 2 chữ số}.jpg` (vd `stt` là 2 thì `02.jpg`); chưa có thì dùng ảnh thí sinh của `person`, không có nữa thì ảnh giữ chỗ. Trang danh sách xếp thẻ ngang so le: tập lẻ ảnh bên trái, tập chẵn ảnh bên phải.
 4. Viết bài trong file `.md`, rồi chạy lại `npm run dev`. Trang Human of OSS luôn có 10 ô; mỗi câu chuyện mới thay một ô "Câu chuyện sắp ra mắt".
+
+### Ẩn nội dung mẫu: `"draft": true`
+Mục nào trong `testimonials.json` và `partners.json` có dòng `"draft": true` thì **không hiện trên web đã đưa lên mạng**; khi chạy `npm run dev` thì vẫn hiện, có viền nét đứt và nhãn "Nháp" để xem trước bố cục. Điền nội dung thật (khi người đó đã đồng ý) rồi **xóa dòng `"draft": true`** để mục được hiện. Không còn nhận xét / đối tác nào hiện thì cả khối đó tự ẩn khỏi trang chủ. Hạng đối tác ít logo thì hiện tĩnh, căn giữa.
+
+### Trưởng ban
+Trong `departments.json`, `"leader": null` thì ẩn dòng "Trưởng ban". Điền tên (`"leader": "Nguyễn Văn B"`) để hiện.
+
+### Tên tab trình duyệt
+| Trang | Tên tab |
+| --- | --- |
+| Trang chủ | Olympia Sóc Sơn |
+| `/wiki` | OSSPEDIA · Olympia Sóc Sơn |
+| Danh sách OSSPEDIA | Mùa giải · OSSPEDIA, Thí sinh · OSSPEDIA, Các trường · OSSPEDIA, Sự kiện khác · OSSPEDIA |
+| Trang mùa / hồ sơ / trường / sự kiện | Mùa {n} · OSSPEDIA, {họ tên} · OSSPEDIA, {tên trường} · OSSPEDIA, {tên sự kiện (ngắn)} · OSSPEDIA |
+| Bài Human of OSS | {tên} · Human of OSS |
+| Thư viện mùa / sự kiện | Thư viện ảnh mùa {n} · Olympia Sóc Sơn, Thư viện ảnh {tên sự kiện} · Olympia Sóc Sơn |
+| Các trang còn lại | {tiêu đề trang} · Olympia Sóc Sơn |
+| 404 | Không tìm thấy trang · Olympia Sóc Sơn |
+
+### Ảnh và mô tả khi chia sẻ link
+Thẻ chia sẻ nằm trong `index.html`; ảnh là `public/og-image.jpg` (1200×630). Vì web dùng địa chỉ có `#` (`/#/...`), **mọi trang đều chia sẻ cùng một ảnh và một mô tả**, không riêng từng trang. Facebook nhớ ảnh cũ: sau khi đổi ảnh hoặc mô tả, vào Sharing Debugger (`https://developers.facebook.com/tools/debug/`), dán địa chỉ web, bấm **Scrape Again** để làm mới.
+
+---
 
 ## 4. Đưa lên mạng (GitHub Pages)
 

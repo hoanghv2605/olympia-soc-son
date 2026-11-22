@@ -48,6 +48,6 @@ const MAX_BYTES = 500 * 1024;
 for (const rel of list) {
   if (!rel.startsWith("images/")) continue;
   const size = statSync(join(publicDir, rel)).size;
-  if (size > MAX_BYTES) console.warn(`[images] CẢNH BÁO: public/${rel} nặng ${(size / 1024).toFixed(0)}KB (> 500KB), nên nén lại`);
+  if (size > MAX_BYTES) console.warn(`[images] CẢNH BÁO: public/${rel} nặng ${(size / 1024).toFixed(0)}KB (> 500KB), nên nén lại. Chạy "npm run thu-nho-anh" để thu nhỏ`);
 }
 console.log(`[images] ${list.length} ảnh có sẵn → src/data/generated/images.json`);
