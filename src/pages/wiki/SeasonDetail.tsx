@@ -20,7 +20,7 @@ import {
   type PlacedResult,
 } from "../../lib/data";
 import { SeasonContext } from "../../lib/seasonContext";
-import { formatDate, scrollToId, seasonOrdinal } from "../../lib/format";
+import { formatDate, formatSchoolYear, scrollToId, seasonOrdinal } from "../../lib/format";
 
 /** Nối các phần: "A", "A và B", "A, B và C". */
 function joinVi(parts: ReactNode[]) {
@@ -97,7 +97,7 @@ export default function SeasonDetail() {
           { label: `Mùa ${n}` },
         ]}
         title={`Olympia Sóc Sơn mùa ${n}`}
-        description={`Năm học ${season.schoolYear} · Chung kết ngày ${formatDate(season.finalDate)}.`}
+        description={`Năm học ${formatSchoolYear(season.schoolYear)} · Chung kết ngày ${formatDate(season.finalDate)}.`}
         actions={
           <div className="flex flex-wrap items-center gap-2">
             {libraryCount(n) > 0 && (

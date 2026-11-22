@@ -1,9 +1,11 @@
 import { Link } from "react-router";
 import type { IconType } from "react-icons";
 import { PiBooks, PiChatsCircle, PiFlag, PiTrophy } from "react-icons/pi";
+import Figure from "./Figure";
 import SearchTrigger from "./SearchTrigger";
 import {
   championCards,
+  events,
   humans,
   olympiaLaurelCount,
   people,
@@ -29,6 +31,7 @@ function shortcuts() {
     ...(latest ? [{ to: seasonPath(latest.season), label: `Mùa ${latest.season}` }] : []),
     { to: "/wiki/thi-sinh", label: "Danh sách thí sinh" },
     { to: "/wiki/truong", label: "Các trường" },
+    { to: "/wiki/su-kien", label: "Sự kiện khác" },
   ];
 }
 
@@ -39,8 +42,8 @@ function entries(): Entry[] {
       to: "/wiki",
       icon: PiBooks,
       title: "OSSPEDIA",
-      description: "Các mùa giải, hồ sơ thí sinh và các trường.",
-      stat: `${seasons.length} mùa · ${people.length} thí sinh · ${schoolsOverview().schools} trường`,
+      description: "Các mùa giải, hồ sơ thí sinh, các trường và sự kiện khác.",
+      stat: `${seasons.length} mùa · ${people.length} thí sinh · ${schoolsOverview().schools} trường · ${events.length} sự kiện`,
     },
     {
       to: "/bang-vang",
@@ -84,7 +87,7 @@ export default function HomeEntrances() {
           </Link>
         </h3>
         <p className="mt-2 text-[17px] text-ink-soft">{main.description}</p>
-        <p className="mt-3 text-sm font-semibold text-oss tabular-nums">{main.stat}</p>
+        <Figure text={main.stat} className="mt-3 text-sm font-semibold text-oss tabular-nums" />
         {/* Lối tắt: nằm trên lớp link phủ ô (relative z-10) */}
         <ul className="relative z-10 mt-5 mb-6 flex flex-wrap gap-2">
           {shortcuts().map((sc) => (
@@ -98,7 +101,7 @@ export default function HomeEntrances() {
             </li>
           ))}
         </ul>
-        <SearchTrigger className="relative z-10 md:mt-auto" />
+        <SearchTrigger label="Tìm thí sinh, mùa giải, trường, sự kiện" className="relative z-10 md:mt-auto" />
       </div>
 
       {rest.map((e) => {
@@ -113,7 +116,7 @@ export default function HomeEntrances() {
                 </Link>
               </h3>
               <p className="mt-1 text-[15px] text-ink-soft">{e.description}</p>
-              <p className="mt-2 text-sm font-semibold text-oss tabular-nums">{e.stat}</p>
+              <Figure text={e.stat} className="mt-2 text-sm font-semibold text-oss tabular-nums" />
             </div>
           </div>
         );

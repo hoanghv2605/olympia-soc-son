@@ -4,6 +4,7 @@ import SeasonCover from "../components/SeasonCover";
 import EventCover from "../components/EventCover";
 import { eventLibraryPath, eventPhotos, eventShortName, eventTimeLabel, events, libraryPath, libraryPhotos, seasons, site } from "../lib/data";
 import type { ReactNode } from "react";
+import { formatSchoolYear } from "../lib/format";
 import type { SiteEvent } from "../types";
 
 /** Ô thư viện: có ảnh thì là link; chưa có ảnh thì mờ, "Chưa có ảnh", không phải link. */
@@ -29,7 +30,7 @@ function Cover({ n, schoolYear }: { n: number; schoolYear: string }) {
       <span className="block p-3">
         <span className="block text-base font-bold text-ink">Mùa {n}</span>
         <span className="block text-[0.8rem] text-ink-soft tabular-nums">
-          {schoolYear} · {has ? `${photos.length} ảnh` : "Chưa có ảnh"}
+          {formatSchoolYear(schoolYear)} · {has ? `${photos.length} ảnh` : "Chưa có ảnh"}
         </span>
       </span>
     </Tile>
@@ -55,7 +56,7 @@ function EventTile({ event }: { event: SiteEvent }) {
 export default function LibraryPage() {
   return (
     <>
-      <PageHeader title="Thư viện" description="Ảnh và tư liệu qua các mùa Olympia Sóc Sơn." />
+      <PageHeader title="Thư viện" description="Ảnh và tư liệu qua các mùa Olympia Sóc Sơn và các sự kiện khác." />
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
         <h2 className="h2 text-ink">Các mùa Olympia Sóc Sơn</h2>
         <ul className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5">

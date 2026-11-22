@@ -162,15 +162,6 @@ export default function ContestantDetail() {
             </section>
           )}
 
-          {timeline.length > 0 && (
-            <section>
-              <h2 className="h3 text-ink">Dòng thời gian</h2>
-              <div className="mt-4">
-                <Timeline items={timeline} compact />
-              </div>
-            </section>
-          )}
-
           {personEvents.length > 0 && (
             <section>
               <h2 className="h3 text-ink">Sự kiện khác</h2>
@@ -199,6 +190,15 @@ export default function ContestantDetail() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            </section>
+          )}
+
+          {timeline.length > 0 && (
+            <section>
+              <h2 className="h3 text-ink">Dòng thời gian</h2>
+              <div className="mt-4">
+                <Timeline items={timeline} compact />
               </div>
             </section>
           )}

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router";
 import type { IconType } from "react-icons";
 import { PiCalendarBlank, PiConfetti, PiGraduationCap, PiUsersThree } from "react-icons/pi";
+import Figure from "../../components/Figure";
 import PageHeader from "../../components/PageHeader";
 import PersonPhoto from "../../components/PersonPhoto";
 import SchoolBadge from "../../components/SchoolBadge";
@@ -36,7 +37,7 @@ function Tile({
       </span>
       <h2 className="h2 mt-5 text-ink group-hover:text-oss">{title}</h2>
       <p className="mt-2 text-ink-soft">{description}</p>
-      <p className="mt-4 text-lg font-bold text-oss tabular-nums">{figure}</p>
+      <Figure text={figure} className="mt-4 text-lg font-bold text-oss tabular-nums" />
       <div aria-hidden className="mt-auto pt-5">
         {preview}
       </div>
@@ -64,11 +65,11 @@ export default function WikiHome() {
     <>
       <PageHeader
         title="OSSPEDIA"
-        description="Bách khoa thư về Olympia Sóc Sơn: các mùa giải, thí sinh, trường và thành tích tại Đường lên đỉnh Olympia."
+        description="Bách khoa thư về Olympia Sóc Sơn: các mùa giải, thí sinh, trường, sự kiện và thành tích tại Đường lên đỉnh Olympia."
         wideDescription
       />
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
-        <SearchTrigger label="Tìm trong OSSPEDIA: thí sinh, mùa giải, trường" className="max-w-xl" />
+        <SearchTrigger label="Tìm trong OSSPEDIA: thí sinh, mùa giải, trường, sự kiện" shortLabel="Tìm trong OSSPEDIA" className="max-w-xl" />
 
         <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-2 md:gap-6 xl:grid-cols-4">
           <Tile

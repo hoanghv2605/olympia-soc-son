@@ -10,7 +10,7 @@ import {
   seasonPath,
   seasons,
 } from "../../lib/data";
-import { formatDate } from "../../lib/format";
+import { formatDate, formatSchoolYear } from "../../lib/format";
 
 type View = "cards" | "table";
 const VIEW_KEY = "oss-season-view";
@@ -100,7 +100,7 @@ export default function SeasonList() {
                         Mùa {s.season}
                       </Link>
                     </td>
-                    <td className="tabular-nums">{s.schoolYear}</td>
+                    <td className="tabular-nums">{formatSchoolYear(s.schoolYear)}</td>
                     <td className="tabular-nums">{formatDate(s.finalDate)}</td>
                     <td>
                       {champions.length

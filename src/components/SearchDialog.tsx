@@ -80,8 +80,8 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
             aria-controls={`${baseId}-list`}
             aria-activedescendant={flat.length ? optionId(active) : undefined}
             aria-autocomplete="list"
-            aria-label="Tìm thí sinh, mùa giải, trường"
-            placeholder="Tìm thí sinh, mùa giải, trường…"
+            aria-label="Tìm thí sinh, mùa giải, trường, sự kiện"
+            placeholder="Tìm thí sinh, mùa giải, trường, sự kiện"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);

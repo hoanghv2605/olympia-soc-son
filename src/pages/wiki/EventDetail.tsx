@@ -29,7 +29,7 @@ import {
   getPerson,
   getSchool,
 } from "../../lib/data";
-import { formatDate } from "../../lib/format";
+import { formatDate, formatSchoolYear } from "../../lib/format";
 import { MEDAL_BADGE, MEDAL_ROW, medalOf } from "../../lib/medal";
 import type { EventParticipant, SiteEvent } from "../../types";
 
@@ -170,7 +170,7 @@ export default function EventDetail() {
   const doc3Final = doc3.matches.find((m) => m.round === "chung-ket");
   const rows: { label: string; value: ReactNode }[] = [
     { label: "Loại", value: EVENT_TYPE_LABEL[event.type] },
-    { label: "Năm học", value: event.schoolYear ? event.schoolYear.replace("-", "–") : <Pending /> },
+    { label: "Năm học", value: event.schoolYear ? formatSchoolYear(event.schoolYear) : <Pending /> },
     { label: "Thời gian", value: event.date ? <span className="tabular-nums">{formatDate(event.date)}</span> : <Pending /> },
     { label: "Phạm vi", value: event.scope ?? <Pending /> },
     ...(event.organizer ? [{ label: "Đơn vị tổ chức", value: event.organizer as ReactNode }] : []),

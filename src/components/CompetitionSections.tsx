@@ -8,7 +8,7 @@ import MatchTable, { FinalLegendBody, SemiLegendBody } from "./MatchTable";
 import PersonLink from "./PersonLink";
 import { useCompetition } from "../lib/competitionContext";
 import { matchPhoto } from "../lib/data";
-import { formatDate, formatScore } from "../lib/format";
+import { formatDate, formatSchoolYear, formatScore } from "../lib/format";
 import type { Match, QualifyingEntry } from "../types";
 
 function Pending() {
@@ -55,7 +55,7 @@ export function SeasonInfobox({
         <dt>Tên khác</dt>
         <dd>{code}</dd>
         <dt>Năm học</dt>
-        <dd>{schoolYear}</dd>
+        <dd>{formatSchoolYear(schoolYear)}</dd>
         <dt>
           <IconLabel icon={PiCalendarBlank}>Thời gian</IconLabel>
         </dt>

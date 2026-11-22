@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import SeasonCover from "./SeasonCover";
 import PersonPhoto from "./PersonPhoto";
 import { coverPhoto, finalOf, libraryCount, matchPhoto, personPhoto, libraryPath, podium, seasonPath } from "../lib/data";
-import { formatDate, formatScore } from "../lib/format";
+import { formatDate, formatSchoolYear, formatScore } from "../lib/format";
 import { MEDAL_DOT, type Medal } from "../lib/medal";
 import type { Season } from "../types";
 
@@ -55,7 +55,7 @@ export default function SeasonCard({ season }: { season: Season }) {
           {thirds.length > 0 && <Row medal="bronze">{names(thirds)}</Row>}
         </ul>
         <p className="mt-auto pt-4 text-xs text-ink-soft tabular-nums">
-          {season.schoolYear} · Chung kết {formatDate(season.finalDate)}
+          {formatSchoolYear(season.schoolYear)} · Chung kết {formatDate(season.finalDate)}
         </p>
         {photos > 0 && (
           // Link phủ cả thẻ nằm sau (z-10); link thư viện đặt cao hơn (z-20) và là phần tử riêng, không lồng link trong link

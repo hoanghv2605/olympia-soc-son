@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router";
 import PhotoGrid from "../components/PhotoGrid";
+import { formatSchoolYear } from "../lib/format";
 import PageHeader from "../components/PageHeader";
 import NotFound from "./NotFound";
 import { getSeason, libraryCount, libraryPath, libraryPhotos, seasonPath } from "../lib/data";
@@ -23,7 +24,7 @@ export default function LibrarySeasonPage() {
       <PageHeader
         breadcrumb={[{ to: "/thu-vien", label: "Thư viện" }, { label: `Mùa ${n}` }]}
         title={`Thư viện ảnh mùa ${n}`}
-        description={`${season.schoolYear} · ${photos.length} ảnh`}
+        description={`${formatSchoolYear(season.schoolYear)} · ${photos.length} ảnh`}
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Link to={seasonPath(n)} className={pill}>

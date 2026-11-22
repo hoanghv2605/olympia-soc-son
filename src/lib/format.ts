@@ -4,6 +4,11 @@ export function formatDate(iso: string) {
   return `${d}/${m}/${y}`;
 }
 
+/** Năm học dùng gạch dài: "2017-2018" → "2017–2018" (dữ liệu JSON giữ nguyên gạch ngang). */
+export function formatSchoolYear(schoolYear: string) {
+  return schoolYear.replace("-", "–");
+}
+
 export function yearOf(iso: string) {
   return iso.slice(0, 4);
 }

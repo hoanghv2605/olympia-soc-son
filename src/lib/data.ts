@@ -1,6 +1,7 @@
 // Một cửa duy nhất để lấy dữ liệu. Các trang chỉ import từ đây,
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
+import { formatSchoolYear } from "./format";
 import { hasImage, listImages } from "./images";
 import { departmentPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles, schoolCode, slugify } from "./photo-names";
 import { medalOf, type Medal } from "./medal";
@@ -220,7 +221,7 @@ export function eventShortName(e: SiteEvent) {
 /** Nhãn thời gian: "Năm học 2023–2024" (có schoolYear) hoặc "{year}"; `short` bỏ chữ "Năm học". */
 export function eventTimeLabel(e: SiteEvent, opts: { short?: boolean } = {}) {
   if (!e.schoolYear) return String(e.year);
-  const y = e.schoolYear.replace("-", "–");
+  const y = formatSchoolYear(e.schoolYear);
   return opts.short ? y : `Năm học ${y}`;
 }
 
