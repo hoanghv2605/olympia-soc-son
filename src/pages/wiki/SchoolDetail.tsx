@@ -4,10 +4,12 @@ import PersonLink from "../../components/PersonLink";
 import SchoolBadge from "../../components/SchoolBadge";
 import NotFound from "../NotFound";
 import { describeTitles, getSchool, participationsOf, schoolStat, seasonPath, titlesOf } from "../../lib/data";
+import { usePageTitle } from "../../lib/hooks";
 
 export default function SchoolDetail() {
   const { id } = useParams();
   const school = getSchool(id);
+  usePageTitle(school && `${school.name} · OSSPEDIA`);
   if (!school) return <NotFound />;
 
   const stat = schoolStat(school);

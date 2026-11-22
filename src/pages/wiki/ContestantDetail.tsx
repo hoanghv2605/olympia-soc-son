@@ -24,10 +24,12 @@ import {
 } from "../../lib/data";
 import { formatScore } from "../../lib/format";
 import { medalOf } from "../../lib/medal";
+import { usePageTitle } from "../../lib/hooks";
 
 export default function ContestantDetail() {
   const { id } = useParams();
   const profile = personProfile(id);
+  usePageTitle(profile && `${profile.person.name} · OSSPEDIA`);
   if (!profile) return <NotFound />;
 
   const { person, school, participations, titles, olympia, timeline } = profile;

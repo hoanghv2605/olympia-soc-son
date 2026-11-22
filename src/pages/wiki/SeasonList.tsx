@@ -11,6 +11,7 @@ import {
   seasons,
 } from "../../lib/data";
 import { formatDate, formatSchoolYear } from "../../lib/format";
+import { usePageTitle } from "../../lib/hooks";
 
 type View = "cards" | "table";
 const VIEW_KEY = "oss-season-view";
@@ -24,6 +25,7 @@ function loadView(): View {
 }
 
 export default function SeasonList() {
+  usePageTitle("Mùa giải · OSSPEDIA");
   const [view, setView] = useState<View>(loadView);
   const choose = (v: View) => {
     setView(v);

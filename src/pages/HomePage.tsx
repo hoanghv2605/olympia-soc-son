@@ -7,9 +7,10 @@ import LatestSeason from "../components/LatestSeason";
 import MapSection from "../components/MapSection";
 import Partners from "../components/Partners";
 import Testimonials from "../components/Testimonials";
-import { finalPhoto, heroSeason, seasonPath, site } from "../lib/data";
+import { finalPhoto, heroSeason, partners, seasonPath, site, testimonials } from "../lib/data";
 import { hasImage, imageFocus } from "../lib/images";
 import { CUBE_GRADIENT, HERO_GRADIENT, asset, yearOf } from "../lib/format";
+import { usePageTitle } from "../lib/hooks";
 
 const LETTERS = ["O", "S", "S"];
 /** Lớp tím chồng lên ảnh trong chữ: vùng sáng của ảnh (áo trắng, tường) không làm chữ chìm, 3 chữ đồng bộ màu OSS. */
@@ -34,6 +35,7 @@ const HERO_SCRIM = {
 };
 
 export default function HomePage() {
+  usePageTitle("Olympia Sóc Sơn");
   // Ảnh lớn = ảnh Chung kết của mùa lớn nhất có ảnh; O, S, S = 3 mùa liền trước (cũ → mới)
   const heroN = heroSeason();
   const finalImage = heroN ? finalPhoto(heroN) : undefined;
@@ -137,25 +139,29 @@ export default function HomePage() {
       </section>
 
       {/* ===== Cảm nhận về Olympia Sóc Sơn ===== */}
-      <section aria-labelledby="cam-nhan" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
-        <h2 id="cam-nhan" className="section-title">
-          Cảm nhận về Olympia Sóc Sơn
-        </h2>
-        <div className="mt-8">
-          <Testimonials />
-        </div>
-      </section>
+      {testimonials.length > 0 && (
+        <section aria-labelledby="cam-nhan" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+          <h2 id="cam-nhan" className="section-title">
+            Cảm nhận về Olympia Sóc Sơn
+          </h2>
+          <div className="mt-8">
+            <Testimonials />
+          </div>
+        </section>
+      )}
 
       {/* ===== Đối tác đồng hành ===== */}
-      <section aria-labelledby="doi-tac" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
-        <h2 id="doi-tac" className="section-title">
-          Đối tác đồng hành
-        </h2>
-        <p className="mt-2 text-ink-soft">Cảm ơn các đơn vị đã đồng hành cùng Olympia Sóc Sơn.</p>
-        <div className="mt-8">
-          <Partners />
-        </div>
-      </section>
+      {partners.length > 0 && (
+        <section aria-labelledby="doi-tac" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+          <h2 id="doi-tac" className="section-title">
+            Đối tác đồng hành
+          </h2>
+          <p className="mt-2 text-ink-soft">Cảm ơn các đơn vị đã đồng hành cùng Olympia Sóc Sơn.</p>
+          <div className="mt-8">
+            <Partners />
+          </div>
+        </section>
+      )}
 
       {/* ===== Bản đồ ===== */}
       <section aria-labelledby="ban-do" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">

@@ -6,6 +6,7 @@ import { eventLibraryPath, eventPhotos, eventShortName, eventTimeLabel, events, 
 import type { ReactNode } from "react";
 import { formatSchoolYear } from "../lib/format";
 import type { SiteEvent } from "../types";
+import { usePageTitle } from "../lib/hooks";
 
 /** Ô thư viện: có ảnh thì là link; chưa có ảnh thì mờ, "Chưa có ảnh", không phải link. */
 function Tile({ to, has, children }: { to: string; has: boolean; children: ReactNode }) {
@@ -54,6 +55,7 @@ function EventTile({ event }: { event: SiteEvent }) {
 }
 
 export default function LibraryPage() {
+  usePageTitle("Thư viện · Olympia Sóc Sơn");
   return (
     <>
       <PageHeader title="Thư viện" description="Ảnh và tư liệu qua các mùa Olympia Sóc Sơn và các sự kiện khác." />

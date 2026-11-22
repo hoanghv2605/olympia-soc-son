@@ -5,6 +5,13 @@ export function prefersReducedMotion() {
   return typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 }
 
+/** Đặt tên tab trình duyệt (`document.title`). Không truyền / rỗng thì không làm gì (vd trang chi tiết chưa có dữ liệu → NotFound tự đặt). */
+export function usePageTitle(title?: string | false | null) {
+  useEffect(() => {
+    if (title) document.title = title;
+  }, [title]);
+}
+
 /** Theo dõi một media query, vd "(max-width: 639px)". */
 export function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(() => typeof window !== "undefined" && !!window.matchMedia?.(query).matches);

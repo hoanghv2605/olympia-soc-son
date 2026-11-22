@@ -32,6 +32,7 @@ import {
 import { formatDate, formatSchoolYear } from "../../lib/format";
 import { MEDAL_BADGE, MEDAL_ROW, medalOf } from "../../lib/medal";
 import type { EventParticipant, SiteEvent } from "../../types";
+import { usePageTitle } from "../../lib/hooks";
 
 const pillLink =
   "rounded-full border border-oss/25 bg-white/70 px-3.5 py-1.5 font-semibold text-oss hover:border-oss";
@@ -164,6 +165,7 @@ function PlayersSection({ event }: { event: SiteEvent }) {
 export default function EventDetail() {
   const { id } = useParams();
   const event = getEvent(id);
+  usePageTitle(event && `${eventShortName(event)} · OSSPEDIA`);
   if (!event) return <NotFound />;
 
   const photos = eventLibraryCount(event.id);

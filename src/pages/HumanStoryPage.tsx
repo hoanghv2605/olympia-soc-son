@@ -5,6 +5,7 @@ import PersonPhoto from "../components/PersonPhoto";
 import NotFound from "./NotFound";
 import { getHuman, getPerson, humanImage, humanNeighbors, humanPath, personPath } from "../lib/data";
 import { asset, formatDate } from "../lib/format";
+import { usePageTitle } from "../lib/hooks";
 
 /** Ảnh trong markdown: đường dẫn tương đối (vd images/...) tính từ thư mục public. */
 function resolveSrc(src: string | undefined) {
@@ -15,6 +16,7 @@ function resolveSrc(src: string | undefined) {
 export default function HumanStoryPage() {
   const { slug } = useParams();
   const story = getHuman(slug);
+  usePageTitle(story && `${story.name} · Human of OSS`);
   if (!story) return <NotFound />;
 
   const { prev, next } = humanNeighbors(story.slug);
@@ -35,7 +37,8 @@ export default function HumanStoryPage() {
           <p className="text-ink-soft">{story.title}</p>
           <p className="font-display max-w-[32ch] text-xl leading-[1.4] font-semibold text-oss italic md:text-2xl">“{story.headline}”</p>
           <p className="text-sm text-ink-soft tabular-nums">
-            Tập {story.stt} · {formatDate(story.date)}
+            Tập {story.stt}
+            {story.date && ` · ${formatDate(story.date)}`}
           </p>
         </header>
 

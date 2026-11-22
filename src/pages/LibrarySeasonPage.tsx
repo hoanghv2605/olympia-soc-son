@@ -4,6 +4,7 @@ import { formatSchoolYear } from "../lib/format";
 import PageHeader from "../components/PageHeader";
 import NotFound from "./NotFound";
 import { getSeason, libraryCount, libraryPath, libraryPhotos, seasonPath } from "../lib/data";
+import { usePageTitle } from "../lib/hooks";
 
 const pill =
   "rounded-full border border-oss/25 bg-white/70 px-3.5 py-1.5 text-sm font-semibold text-oss hover:border-oss";
@@ -12,6 +13,7 @@ export default function LibrarySeasonPage() {
   const { slug } = useParams();
   const n = Number(slug?.replace("mua-", ""));
   const season = Number.isInteger(n) ? getSeason(n) : undefined;
+  usePageTitle(season && `Thư viện ảnh mùa ${n} · Olympia Sóc Sơn`);
   if (!season) return <NotFound />;
 
   const photos = libraryPhotos(n);

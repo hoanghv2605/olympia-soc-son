@@ -72,9 +72,9 @@ export const contacts = contactsJson as ContactPerson[];
 /** Câu chuyện Human of OSS, xếp theo `stt` tăng dần (stt trùng nhau thì build báo lỗi, xem scripts/gen-image-manifest.mjs). */
 export const humans = (humansJson as HumanStory[]).slice().sort((a, b) => a.stt - b.stt);
 /** Nhận xét (trang chủ), theo thứ tự trong file */
-export const testimonials = testimonialsJson as Testimonial[];
+export const testimonials = (testimonialsJson as Testimonial[]).filter((t) => !t.draft || import.meta.env.DEV);
 /** Đối tác đồng hành (trang chủ) */
-export const partners = partnersJson as Partner[];
+export const partners = (partnersJson as Partner[]).filter((p) => !p.draft || import.meta.env.DEV);
 
 /** Số ô ở trang Human of OSS (định nghĩa ở photo-names.js để script Node dùng chung). */
 export { HUMAN_SLOTS } from "./photo-names";

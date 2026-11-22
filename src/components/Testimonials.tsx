@@ -42,7 +42,12 @@ function Portrait({ t }: { t: Testimonial }) {
 function Slide({ t }: { t: Testimonial }) {
   const paragraphs = t.quote.split(/\n\s*\n/).filter((p) => p.trim());
   return (
-    <div>
+    <div className="relative">
+      {t.draft && (
+        <span className="absolute top-0 right-0 rounded-full border border-dashed border-oss/50 bg-white px-2.5 py-0.5 text-xs font-semibold text-oss">
+          Nháp
+        </span>
+      )}
       <div className="flex flex-col items-center gap-4 text-center md:flex-row md:gap-6 md:text-left">
         <Portrait t={t} />
         <div className="flex flex-col items-center gap-2 md:items-start">
@@ -147,7 +152,7 @@ export default function Testimonials() {
       onKeyDown={onKeyDown}
     >
       <div
-        className="testimonial-stage grid touch-pan-y rounded-3xl border border-oss/10 bg-white/60 px-5 py-8 md:px-10 md:py-10"
+        className={`testimonial-stage grid touch-pan-y rounded-3xl border bg-white/60 px-5 py-8 md:px-10 md:py-10 ${items.some((t) => t.draft) ? "border-dashed border-oss/40" : "border-oss/10"}`}
         aria-live={running ? "off" : "polite"}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}

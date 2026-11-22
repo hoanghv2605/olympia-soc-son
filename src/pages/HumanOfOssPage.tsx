@@ -5,6 +5,7 @@ import PersonPhoto from "../components/PersonPhoto";
 import { HUMAN_SLOTS, humanImage, humanPath, humans } from "../lib/data";
 import { formatDate } from "../lib/format";
 import { placeholderTone } from "../lib/placeholder";
+import { usePageTitle } from "../lib/hooks";
 
 const RING = "size-20 shrink-0 rounded-full ring-2 ring-oss ring-offset-[3px] ring-offset-white md:size-32";
 
@@ -71,6 +72,7 @@ function ComingSoon({ index, number }: { index: number; number: number }) {
 }
 
 export default function HumanOfOssPage() {
+  usePageTitle("Human of OSS · Olympia Sóc Sơn");
   // Câu chuyện thật trước, còn thiếu thì thêm ô giữ chỗ cho đủ HUMAN_SLOTS
   const comingSoon = Math.max(0, HUMAN_SLOTS - humans.length);
   return (
@@ -95,7 +97,7 @@ export default function HumanOfOssPage() {
                     name={h.name}
                     title={h.title}
                     quote={h.quote}
-                    footer={`Tập ${h.stt} · ${formatDate(h.date)}`}
+                    footer={h.date ? `Tập ${h.stt} · ${formatDate(h.date)}` : `Tập ${h.stt}`}
                   />
                 </Link>
               </li>

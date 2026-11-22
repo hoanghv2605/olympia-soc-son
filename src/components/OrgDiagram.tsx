@@ -242,13 +242,15 @@ export default function OrgDiagram() {
               <h3 id={`dept-name-${active.id}`} className="h3 text-oss">
                 {active.name}
               </h3>
-              <p className="mt-2 text-[15px] text-ink">
-                <IconLabel icon={PiUserCircle}>
-                  <span>
-                    Trưởng ban: <strong className="font-semibold">{active.leader}</strong>
-                  </span>
-                </IconLabel>
-              </p>
+              {active.leader?.trim() && (
+                <p className="mt-2 text-[15px] text-ink">
+                  <IconLabel icon={PiUserCircle}>
+                    <span>
+                      Trưởng ban: <strong className="font-semibold">{active.leader}</strong>
+                    </span>
+                  </IconLabel>
+                </p>
+              )}
               {active.duties.length > 0 ? (
                 <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[15px] leading-relaxed text-ink marker:text-oss">
                   {active.duties.map((duty) => (

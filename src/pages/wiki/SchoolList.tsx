@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import PageHeader from "../../components/PageHeader";
 import SchoolBadge from "../../components/SchoolBadge";
 import { schoolPath, schoolStats, schoolsOverview, type SchoolStat } from "../../lib/data";
+import { usePageTitle } from "../../lib/hooks";
 
 const MEDAL_CELLS = [
   { key: "champions", label: "Quán quân", ring: "border-gold bg-gold-bg text-gold-ink" },
@@ -64,6 +65,7 @@ function SchoolCard({ stat }: { stat: SchoolStat }) {
 }
 
 export default function SchoolList() {
+  usePageTitle("Các trường · OSSPEDIA");
   const stats = schoolStats();
   const overview = schoolsOverview();
   return (

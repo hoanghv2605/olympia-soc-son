@@ -8,5 +8,45 @@
     "quote": "Hãy cố gắng hết mình trước khi cảm thấy tiếc nuối.",
     "date": "2019-09-23",
     "person": "nguyen-thanh-ha"
+  },
+  {
+    "slug": "ha-viet-hoang",
+    "stt": 2,
+    "name": "Hà Việt Hoàng",
+    "title": "Đồng sáng lập Olympia Sóc Sơn",
+    "headline": "Người thắp lửa cho trí tuệ Sóc Sơn",
+    "quote": "Cách ghi nhớ tốt nhất chính là nắm rõ kiến thức đó.",
+    "date": null,
+    "person": "ha-viet-hoang"
+  },
+  {
+    "slug": "dinh-nguyen-thuong",
+    "stt": 3,
+    "name": "Đinh Nguyên Thương",
+    "title": "MC Olympia Sóc Sơn mùa 2–4",
+    "headline": "MC quốc dân của Olympia Sóc Sơn",
+    "quote": "Bí kíp của chị chỉ có hai chữ “yêu thương” thôi!",
+    "date": null,
+    "person": null
+  },
+  {
+    "slug": "tran-hai-linh",
+    "stt": 4,
+    "name": "Trần Hải Linh",
+    "title": "Quán quân OSS3",
+    "headline": "Cơn gió lạ của Olympia Sóc Sơn",
+    "quote": "Muốn trở thành người giỏi nhất, bạn phải cố gắng để đánh bại người giỏi nhất.",
+    "date": null,
+    "person": "tran-hai-linh"
+  },
+  {
+    "slug": "tran-duc-hoang-long",
+    "stt": 5,
+    "name": "Trần Đức Hoàng Long",
+    "title": "Đồng sáng lập Olympia Sóc Sơn",
+    "headline": "Mạch DNA còn lại của Olympia Sóc Sơn",
+    "quote": "OSS là đại diện cho tuổi trẻ nhiệt huyết của mình.",
+    "date": null,
+    "person": null
   }
 ]

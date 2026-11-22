@@ -3,7 +3,7 @@
     "id": "to-chuc",
     "name": "Ban Tổ chức",
     "icon": "compass",
-    "leader": "Nguyễn Văn A",
+    "leader": null,
     "duties": [
       "Điều phối chung hoạt động của Olympia Sóc Sơn: lên kế hoạch cho từng mùa thi và sự kiện, phân công và kết nối công việc giữa các ban."
     ]
@@ -12,13 +12,13 @@
     "id": "chuyen-mon",
     "name": "Ban Chuyên môn",
     "icon": "book",
-    "leader": "Nguyễn Văn A",
+    "leader": null,
     "duties": [
       "Xây dựng ngân hàng câu hỏi cho các vòng thi của Olympia Sóc Sơn.",
       "Training thí sinh lớp 11 chuẩn bị cho chương trình Đường lên đỉnh Olympia cũng như các thí sinh lớp 10 tiềm năng khác."
     ]
   },
-  { "id": "ki-thuat", "name": "Ban Kĩ thuật", "icon": "gear", "leader": "Nguyễn Văn A", "duties": [] },
-  { "id": "truyen-thong", "name": "Ban Truyền thông", "icon": "megaphone", "leader": "Nguyễn Văn A", "duties": [] },
-  { "id": "hau-can", "name": "Ban Hậu cần", "icon": "people", "leader": "Nguyễn Văn A", "duties": [] }
+  { "id": "ki-thuat", "name": "Ban Kĩ thuật", "icon": "gear", "leader": null, "duties": [] },
+  { "id": "truyen-thong", "name": "Ban Truyền thông", "icon": "megaphone", "leader": null, "duties": [] },
+  { "id": "hau-can", "name": "Ban Hậu cần", "icon": "people", "leader": null, "duties": [] }
 ]

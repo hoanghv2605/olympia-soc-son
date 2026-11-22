@@ -125,7 +125,7 @@ export interface Department {
   id: string;
   name: string;
   icon: "compass" | "book" | "gear" | "megaphone" | "people";
-  leader: string; // Trưởng ban
+  leader: string | null; // Trưởng ban (null / rỗng = ẩn dòng "Trưởng ban")
   duties: string[];
 }
 
@@ -145,10 +145,10 @@ export interface HumanStory {
   headline: string;
   /** Câu trích ngắn hiện trên thẻ */
   quote: string;
-  /** Ngày đăng, YYYY-MM-DD */
-  date: string;
-  /** Tuỳ chọn: id thí sinh OSSPEDIA (dùng ảnh thí sinh khi chưa có ảnh riêng + link hồ sơ) */
-  person?: string;
+  /** Ngày đăng, YYYY-MM-DD; `null` = chưa có (chỉ ghi "Tập {stt}", không có ngày) */
+  date: string | null;
+  /** Tuỳ chọn: id người trong people.json (dùng ảnh mặc định của người đó khi chưa có ảnh riêng; link hồ sơ OSSPEDIA chỉ hiện khi người đó có hồ sơ) */
+  person?: string | null;
   /** Số thứ tự câu chuyện (duy nhất): xếp trang Human of OSS và đặt tên ảnh human-of-oss/{stt 2 chữ số}.jpg */
   stt: number;
 }
@@ -156,6 +156,8 @@ export interface HumanStory {
 /** Nhận xét trên trang chủ. Ảnh: public/images/nhan-xet/<id>.jpg. Chỉ đăng khi người đó đồng ý. */
 export interface Testimonial {
   id: string;
+  /** true = nội dung mẫu: bản build không hiện; `npm run dev` vẫn hiện (viền nét đứt + nhãn "Nháp") */
+  draft?: boolean;
   name: string; // gồm cả cách xưng hô, vd "Chị Nguyễn Văn A"
   role?: string; // vai trò với Olympia Sóc Sơn
   position?: string; // chức danh hiện tại
@@ -168,6 +170,8 @@ export type PartnerTier = "vang" | "bac" | "dong-hanh";
 /** Đối tác đồng hành. Logo: public/images/doi-tac/<id>.svg hoặc .png. Chỉ đăng khi đơn vị đồng ý. */
 export interface Partner {
   id: string;
+  /** true = nội dung mẫu: bản build không hiện; `npm run dev` vẫn hiện (viền nét đứt + nhãn "Nháp") */
+  draft?: boolean;
   name: string;
   url: string; // "" = không có link
   tier: PartnerTier;

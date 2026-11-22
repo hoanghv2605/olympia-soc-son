@@ -42,6 +42,7 @@ import {
 import { formatDate } from "../lib/format";
 import { MEDAL_DOT, MEDAL_ROW, medalOf } from "../lib/medal";
 import type { OlympiaPeriod } from "../types";
+import { usePageTitle } from "../lib/hooks";
 
 const RECORD_FIELDS: RecordField[] = ["vl", "kd", "vcnv", "tt", "vd", "total"];
 
@@ -351,6 +352,7 @@ function RecordsSection() {
 }
 
 export default function HallOfFamePage() {
+  usePageTitle("Bảng vàng · Olympia Sóc Sơn");
   return (
     <>
       <PageHeader

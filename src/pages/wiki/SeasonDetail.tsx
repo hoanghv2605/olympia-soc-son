@@ -21,6 +21,7 @@ import {
 } from "../../lib/data";
 import { SeasonContext } from "../../lib/seasonContext";
 import { formatDate, formatSchoolYear, scrollToId, seasonOrdinal } from "../../lib/format";
+import { usePageTitle } from "../../lib/hooks";
 
 /** Nối các phần: "A", "A và B", "A, B và C". */
 function joinVi(parts: ReactNode[]) {
@@ -66,6 +67,7 @@ export default function SeasonDetail() {
   const { slug } = useParams();
   const n = Number(slug?.replace("mua-", ""));
   const season = getSeason(n);
+  usePageTitle(season && `Mùa ${n} · OSSPEDIA`);
   if (!season) return <NotFound />;
 
   const { champions, runnersUp, thirds } = podium(n);

@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 import PageHeader from "../../components/PageHeader";
+import { usePageTitle } from "../../lib/hooks";
 
 const TABS = [
   { to: "/ve-chung-toi", label: "Giới thiệu", end: true },
@@ -7,6 +8,7 @@ const TABS = [
 ];
 
 export default function AboutLayout() {
+  usePageTitle("Về chúng tôi · Olympia Sóc Sơn");
   return (
     <>
       <div className="sticky top-[var(--header-h,4rem)] z-30 border-b border-white/70 bg-white/45 backdrop-blur-md">

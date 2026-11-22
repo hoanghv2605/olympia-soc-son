@@ -20,6 +20,7 @@ import {
   type SortKey,
 } from "../../lib/contestants";
 import { medalOf } from "../../lib/medal";
+import { usePageTitle } from "../../lib/hooks";
 
 type View = "cards" | "table";
 const VIEW_KEY = "oss-contestant-view";
@@ -75,6 +76,7 @@ function Card({ r, mua }: { r: Row; mua: number | null }) {
 }
 
 export default function ContestantList() {
+  usePageTitle("Thí sinh · OSSPEDIA");
   const [params, setParams] = useSearchParams();
   const filters = useMemo(() => filtersFromParams(params), [params]);
   const [view, setView] = useState<View>(loadView);

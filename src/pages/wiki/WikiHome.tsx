@@ -9,6 +9,7 @@ import SchoolBadge from "../../components/SchoolBadge";
 import SearchTrigger from "../../components/SearchTrigger";
 import { EVENT_TYPE_LABEL, championsList, events, people, personPhoto, schools, seasons } from "../../lib/data";
 import { yearOf } from "../../lib/format";
+import { usePageTitle } from "../../lib/hooks";
 
 const SHOWN = 5;
 
@@ -46,6 +47,7 @@ function Tile({
 }
 
 export default function WikiHome() {
+  usePageTitle("OSSPEDIA · Olympia Sóc Sơn");
   const first = seasons[0];
   const last = seasons[seasons.length - 1];
   const years = `${yearOf(first.startDate)}–${yearOf(last.startDate)}`;

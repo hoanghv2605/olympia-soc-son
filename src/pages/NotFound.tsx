@@ -1,7 +1,9 @@
 import { Link } from "react-router";
 import PageHeader from "../components/PageHeader";
+import { usePageTitle } from "../lib/hooks";
 
 export default function NotFound() {
+  usePageTitle("Không tìm thấy trang · Olympia Sóc Sơn");
   return (
     <>
       <PageHeader

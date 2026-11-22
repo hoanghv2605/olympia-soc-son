@@ -1,8 +1,10 @@
 import PageHeader from "../../components/PageHeader";
 import EventCard from "../../components/EventCard";
 import { events } from "../../lib/data";
+import { usePageTitle } from "../../lib/hooks";
 
 export default function EventList() {
+  usePageTitle("Sự kiện khác · OSSPEDIA");
   return (
     <>
       <PageHeader

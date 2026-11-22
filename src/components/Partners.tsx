@@ -42,7 +42,13 @@ function Tile({ p, tile, clone }: { p: Partner; tile: string; clone: boolean }) 
   ) : (
     <span className="px-3 text-center text-sm font-semibold text-ink-soft">{p.name}</span>
   );
-  const cls = `grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-white ${tile}`;
+  // Mục nháp (chỉ thấy khi chạy npm run dev): viền nét đứt + nhãn "Nháp"
+  const cls = `relative grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-white ${tile} ${p.draft ? "border-dashed" : ""}`;
+  const draftTag = p.draft && (
+    <span aria-hidden className="absolute top-1.5 left-1.5 rounded-full bg-oss px-2 py-0.5 text-[10px] font-semibold text-white">
+      Nháp
+    </span>
+  );
   return (
     <li className="mr-4 shrink-0" aria-hidden={clone || undefined}>
       {p.url ? (
@@ -54,29 +60,41 @@ function Tile({ p, tile, clone }: { p: Partner; tile: string; clone: boolean }) 
           className={`${cls} transition-colors hover:border-oss`}
         >
           {inner}
+          {draftTag}
         </a>
       ) : (
-        <span className={cls}>{inner}</span>
+        <span className={cls}>
+          {inner}
+          {draftTag}
+        </span>
       )}
     </li>
   );
 }
 
-/** Một hàng logo trôi ngang liên tục với tốc độ `speed` (px/giây); dừng khi rê chuột / focus. */
+/**
+ * Một hàng logo. Đủ logo để lấp đầy bề ngang thì trôi ngang liên tục với tốc độ `speed` (px/giây), dừng khi rê chuột / focus.
+ * Ít logo (cả danh sách ngắn hơn khung) thì hiện tĩnh, căn giữa, không nhân đôi danh sách, không chạy.
+ */
 function MarqueeRow({ items, tile, speed, reverse }: { items: Partner[]; tile: string; speed: number; reverse: boolean }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const halfRef = useRef<HTMLUListElement>(null);
   const [reps, setReps] = useState(1);
   const [duration, setDuration] = useState(40);
+  const [fits, setFits] = useState(false);
 
-  // Lặp danh sách đủ phủ bề ngang khung (kể cả hàng ít đối tác), thời lượng = bề rộng 1 nửa / tốc độ
+  // Đo tổng bề ngang 1 lượt danh sách (mỗi ô + lề phải 16px). Vừa trong khung → tĩnh; không thì lặp đủ phủ khung
+  // (thời lượng = bề rộng 1 nửa / tốc độ)
   useLayoutEffect(() => {
     const box = boxRef.current;
     const half = halfRef.current;
     if (!box || !half) return;
     const measure = () => {
-      const single = half.scrollWidth / reps;
+      const single = [...half.children].slice(0, items.length).reduce((sum, el) => sum + (el as HTMLElement).offsetWidth + 16, 0);
       if (!single) return;
+      const fit = single <= box.clientWidth;
+      setFits(fit);
+      if (fit) return;
       const need = Math.max(1, Math.ceil(box.clientWidth / single));
       if (need !== reps) setReps(need);
       setDuration((single * need) / speed);
@@ -85,7 +103,7 @@ function MarqueeRow({ items, tile, speed, reverse }: { items: Partner[]; tile: s
     const ro = new ResizeObserver(measure);
     ro.observe(box);
     return () => ro.disconnect();
-  }, [reps, speed]);
+  }, [reps, speed, items.length, fits]);
 
   const half = (copy: number) => (
     <ul ref={copy === 0 ? halfRef : undefined} className="flex shrink-0" aria-hidden={copy > 0 || undefined}>
@@ -94,6 +112,18 @@ function MarqueeRow({ items, tile, speed, reverse }: { items: Partner[]; tile: s
       )}
     </ul>
   );
+
+  if (fits) {
+    return (
+      <div ref={boxRef} className="py-3">
+        <ul ref={halfRef} className="flex flex-wrap justify-center gap-y-4">
+          {items.map((p) => (
+            <Tile key={p.id} p={p} tile={tile} clone={false} />
+          ))}
+        </ul>
+      </div>
+    );
+  }
 
   return (
     <div ref={boxRef} className={`marquee py-3 ${reverse ? "is-reverse" : ""}`}>

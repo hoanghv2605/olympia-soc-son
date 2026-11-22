@@ -3,6 +3,7 @@ import PageHeader from "../components/PageHeader";
 import PhotoGrid from "../components/PhotoGrid";
 import NotFound from "./NotFound";
 import { eventLibraryCount, eventLibraryPath, eventNeighbors, eventPath, eventPhotos, eventShortName, eventTimeLabel, getEvent } from "../lib/data";
+import { usePageTitle } from "../lib/hooks";
 
 const pill =
   "rounded-full border border-oss/25 bg-white/70 px-3.5 py-1.5 text-sm font-semibold text-oss hover:border-oss";
@@ -10,6 +11,7 @@ const pill =
 export default function LibraryEventPage() {
   const { id } = useParams();
   const event = getEvent(id);
+  usePageTitle(event && `Thư viện ảnh ${eventShortName(event)} · Olympia Sóc Sơn`);
   if (!event) return <NotFound />;
 
   const photos = eventPhotos(event.id);
