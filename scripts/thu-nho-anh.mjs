@@ -6,7 +6,7 @@
 //   thi-sinh/, human-of-oss/, nhan-xet/, ban/                        1200px
 //   bia/, tran-dau/, thu-vien/**, cot-moc/, hero/, about/            1600px
 //   truong/, doi-tac/, logo-oss.png                                  600px
-// Ảnh lớn hơn giới hạn: thu nhỏ (JPEG thêm chất lượng 80). JPEG không vượt giới hạn nhưng nặng hơn 400KB: chỉ nén lại.
+// Ảnh lớn hơn giới hạn: thu nhỏ (JPEG chất lượng 80, hạ dần 70 / 60 nếu file mới vẫn nặng hơn file cũ). JPEG không vượt giới hạn nhưng nặng hơn 400KB: chỉ nén lại.
 // PNG giữ PNG (giữ nền trong suốt). Ảnh mẫu (có OSS-ANH-MAU trong 4KB đầu) bị bỏ qua.
 import { execFileSync } from "node:child_process";
 import { copyFileSync, mkdtempSync, rmSync, statSync } from "node:fs";
@@ -20,7 +20,7 @@ if (process.platform !== "darwin") {
 }
 
 const dry = process.argv.includes("--thu");
-const JPEG_QUALITY = "80";
+const JPEG_QUALITIES = [80, 70, 60]; // chất lượng JPEG thử lần lượt
 const RECOMPRESS_OVER = 400 * 1024; // JPEG nặng hơn mức này (dù chưa vượt giới hạn cạnh) thì nén lại
 
 /** Cạnh dài tối đa theo đường dẫn (tính từ public/); undefined = không xử lý. */
@@ -77,13 +77,20 @@ for (const j of jobs) {
   if (!dry) {
     const out = join(tmp, "out" + (j.isJpeg ? ".jpg" : /\.png$/i.test(j.rel) ? ".png" : ".webp"));
     try {
-      const args = [];
-      if (j.action === "resize") args.push("-Z", String(j.limit));
-      if (j.isJpeg) args.push("-s", "format", "jpeg", "-s", "formatOptions", JPEG_QUALITY);
-      execFileSync("sips", [...args, j.file, "--out", out], { stdio: "pipe" });
-      const size = statSync(out).size;
-      if (j.action === "recompress" && size >= j.size) {
-        note = " (nén lại không nhỏ hơn, giữ nguyên)";
+      // JPEG: thử chất lượng 80 trước; nếu file mới vẫn nặng hơn file cũ (ảnh gốc đã nén mạnh) thì hạ dần 70, 60
+      const qualities = j.isJpeg ? JPEG_QUALITIES : [null];
+      let size = Infinity;
+      for (const q of qualities) {
+        const args = [];
+        if (j.action === "resize") args.push("-Z", String(j.limit));
+        if (j.isJpeg) args.push("-s", "format", "jpeg", "-s", "formatOptions", String(q));
+        execFileSync("sips", [...args, j.file, "--out", out], { stdio: "pipe" });
+        size = statSync(out).size;
+        if (size <= j.size) break;
+      }
+      if (size > j.size || (j.action === "recompress" && size === j.size)) {
+        // Thu nhỏ / nén lại mà file không nhẹ hơn (ảnh gốc đã nén mạnh, hoặc chỉ vượt giới hạn chút ít): giữ nguyên, không làm ảnh xấu đi
+        note = " (không nhẹ hơn, giữ nguyên)";
       } else {
         copyFileSync(out, j.file); // ghi đè đúng file cũ (cùng tên, cùng đuôi)
         newSize = size;
