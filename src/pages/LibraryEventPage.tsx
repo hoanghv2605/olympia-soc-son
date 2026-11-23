@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router";
 import PageHeader from "../components/PageHeader";
 import PhotoGrid from "../components/PhotoGrid";
 import NotFound from "./NotFound";
-import { eventLibraryCount, eventLibraryPath, eventNeighbors, eventPath, eventPhotos, eventShortName, eventTimeLabel, getEvent } from "../lib/data";
+import { eventLibraryCount, eventLibraryPath, eventNeighbors, eventPath, eventPhotos, eventTimeLabel, getEvent } from "../lib/data";
 import { usePageTitle } from "../lib/hooks";
 
 const pill =
@@ -11,7 +11,7 @@ const pill =
 export default function LibraryEventPage() {
   const { id } = useParams();
   const event = getEvent(id);
-  usePageTitle(event && `Thư viện ảnh ${eventShortName(event)} · Olympia Sóc Sơn`);
+  usePageTitle(event && `Thư viện ảnh ${event.name} · Olympia Sóc Sơn`);
   if (!event) return <NotFound />;
 
   const photos = eventPhotos(event.id);
@@ -21,7 +21,7 @@ export default function LibraryEventPage() {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ to: "/thu-vien", label: "Thư viện" }, { label: eventShortName(event) }]}
+        breadcrumb={[{ to: "/thu-vien", label: "Thư viện" }, { label: event.name }]}
         title={`Thư viện ảnh ${event.name}`}
         description={`${eventTimeLabel(event)} · ${photos.length} ảnh`}
         actions={

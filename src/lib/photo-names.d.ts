@@ -30,7 +30,6 @@ export interface EventEntry {
 interface EventLike {
   id: string;
   name: string;
-  shortName?: string;
   photoKey?: string;
   matches?: { participants: EventEntry[] }[];
   participants?: EventEntry[];

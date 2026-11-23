@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import PersonPhoto from "./PersonPhoto";
-import { personEventPhoto, personOlympiaPhoto, personSeasonPhoto } from "../lib/data";
+import { olympiaPhotoDate, personEventPhoto, personOlympiaPhoto, personSeasonPhoto, seasonStartDate } from "../lib/data";
 
 /** Một lựa chọn ảnh: mùa OSS ("s"), năm Đường lên đỉnh Olympia ("o") hoặc sự kiện ("e", `id` = mã sự kiện, `label` = nhãn nút). */
-type Pick = { kind: "s" | "o" | "e"; n: number; id?: string; label?: string };
+type Pick = { kind: "s" | "o" | "e"; n: number; id?: string; label?: string; date: string };
 const keyOf = (p: Pick) => (p.kind === "e" ? `e:${p.id}` : `${p.kind}${p.n}`);
 
 /**
- * Ảnh ở hồ sơ thí sinh. Hàng nút dưới ảnh (hiện khi có từ 2 nút): "Mùa n" (tăng dần) rồi "O{năm}" (ảnh Đường lên đỉnh
- * Olympia năm thứ N); nút bật/tắt, mặc định mùa OSS mới nhất. Chỉ lấy ảnh đúng lựa chọn (chưa có ảnh thì hiện ảnh
+ * Ảnh ở hồ sơ thí sinh. Hàng nút dưới ảnh (hiện khi có từ 2 nút), xếp theo thời gian tăng dần: "Mùa n", "O{năm}" (ảnh
+ * Đường lên đỉnh Olympia năm thứ N) và các sự kiện; nút bật/tắt, mặc định mùa OSS mới nhất. Chỉ lấy ảnh đúng lựa chọn (chưa có ảnh thì hiện ảnh
  * giữ chỗ, không lấy ảnh khác). Đổi ảnh mờ chéo 200ms (giảm chuyển động: tức thì, xem .photo-swap-in).
  */
 export default function SeasonPhotoSwitcher({
@@ -22,14 +22,15 @@ export default function SeasonPhotoSwitcher({
   name: string;
   seasons: number[];
   olympiaYears?: number[];
-  events?: { id: string; label: string }[];
+  events?: { id: string; label: string; date: string }[];
 }) {
   const picks: Pick[] = [
-    ...[...seasons].sort((a, b) => a - b).map((n): Pick => ({ kind: "s", n })),
-    ...[...olympiaYears].sort((a, b) => a - b).map((n): Pick => ({ kind: "o", n })),
-    ...events.map((e): Pick => ({ kind: "e", n: 0, id: e.id, label: e.label })),
-  ];
-  const lastSeason = picks.filter((p) => p.kind === "s").pop() ?? picks[0];
+    ...seasons.map((n): Pick => ({ kind: "s", n, date: seasonStartDate(n) })),
+    ...olympiaYears.map((n): Pick => ({ kind: "o", n, date: olympiaPhotoDate(personId, n) })),
+    ...events.map((e): Pick => ({ kind: "e", n: 0, id: e.id, label: e.label, date: e.date })),
+  ].sort((a, b) => a.date.localeCompare(b.date));
+  // Ảnh mặc định: mùa OSS mới nhất (không phụ thuộc thứ tự nút)
+  const lastSeason = picks.filter((p) => p.kind === "s").reduce<Pick | undefined>((m, p) => (!m || p.n > m.n ? p : m), undefined) ?? picks[0];
   const [current, setCurrent] = useState<Pick | undefined>(lastSeason);
   const [prev, setPrev] = useState<Pick | null>(null);
 

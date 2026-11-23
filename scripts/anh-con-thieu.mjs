@@ -49,7 +49,7 @@ group(
 //     thi-sinh/{photoKey}-{slug}-{mã trường}.jpg (chỉ người chơi có trường trong schools.json)
 group(
   `Ảnh bìa sự kiện (${events.length})`,
-  events.map((e) => ({ label: e.shortName ?? e.name, options: [`images/bia/${e.id}-bia.jpg`] })),
+  events.map((e) => ({ label: e.name, options: [`images/bia/${e.id}-bia.jpg`] })),
 );
 // Các nhóm sự kiện tự tính từ dữ liệu: mọi cặp (sự kiện có photoKey, người tham gia có trong people.json)
 const peopleIds = new Set(people.map((p) => p.id));
@@ -61,7 +61,7 @@ group(
 const awards = events.filter((e) => e.awardPhoto);
 group(
   `Ảnh trao giải sự kiện (${awards.length})`,
-  awards.map((e) => ({ label: `${e.shortName ?? e.name}: ${e.awardPhoto.caption}`, options: [`images/${e.awardPhoto.src}`] })),
+  awards.map((e) => ({ label: `${e.name}: ${e.awardPhoto.caption}`, options: [`images/${e.awardPhoto.src}`] })),
 );
 
 // 2. Trận đấu
@@ -177,5 +177,5 @@ console.log("\n## Thư viện sự kiện (thông tin, không tính là thiếu)
 for (const e of events) {
   const dir = `images/thu-vien/su-kien/${e.id}/`;
   const c = [...have].filter((p) => p.startsWith(dir)).length;
-  console.log(`  - ${e.shortName ?? e.name}: ${c} ảnh`);
+  console.log(`  - ${e.name}: ${c} ảnh`);
 }

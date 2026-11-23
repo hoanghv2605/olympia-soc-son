@@ -98,10 +98,8 @@ export interface TimelineItem extends Omit<Milestone, "person" | "kind"> {
   kind: MilestoneKind | "event"; // "event" = sự kiện khác (tự đưa vào từ events.json)
   personId?: string;
   personName?: string;
-  /** Sự kiện khác: mã sự kiện để làm link (trang Giới thiệu: tên sự kiện; hồ sơ: dòng phụ) */
+  /** Dòng sự kiện ở hồ sơ thí sinh: mã sự kiện để làm link ở dòng phụ */
   eventId?: string;
-  /** Đường dẫn ảnh (từ public/) thay cho ảnh cột mốc theo ngày (sự kiện: ảnh trao giải hoặc ảnh bìa) */
-  photo?: string;
 }
 
 export type StatIcon = "trophy" | "people" | "podium" | "laurel" | "tv";
@@ -230,7 +228,6 @@ export interface SiteEvent {
   id: string;
   stt: number;
   name: string;
-  shortName?: string;
   aka?: string; // tên khác, vd "GNDN 2024"
   type: EventType;
   year: number;

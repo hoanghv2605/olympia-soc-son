@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Link, useParams } from "react-router";
 import Breadcrumb from "../../components/Breadcrumb";
-import { PiCalendarBlank, PiGraduationCap, PiNewspaper, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
+import { PiCake, PiCalendarBlank, PiGraduationCap, PiNewspaper, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
 import IconLabel from "../../components/IconLabel";
 import { ScoreHeads, TiebreakNote } from "../../components/MatchTable";
 import ResultBadge from "../../components/ResultBadge";
@@ -9,9 +9,9 @@ import SeasonPhotoSwitcher from "../../components/SeasonPhotoSwitcher";
 import Timeline from "../../components/Timeline";
 import NotFound from "../NotFound";
 import {
+  birthYearOf,
   describeTitles,
   eventPath,
-  eventShortName,
   eventTimeLabel,
   eventResultMedal,
   eventsOfPerson,
@@ -40,6 +40,7 @@ export default function ContestantDetail() {
   const titleText = describeTitles(titles);
   const personEvents = eventsOfPerson(person.id);
   const humanStories = humansOfPerson(person.id);
+  const birthYear = birthYearOf(person.id);
   const olympiaYears = [...new Set(olympia.map((r) => r.year))];
   // Các trận người này thắng câu hỏi phụ (chú thích dưới bảng, đánh dấu *)
   const tiebreaks = participations.flatMap((p) =>
@@ -189,7 +190,7 @@ export default function ContestantDetail() {
                       <tr key={event.id}>
                         <td>
                           <Link to={eventPath(event.id)} className="font-semibold text-oss hover:underline">
-                            {eventShortName(event)}
+                            {event.name}
                           </Link>
                         </td>
                         <td className="tabular-nums">{eventTimeLabel(event, { short: true })}</td>
@@ -221,9 +222,17 @@ export default function ContestantDetail() {
             name={person.name}
             seasons={ossSeasonsOf(person.id)}
             olympiaYears={olympiaYears}
-            events={personEvents.filter((e) => e.event.photoKey).map((e) => ({ id: e.event.id, label: e.event.photoLabel ?? e.event.name }))}
+            events={personEvents.filter((e) => e.event.photoKey && e.event.date).map((e) => ({ id: e.event.id, label: e.event.photoLabel ?? e.event.name, date: e.event.date as string }))}
           />
           <dl>
+            {birthYear && (
+              <>
+                <dt>
+                  <IconLabel icon={PiCake}>Năm sinh</IconLabel>
+                </dt>
+                <dd>{birthYear}</dd>
+              </>
+            )}
             <dt>
               <IconLabel icon={PiGraduationCap}>Trường</IconLabel>
             </dt>

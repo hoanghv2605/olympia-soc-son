@@ -133,7 +133,7 @@ export function eventPhotoFiles(events, schools, docs = {}) {
         kind: "event",
         eventId: e.id,
         name: p.name,
-        label: `${p.name} · ${e.shortName ?? e.name}`,
+        label: `${p.name} · ${e.name}`,
       });
     }
   }

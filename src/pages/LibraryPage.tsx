@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import PageHeader from "../components/PageHeader";
 import SeasonCover from "../components/SeasonCover";
 import EventCover from "../components/EventCover";
-import { eventLibraryPath, eventPhotos, eventShortName, eventTimeLabel, events, libraryPath, libraryPhotos, seasons, site } from "../lib/data";
+import { eventLibraryPath, eventPhotos, eventTimeLabel, events, libraryPath, libraryPhotos, seasons, site } from "../lib/data";
 import type { ReactNode } from "react";
 import { formatSchoolYear } from "../lib/format";
 import type { SiteEvent } from "../types";
@@ -45,7 +45,7 @@ function EventTile({ event }: { event: SiteEvent }) {
     <Tile to={eventLibraryPath(event.id)} has={has}>
       <EventCover type={event.type} index={event.stt} src={photos[0]?.src} />
       <span className="block p-3">
-        <span className="block min-h-[2lh] text-base leading-snug font-bold text-ink">{eventShortName(event)}</span>
+        <span className="block min-h-[2lh] text-base leading-snug font-bold text-ink">{event.name}</span>
         <span className="block text-[0.8rem] text-ink-soft tabular-nums">
           {eventTimeLabel(event)} · {has ? `${photos.length} ảnh` : "Chưa có ảnh"}
         </span>

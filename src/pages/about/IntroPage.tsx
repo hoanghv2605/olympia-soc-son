@@ -18,7 +18,6 @@ const STAT_ICONS: Record<Stat["icon"], ComponentType<{ className?: string }>> = 
 };
 
 export default function IntroPage() {
-  const hasEvents = timeline.some((m) => m.kind === "event");
   return (
     <>
       {/* ===== Giới thiệu (nền giấy đen) ===== */}
@@ -53,11 +52,6 @@ export default function IntroPage() {
           <li className="flex items-center gap-2">
             <span className="size-2.5 rounded-full bg-cube-pink" aria-hidden /> Đường lên đỉnh Olympia
           </li>
-          {hasEvents && (
-            <li className="flex items-center gap-2">
-              <span className="size-2.5 rounded-full bg-teal" aria-hidden /> Sự kiện khác
-            </li>
-          )}
         </ul>
         <div className="mt-10">
           <Timeline items={timeline} />

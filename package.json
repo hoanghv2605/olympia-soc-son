@@ -4,12 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/gen-image-manifest.mjs",
+    "predev": "node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/gen-image-manifest.mjs",
+    "prebuild": "node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "pretypecheck": "node scripts/gen-image-manifest.mjs",
+    "pretypecheck": "node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
     "typecheck": "tsc --noEmit",
     "anh-con-thieu": "node scripts/anh-con-thieu.mjs",
     "thu-nho-anh": "node scripts/thu-nho-anh.mjs"

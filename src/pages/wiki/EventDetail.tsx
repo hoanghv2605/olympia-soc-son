@@ -9,6 +9,7 @@ import EventTypeChip from "../../components/EventTypeChip";
 import LegendPopover from "../../components/LegendPopover";
 import PersonPhoto from "../../components/PersonPhoto";
 import PersonLink from "../../components/PersonLink";
+import ResultBadge from "../../components/ResultBadge";
 import NotFound from "../NotFound";
 import {
   EVENT_RESULT_LABEL,
@@ -24,7 +25,6 @@ import {
   eventParticipantPhoto,
   eventPath,
   eventResultMedal,
-  eventShortName,
   eventTimeLabel,
   getDoc,
   getEvent,
@@ -93,7 +93,7 @@ function ResultLegend() {
 function MatchTableEvent({ event, list }: { event: SiteEvent; list: EventParticipant[] }) {
   return (
     <div className="mt-4 overflow-x-auto">
-      <table className="data-table min-w-[30rem]">
+      <table className="data-table min-w-[36rem]">
         <thead>
           <tr>
             <th scope="col" className="sticky-start">
@@ -101,6 +101,7 @@ function MatchTableEvent({ event, list }: { event: SiteEvent; list: EventPartici
             </th>
             <th scope="col">Lớp</th>
             <th scope="col">Trường</th>
+            <th scope="col">Kết quả</th>
           </tr>
         </thead>
         <tbody>
@@ -119,12 +120,12 @@ function MatchTableEvent({ event, list }: { event: SiteEvent; list: EventPartici
                     />
                     <div className="min-w-[7.5rem]">
                       <ParticipantName p={p} />
-                      {p.result && <span className="sr-only">. {EVENT_RESULT_LABEL[p.result]}</span>}
                     </div>
                   </div>
                 </td>
                 <td>{p.class ?? "–"}</td>
                 <td>{schoolOf(p) || "–"}</td>
+                <td>{p.result ? <ResultBadge medal={medal}>{EVENT_RESULT_LABEL[p.result]}</ResultBadge> : "–"}</td>
               </tr>
             );
           })}
@@ -221,7 +222,7 @@ function PlayersSection({ event }: { event: SiteEvent }) {
 export default function EventDetail() {
   const { id } = useParams();
   const event = getEvent(id);
-  usePageTitle(event && `${eventShortName(event)} · OSSPEDIA`);
+  usePageTitle(event && `${event.name} · OSSPEDIA`);
   if (!event) return <NotFound />;
 
   const photos = eventLibraryCount(event.id);
@@ -279,7 +280,7 @@ export default function EventDetail() {
         breadcrumb={[
           { to: "/wiki", label: "OSSPEDIA" },
           { to: "/wiki/su-kien", label: "Sự kiện khác" },
-          { label: eventShortName(event) },
+          { label: event.name },
         ]}
         title={event.name}
         description={

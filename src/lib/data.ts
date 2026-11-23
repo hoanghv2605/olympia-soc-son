@@ -246,11 +246,6 @@ export function eventLibraryPath(id: string) {
   return `/thu-vien/su-kien/${id}`;
 }
 
-/** Tên ngắn ở chỗ chật (dòng chỉ đường, bảng hồ sơ, ô thư viện). */
-export function eventShortName(e: SiteEvent) {
-  return e.shortName ?? e.name;
-}
-
 /** Nhãn thời gian: "Năm học 2023–2024" (có schoolYear) hoặc "{year}"; `short` bỏ chữ "Năm học". */
 export function eventTimeLabel(e: SiteEvent, opts: { short?: boolean } = {}) {
   if (!e.schoolYear) return String(e.year);
@@ -927,6 +922,32 @@ export function ossSeasonsOf(personId: string) {
   return [...new Set(qualifying.filter((q) => q.person === personId).map((q) => q.season))].sort((a, b) => a - b);
 }
 
+/** Ngày bắt đầu của mùa OSS (seasons.json), dùng xếp nút ảnh ở hồ sơ. */
+export function seasonStartDate(n: number) {
+  return seasons.find((s) => s.season === n)?.startDate ?? "";
+}
+
+/**
+ * Ngày dùng xếp nút "O{năm}" ở hồ sơ: `date` sớm nhất của người đó trong năm thứ đó (olympia.json).
+ * Nhiều dòng chưa có `date` → dự phòng 01/01 của năm 2000 + N (các trận có ngày đều rơi vào năm đó).
+ */
+export function olympiaPhotoDate(personId: string, year: number) {
+  const dates = olympia.filter((o) => o.person === personId && o.year === year && o.date).map((o) => o.date as string);
+  return dates.sort()[0] ?? `${2000 + year}-01-01`;
+}
+
+/**
+ * Năm sinh = năm đầu của `schoolYear` mùa đã thi − khối (2 chữ số đầu của lớp) − 5. Không có dữ liệu OSS → undefined.
+ * Mọi lượt thi của một người phải ra cùng năm (kiểm ở scripts/kiem-tra-nam-sinh.mjs).
+ */
+export function birthYearOf(personId: string): number | undefined {
+  const q = qualifying.find((x) => x.person === personId);
+  const season = q && seasons.find((s) => s.season === q.season);
+  const grade = q && Number(/^\d{2}/.exec(q.class)?.[0]);
+  const start = season && Number(season.schoolYear.slice(0, 4));
+  return start && grade ? start - grade - 5 : undefined;
+}
+
 export function olympiaContestantCount(school: StatScope = "all", period: OlympiaPeriod = "all") {
   return new Set(olympiaRows(school, period).map((o) => o.person)).size;
 }
@@ -981,26 +1002,8 @@ export function toTimeline(list: Milestone[]): TimelineItem[] {
   }));
 }
 
-/** Ngày đưa sự kiện lên dòng thời gian: ngày kết thúc nếu có, không thì ngày bắt đầu. */
+/** Ngày đưa sự kiện lên dòng thời gian hồ sơ: ngày kết thúc nếu có, không thì ngày bắt đầu. */
 const eventTimelineDate = (e: SiteEvent) => e.endDate ?? e.date;
-
-/** Cột mốc "Sự kiện khác" của trang Giới thiệu: mọi sự kiện có ngày, tự lấy từ events.json. */
-function eventMilestones(): TimelineItem[] {
-  return events.flatMap((e): TimelineItem[] => {
-    const date = eventTimelineDate(e);
-    if (!date) return [];
-    return [
-      {
-        date,
-        kind: "event",
-        highlight: e.name,
-        detail: [EVENT_TYPE_LABEL[e.type], e.scope].filter(Boolean).join(" · "),
-        eventId: e.id,
-        photo: eventAwardPhoto(e)?.src ?? eventCoverPhoto(e.id),
-      },
-    ];
-  });
-}
 
 /** Dòng "{tên} giành Giải Nhất / trở thành Quán quân / tham dự" theo kết quả. */
 const EVENT_ACTION: Record<EventResult, { action?: string; highlight: string }> = {
@@ -1027,8 +1030,8 @@ function personEventMilestones(personId: string): TimelineItem[] {
 
 const byDate = (a: TimelineItem, b: TimelineItem) => a.date.localeCompare(b.date);
 
-/** Dòng thời gian trang Giới thiệu: cột mốc + sự kiện khác, theo ngày (cùng ngày: cột mốc trước). */
-export const timeline = [...toTimeline(milestones), ...eventMilestones()].sort(byDate);
+/** Dòng thời gian trang Giới thiệu: chỉ cột mốc (sự kiện khác chỉ hiện ở dòng thời gian hồ sơ). */
+export const timeline = toTimeline(milestones);
 
 /** Dòng thời gian trong hồ sơ thí sinh: cột mốc của người đó + sự kiện người đó tham gia. */
 export function personTimeline(personId: string): TimelineItem[] {

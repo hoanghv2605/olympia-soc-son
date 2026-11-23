@@ -8,8 +8,6 @@ import { asset, formatDate, yearOf } from "../lib/format";
 import { hasImage } from "../lib/images";
 import { eventPath, milestonePhoto, personPath } from "../lib/data";
 
-/** Đường dẫn ảnh của cột mốc: ảnh riêng (sự kiện: trao giải / bìa) hoặc ảnh theo ngày. */
-const photoPath = (m: TimelineItem) => m.photo ?? milestonePhoto(m.date);
 const dotClass = (m: TimelineItem) => `tl-dot${m.kind === "olympia" ? " is-olympia" : m.kind === "event" ? " is-event" : ""}`;
 
 function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
@@ -29,18 +27,11 @@ function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
             <strong className="font-semibold text-ink">{m.personName}</strong>
           ))}
         {m.action && ` ${m.action} `}
-        {m.eventId && !m.personName ? (
-          // Trang Giới thiệu: tên sự kiện (đậm) là link tới trang sự kiện
-          <Link to={eventPath(m.eventId)} className="font-semibold text-teal hover:underline">
-            {m.highlight}
-          </Link>
-        ) : (
-          <strong className="font-semibold text-oss">{m.highlight}</strong>
-        )}
+        <strong className="font-semibold text-oss">{m.highlight}</strong>
       </p>
       {m.detail &&
-        (m.eventId && m.personName ? (
-          // Hồ sơ thí sinh: dòng phụ là tên sự kiện (link)
+        (m.eventId ? (
+          // Dòng sự kiện (chỉ ở hồ sơ thí sinh): dòng phụ là tên sự kiện (link)
           <p className="mt-0.5 text-sm">
             <Link to={eventPath(m.eventId)} className="text-ink-soft hover:text-oss hover:underline">
               {m.detail}
@@ -80,7 +71,7 @@ export default function Timeline({ items, compact = false }: { items: TimelineIt
     const index = new Map<number, number>();
     const images: { src: string; alt: string; caption: string }[] = [];
     items.forEach((m, i) => {
-      const src = photoPath(m);
+      const src = milestonePhoto(m.date);
       if (!hasImage(src)) return;
       index.set(i, images.length);
       images.push({ src: asset(src), alt: photoAlt(m), caption: photoCaption(m) });
@@ -160,7 +151,7 @@ export default function Timeline({ items, compact = false }: { items: TimelineIt
                 </div>
                 {photo && canHover && active === i && (
                   <span className="tl-photo" aria-hidden onClick={() => open(i)}>
-                    <MilestonePhoto src={photoPath(m)} alt="" className="size-full" />
+                    <MilestonePhoto src={milestonePhoto(m.date)} alt="" className="size-full" />
                   </span>
                 )}
               </li>

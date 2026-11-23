@@ -99,7 +99,7 @@ const SCHOOLS = schools.map((s) => ({
 }));
 
 const EVENTS = events.map((e) => ({
-  key: normalize(`${e.name} ${e.shortName ?? ""} ${e.aka ?? ""} ${EVENT_TYPE_LABEL[e.type]}`),
+  key: normalize(`${e.name} ${e.aka ?? ""} ${EVENT_TYPE_LABEL[e.type]}`),
   result: {
     id: e.id,
     kind: "event" as const,
