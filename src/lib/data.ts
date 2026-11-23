@@ -371,6 +371,11 @@ export function getHuman(slug: string | undefined) {
   return { ...story, body: humanBodies[`../content/human-of-oss/${story.slug}.md`] ?? "" };
 }
 
+/** Các tập Human of OSS của một người (theo `person`), xếp theo `stt`. */
+export function humansOfPerson(personId: string) {
+  return humans.filter((h) => h.person === personId);
+}
+
 export function humanPath(slug: string) {
   return `/human-of-oss/${slug}`;
 }

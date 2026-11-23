@@ -6,6 +6,8 @@ import {
   eventPath,
   eventTimeLabel,
   events,
+  humanPath,
+  humans,
   participationsOf,
   people,
   personPath,
@@ -19,7 +21,7 @@ import {
 import type { EventType, Placement } from "../types";
 import { normalize } from "./format";
 
-export type SearchKind = "person" | "season" | "school" | "event";
+export type SearchKind = "person" | "season" | "school" | "event" | "human";
 
 export interface SearchResult {
   id: string;
@@ -36,6 +38,7 @@ export interface SearchGroups {
   season: SearchResult[];
   school: SearchResult[];
   event: SearchResult[];
+  human: SearchResult[];
 }
 
 export const SEARCH_GROUP_LABEL: Record<SearchKind, string> = {
@@ -43,9 +46,10 @@ export const SEARCH_GROUP_LABEL: Record<SearchKind, string> = {
   season: "Mùa giải",
   school: "Trường",
   event: "Sự kiện",
+  human: "Human of OSS",
 };
 
-export const SEARCH_GROUP_ORDER: SearchKind[] = ["person", "season", "school", "event"];
+export const SEARCH_GROUP_ORDER: SearchKind[] = ["person", "season", "school", "event", "human"];
 
 /** Số dòng tối đa mỗi nhóm */
 const LIMIT = 6;
@@ -95,7 +99,7 @@ const SCHOOLS = schools.map((s) => ({
 }));
 
 const EVENTS = events.map((e) => ({
-  key: normalize(`${e.name} ${e.shortName ?? ""} ${EVENT_TYPE_LABEL[e.type]}`),
+  key: normalize(`${e.name} ${e.shortName ?? ""} ${e.aka ?? ""} ${EVENT_TYPE_LABEL[e.type]}`),
   result: {
     id: e.id,
     kind: "event" as const,
@@ -106,17 +110,29 @@ const EVENTS = events.map((e) => ({
   },
 }));
 
+const HUMANS = humans.map((h) => ({
+  key: normalize(`${h.name} ${h.headline} ${h.title}`),
+  result: {
+    id: h.slug,
+    kind: "human" as const,
+    to: humanPath(h.slug),
+    title: h.name,
+    subtitle: `Human of OSS · Tập ${h.stt}`,
+  },
+}));
+
 /**
- * Tìm không dấu, chia 4 nhóm (mỗi nhóm tối đa 6 dòng):
+ * Tìm không dấu, chia 5 nhóm (mỗi nhóm tối đa 6 dòng):
  * - Thí sinh: tên chứa từ khóa. Xếp hạng: tên gọi (từ cuối) trùng từ khóa → có 1 từ trùng → có từ bắt đầu bằng
  *   từ khóa → chỉ chứa; cùng mức thì người có danh hiệu OSS cao hơn trước, rồi theo thứ tự ABC;
  * - Mùa giải: "mùa 4", "mua 4", "oss4", "4" → Mùa 4; gõ "mua" / "oss" → các mùa;
  * - Trường: tên hoặc chữ viết tắt chứa từ khóa;
- * - Sự kiện: tên, tên ngắn hoặc loại sự kiện chứa từ khóa (gõ số mùa ngắn như "4" thì không tìm sự kiện).
+ * - Sự kiện: tên, tên ngắn, tên khác (aka) hoặc loại sự kiện chứa từ khóa (gõ số mùa ngắn như "4" thì không tìm sự kiện);
+ * - Human of OSS: tên, tiêu đề bài hoặc chức danh.
  */
 export function searchAll(query: string): SearchGroups {
   const q = normalize(query).replace(/\s+/g, " ");
-  if (!q) return { person: [], season: [], school: [], event: [] };
+  if (!q) return { person: [], season: [], school: [], event: [], human: [] };
 
   const matchLevel = (p: (typeof PEOPLE)[number]) =>
     p.words[p.words.length - 1] === q ? 0 : p.words.includes(q) || ` ${p.key} `.includes(` ${q} `) ? 1 : ` ${p.key}`.includes(` ${q}`) ? 2 : 3;
@@ -139,7 +155,9 @@ export function searchAll(query: string): SearchGroups {
 
   const event = num && q.length <= 2 ? [] : EVENTS.filter((e) => e.key.includes(q)).slice(0, LIMIT).map((e) => e.result);
 
-  return { person, season, school, event };
+  const human = num && q.length <= 2 ? [] : HUMANS.filter((h) => h.key.includes(q)).slice(0, LIMIT).map((h) => h.result);
+
+  return { person, season, school, event, human };
 }
 
 /** Gộp các nhóm thành 1 danh sách theo thứ tự hiển thị (dùng cho phím ↑ ↓). */

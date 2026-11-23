@@ -198,6 +198,7 @@ export interface SiteEvent {
   stt: number;
   name: string;
   shortName?: string;
+  aka?: string;
   type: EventType;
   year: number;
   schoolYear: string | null; // "2023-2024"

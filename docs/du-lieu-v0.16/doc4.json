@@ -1,0 +1,217 @@
+{
+  "id": "doc4",
+  "qualifying": [
+    {
+      "rank": 1,
+      "name": "Lê Hồng Đăng",
+      "class": "11A1",
+      "school": "da-phuc",
+      "score": 48.0
+    },
+    {
+      "rank": 2,
+      "name": "Nguyễn Tuấn Hùng",
+      "class": "10A2",
+      "school": "soc-son",
+      "score": 47.0,
+      "ossPerson": "nguyen-tuan-hung"
+    },
+    {
+      "rank": 3,
+      "name": "Trần Đức Mạnh",
+      "class": "10A7",
+      "school": "da-phuc",
+      "score": 43.5,
+      "ossPerson": "tran-duc-manh"
+    },
+    {
+      "rank": 4,
+      "name": "Đào Ngọc Tú",
+      "class": "10A2",
+      "school": "soc-son",
+      "score": 43.5
+    },
+    {
+      "rank": 5,
+      "name": "Nguyễn Thanh Phong",
+      "class": "10A5",
+      "school": "soc-son",
+      "score": 40.0,
+      "ossPerson": "nguyen-thanh-phong"
+    },
+    {
+      "rank": 6,
+      "name": "Phạm Khánh Bình",
+      "class": "11A5",
+      "school": "da-phuc",
+      "score": 39.5
+    },
+    {
+      "rank": 7,
+      "name": "Võ Danh Sơn",
+      "class": "10A1",
+      "school": "soc-son",
+      "score": 39.0,
+      "ossPerson": "vo-danh-son"
+    },
+    {
+      "rank": 8,
+      "name": "Nguyễn Đức Việt",
+      "class": "10A1",
+      "school": "da-phuc",
+      "score": 37.0
+    },
+    {
+      "rank": 9,
+      "name": "Nguyễn Mạnh Tiến",
+      "class": "10A1",
+      "school": "trung-gia",
+      "score": 36.5
+    },
+    {
+      "rank": 10,
+      "name": "Dương Hoàng Minh",
+      "class": "10A1",
+      "school": "da-phuc",
+      "score": 35.0
+    },
+    {
+      "rank": 11,
+      "name": "Đặng Hồ Tố Uyên",
+      "class": "11A5",
+      "school": "da-phuc",
+      "score": 31.5
+    },
+    {
+      "rank": 12,
+      "name": "Nguyễn Phúc Nguyên",
+      "class": "10A1",
+      "school": "soc-son",
+      "score": 31.0,
+      "ossPerson": "nguyen-phuc-nguyen"
+    }
+  ],
+  "semifinals": [
+    {
+      "no": 1,
+      "results": [
+        {
+          "name": "Dương Hoàng Minh",
+          "class": "10A1",
+          "school": "da-phuc",
+          "result": "giai-nhat"
+        },
+        {
+          "name": "Nguyễn Đức Việt",
+          "class": "10A1",
+          "school": "da-phuc",
+          "result": "giai-ba"
+        },
+        {
+          "name": "Trần Đức Mạnh",
+          "class": "10A7",
+          "school": "da-phuc",
+          "result": "giai-nhi",
+          "ossPerson": "tran-duc-manh"
+        },
+        {
+          "name": "Nguyễn Thanh Phong",
+          "class": "10A5",
+          "school": "soc-son",
+          "result": "giai-ba",
+          "ossPerson": "nguyen-thanh-phong"
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "results": [
+        {
+          "name": "Lê Hồng Đăng",
+          "class": "11A1",
+          "school": "da-phuc",
+          "result": "giai-nhat"
+        },
+        {
+          "name": "Phạm Khánh Bình",
+          "class": "11A5",
+          "school": "da-phuc",
+          "result": "giai-ba"
+        },
+        {
+          "name": "Võ Danh Sơn",
+          "class": "10A1",
+          "school": "soc-son",
+          "result": "giai-ba",
+          "ossPerson": "vo-danh-son"
+        },
+        {
+          "name": "Nguyễn Phúc Nguyên",
+          "class": "10A1",
+          "school": "soc-son",
+          "result": "giai-nhi",
+          "ossPerson": "nguyen-phuc-nguyen"
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "results": [
+        {
+          "name": "Nguyễn Mạnh Tiến",
+          "class": "10A1",
+          "school": "trung-gia",
+          "result": "giai-nhi"
+        },
+        {
+          "name": "Đặng Hồ Tố Uyên",
+          "class": "11A5",
+          "school": "da-phuc",
+          "result": "giai-ba"
+        },
+        {
+          "name": "Nguyễn Tuấn Hùng",
+          "class": "10A2",
+          "school": "soc-son",
+          "result": "giai-nhat",
+          "ossPerson": "nguyen-tuan-hung"
+        },
+        {
+          "name": "Đào Ngọc Tú",
+          "class": "10A2",
+          "school": "soc-son",
+          "result": "giai-ba"
+        }
+      ]
+    }
+  ],
+  "final": {
+    "results": [
+      {
+        "name": "Lê Hồng Đăng",
+        "class": "11A1",
+        "school": "da-phuc",
+        "result": "quan-quan"
+      },
+      {
+        "name": "Dương Hoàng Minh",
+        "class": "10A1",
+        "school": "da-phuc",
+        "result": "quy-quan"
+      },
+      {
+        "name": "Nguyễn Mạnh Tiến",
+        "class": "10A1",
+        "school": "trung-gia",
+        "result": "quy-quan"
+      },
+      {
+        "name": "Nguyễn Tuấn Hùng",
+        "class": "10A2",
+        "school": "soc-son",
+        "result": "a-quan",
+        "ossPerson": "nguyen-tuan-hung"
+      }
+    ]
+  }
+}

@@ -13,20 +13,20 @@
     "slug": "ha-viet-hoang",
     "stt": 2,
     "name": "Hà Việt Hoàng",
-    "title": "Đồng sáng lập Olympia Sóc Sơn",
+    "title": "Founder Olympia Sóc Sơn",
     "headline": "Người thắp lửa cho trí tuệ Sóc Sơn",
     "quote": "Cách ghi nhớ tốt nhất chính là nắm rõ kiến thức đó.",
-    "date": null,
+    "date": "2019-12-26",
     "person": "ha-viet-hoang"
   },
   {
     "slug": "dinh-nguyen-thuong",
     "stt": 3,
     "name": "Đinh Nguyên Thương",
-    "title": "MC Olympia Sóc Sơn mùa 2–4",
+    "title": "MC Olympia Sóc Sơn mùa 2, 3, 4",
     "headline": "MC quốc dân của Olympia Sóc Sơn",
     "quote": "Bí kíp của chị chỉ có hai chữ “yêu thương” thôi!",
-    "date": null,
+    "date": "2020-03-25",
     "person": null
   },
   {
@@ -36,17 +36,57 @@
     "title": "Quán quân OSS3",
     "headline": "Cơn gió lạ của Olympia Sóc Sơn",
     "quote": "Muốn trở thành người giỏi nhất, bạn phải cố gắng để đánh bại người giỏi nhất.",
-    "date": null,
+    "date": "2021-11-09",
     "person": "tran-hai-linh"
   },
   {
     "slug": "tran-duc-hoang-long",
     "stt": 5,
     "name": "Trần Đức Hoàng Long",
-    "title": "Đồng sáng lập Olympia Sóc Sơn",
+    "title": "Co-founder Olympia Sóc Sơn",
     "headline": "Mạch DNA còn lại của Olympia Sóc Sơn",
     "quote": "OSS là đại diện cho tuổi trẻ nhiệt huyết của mình.",
-    "date": null,
+    "date": "2022-08-23",
     "person": null
+  },
+  {
+    "slug": "tran-kim-cuong",
+    "stt": 6,
+    "name": "Trần Kim Cương",
+    "title": "Á quân OSS4, MC OSS từ mùa 5 đến nay",
+    "headline": "Chàng MC điển trai của OSS",
+    "quote": "Những thế hệ sau này của ngôi nhà OSS vẫn cháy hết mình với đam mê được chinh phục đỉnh núi tri thức.",
+    "date": "2023-08-25",
+    "person": "tran-kim-cuong"
+  },
+  {
+    "slug": "nguyen-doan-hong-thai",
+    "stt": 7,
+    "name": "Nguyễn Đoàn Hồng Thái",
+    "title": "Á quân OSS5, OSS6",
+    "headline": "Bài toán nào khó, đã có Thái lo",
+    "quote": "Chông gai, đáng nhớ, tự hào.",
+    "date": "2024-09-22",
+    "person": "nguyen-doan-hong-thai"
+  },
+  {
+    "slug": "nguyen-sy-hoang",
+    "stt": 8,
+    "name": "Nguyễn Sỹ Hoàng",
+    "title": "Quý quân OSS5, OSS6",
+    "headline": "Người hùng thầm lặng của OSS",
+    "quote": "Mỗi khi nhắc đến OSS, mình lại nhớ về một gia đình đầy niềm vui và sự ấm áp.",
+    "date": "2024-09-23",
+    "person": "nguyen-sy-hoang"
+  },
+  {
+    "slug": "le-xuan-tung",
+    "stt": 9,
+    "name": "Lê Xuân Tùng",
+    "title": "Quý quân OSS4",
+    "headline": "Nhiếp ảnh gia có 1-0-2 của OSS",
+    "quote": "Bản lĩnh từ sân chơi OSS cũng giúp anh có tâm lý ổn định và vững vàng hơn.",
+    "date": "2025-08-18",
+    "person": "le-xuan-tung"
   }
 ]

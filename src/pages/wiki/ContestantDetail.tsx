@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Link, useParams } from "react-router";
 import Breadcrumb from "../../components/Breadcrumb";
-import { PiCalendarBlank, PiGraduationCap, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
+import { PiCalendarBlank, PiGraduationCap, PiNewspaper, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
 import IconLabel from "../../components/IconLabel";
 import { ScoreHeads, TiebreakNote } from "../../components/MatchTable";
 import ResultBadge from "../../components/ResultBadge";
@@ -14,6 +14,8 @@ import {
   eventShortName,
   eventTimeLabel,
   eventsOfPerson,
+  humanPath,
+  humansOfPerson,
   ossSeasonsOf,
   personProfile,
   schoolPath,
@@ -35,6 +37,7 @@ export default function ContestantDetail() {
   const { person, school, participations, titles, olympia, timeline } = profile;
   const titleText = describeTitles(titles);
   const personEvents = eventsOfPerson(person.id);
+  const humanStories = humansOfPerson(person.id);
   const olympiaYears = [...new Set(olympia.map((r) => r.year))];
   // Các trận người này thắng câu hỏi phụ (chú thích dưới bảng, đánh dấu *)
   const tiebreaks = participations.flatMap((p) =>
@@ -251,6 +254,24 @@ export default function ContestantDetail() {
                   <IconLabel icon={PiTelevisionSimple}>Tham dự Đường lên đỉnh Olympia</IconLabel>
                 </dt>
                 <dd>Năm thứ {olympiaYears.join(", ")}</dd>
+              </>
+            )}
+            {humanStories.length > 0 && (
+              <>
+                <dt>
+                  <IconLabel icon={PiNewspaper}>Human of OSS</IconLabel>
+                </dt>
+                <dd>
+                  <ul>
+                    {humanStories.map((h) => (
+                      <li key={h.slug}>
+                        <Link to={humanPath(h.slug)} className="text-oss hover:underline">
+                          Tập {h.stt}: “{h.headline}”
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
               </>
             )}
           </dl>

@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { PiMagnifyingGlass, PiXBold } from "react-icons/pi";
+import { PiMagnifyingGlass, PiNewspaper, PiXBold } from "react-icons/pi";
 import { EVENT_ICON } from "../lib/eventIcons";
 import { SEARCH_GROUP_LABEL, SEARCH_GROUP_ORDER, flattenGroups, searchAll } from "../lib/search";
 
@@ -80,8 +80,8 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
             aria-controls={`${baseId}-list`}
             aria-activedescendant={flat.length ? optionId(active) : undefined}
             aria-autocomplete="list"
-            aria-label="Tìm thí sinh, mùa giải, trường, sự kiện"
-            placeholder="Tìm thí sinh, mùa giải, trường, sự kiện"
+            aria-label="Tìm thí sinh, mùa giải, trường, sự kiện, Human of OSS"
+            placeholder="Tìm thí sinh, mùa giải, trường, sự kiện, Human of OSS"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -102,7 +102,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
 
         <div className="search-results px-2 py-3 md:px-3">
           {!q ? (
-            <p className="px-3 py-2 text-sm text-ink-soft">Gõ tên thí sinh, mùa (vd: mùa 4), tên trường hoặc sự kiện</p>
+            <p className="px-3 py-2 text-sm text-ink-soft">Gõ tên thí sinh, mùa (vd: mùa 4), tên trường, sự kiện hoặc Human of OSS</p>
           ) : !flat.length ? (
             <p className="px-3 py-2 text-sm text-ink-soft" role="status">
               Không tìm thấy “{q}”. Thử gõ ngắn hơn, ví dụ chỉ tên.
@@ -136,6 +136,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
                               const Icon = EVENT_ICON[r.eventType];
                               return <Icon className="size-[0.9em] shrink-0" aria-hidden />;
                             })()}
+                            {r.kind === "human" && <PiNewspaper className="size-[0.9em] shrink-0" aria-hidden />}
                             {r.title}
                           </span>
                           <span className="block text-sm text-ink-soft">{r.subtitle}</span>
