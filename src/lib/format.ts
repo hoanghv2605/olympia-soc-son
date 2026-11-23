@@ -43,6 +43,14 @@ export function formatScore(value: number | null | undefined) {
   return value === null || value === undefined ? "–" : String(value);
 }
 
+/**
+ * Chữ nhãn kết quả khi đứng TRONG CÂU (dòng thời gian): "Giải Nhất" → "giải Nhất", "Giải Khuyến khích" → "giải Khuyến khích".
+ * Danh hiệu (Quán quân, Á quân, Quý quân) giữ chữ hoa. Nhãn đứng riêng (ResultBadge, bảng, ⓘ) KHÔNG dùng hàm này.
+ */
+export function inSentence(label: string) {
+  return label.replace(/^Giải /, "giải ");
+}
+
 /** Điểm kiểu tiếng Việt (dấu phẩy thập phân): 62.5 → "62,5". Dùng cho sự kiện dạng mùa thi (DOC). */
 export function formatScoreVi(value: number | null | undefined) {
   return formatScore(value).replace(".", ",");

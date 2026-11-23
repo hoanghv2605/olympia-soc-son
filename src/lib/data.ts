@@ -1,7 +1,7 @@
 // Một cửa duy nhất để lấy dữ liệu. Các trang chỉ import từ đây,
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
-import { formatDate, formatSchoolYear } from "./format";
+import { formatDate, formatSchoolYear, inSentence } from "./format";
 import { hasImage, listImages } from "./images";
 import { departmentPhotoFile, eventPersonPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles } from "./photo-names";
 import { type Medal } from "./medal";
@@ -997,6 +997,7 @@ export const milestones: Milestone[] = (milestonesJson as Milestone[])
 export function toTimeline(list: Milestone[]): TimelineItem[] {
   return list.map(({ person, ...rest }) => ({
     ...rest,
+    highlight: inSentence(rest.highlight),
     personId: person && getPerson(person) ? person : undefined,
     personName: person ? personName(person) : undefined,
   }));
@@ -1005,15 +1006,15 @@ export function toTimeline(list: Milestone[]): TimelineItem[] {
 /** Ngày đưa sự kiện lên dòng thời gian hồ sơ: ngày kết thúc nếu có, không thì ngày bắt đầu. */
 const eventTimelineDate = (e: SiteEvent) => e.endDate ?? e.date;
 
-/** Dòng "{tên} giành Giải Nhất / trở thành Quán quân / tham dự" theo kết quả. */
+/** Dòng "{tên} giành giải Nhất / trở thành Quán quân / tham dự" theo kết quả (chữ trong câu: `inSentence`). */
 const EVENT_ACTION: Record<EventResult, { action?: string; highlight: string }> = {
-  "giai-nhat": { action: "giành", highlight: "Giải Nhất" },
-  "giai-nhi": { action: "giành", highlight: "Giải Nhì" },
-  "giai-ba": { action: "giành", highlight: "Giải Ba" },
-  "giai-khuyen-khich": { action: "giành", highlight: "Giải Khuyến khích" },
-  "quan-quan": { action: "trở thành", highlight: "Quán quân" },
-  "a-quan": { action: "trở thành", highlight: "Á quân" },
-  "quy-quan": { action: "trở thành", highlight: "Quý quân" },
+  "giai-nhat": { action: "giành", highlight: inSentence(EVENT_RESULT_LABEL["giai-nhat"]) },
+  "giai-nhi": { action: "giành", highlight: inSentence(EVENT_RESULT_LABEL["giai-nhi"]) },
+  "giai-ba": { action: "giành", highlight: inSentence(EVENT_RESULT_LABEL["giai-ba"]) },
+  "giai-khuyen-khich": { action: "giành", highlight: inSentence(EVENT_RESULT_LABEL["giai-khuyen-khich"]) },
+  "quan-quan": { action: "trở thành", highlight: EVENT_RESULT_LABEL["quan-quan"] },
+  "a-quan": { action: "trở thành", highlight: EVENT_RESULT_LABEL["a-quan"] },
+  "quy-quan": { action: "trở thành", highlight: EVENT_RESULT_LABEL["quy-quan"] },
   "tham-du": { highlight: "tham dự" },
   "khach-moi": { action: "là", highlight: "khách mời" },
 };

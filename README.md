@@ -113,6 +113,10 @@ Giá trị thứ hai nhỏ hơn = lấy phần cao hơn của ảnh (0% = sát m
 ### Thu nhỏ ảnh (`npm run thu-nho-anh`)
 Chỉ chạy trên macOS (dùng `sips`). `npm run thu-nho-anh -- --thu` in danh sách ảnh sẽ xử lý, không sửa file; `npm run thu-nho-anh` thu nhỏ thật (ghi đè đúng file cũ, PNG giữ PNG, bỏ qua ảnh mẫu). Không bao giờ phóng to; JPEG chất lượng 80; JPEG nặng hơn 400KB mà chưa vượt giới hạn cạnh thì chỉ nén lại.
 
+**Tự thu nhỏ khi commit:** thư mục `.githooks/` có hook `pre-commit`: mỗi lần `git commit`, ảnh được thêm / sửa trong `public/images/**` (và `public/logo-oss.png`) tự được thu nhỏ rồi đưa lại vào commit, kèm dòng "Đã thu nhỏ N ảnh (X MB → Y MB)". Không thu nhỏ được (không phải macOS, script lỗi) thì chỉ cảnh báo, vẫn commit. Bỏ qua một lần: `git commit --no-verify`.
+- Hook được bật bằng `npm run prepare` (đặt `core.hooksPath` thành `.githooks`); `npm install` tự chạy lệnh này. **Chép dự án sang máy khác thì chạy `npm run prepare` một lần.**
+- Thu nhỏ từng file bằng tay: `npm run thu-nho-anh -- public/images/a.jpg public/images/b.png` (chỉ xử lý các file đó; thêm `--thu` để chỉ xem).
+
 | Thư mục | Cạnh dài tối đa |
 | --- | --- |
 | `thi-sinh/`, `human-of-oss/`, `nhan-xet/`, `ban/` | 1200px |

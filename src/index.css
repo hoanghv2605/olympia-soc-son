@@ -736,6 +736,17 @@
   .data-table tbody tr:not([data-tone]):hover {
     @apply bg-white/60;
   }
+  /* Bảng kết quả không có cột điểm (trận giao hữu, Bán kết / Chung kết DOC): dưới 640px cột Kết quả ẩn (hiện dưới tên),
+     ô hẹp lại để vừa khung điện thoại, không cuộn ngang; chữ xuống dòng, không cắt */
+  @media (max-width: 639.98px) {
+    .data-table.is-fit th,
+    .data-table.is-fit td {
+      padding-inline: 0.5rem;
+    }
+    .data-table.is-fit .col-class {
+      width: 3.25rem;
+    }
+  }
   /* Ô số: gọn, thẳng cột (mọi cỡ màn hình) */
   .data-table .num {
     @apply px-2 text-sm tabular-nums;
@@ -811,6 +822,10 @@
     .data-table .sticky-end::before {
       left: -8px;
       background: linear-gradient(to left, rgb(31 27 46 / 0.08), transparent);
+    }
+    /* bảng vừa khung, không cuộn ngang (is-fit): không cần bóng báo cuộn (bóng nhô ra 8px làm khung cuộn được) */
+    .data-table.is-fit .sticky-start::after {
+      display: none;
     }
   }
 }

@@ -12,7 +12,8 @@
     "pretypecheck": "node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
     "typecheck": "tsc --noEmit",
     "anh-con-thieu": "node scripts/anh-con-thieu.mjs",
-    "thu-nho-anh": "node scripts/thu-nho-anh.mjs"
+    "thu-nho-anh": "node scripts/thu-nho-anh.mjs",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "react": "^19.2.7",

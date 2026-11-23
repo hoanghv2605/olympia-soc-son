@@ -93,15 +93,19 @@ function ResultLegend() {
 function MatchTableEvent({ event, list }: { event: SiteEvent; list: EventParticipant[] }) {
   return (
     <div className="mt-4 overflow-x-auto">
-      <table className="data-table min-w-[36rem]">
+      <table className="data-table is-fit sm:min-w-[36rem]">
         <thead>
           <tr>
             <th scope="col" className="sticky-start">
               Thí sinh
             </th>
-            <th scope="col">Lớp</th>
+            <th scope="col" className="col-class">
+              Lớp
+            </th>
             <th scope="col">Trường</th>
-            <th scope="col">Kết quả</th>
+            <th scope="col" className="hidden sm:table-cell">
+              Kết quả
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -118,14 +122,22 @@ function MatchTableEvent({ event, list }: { event: SiteEvent; list: EventPartici
                       name={p.name}
                       className="size-8 shrink-0 rounded-full"
                     />
-                    <div className="min-w-[7.5rem]">
+                    <div className="min-w-0 sm:min-w-[7.5rem]">
                       <ParticipantName p={p} />
+                      {/* Dưới 640px: kết quả ngay dưới tên (cột Kết quả bị ẩn bằng display:none nên chỉ đọc một lần) */}
+                      {p.result && (
+                        <div className="mt-1 sm:hidden">
+                          <ResultBadge medal={medal} size="sm">
+                            {EVENT_RESULT_LABEL[p.result]}
+                          </ResultBadge>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </td>
                 <td>{p.class ?? "–"}</td>
                 <td>{schoolOf(p) || "–"}</td>
-                <td>{p.result ? <ResultBadge medal={medal}>{EVENT_RESULT_LABEL[p.result]}</ResultBadge> : "–"}</td>
+                <td className="hidden sm:table-cell">{p.result ? <ResultBadge medal={medal}>{EVENT_RESULT_LABEL[p.result]}</ResultBadge> : "–"}</td>
               </tr>
             );
           })}

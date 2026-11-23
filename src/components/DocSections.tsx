@@ -7,15 +7,26 @@ import ResultBadge from "./ResultBadge";
 import { EVENT_RESULT_LABEL, eventParticipantPhoto, eventResultMedal, getPerson, schoolName } from "../lib/data";
 import { scrollToId, formatScoreVi } from "../lib/format";
 import { MEDAL_BADGE, MEDAL_ROW } from "../lib/medal";
-import type { DocData, DocResult, SiteEvent } from "../types";
+import type { DocData, DocResult, EventResult, SiteEvent } from "../types";
 
 /** Tên thí sinh: link hồ sơ nếu có `ossPerson` và người đó có hồ sơ OSSPEDIA, còn lại chữ thường. */
 function DocName({ p }: { p: { name: string; ossPerson?: string } }) {
   return p.ossPerson && getPerson(p.ossPerson) ? <PersonLink id={p.ossPerson} /> : <span className="font-medium">{p.name}</span>;
 }
 
+/** Dưới 640px: kết quả ngay dưới tên (cột Kết quả bị ẩn bằng display:none nên kết quả chỉ được đọc một lần). */
+function SmallResult({ result }: { result: EventResult }) {
+  return (
+    <div className="mt-1 sm:hidden">
+      <ResultBadge medal={eventResultMedal(result)} size="sm">
+        {EVENT_RESULT_LABEL[result]}
+      </ResultBadge>
+    </div>
+  );
+}
+
 /** Ô "Thí sinh": ảnh tròn nhỏ + tên; điện thoại thêm dòng "lớp - trường" (cột Lớp, Trường bị ẩn). */
-function PersonCell({ event, p }: { event: SiteEvent; p: { name: string; class: string; school: string; ossPerson?: string } }) {
+function PersonCell({ event, p }: { event: SiteEvent; p: { name: string; class: string; school: string; ossPerson?: string; result?: EventResult } }) {
   return (
     <div className="flex items-center gap-2.5">
       <PersonPhoto
@@ -25,11 +36,12 @@ function PersonCell({ event, p }: { event: SiteEvent; p: { name: string; class: 
         name={p.name}
         className="size-8 shrink-0 rounded-full"
       />
-      <div className="min-w-[7.5rem]">
+      <div className="min-w-0 sm:min-w-[7.5rem]">
         <DocName p={p} />
         <span className="block text-xs text-ink-soft md:hidden">
           {p.class} - {schoolName(p.school)}
         </span>
+        {p.result && <SmallResult result={p.result} />}
       </div>
     </div>
   );
@@ -83,7 +95,9 @@ const resultHeads = (
     <th scope="col" className="hidden md:table-cell">
       Trường
     </th>
-    <th scope="col">Kết quả</th>
+    <th scope="col" className="hidden sm:table-cell">
+      Kết quả
+    </th>
   </>
 );
 
@@ -165,7 +179,7 @@ export default function DocSections({ event, doc, award }: { event: SiteEvent; d
               <section key={m.no} id={`ban-ket-${m.no}`} className="scroll-mt-24">
                 <h3 className="h3 text-ink">Bán kết {m.no}</h3>
                 <div className="mt-4 overflow-x-auto">
-                  <table className="data-table min-w-[30rem]">
+                  <table className="data-table is-fit sm:min-w-[30rem]">
                     <thead>
                       <tr>{resultHeads}</tr>
                     </thead>
@@ -184,7 +198,7 @@ export default function DocSections({ event, doc, award }: { event: SiteEvent; d
                                   name={r.name}
                                   className={`size-8 shrink-0 rounded-full ${onDark ? "ring-2 ring-white" : ""}`}
                                 />
-                                <div className="min-w-[7.5rem]">
+                                <div className="min-w-0 sm:min-w-[7.5rem]">
                                   {r.ossPerson && getPerson(r.ossPerson) ? (
                                     <PersonLink id={r.ossPerson} className={onDark ? "font-bold !text-white decoration-white focus-visible:outline-white" : ""} />
                                   ) : (
@@ -194,12 +208,13 @@ export default function DocSections({ event, doc, award }: { event: SiteEvent; d
                                   <span className={`block text-xs md:hidden ${onDark ? "text-white/80" : "text-ink-soft"}`}>
                                     {r.class} - {schoolName(r.school)}
                                   </span>
+                                  <SmallResult result={r.result} />
                                 </div>
                               </div>
                             </td>
                             <td className="hidden md:table-cell">{r.class}</td>
                             <td className="hidden md:table-cell">{schoolName(r.school)}</td>
-                            <td className="font-semibold">{EVENT_RESULT_LABEL[r.result]}</td>
+                            <td className="hidden font-semibold sm:table-cell">{EVENT_RESULT_LABEL[r.result]}</td>
                           </tr>
                         );
                       })}
@@ -236,7 +251,7 @@ export default function DocSections({ event, doc, award }: { event: SiteEvent; d
           </div>
           <div className="mt-6">
             <div className="overflow-x-auto">
-              <table className="data-table min-w-[30rem]">
+              <table className="data-table is-fit sm:min-w-[30rem]">
                 <thead>
                   <tr>{resultHeads}</tr>
                 </thead>
@@ -250,7 +265,7 @@ export default function DocSections({ event, doc, award }: { event: SiteEvent; d
                         </td>
                         <td className="hidden md:table-cell">{r.class}</td>
                         <td className="hidden md:table-cell">{schoolName(r.school)}</td>
-                        <td>
+                        <td className="hidden sm:table-cell">
                           <ResultBadge medal={medal} size="sm">
                             {EVENT_RESULT_LABEL[r.result]}
                           </ResultBadge>

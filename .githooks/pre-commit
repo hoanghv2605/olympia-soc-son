@@ -1,0 +1,47 @@
+#!/bin/bash
+# Tự thu nhỏ ảnh được thêm / sửa trong lần commit (public/images/** và public/logo-oss.png).
+# Không chặn commit: lỗi gì cũng chỉ cảnh báo rồi thoát mã 0. Bỏ qua hook: git commit --no-verify
+# Bật hook: npm run prepare (git config core.hooksPath .githooks), tự chạy khi npm install.
+
+# Lấy tên file (đúng cả khi có dấu cách) vào danh sách các tham số
+set --
+while IFS= read -r -d '' f; do
+  case "$f" in
+    public/images/* | public/logo-oss.png)
+      case "$(printf '%s' "$f" | tr 'A-Z' 'a-z')" in
+        *.jpg | *.jpeg | *.png | *.webp) set -- "$@" "$f" ;;
+      esac
+      ;;
+  esac
+done < <(git diff --cached --name-only --diff-filter=AM -z)
+
+[ "$#" -eq 0 ] && exit 0
+
+root=$(git rev-parse --show-toplevel) || exit 0
+cd "$root" || exit 0
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "[thu nhỏ ảnh] Cảnh báo: không có node, bỏ qua thu nhỏ ảnh." >&2
+  exit 0
+fi
+
+size_total() {
+  total=0
+  for f in "$@"; do
+    [ -f "$f" ] && total=$((total + $(wc -c < "$f")))
+  done
+  echo "$total"
+}
+
+before=$(size_total "$@")
+if ! node scripts/thu-nho-anh.mjs "$@" >/dev/null 2>&1; then
+  echo "[thu nhỏ ảnh] Cảnh báo: không thu nhỏ được ảnh (script lỗi hoặc không phải macOS), vẫn commit bình thường." >&2
+  exit 0
+fi
+after=$(size_total "$@")
+
+git add -- "$@" || echo "[thu nhỏ ảnh] Cảnh báo: không git add lại được ảnh đã thu nhỏ." >&2
+
+mb() { awk -v b="$1" 'BEGIN { s = sprintf("%.1f", b / 1048576); sub(/\./, ",", s); print s }'; }
+echo "Đã thu nhỏ $# ảnh ($(mb "$before") MB → $(mb "$after") MB)"
+exit 0

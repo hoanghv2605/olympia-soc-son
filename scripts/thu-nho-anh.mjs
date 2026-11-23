@@ -1,6 +1,9 @@
 // Thu nhỏ ảnh trong public/ bằng lệnh `sips` có sẵn trên macOS (không cần thêm thư viện).
-// Chạy: npm run thu-nho-anh            (thu nhỏ thật, ghi đè đúng file cũ)
+// Chạy: npm run thu-nho-anh            (quét toàn bộ public/, thu nhỏ thật, ghi đè đúng file cũ)
 //       npm run thu-nho-anh -- --thu   (chỉ in danh sách sẽ xử lý, không sửa file)
+//       npm run thu-nho-anh -- public/images/a.jpg public/images/b.png   (chỉ xử lý các file này; --thu dùng được cả hai cách)
+// Git hook pre-commit (.githooks/pre-commit) gọi script này với đúng các ảnh được thêm / sửa trong lần commit.
+// File không nằm trong public/images/ (trừ public/logo-oss.png), không phải ảnh, không tồn tại hoặc là ảnh mẫu thì bỏ qua, không báo lỗi.
 //
 // Cạnh dài tối đa theo thư mục (không bao giờ phóng to):
 //   thi-sinh/, human-of-oss/, nhan-xet/, ban/                        1200px
@@ -11,8 +14,9 @@
 import { execFileSync } from "node:child_process";
 import { copyFileSync, mkdtempSync, rmSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { publicDir, scanImages } from "./lib/scan-images.mjs";
+import { existsSync } from "node:fs";
+import { isAbsolute, join, relative, resolve, sep } from "node:path";
+import { isSampleImage, publicDir, root, scanImages } from "./lib/scan-images.mjs";
 
 if (process.platform !== "darwin") {
   console.error("Script này chỉ chạy trên macOS (cần lệnh sips).");
@@ -41,7 +45,18 @@ function dimensions(file) {
 }
 
 const kb = (n) => `${(n / 1024).toFixed(0)}KB`;
-const files = scanImages().filter((rel) => /\.(jpe?g|png|webp)$/i.test(rel) && (rel.startsWith("images/") || rel === "logo-oss.png"));
+const isCandidate = (rel) => /\.(jpe?g|png|webp)$/i.test(rel) && (rel.startsWith("images/") || rel === "logo-oss.png");
+
+/** Đường dẫn do người dùng / hook đưa vào → đường dẫn tính từ public/ (dấu "/"); undefined nếu không hợp lệ. */
+function toRel(arg) {
+  const abs = isAbsolute(arg) ? arg : resolve(root, arg);
+  const rel = relative(publicDir, abs).split(sep).join("/");
+  if (rel.startsWith("..") || !isCandidate(rel) || !existsSync(abs) || isSampleImage(abs)) return undefined;
+  return rel;
+}
+
+const pathArgs = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+const files = pathArgs.length ? [...new Set(pathArgs.map(toRel).filter(Boolean))].sort() : scanImages().filter(isCandidate);
 
 const jobs = [];
 for (const rel of files) {
