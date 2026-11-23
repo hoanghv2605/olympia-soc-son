@@ -1,18 +1,226 @@
 {
-  "season": {
-    "season": 3,
-    "code": "DOC3",
-    "schoolYear": "2024-2025",
-    "startDate": null,
-    "finalDate": null,
-    "venue": null,
-    "hosts": [],
-    "rulesBasedOn": [],
-    "eligibility": null,
-    "notes": [],
-    "seededDraw": false
-  },
-  "people": [],
-  "qualifying": [],
-  "matches": []
+  "id": "doc3",
+  "qualifying": [
+    {
+      "rank": 1,
+      "name": "Đỗ Thị Quỳnh Ngân",
+      "class": "11A5",
+      "school": "da-phuc",
+      "score": 62.5,
+      "ossPerson": "do-thi-quynh-ngan"
+    },
+    {
+      "rank": 2,
+      "name": "Trần Minh Dĩnh",
+      "class": "11A1",
+      "school": "da-phuc",
+      "score": 50.0,
+      "ossPerson": "tran-minh-dinh"
+    },
+    {
+      "rank": 3,
+      "name": "Phùng An Phong",
+      "class": "10A3",
+      "school": "soc-son",
+      "score": 46.5,
+      "ossPerson": "phung-an-phong"
+    },
+    {
+      "rank": 4,
+      "name": "Nguyễn Trần Gia Long",
+      "class": "11A1",
+      "school": "da-phuc",
+      "score": 43.5,
+      "ossPerson": "nguyen-tran-gia-long"
+    },
+    {
+      "rank": 5,
+      "name": "Nghiêm Trung Đức",
+      "class": "10A1",
+      "school": "soc-son",
+      "score": 39.0,
+      "ossPerson": "nghiem-trung-duc"
+    },
+    {
+      "rank": 6,
+      "name": "Nguyễn Hoàng Việt",
+      "class": "11A1",
+      "school": "da-phuc",
+      "score": 37.25
+    },
+    {
+      "rank": 7,
+      "name": "Đỗ Ngô Thiện Nhân",
+      "class": "10A4",
+      "school": "soc-son",
+      "score": 35.75,
+      "ossPerson": "do-ngo-thien-nhan"
+    },
+    {
+      "rank": 8,
+      "name": "Lê Hồng Đăng",
+      "class": "10A1",
+      "school": "da-phuc",
+      "score": 34.0
+    },
+    {
+      "rank": 9,
+      "name": "Nguyễn Trần Đắc Phú",
+      "class": "10A1",
+      "school": "soc-son",
+      "score": 33.25,
+      "ossPerson": "nguyen-tran-dac-phu"
+    },
+    {
+      "rank": 10,
+      "name": "Nguyễn Chí Thành",
+      "class": "10A2",
+      "school": "soc-son",
+      "score": 32.0,
+      "ossPerson": "nguyen-chi-thanh"
+    },
+    {
+      "rank": 11,
+      "name": "Ngô Đức Mạnh",
+      "class": "11D1",
+      "school": "da-phuc",
+      "score": 32.0
+    },
+    {
+      "rank": 12,
+      "name": "Sỹ Mạnh Kiên",
+      "class": "10A1",
+      "school": "da-phuc",
+      "score": 30.0
+    }
+  ],
+  "semifinals": [
+    {
+      "no": 1,
+      "results": [
+        {
+          "name": "Phùng An Phong",
+          "class": "10A3",
+          "school": "soc-son",
+          "result": "giai-nhi",
+          "ossPerson": "phung-an-phong"
+        },
+        {
+          "name": "Sỹ Mạnh Kiên",
+          "class": "10A1",
+          "school": "da-phuc",
+          "result": "giai-ba"
+        },
+        {
+          "name": "Nguyễn Trần Gia Long",
+          "class": "11A1",
+          "school": "da-phuc",
+          "result": "giai-nhat",
+          "ossPerson": "nguyen-tran-gia-long"
+        },
+        {
+          "name": "Lê Hồng Đăng",
+          "class": "10A1",
+          "school": "da-phuc",
+          "result": "giai-ba"
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "results": [
+        {
+          "name": "Nguyễn Trần Đắc Phú",
+          "class": "10A1",
+          "school": "soc-son",
+          "result": "giai-ba",
+          "ossPerson": "nguyen-tran-dac-phu"
+        },
+        {
+          "name": "Nghiêm Trung Đức",
+          "class": "10A1",
+          "school": "soc-son",
+          "result": "giai-ba",
+          "ossPerson": "nghiem-trung-duc"
+        },
+        {
+          "name": "Đỗ Thị Quỳnh Ngân",
+          "class": "11A5",
+          "school": "da-phuc",
+          "result": "giai-nhat",
+          "ossPerson": "do-thi-quynh-ngan"
+        },
+        {
+          "name": "Ngô Đức Mạnh",
+          "class": "11D1",
+          "school": "da-phuc",
+          "result": "giai-nhi"
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "results": [
+        {
+          "name": "Đỗ Ngô Thiện Nhân",
+          "class": "10A4",
+          "school": "soc-son",
+          "result": "giai-nhi",
+          "ossPerson": "do-ngo-thien-nhan"
+        },
+        {
+          "name": "Trần Minh Dĩnh",
+          "class": "11A1",
+          "school": "da-phuc",
+          "result": "giai-ba",
+          "ossPerson": "tran-minh-dinh"
+        },
+        {
+          "name": "Nguyễn Hoàng Việt",
+          "class": "11A1",
+          "school": "da-phuc",
+          "result": "giai-ba"
+        },
+        {
+          "name": "Nguyễn Chí Thành",
+          "class": "10A2",
+          "school": "soc-son",
+          "result": "giai-nhat",
+          "ossPerson": "nguyen-chi-thanh"
+        }
+      ]
+    }
+  ],
+  "final": {
+    "results": [
+      {
+        "name": "Đỗ Thị Quỳnh Ngân",
+        "class": "11A5",
+        "school": "da-phuc",
+        "result": "quan-quan",
+        "ossPerson": "do-thi-quynh-ngan"
+      },
+      {
+        "name": "Đỗ Ngô Thiện Nhân",
+        "class": "10A4",
+        "school": "soc-son",
+        "result": "a-quan",
+        "ossPerson": "do-ngo-thien-nhan"
+      },
+      {
+        "name": "Nguyễn Trần Gia Long",
+        "class": "11A1",
+        "school": "da-phuc",
+        "result": "quy-quan",
+        "ossPerson": "nguyen-tran-gia-long"
+      },
+      {
+        "name": "Nguyễn Chí Thành",
+        "class": "10A2",
+        "school": "soc-son",
+        "result": "quy-quan",
+        "ossPerson": "nguyen-chi-thanh"
+      }
+    ]
+  }
 }

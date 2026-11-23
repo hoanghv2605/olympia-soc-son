@@ -6,7 +6,11 @@ import MilestonePhoto from "./MilestonePhoto";
 import type { TimelineItem } from "../types";
 import { asset, formatDate, yearOf } from "../lib/format";
 import { hasImage } from "../lib/images";
-import { milestonePhoto, personPath } from "../lib/data";
+import { eventPath, milestonePhoto, personPath } from "../lib/data";
+
+/** Đường dẫn ảnh của cột mốc: ảnh riêng (sự kiện: trao giải / bìa) hoặc ảnh theo ngày. */
+const photoPath = (m: TimelineItem) => m.photo ?? milestonePhoto(m.date);
+const dotClass = (m: TimelineItem) => `tl-dot${m.kind === "olympia" ? " is-olympia" : m.kind === "event" ? " is-event" : ""}`;
 
 function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
   return (
@@ -25,9 +29,26 @@ function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
             <strong className="font-semibold text-ink">{m.personName}</strong>
           ))}
         {m.action && ` ${m.action} `}
-        <strong className="font-semibold text-oss">{m.highlight}</strong>
+        {m.eventId && !m.personName ? (
+          // Trang Giới thiệu: tên sự kiện (đậm) là link tới trang sự kiện
+          <Link to={eventPath(m.eventId)} className="font-semibold text-teal hover:underline">
+            {m.highlight}
+          </Link>
+        ) : (
+          <strong className="font-semibold text-oss">{m.highlight}</strong>
+        )}
       </p>
-      {m.detail && <p className="mt-0.5 text-sm text-ink-soft">{m.detail}</p>}
+      {m.detail &&
+        (m.eventId && m.personName ? (
+          // Hồ sơ thí sinh: dòng phụ là tên sự kiện (link)
+          <p className="mt-0.5 text-sm">
+            <Link to={eventPath(m.eventId)} className="text-ink-soft hover:text-oss hover:underline">
+              {m.detail}
+            </Link>
+          </p>
+        ) : (
+          <p className="mt-0.5 text-sm text-ink-soft">{m.detail}</p>
+        ))}
       {m.note && <p className="mt-1 text-sm font-semibold text-cube-pink">{m.note}</p>}
     </>
   );
@@ -59,7 +80,7 @@ export default function Timeline({ items, compact = false }: { items: TimelineIt
     const index = new Map<number, number>();
     const images: { src: string; alt: string; caption: string }[] = [];
     items.forEach((m, i) => {
-      const src = milestonePhoto(m.date);
+      const src = photoPath(m);
       if (!hasImage(src)) return;
       index.set(i, images.length);
       images.push({ src: asset(src), alt: photoAlt(m), caption: photoCaption(m) });
@@ -75,7 +96,7 @@ export default function Timeline({ items, compact = false }: { items: TimelineIt
             <time dateTime={m.date} className="tl-date">
               {formatDate(m.date)}
             </time>
-            <span className={`tl-dot${m.kind === "olympia" ? " is-olympia" : ""}`} aria-hidden />
+            <span className={dotClass(m)} aria-hidden />
             <div className="tl-body">
               <Text m={m} linkPerson={false} />
             </div>
@@ -133,13 +154,13 @@ export default function Timeline({ items, compact = false }: { items: TimelineIt
                     </button>
                   )}
                 </div>
-                <span className={`tl-dot${m.kind === "olympia" ? " is-olympia" : ""}`} aria-hidden />
+                <span className={dotClass(m)} aria-hidden />
                 <div className="tl-body">
                   <Text m={m} linkPerson />
                 </div>
                 {photo && canHover && active === i && (
                   <span className="tl-photo" aria-hidden onClick={() => open(i)}>
-                    <MilestonePhoto src={milestonePhoto(m.date)} alt="" className="size-full" />
+                    <MilestonePhoto src={photoPath(m)} alt="" className="size-full" />
                   </span>
                 )}
               </li>

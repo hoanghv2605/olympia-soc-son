@@ -20,20 +20,44 @@ export function personPhotoFiles(data: {
   matches?: { season: number; round: string; results: { person: string; school: string; placement?: string }[] }[];
 }): PersonPhotoFile[];
 
+export interface EventEntry {
+  name: string;
+  person?: string;
+  school?: string;
+  class?: string;
+}
+
+interface EventLike {
+  id: string;
+  name: string;
+  shortName?: string;
+  photoKey?: string;
+  matches?: { participants: EventEntry[] }[];
+  participants?: EventEntry[];
+  teams?: { members?: EventEntry[] }[];
+}
+
+/** Dữ liệu file DOC (su-kien/doc3.json…). */
+export interface DocLike {
+  qualifying?: { name: string; school?: string; ossPerson?: string }[];
+  semifinals?: { results: { name: string; school?: string; ossPerson?: string }[] }[];
+  final?: { results: { name: string; school?: string; ossPerson?: string }[] };
+}
+
+export function eventEntries(event: EventLike, doc?: DocLike): EventEntry[];
+export function eventPersonPhotoFile(photoKey: string, name: string, schoolId: string, schools: { id: string; short: string }[]): string;
+
 export interface EventPhotoFile {
   /** Tên file trong public/images/thi-sinh/ */
   file: string;
   personId?: string;
   kind: "event";
   eventId: string;
-  participant: number;
+  name: string;
   label: string;
 }
 
-export function eventPhotoFiles(
-  events: { id: string; name: string; shortName?: string; photoKey?: string; participants?: { name: string; person?: string; school?: string }[] }[],
-  schools: { id: string; short: string }[],
-): EventPhotoFile[];
+export function eventPhotoFiles(events: EventLike[], schools: { id: string; short: string }[], docs?: Record<string, DocLike>): EventPhotoFile[];
 
 export function findDuplicateFiles<T extends { file: string }>(list: T[]): [T, T][];
 export function humanPhotoFile(stt: number): string;

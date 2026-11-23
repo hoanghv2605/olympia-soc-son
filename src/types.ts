@@ -94,9 +94,14 @@ export interface Milestone {
 }
 
 /** Cột mốc đã đổi mã thí sinh thành tên, dùng để hiển thị. */
-export interface TimelineItem extends Omit<Milestone, "person"> {
+export interface TimelineItem extends Omit<Milestone, "person" | "kind"> {
+  kind: MilestoneKind | "event"; // "event" = sự kiện khác (tự đưa vào từ events.json)
   personId?: string;
   personName?: string;
+  /** Sự kiện khác: mã sự kiện để làm link (trang Giới thiệu: tên sự kiện; hồ sơ: dòng phụ) */
+  eventId?: string;
+  /** Đường dẫn ảnh (từ public/) thay cho ảnh cột mốc theo ngày (sự kiện: ảnh trao giải hoặc ảnh bìa) */
+  photo?: string;
 }
 
 export type StatIcon = "trophy" | "people" | "podium" | "laurel" | "tv";
@@ -179,7 +184,19 @@ export interface Partner {
 
 export type EventType = "rung-chuong-vang" | "toa-dam" | "giao-luu" | "dac-biet" | "cuoc-thi";
 export type EventRole = "to-chuc" | "dong-to-chuc" | "tham-gia";
-export type EventFormat = "xep-hang" | "nguoi-choi" | "mua-thi";
+export type EventFormat = "xep-hang" | "doi" | "nguoi-choi" | "mua-thi";
+
+/** Kết quả ở sự kiện khác. Màu: Nhất / Quán quân vàng, Nhì / Á quân bạc, Ba / Quý quân đồng; còn lại không tô màu. */
+export type EventResult =
+  | "giai-nhat"
+  | "giai-nhi"
+  | "giai-ba"
+  | "giai-khuyen-khich"
+  | "quan-quan"
+  | "a-quan"
+  | "quy-quan"
+  | "tham-du"
+  | "khach-moi";
 
 export interface EventParticipant {
   name: string;
@@ -187,8 +204,26 @@ export interface EventParticipant {
   class?: string;
   school?: string; // School.id
   schoolName?: string; // trường ngoài schools.json, chỉ hiện chữ
-  rank?: number; // 1 Giải Nhất, 2 Giải Nhì, 3 Giải Ba
+  result?: EventResult;
   note?: string;
+}
+
+/** Một trận của sự kiện dạng "xep-hang"; `participants` theo vị trí đứng. */
+export interface EventMatch {
+  title: string; // "Trận 1"
+  participants: EventParticipant[];
+}
+
+/** Một đội (sự kiện dạng "doi"). */
+export interface EventTeam {
+  name: string;
+  result: EventResult;
+  members?: EventParticipant[];
+}
+
+export interface EventAwardPhoto {
+  src: string; // đường dẫn từ images/, vd "tran-dau/rcv2024-ck.jpg"
+  caption: string;
 }
 
 export interface SiteEvent {
@@ -196,51 +231,54 @@ export interface SiteEvent {
   stt: number;
   name: string;
   shortName?: string;
-  aka?: string;
+  aka?: string; // tên khác, vd "GNDN 2024"
   type: EventType;
   year: number;
   schoolYear: string | null; // "2023-2024"
-  date: string | null; // YYYY-MM-DD
-  scope: string | null;
-  organizer: string | null;
+  date: string | null; // YYYY-MM-DD, ngày bắt đầu
+  endDate?: string; // ngày kết thúc
+  scope?: string | null;
+  organizer?: string | null;
   role: EventRole | null;
+  occasion?: string; // dòng "Sự kiện" trong khung thông tin
+  hosts?: string[]; // dẫn chương trình
+  winner?: { label: string; name: string; person?: string };
   intro: string | null; // markdown
   format: EventFormat | null;
   photoKey?: string;
   photoLabel?: string;
   sectionTitle?: string;
-  participantLabel?: string;
+  awardPhoto?: EventAwardPhoto;
+  matches?: EventMatch[];
+  teams?: EventTeam[];
   participants?: EventParticipant[];
+  dataFile?: string; // dạng "mua-thi": file dữ liệu trong src/data (vd "su-kien/doc3.json")
 }
 
-// ===== DAPHUC Olympia Championship 3 (src/data/su-kien/doc3.json): cùng hình dạng dữ liệu OSS, tách riêng khỏi thống kê OSS =====
+// ===== Sự kiện dạng mùa thi (src/data/su-kien/doc3.json, doc4.json): tách riêng khỏi thống kê OSS =====
 
-export interface Doc3Person {
-  id: string; // mã trong doc3.json (qualifying / matches trỏ tới mã này)
+export interface DocQualifying {
+  rank: number;
   name: string;
+  class: string;
   school: string; // School.id
+  score: number;
   ossPerson?: string; // mã hồ sơ OSSPEDIA nếu người này cũng thi OSS
 }
 
-export interface Doc3Season {
-  season: number;
-  code: string;
-  schoolYear: string;
-  startDate: string | null;
-  finalDate: string | null;
-  venue: string | null;
-  hosts: string[];
-  rulesBasedOn: number[];
-  eligibility: string | null;
-  notes: string[];
-  seededDraw: boolean;
+export interface DocResult {
+  name: string;
+  class: string;
+  school: string;
+  result: EventResult;
+  ossPerson?: string;
 }
 
-export interface Doc3Data {
-  season: Doc3Season;
-  people: Doc3Person[];
-  qualifying: QualifyingEntry[];
-  matches: Match[];
+export interface DocData {
+  id: string;
+  qualifying: DocQualifying[];
+  semifinals: { no: number; results: DocResult[] }[]; // results theo vị trí đứng
+  final: { results: DocResult[] };
 }
 
 /**

@@ -13,7 +13,9 @@ import {
   eventPath,
   eventShortName,
   eventTimeLabel,
+  eventResultMedal,
   eventsOfPerson,
+  personEventText,
   humanPath,
   humansOfPerson,
   ossSeasonsOf,
@@ -180,7 +182,10 @@ export default function ContestantDetail() {
                     </tr>
                   </thead>
                   <tbody>
-                    {personEvents.map(({ event, result, plain }) => (
+                    {personEvents.map((pe) => {
+                      const { event, result } = pe;
+                      const medal = eventResultMedal(result);
+                      return (
                       <tr key={event.id}>
                         <td>
                           <Link to={eventPath(event.id)} className="font-semibold text-oss hover:underline">
@@ -189,10 +194,11 @@ export default function ContestantDetail() {
                         </td>
                         <td className="tabular-nums">{eventTimeLabel(event, { short: true })}</td>
                         <td>
-                          {result ? <ResultBadge medal={result.medal}>{result.label}</ResultBadge> : (plain ?? "—")}
+                          {medal ? <ResultBadge medal={medal}>{personEventText(pe)}</ResultBadge> : personEventText(pe)}
                         </td>
                       </tr>
-                    ))}
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

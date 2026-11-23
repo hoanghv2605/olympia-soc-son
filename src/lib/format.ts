@@ -43,6 +43,11 @@ export function formatScore(value: number | null | undefined) {
   return value === null || value === undefined ? "–" : String(value);
 }
 
+/** Điểm kiểu tiếng Việt (dấu phẩy thập phân): 62.5 → "62,5". Dùng cho sự kiện dạng mùa thi (DOC). */
+export function formatScoreVi(value: number | null | undefined) {
+  return formatScore(value).replace(".", ",");
+}
+
 /** Chữ viết tắt: chữ cái đầu của 2 từ cuối trong họ tên. "Chu Đức Huy" → "ĐH". */
 export function initials(fullName: string) {
   return fullName

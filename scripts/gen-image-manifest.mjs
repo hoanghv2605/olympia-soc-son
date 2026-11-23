@@ -11,9 +11,9 @@
 import { mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { eventPhotoFiles, findDuplicateFiles, findDuplicateStt, personPhotoFiles } from "../src/lib/photo-names.js";
+import { read, readEventDocs } from "./lib/read-data.mjs";
 import { publicDir, root, scanImages } from "./lib/scan-images.mjs";
 
-const read = (name) => JSON.parse(readFileSync(join(root, "src", "data", `${name}.json`), "utf8"));
 
 const errors = [];
 const photoFiles = personPhotoFiles({
@@ -26,7 +26,8 @@ const photoFiles = personPhotoFiles({
 for (const [a, b] of findDuplicateFiles(photoFiles)) {
   errors.push(`Trùng tên file ảnh thí sinh "${a.file}":\n    - ${a.label} (${a.personId})\n    - ${b.label} (${b.personId})`);
 }
-for (const [a, b] of findDuplicateFiles([...photoFiles, ...eventPhotoFiles(read("events"), read("schools"))])) {
+const events = read("events");
+for (const [a, b] of findDuplicateFiles([...photoFiles, ...eventPhotoFiles(events, read("schools"), readEventDocs(events))])) {
   if (photoFiles.includes(a) && photoFiles.includes(b)) continue; // đã báo ở trên
   errors.push(`Trùng tên file ảnh người chơi sự kiện "${a.file}":\n    - ${a.label}\n    - ${b.label}`);
 }

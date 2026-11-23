@@ -1,135 +1,720 @@
 [
   {
-    "id": "rcv2023",
+    "id": "gapnhau2023",
     "stt": 1,
+    "name": "Gặp nhau đầu năm 2023 – The Rassembler",
+    "aka": "GNDN 2023",
+    "type": "giao-luu",
+    "year": 2023,
+    "date": "2023-01-18",
+    "schoolYear": "2022-2023",
+    "scope": "THPT Sóc Sơn, THPT Đa Phúc",
+    "role": "dong-to-chuc",
+    "hosts": [
+      "Nguyễn Sỹ Hoàng",
+      "Ngô Thị Thanh Lan"
+    ],
+    "intro": "**Gặp nhau đầu năm 2023 – The Rassembler** là sự kiện giao lưu kiến thức được phối hợp tổ chức bởi hai câu lạc bộ **Olympia Sóc Sơn (OSS)** và **Da Phuc Olympian Spirit (DPOS)**. Chương trình nhằm tạo cơ hội cho học sinh hai trường THPT Sóc Sơn và THPT Đa Phúc giao lưu, học hỏi, thử sức với các trận đấu mô phỏng chương trình Đường lên đỉnh Olympia, đồng thời tăng cường sự gắn kết và trao đổi kinh nghiệm tổ chức giữa hai câu lạc bộ nhân dịp đầu xuân năm mới.\n\nSự kiện gồm hai trận đấu giao hữu theo thể thức của Đường lên đỉnh Olympia năm thứ 23, với sự tham gia của 8 thí sinh được lựa chọn từ hai câu lạc bộ. Mỗi trận đấu có bốn thí sinh tranh tài, gồm hai đại diện của OSS và hai đại diện của DPOS.",
+    "format": "xep-hang",
+    "photoKey": "gndn23",
+    "photoLabel": "GNDN '23",
+    "matches": [
+      {
+        "title": "Trận 1",
+        "participants": [
+          {
+            "name": "Dương Việt Bách",
+            "class": "10A2",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Mầu Tuấn Kiệt",
+            "class": "10A1",
+            "person": "mau-tuan-kiet",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Ngô Quỳnh Anh",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Lê Quang Hưng",
+            "class": "10A1",
+            "person": "le-quang-hung",
+            "school": "soc-son",
+            "result": "giai-ba"
+          }
+        ]
+      },
+      {
+        "title": "Trận 2",
+        "participants": [
+          {
+            "name": "Đồng Công Vinh",
+            "class": "10A5",
+            "school": "da-phuc",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Đỗ Nguyễn Việt Anh",
+            "class": "10D1",
+            "school": "soc-son",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Đỗ Thị Quỳnh Hương",
+            "class": "10A5",
+            "person": "do-thi-quynh-huong",
+            "school": "da-phuc",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Lê Trà My",
+            "class": "10A1",
+            "person": "le-tra-my",
+            "school": "soc-son",
+            "result": "giai-ba"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rcv2023",
+    "stt": 2,
     "name": "Rung chuông vàng 2023",
+    "aka": "RCV 2023",
     "type": "rung-chuong-vang",
     "year": 2023,
-    "schoolYear": null,
-    "date": null,
+    "date": "2023-03-04",
+    "schoolYear": "2022-2023",
     "scope": "THPT Sóc Sơn",
-    "organizer": null,
-    "role": null,
-    "intro": null,
-    "format": null
+    "role": "to-chuc",
+    "hosts": [
+      "Trần Kim Cương",
+      "Ngô Thị Thanh Lan"
+    ],
+    "winner": {
+      "label": "Quán quân",
+      "name": "Lê Trà My",
+      "person": "le-tra-my"
+    },
+    "intro": "**Rung chuông vàng 2023** là cuộc thi kiến thức dành cho học sinh Trường THPT Sóc Sơn, với sự tham gia của 25 thí sinh đến từ các lớp trong trường. Cuộc thi được tổ chức theo hình thức thi đấu cá nhân, với luật chơi tương tự chương trình truyền hình *Rung Chuông Vàng* của Đài Truyền hình Việt Nam (VTV).\n\nCác thí sinh lần lượt trả lời những câu hỏi thuộc nhiều lĩnh vực kiến thức, cạnh tranh để trở thành người cuối cùng còn lại trên sàn đấu và giành danh hiệu Quán quân.\n\nKết thúc cuộc thi, **Lê Trà My (lớp 10A1)** đã xuất sắc giành chức Quán quân Rung chuông vàng 2023 của Trường THPT Sóc Sơn.",
+    "format": null,
+    "awardPhoto": {
+      "src": "tran-dau/rcv2023-ck.jpg",
+      "caption": "Trao giải Quán quân Rung chuông vàng 2023"
+    },
+    "participants": [
+      {
+        "name": "Lê Trà My",
+        "person": "le-tra-my",
+        "class": "10A1",
+        "school": "soc-son",
+        "result": "quan-quan"
+      },
+      {
+        "name": "Lê Đức Cường",
+        "person": "le-duc-cuong",
+        "school": "soc-son",
+        "result": "tham-du"
+      },
+      {
+        "name": "Lê Quang Hưng",
+        "person": "le-quang-hung",
+        "school": "soc-son",
+        "result": "tham-du"
+      },
+      {
+        "name": "Mầu Tuấn Kiệt",
+        "person": "mau-tuan-kiet",
+        "school": "soc-son",
+        "result": "tham-du"
+      },
+      {
+        "name": "Nguyễn Hà Bảo Lâm",
+        "person": "nguyen-ha-bao-lam",
+        "school": "soc-son",
+        "result": "tham-du"
+      }
+    ]
   },
   {
     "id": "truyenlua2023",
-    "stt": 2,
+    "stt": 3,
     "name": "Truyền lửa Olympia 2023",
     "type": "toa-dam",
     "year": 2023,
-    "schoolYear": "2023-2024",
-    "date": null,
+    "date": "2023-05-22",
+    "schoolYear": "2022-2023",
     "scope": "THPT Sóc Sơn, THPT Liên Hà, THPT Vân Nội",
-    "organizer": null,
-    "role": null,
-    "intro": "Sự kiện giao lưu, chia sẻ kinh nghiệm tổ chức Olympia giữa ba trường THPT Sóc Sơn, THPT Liên Hà và THPT Vân Nội, kèm một trận đấu giao hữu giữa bốn thí sinh của ba trường.",
+    "role": "to-chuc",
+    "hosts": [
+      "Trần Kim Cương",
+      "Ngô Thị Thanh Lan"
+    ],
+    "winner": {
+      "label": "Người chiến thắng",
+      "name": "Lê Trà My",
+      "person": "le-tra-my"
+    },
+    "intro": "**Tọa đàm Truyền lửa Olympia 2023** là sự kiện do trường THPT Sóc Sơn phối hợp với Olympia Sóc Sơn tổ chức, với mục tiêu giao lưu, trao đổi và chia sẻ kinh nghiệm tổ chức các cuộc thi theo mô hình Đường lên đỉnh Olympia giữa ba trường THPT Sóc Sơn, THPT Liên Hà và THPT Vân Nội. Bên cạnh hoạt động tọa đàm, chương trình còn tổ chức một trận đấu giao hữu với sự tham gia của bốn thí sinh đại diện cho ba trường.",
     "format": "xep-hang",
     "photoKey": "truyenlua2023",
     "photoLabel": "Truyền lửa",
-    "sectionTitle": "Trận đấu giao hữu",
-    "participants": [
-      { "name": "Lê Trà My", "person": "le-tra-my", "class": "10A1", "school": "soc-son", "rank": 1 },
-      { "name": "Đào Thu Huyền", "class": "11A1.2", "schoolName": "THPT Liên Hà", "rank": 2 },
-      { "name": "Nguyễn Đức Hiệp", "class": "11C", "schoolName": "THPT Vân Nội", "rank": 3 },
-      { "name": "Mầu Tuấn Kiệt", "person": "mau-tuan-kiet", "class": "10A1", "school": "soc-son", "rank": 3 }
+    "awardPhoto": {
+      "src": "tran-dau/truyenlua2023-ck.jpg",
+      "caption": "Trao giải trận đấu giao hữu Truyền lửa Olympia 2023"
+    },
+    "matches": [
+      {
+        "title": "Trận đấu giao hữu",
+        "participants": [
+          {
+            "name": "Lê Trà My",
+            "person": "le-tra-my",
+            "class": "10A1",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Đào Thu Huyền",
+            "class": "11A1.2",
+            "schoolName": "THPT Liên Hà",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Nguyễn Đức Hiệp",
+            "class": "11C",
+            "schoolName": "THPT Vân Nội",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Mầu Tuấn Kiệt",
+            "person": "mau-tuan-kiet",
+            "class": "10A1",
+            "school": "soc-son",
+            "result": "giai-ba"
+          }
+        ]
+      }
     ]
   },
   {
     "id": "gapnhau2024",
-    "stt": 3,
+    "stt": 4,
     "name": "Gặp nhau đầu năm 2024",
+    "aka": "GNDN 2024",
     "type": "giao-luu",
     "year": 2024,
-    "schoolYear": null,
-    "date": null,
+    "date": "2024-02-18",
+    "schoolYear": "2023-2024",
     "scope": "THPT Sóc Sơn, THPT Đa Phúc",
-    "organizer": null,
-    "role": null,
-    "intro": null,
-    "format": null
+    "role": "dong-to-chuc",
+    "hosts": [
+      "Trần Kim Cương",
+      "Tạ Trường Sơn",
+      "Nguyễn Hoàng Tùng",
+      "Ngô Thị Thanh Lan",
+      "Lê Trà My"
+    ],
+    "intro": "**Gặp nhau đầu năm 2024** là sự kiện giao lưu kiến thức được phối hợp tổ chức bởi hai câu lạc bộ **Olympia Sóc Sơn (OSS)** và **Da Phuc Olympian Spirit (DPOS)**. Chương trình nhằm tạo cơ hội cho học sinh hai trường THPT Sóc Sơn và THPT Đa Phúc giao lưu, học hỏi, thử sức với các trận đấu mô phỏng chương trình Đường lên đỉnh Olympia, đồng thời tăng cường sự gắn kết và trao đổi kinh nghiệm tổ chức giữa hai câu lạc bộ nhân dịp đầu xuân năm mới.\n\nSự kiện gồm ba trận đấu giao hữu theo thể thức của Đường lên đỉnh Olympia năm thứ 24, với sự tham gia của 12 thí sinh được lựa chọn từ hai câu lạc bộ. Mỗi trận đấu có bốn thí sinh tranh tài, gồm hai đại diện của OSS và hai đại diện của DPOS.",
+    "format": "xep-hang",
+    "photoKey": "gndn24",
+    "photoLabel": "GNDN '24",
+    "matches": [
+      {
+        "title": "Trận 1",
+        "participants": [
+          {
+            "name": "Ngô Đức Mạnh",
+            "class": "10D1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Nguyễn Minh Chính",
+            "class": "10D6",
+            "person": "nguyen-minh-chinh",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Nguyễn Hữu Phú An",
+            "class": "10D1",
+            "person": "nguyen-huu-phu-an",
+            "school": "soc-son",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Nguyễn Phương Linh",
+            "class": "10D1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          }
+        ]
+      },
+      {
+        "title": "Trận 2",
+        "participants": [
+          {
+            "name": "Nguyễn Thị Ngọc Ánh",
+            "class": "10A1",
+            "person": "nguyen-thi-ngoc-anh-soc23",
+            "school": "soc-son",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Đỗ Thị Quỳnh Ngân",
+            "class": "10A5",
+            "person": "do-thi-quynh-ngan",
+            "school": "da-phuc",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Dương Thùy Trang",
+            "class": "10A4",
+            "school": "soc-son",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Trần Minh Dĩnh",
+            "class": "10A1",
+            "person": "tran-minh-dinh",
+            "school": "da-phuc",
+            "result": "giai-nhat"
+          }
+        ]
+      },
+      {
+        "title": "Trận 3",
+        "participants": [
+          {
+            "name": "Nguyễn Trần Gia Long",
+            "class": "10A1",
+            "person": "nguyen-tran-gia-long",
+            "school": "da-phuc",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Nguyễn Thị Huyền Diệu",
+            "class": "10D1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Lê Quang Huy",
+            "class": "10A4",
+            "person": "le-quang-huy",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Đinh Thị Thanh Thủy",
+            "class": "10A1",
+            "school": "soc-son",
+            "result": "giai-ba"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "rcv2024",
-    "stt": 4,
+    "stt": 5,
     "name": "Rung chuông vàng 2024",
+    "aka": "RCV 2024",
     "type": "rung-chuong-vang",
     "year": 2024,
-    "schoolYear": null,
-    "date": null,
+    "date": "2024-05-19",
+    "endDate": "2024-05-25",
+    "schoolYear": "2023-2024",
     "scope": "THPT Sóc Sơn",
-    "organizer": null,
-    "role": null,
-    "intro": null,
-    "format": null
+    "role": "to-chuc",
+    "hosts": [
+      "Nguyễn Hoàng Tùng",
+      "Lê Trà My"
+    ],
+    "intro": "**Rung chuông vàng 2024** là cuộc thi kiến thức dành cho học sinh khối 10 và khối 11 Trường THPT Sóc Sơn, được tổ chức theo hình thức thi đấu đồng đội, với mỗi đội gồm ba thành viên đến từ cùng một lớp. Cuộc thi gồm hai vòng bảng dành riêng cho từng khối nhằm lựa chọn sáu đội xuất sắc nhất tham dự vòng Chung kết.\n\nThể thức thi đấu được xây dựng dựa trên chương trình truyền hình *Rung Chuông Vàng* của Đài Truyền hình Việt Nam (VTV), kết hợp giữa khả năng trả lời câu hỏi cá nhân và thành tích tập thể. Các thí sinh trải qua ba vòng thi với tổng cộng 45 câu hỏi, có độ khó tăng dần, cùng cơ chế cứu trợ dành cho các thí sinh đã bị loại. Thành tích của mỗi đội được xác định dựa trên số lượng thành viên còn lại trên sàn đấu qua từng câu hỏi. Các đội có thành tích tốt nhất tiếp tục tranh tài ở phần thi Câu hỏi cuối cùng để xác định thứ hạng chung cuộc.",
+    "format": "doi",
+    "sectionTitle": "Chung kết",
+    "photoKey": "rcv2024",
+    "photoLabel": "RCV 2024",
+    "awardPhoto": {
+      "src": "tran-dau/rcv2024-ck.jpg",
+      "caption": "Trao giải Quán quân Rung chuông vàng 2024"
+    },
+    "teams": [
+      {
+        "name": "MÈO CAM",
+        "result": "giai-nhat"
+      },
+      {
+        "name": "AE NÔNG TRẠI",
+        "result": "giai-nhi"
+      },
+      {
+        "name": "THE VICTORIAN CROSS",
+        "result": "giai-ba"
+      },
+      {
+        "name": "THE NEVER SETTING SUN",
+        "result": "giai-khuyen-khich",
+        "members": [
+          {
+            "name": "Nguyễn Thị Ngọc Ánh",
+            "person": "nguyen-thi-ngoc-anh-soc23",
+            "school": "soc-son"
+          }
+        ]
+      },
+      {
+        "name": "THIÊN HÀ TINH ANH",
+        "result": "giai-khuyen-khich"
+      },
+      {
+        "name": "A1028",
+        "result": "giai-khuyen-khich",
+        "members": [
+          {
+            "name": "Nguyễn Đức Minh",
+            "person": "nguyen-duc-minh",
+            "school": "soc-son"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "allstars2024",
-    "stt": 5,
+    "stt": 6,
     "name": "AllStars 2024",
     "type": "dac-biet",
     "year": 2024,
-    "schoolYear": null,
-    "date": null,
-    "scope": null,
-    "organizer": null,
-    "role": null,
-    "intro": "Tiết mục showmatch đặc biệt nhân kỉ niệm 40 năm thành lập THPT Sóc Sơn, với bốn người chơi.",
+    "date": "2024-11-16",
+    "schoolYear": "2024-2025",
+    "scope": "THPT Sóc Sơn",
+    "role": "to-chuc",
+    "occasion": "Kỉ niệm 40 năm thành lập trường THPT Sóc Sơn",
+    "hosts": [
+      "Trần Kim Cương",
+      "Đinh Nguyên Thương"
+    ],
+    "intro": "**AllStars 2024** là trận đấu giao hữu đặc biệt do Olympia Sóc Sơn tổ chức, nằm trong khuôn khổ chương trình kỷ niệm 40 năm thành lập Trường THPT Sóc Sơn. Trận đấu quy tụ những gương mặt tiêu biểu từng góp phần tạo nên thành công và dấu ấn của OSS qua các mùa giải.",
     "format": "nguoi-choi",
     "photoKey": "allstars",
     "photoLabel": "AllStars",
-    "participantLabel": "Khách mời",
+    "awardPhoto": {
+      "src": "tran-dau/allstars2024-ck.jpg",
+      "caption": "Trao giải AllStars 2024"
+    },
     "participants": [
-      { "name": "Hà Việt Hoàng", "person": "ha-viet-hoang", "school": "soc-son", "note": "Quý quân Đường lên đỉnh Olympia năm thứ 17" },
-      { "name": "Chu Đức Huy", "person": "chu-duc-huy", "school": "soc-son", "note": "Quán quân OSS1, OSS2" },
-      { "name": "Nguyễn Việt Thành", "person": "nguyen-viet-thanh", "school": "soc-son", "note": "Quán quân OSS5, OSS6" },
-      { "name": "Lê Trà My", "person": "le-tra-my", "school": "soc-son", "note": "Quán quân OSS7" }
+      {
+        "name": "Hà Việt Hoàng",
+        "person": "ha-viet-hoang",
+        "school": "soc-son",
+        "note": "Quý quân Đường lên đỉnh Olympia năm thứ 17",
+        "result": "khach-moi"
+      },
+      {
+        "name": "Chu Đức Huy",
+        "person": "chu-duc-huy",
+        "school": "soc-son",
+        "note": "Quán quân OSS1, OSS2",
+        "result": "khach-moi"
+      },
+      {
+        "name": "Nguyễn Việt Thành",
+        "person": "nguyen-viet-thanh",
+        "school": "soc-son",
+        "note": "Quán quân OSS5, OSS6",
+        "result": "khach-moi"
+      },
+      {
+        "name": "Lê Trà My",
+        "person": "le-tra-my",
+        "school": "soc-son",
+        "note": "Quán quân OSS7",
+        "result": "khach-moi"
+      }
     ]
   },
   {
     "id": "doc3",
-    "stt": 6,
+    "stt": 7,
     "name": "DAPHUC Olympia Championship 3",
     "shortName": "DOC3",
+    "aka": "DOC3",
     "type": "cuoc-thi",
     "year": 2024,
+    "date": "2024-11-24",
+    "endDate": "2024-12-08",
     "schoolYear": "2024-2025",
-    "date": null,
     "scope": null,
-    "organizer": "THPT Đa Phúc",
-    "role": null,
-    "intro": "Cuộc thi có thể thức tương tự Olympia Sóc Sơn do THPT Đa Phúc tổ chức trong năm học 2024–2025, có các thí sinh lớp 10 của THPT Sóc Sơn tham gia.",
+    "organizer": "THPT Đa Phúc, Da Phuc Olympian Spirit",
+    "role": "tham-gia",
+    "intro": "**DAPHUC Olympia Championship mùa 3**, thường được gọi tắt là **DOC3**, là mùa giải thứ ba của cuộc thi DAPHUC Olympia Championship, cuộc thi kiến thức dành cho học sinh Trung học Phổ thông do trường THPT Đa Phúc phối hợp với Da Phuc Olympian Spirit tổ chức. Cuộc thi bắt đầu từ vòng loại ngày 24/11/2024 và trận Chung kết diễn ra ngày 08/12/2024 tại Trường ĐH Thủ đô Hà Nội – cơ sở 2.\n\nĐối tượng tham gia là toàn bộ học sinh khối 10 và 11 đang theo học tại trường THPT Đa Phúc và học sinh khối 10 đang theo học tại các trường THPT công lập trên địa bàn huyện Sóc Sơn cũ năm học 2024 - 2025.\n\nQuán quân của DOC3 là Đỗ Thị Quỳnh Ngân, học sinh lớp 11A5 trường THPT Đa Phúc. Á quân là Đỗ Ngô Thiện Nhân (lớp 10A4, THPT Sóc Sơn). Quý quân là Nguyễn Chí Thành (lớp 10A2, THPT Sóc Sơn) và Nguyễn Trần Gia Long (lớp 11A1, THPT Đa Phúc).",
     "format": "mua-thi",
+    "dataFile": "su-kien/doc3.json",
     "photoKey": "doc3",
-    "photoLabel": "DOC3"
+    "photoLabel": "DOC3",
+    "awardPhoto": {
+      "src": "tran-dau/doc3-ck.jpg",
+      "caption": "Trao giải Quán quân DOC3"
+    }
   },
   {
     "id": "gapnhau2025",
-    "stt": 7,
-    "name": "Gặp nhau đầu năm 2025: Tân Niên",
+    "stt": 8,
+    "name": "Gặp nhau đầu năm 2025: TÂN NIÊN",
+    "aka": "GNDN 2025",
     "type": "giao-luu",
     "year": 2025,
-    "schoolYear": null,
-    "date": null,
+    "date": "2025-02-09",
+    "schoolYear": "2024-2025",
     "scope": "THPT Sóc Sơn, THPT Đa Phúc",
-    "organizer": null,
-    "role": null,
-    "intro": null,
-    "format": null
+    "role": "dong-to-chuc",
+    "intro": "**Gặp nhau đầu năm 2025: TÂN NIÊN** là sự kiện giao lưu kiến thức được phối hợp tổ chức bởi hai câu lạc bộ **Olympia Sóc Sơn (OSS)** và **Da Phuc Olympian Spirit (DPOS)**. Chương trình nhằm tạo cơ hội cho học sinh hai trường THPT Sóc Sơn và THPT Đa Phúc giao lưu, học hỏi, thử sức với các trận đấu mô phỏng chương trình Đường lên đỉnh Olympia, đồng thời tăng cường sự gắn kết và trao đổi kinh nghiệm tổ chức giữa hai câu lạc bộ nhân dịp đầu xuân năm mới.\n\nSự kiện gồm ba trận đấu giao hữu theo thể thức của Đường lên đỉnh Olympia năm thứ 25, với sự tham gia của 12 thí sinh được lựa chọn từ hai câu lạc bộ. Mỗi trận đấu có bốn thí sinh tranh tài, gồm hai đại diện của OSS và hai đại diện của DPOS.",
+    "format": "xep-hang",
+    "photoKey": "gndn25",
+    "photoLabel": "GNDN '25",
+    "matches": [
+      {
+        "title": "Trận 1",
+        "participants": [
+          {
+            "name": "Nguyễn Tiến Đạt",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Phùng An Phong",
+            "class": "10A3",
+            "person": "phung-an-phong",
+            "school": "soc-son",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Nguyễn Chí Thành",
+            "class": "10A2",
+            "person": "nguyen-chi-thanh",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Lê Hồng Đăng",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          }
+        ]
+      },
+      {
+        "title": "Trận 2",
+        "participants": [
+          {
+            "name": "Nguyễn Thu Phương",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Trần Minh Hiếu",
+            "class": "10A1",
+            "school": "soc-son",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Nguyễn Quang Dũng",
+            "class": "10A1",
+            "school": "soc-son",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Nguyễn Duy Minh",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          }
+        ]
+      },
+      {
+        "title": "Trận 3",
+        "participants": [
+          {
+            "name": "Nghiêm Trung Đức",
+            "class": "10A1",
+            "person": "nghiem-trung-duc",
+            "school": "soc-son",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Lê Hoàng An",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Đỗ Ngô Thiện Nhân",
+            "class": "10A4",
+            "person": "do-ngo-thien-nhan",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Sỹ Mạnh Kiên",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "doc4",
+    "stt": 9,
+    "name": "DAPHUC Olympia Championship 4",
+    "shortName": "DOC4",
+    "aka": "DOC4",
+    "type": "cuoc-thi",
+    "year": 2025,
+    "date": "2025-11-23",
+    "endDate": "2025-12-07",
+    "schoolYear": "2025-2026",
+    "scope": null,
+    "organizer": "THPT Đa Phúc, Da Phuc Olympian Spirit",
+    "role": "tham-gia",
+    "intro": "**DAPHUC Olympia Championship mùa 4**, thường được gọi tắt là **DOC4**, là mùa giải thứ tư của cuộc thi DAPHUC Olympia Championship, cuộc thi kiến thức dành cho học sinh Trung học Phổ thông do trường THPT Đa Phúc phối hợp với Da Phuc Olympian Spirit tổ chức. Cuộc thi bắt đầu từ vòng loại ngày 23/11/2025 và trận Chung kết diễn ra ngày 07/12/2025 tại Trường THPT Đa Phúc.\n\nĐối tượng tham gia là toàn bộ học sinh khối 10 và 11 đang theo học tại trường THPT Đa Phúc và học sinh khối 10 đang theo học tại các trường THPT công lập trên địa bàn huyện Sóc Sơn cũ năm học 2025 - 2026.\n\nQuán quân của DOC4 là Lê Hồng Đăng, học sinh lớp 11A1 trường THPT Đa Phúc. Á quân là Nguyễn Tuấn Hùng (lớp 10A2, THPT Sóc Sơn). Quý quân là Nguyễn Mạnh Tiến (lớp 10A1, THPT Trung Giã) và Dương Hoàng Minh (lớp 10A1, THPT Đa Phúc).",
+    "format": "mua-thi",
+    "dataFile": "su-kien/doc4.json",
+    "photoKey": "doc4",
+    "photoLabel": "DOC4",
+    "awardPhoto": {
+      "src": "tran-dau/doc4-ck.jpg",
+      "caption": "Trao giải Quán quân DOC4"
+    }
   },
   {
     "id": "gapnhau2026",
-    "stt": 8,
+    "stt": 10,
     "name": "Gặp nhau đầu năm 2026",
+    "aka": "GNDN 2026",
     "type": "giao-luu",
     "year": 2026,
-    "schoolYear": null,
-    "date": null,
+    "date": "2026-03-01",
+    "schoolYear": "2025-2026",
     "scope": "THPT Sóc Sơn, THPT Đa Phúc",
-    "organizer": null,
-    "role": null,
-    "intro": null,
-    "format": null
+    "role": "dong-to-chuc",
+    "hosts": [
+      "Trần Kim Cương",
+      "Nguyễn Diệu Vy",
+      "Nguyễn Minh Chính"
+    ],
+    "intro": "**Gặp nhau đầu năm 2026** là sự kiện giao lưu kiến thức được phối hợp tổ chức bởi hai câu lạc bộ **Olympia Sóc Sơn (OSS)** và **Da Phuc Olympian Spirit (DPOS)**. Chương trình nhằm tạo cơ hội cho học sinh hai trường THPT Sóc Sơn và THPT Đa Phúc giao lưu, học hỏi, thử sức với các trận đấu mô phỏng chương trình Đường lên đỉnh Olympia, đồng thời tăng cường sự gắn kết và trao đổi kinh nghiệm tổ chức giữa hai câu lạc bộ nhân dịp đầu xuân năm mới.\n\nSự kiện gồm ba trận đấu giao hữu theo thể thức của Đường lên đỉnh Olympia năm thứ 26, với sự tham gia của 12 thí sinh được lựa chọn từ hai câu lạc bộ. Mỗi trận đấu có bốn thí sinh tranh tài, gồm hai đại diện của OSS và hai đại diện của DPOS.",
+    "format": "xep-hang",
+    "photoKey": "gndn26",
+    "photoLabel": "GNDN '26",
+    "matches": [
+      {
+        "title": "Trận 1",
+        "participants": [
+          {
+            "name": "Dương Hoàng Minh",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Nguyễn Thanh Phong",
+            "class": "10A5",
+            "person": "nguyen-thanh-phong",
+            "school": "soc-son",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Trần Đức Mạnh",
+            "class": "10A7",
+            "person": "tran-duc-manh",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Võ Danh Sơn",
+            "class": "10A1",
+            "person": "vo-danh-son",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          }
+        ]
+      },
+      {
+        "title": "Trận 2",
+        "participants": [
+          {
+            "name": "Nguyễn Phúc Nguyên",
+            "class": "10A1",
+            "person": "nguyen-phuc-nguyen",
+            "school": "soc-son",
+            "result": "giai-nhat"
+          },
+          {
+            "name": "Đỗ Thị Minh Tâm",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Lê Minh An",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Ngô Hương Giang",
+            "class": "10A2",
+            "person": "ngo-huong-giang",
+            "school": "soc-son",
+            "result": "giai-nhi"
+          }
+        ]
+      },
+      {
+        "title": "Trận 3",
+        "participants": [
+          {
+            "name": "Phạm Ngô Bảo Minh",
+            "class": "10A5",
+            "person": "pham-ngo-bao-minh",
+            "school": "soc-son",
+            "result": "giai-nhi"
+          },
+          {
+            "name": "Nguyễn Tuấn Hùng",
+            "class": "10A2",
+            "person": "nguyen-tuan-hung",
+            "school": "soc-son",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Nguyễn Xuân Nhi",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-ba"
+          },
+          {
+            "name": "Nguyễn Đức Việt",
+            "class": "10A1",
+            "school": "da-phuc",
+            "result": "giai-nhat"
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -85,24 +85,57 @@ export function personPhotoFiles({ people, qualifying, olympia, schools, matches
 }
 
 /**
- * Ảnh người chơi tại sự kiện: thi-sinh/{photoKey}-{slug họ tên}-{mã trường}.jpg, chỉ cho người chơi có `school`
- * thuộc schools.json (trường ngoài thì không có ảnh theo quy ước). `participant` = vị trí trong `participants`.
+ * Mọi người tham gia một sự kiện (mỗi người một lần), gom từ: `matches[].participants`, `participants`,
+ * `teams[].members` và (sự kiện dạng mùa thi) vòng loại / bán kết / chung kết của file dữ liệu `doc`.
+ * Mỗi phần tử: { name, person?, school?, ... } với `person` = mã trong people.json (`ossPerson` ở file DOC).
  */
-export function eventPhotoFiles(events, schools) {
+export function eventEntries(event, doc) {
+  const raw = [];
+  for (const m of event.matches ?? []) raw.push(...m.participants);
+  raw.push(...(event.participants ?? []));
+  for (const t of event.teams ?? []) raw.push(...(t.members ?? []));
+  if (doc) {
+    raw.push(...(doc.qualifying ?? []));
+    for (const m of doc.semifinals ?? []) raw.push(...m.results);
+    raw.push(...(doc.final?.results ?? []));
+  }
+  const seen = new Set();
+  const list = [];
+  for (const p of raw) {
+    const entry = { ...p, person: p.person ?? p.ossPerson };
+    const key = `${entry.name}|${entry.school ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    list.push(entry);
+  }
+  return list;
+}
+
+/** Tên file ảnh một người tại sự kiện: {photoKey}-{slug họ tên}-{mã trường}.jpg (trong public/images/thi-sinh/). */
+export function eventPersonPhotoFile(photoKey, name, schoolId, schools) {
+  return `${photoKey}-${slugify(name)}-${schoolCode(schools, schoolId)}.jpg`;
+}
+
+/**
+ * Ảnh người chơi tại sự kiện: thi-sinh/{photoKey}-{slug họ tên}-{mã trường}.jpg, chỉ cho người có `school`
+ * thuộc schools.json (trường ngoài thì không có ảnh theo quy ước). `docs` = { [id sự kiện]: dữ liệu DOC }.
+ * `personId` có khi người đó có trong people.json (do nơi gọi lọc); người ngoài OSS không có `personId`.
+ */
+export function eventPhotoFiles(events, schools, docs = {}) {
   const list = [];
   for (const e of events) {
     if (!e.photoKey) continue;
-    (e.participants ?? []).forEach((p, index) => {
-      if (!p.school || !schools.some((s) => s.id === p.school)) return;
+    for (const p of eventEntries(e, docs[e.id])) {
+      if (!p.school || !schools.some((s) => s.id === p.school)) continue;
       list.push({
-        file: `${e.photoKey}-${slugify(p.name)}-${schoolCode(schools, p.school)}.jpg`,
+        file: eventPersonPhotoFile(e.photoKey, p.name, p.school, schools),
         personId: p.person,
         kind: "event",
         eventId: e.id,
-        participant: index,
+        name: p.name,
         label: `${p.name} · ${e.shortName ?? e.name}`,
       });
-    });
+    }
   }
   return list;
 }

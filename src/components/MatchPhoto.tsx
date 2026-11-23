@@ -1,8 +1,5 @@
-import { useState } from "react";
-import Lightbox from "./Lightbox";
-import Photo from "./Photo";
+import AwardPhoto from "./AwardPhoto";
 import { matchPhoto } from "../lib/data";
-import { asset } from "../lib/format";
 import type { Match } from "../types";
 
 /**
@@ -11,22 +8,5 @@ import type { Match } from "../types";
  * để không để lại khoảng cách thừa.
  */
 export default function MatchPhoto({ match, caption }: { match: Match; caption: string }) {
-  const [zoom, setZoom] = useState(false);
-  const src = matchPhoto(match.id);
-  if (!src) return null;
-
-  return (
-    <figure className="mx-auto w-full max-w-[720px]">
-      <button
-        type="button"
-        onClick={() => setZoom(true)}
-        aria-label={`Phóng to ảnh: ${caption}`}
-        className="block w-full cursor-zoom-in overflow-hidden rounded-2xl"
-      >
-        <Photo src={src} alt={caption} className="aspect-[3/2] w-full" />
-      </button>
-      <figcaption className="mt-2 text-center text-sm text-ink-soft italic">{caption}</figcaption>
-      <Lightbox open={zoom} onClose={() => setZoom(false)} images={[{ src: asset(src), alt: caption }]} />
-    </figure>
-  );
+  return <AwardPhoto src={matchPhoto(match.id)} caption={caption} />;
 }

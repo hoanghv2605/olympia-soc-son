@@ -1,12 +1,10 @@
 // Liệt kê ảnh còn thiếu theo từng nhóm. Chỉ đọc, không sửa file nào.
 // Chạy: npm run anh-con-thieu
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { HUMAN_SLOTS, departmentPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles } from "../src/lib/photo-names.js";
-import { root, scanImages } from "./lib/scan-images.mjs";
+import { read, readEventDocs } from "./lib/read-data.mjs";
+import { scanImages } from "./lib/scan-images.mjs";
 
 const have = new Set(scanImages());
-const read = (name) => JSON.parse(readFileSync(join(root, "src", "data", `${name}.json`), "utf8"));
 
 const site = read("site");
 const people = read("people");
@@ -53,10 +51,17 @@ group(
   `Ảnh bìa sự kiện (${events.length})`,
   events.map((e) => ({ label: e.shortName ?? e.name, options: [`images/bia/${e.id}-bia.jpg`] })),
 );
-const eventPlayers = eventPhotoFiles(events, schools);
+// Các nhóm sự kiện tự tính từ dữ liệu: mọi cặp (sự kiện có photoKey, người tham gia có trong people.json)
+const peopleIds = new Set(people.map((p) => p.id));
+const eventPlayers = eventPhotoFiles(events, schools, readEventDocs(events)).filter((f) => f.personId && peopleIds.has(f.personId));
 group(
   `Người chơi tại sự kiện (${eventPlayers.length})`,
   eventPlayers.map((f) => ({ label: f.label, options: [`images/thi-sinh/${f.file}`] })),
+);
+const awards = events.filter((e) => e.awardPhoto);
+group(
+  `Ảnh trao giải sự kiện (${awards.length})`,
+  awards.map((e) => ({ label: `${e.shortName ?? e.name}: ${e.awardPhoto.caption}`, options: [`images/${e.awardPhoto.src}`] })),
 );
 
 // 2. Trận đấu

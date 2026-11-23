@@ -15,6 +15,7 @@
   --color-charcoal: #29272c; /* nền "giấy đen" */
   --color-cube-blue: #3d7bf2;
   --color-cube-pink: #e0457b;
+  --color-teal: #0f766e; /* cột mốc "Sự kiện khác" */
 
   /* Huy chương: nền nhạt / viền-điểm nhấn / chữ */
   --color-gold-bg: #fbf1c7;
@@ -276,6 +277,9 @@
   }
   .tl-dot.is-olympia {
     background: var(--color-cube-pink);
+  }
+  .tl-dot.is-event {
+    background: var(--color-teal);
   }
   .tl-date {
     grid-column: 2;
