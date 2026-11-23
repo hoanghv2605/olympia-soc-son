@@ -1,175 +1,150 @@
 [
   {
     "id": "vang-1",
-    "draft": true,
     "name": "Đối tác Vàng 1",
     "url": "",
     "tier": "vang"
   },
   {
     "id": "vang-2",
-    "draft": true,
     "name": "Đối tác Vàng 2",
     "url": "",
     "tier": "vang"
   },
   {
     "id": "vang-3",
-    "draft": true,
     "name": "Đối tác Vàng 3",
     "url": "",
     "tier": "vang"
   },
   {
     "id": "vang-4",
-    "draft": true,
     "name": "Đối tác Vàng 4",
     "url": "",
     "tier": "vang"
   },
   {
     "id": "vang-5",
-    "draft": true,
     "name": "Đối tác Vàng 5",
     "url": "",
     "tier": "vang"
   },
   {
     "id": "bac-1",
-    "draft": true,
     "name": "Đối tác Bạc 1",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-2",
-    "draft": true,
     "name": "Đối tác Bạc 2",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-3",
-    "draft": true,
     "name": "Đối tác Bạc 3",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-4",
-    "draft": true,
     "name": "Đối tác Bạc 4",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-5",
-    "draft": true,
     "name": "Đối tác Bạc 5",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-6",
-    "draft": true,
     "name": "Đối tác Bạc 6",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-7",
-    "draft": true,
     "name": "Đối tác Bạc 7",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-8",
-    "draft": true,
     "name": "Đối tác Bạc 8",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-9",
-    "draft": true,
     "name": "Đối tác Bạc 9",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "bac-10",
-    "draft": true,
     "name": "Đối tác Bạc 10",
     "url": "",
     "tier": "bac"
   },
   {
     "id": "dong-hanh-1",
-    "draft": true,
     "name": "Đối tác đồng hành 1",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-2",
-    "draft": true,
     "name": "Đối tác đồng hành 2",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-3",
-    "draft": true,
     "name": "Đối tác đồng hành 3",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-4",
-    "draft": true,
     "name": "Đối tác đồng hành 4",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-5",
-    "draft": true,
     "name": "Đối tác đồng hành 5",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-6",
-    "draft": true,
     "name": "Đối tác đồng hành 6",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-7",
-    "draft": true,
     "name": "Đối tác đồng hành 7",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-8",
-    "draft": true,
     "name": "Đối tác đồng hành 8",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-9",
-    "draft": true,
     "name": "Đối tác đồng hành 9",
     "url": "",
     "tier": "dong-hanh"
   },
   {
     "id": "dong-hanh-10",
-    "draft": true,
     "name": "Đối tác đồng hành 10",
     "url": "",
     "tier": "dong-hanh"

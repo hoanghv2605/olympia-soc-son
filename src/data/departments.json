@@ -3,22 +3,62 @@
     "id": "to-chuc",
     "name": "Ban Tổ chức",
     "icon": "compass",
-    "leader": null,
+    "leaderTitle": "Anh",
+    "leader": "Nguyễn Việt Thành",
+    "leaderPerson": "nguyen-viet-thanh",
     "duties": [
-      "Điều phối chung hoạt động của Olympia Sóc Sơn: lên kế hoạch cho từng mùa thi và sự kiện, phân công và kết nối công việc giữa các ban."
+      "Xây dựng kế hoạch, điều phối và giám sát toàn bộ hoạt động của cuộc thi.",
+      "Quản lý nhân sự, phân công nhiệm vụ và phối hợp giữa các ban.",
+      "Làm việc với Ban Giám hiệu, nhà trường, đối tác và xử lý các vấn đề phát sinh."
     ]
   },
   {
     "id": "chuyen-mon",
     "name": "Ban Chuyên môn",
     "icon": "book",
-    "leader": null,
+    "leaderTitle": "Anh",
+    "leader": "Nghiêm Trung Đức",
+    "leaderPerson": "nghiem-trung-duc",
     "duties": [
-      "Xây dựng ngân hàng câu hỏi cho các vòng thi của Olympia Sóc Sơn.",
-      "Training thí sinh lớp 11 chuẩn bị cho chương trình Đường lên đỉnh Olympia cũng như các thí sinh lớp 10 tiềm năng khác."
+      "Xây dựng, biên soạn, thẩm định và quản lý ngân hàng câu hỏi.",
+      "Điều hành nội dung chuyên môn, chấm điểm và giải quyết khiếu nại liên quan đến câu hỏi, đáp án."
     ]
   },
-  { "id": "ki-thuat", "name": "Ban Kĩ thuật", "icon": "gear", "leader": null, "duties": [] },
-  { "id": "truyen-thong", "name": "Ban Truyền thông", "icon": "megaphone", "leader": null, "duties": [] },
-  { "id": "hau-can", "name": "Ban Hậu cần", "icon": "people", "leader": null, "duties": [] }
+  {
+    "id": "ki-thuat",
+    "name": "Ban Kĩ thuật",
+    "icon": "gear",
+    "leaderTitle": "Anh",
+    "leader": "Mầu Tuấn Kiệt",
+    "leaderPerson": "mau-tuan-kiet",
+    "duties": [
+      "Thiết lập, vận hành và kiểm soát hệ thống kỹ thuật phục vụ thi đấu.",
+      "Quản lý phần mềm, trình chiếu, âm thanh, ánh sáng, thiết bị ghi hình và hệ thống tính điểm.",
+      "Kiểm thử hệ thống, giám sát vận hành và xử lý sự cố kỹ thuật trong cuộc thi."
+    ]
+  },
+  {
+    "id": "truyen-thong",
+    "name": "Ban Truyền thông",
+    "icon": "megaphone",
+    "leaderTitle": "Chị",
+    "leader": "Nguyễn Thu Hà",
+    "duties": [
+      "Xây dựng kế hoạch truyền thông, quản lý các kênh thông tin và hình ảnh OSS.",
+      "Thiết kế ấn phẩm, sản xuất nội dung, chụp ảnh, quay phim và đưa tin về cuộc thi.",
+      "Quảng bá cuộc thi, kết nối cộng đồng thí sinh, cựu thí sinh và khán giả."
+    ]
+  },
+  {
+    "id": "hau-can",
+    "name": "Ban Hậu cần",
+    "icon": "people",
+    "leaderTitle": "Chị",
+    "leader": "Lê Thị Duyên",
+    "duties": [
+      "Chuẩn bị địa điểm, cơ sở vật chất, trang thiết bị và vật dụng phục vụ cuộc thi.",
+      "Phụ trách đón tiếp, hướng dẫn thí sinh, khách mời và hỗ trợ công tác tổ chức tại hiện trường.",
+      "Quản lý vật tư, quà tặng, giải thưởng, ăn uống và các nhu cầu hậu cần khác."
+    ]
+  }
 ]

@@ -54,11 +54,11 @@ export function initials(fullName: string) {
     .join("");
 }
 
-const ORDINALS = ["nhất", "hai", "ba", "tư", "năm", "sáu", "bảy", "tám", "chín", "mười"];
+const ORDINALS = ["", "hai", "ba", "tư", "năm", "sáu", "bảy", "tám", "chín", "mười"];
 
-/** 1 → "thứ nhất", 4 → "thứ tư", 10 → "thứ mười", 11 → "thứ 11". */
+/** 1 → "đầu tiên", 2 → "thứ hai", 4 → "thứ tư", 10 → "thứ mười", 11 → "thứ 11". */
 export function seasonOrdinal(n: number) {
-  return `thứ ${ORDINALS[n - 1] ?? n}`;
+  return n === 1 ? "đầu tiên" : `thứ ${ORDINALS[n - 1] ?? n}`;
 }
 
 /** Cuộn mượt tới phần tử theo id (không dùng href="#..." vì web dùng HashRouter). */

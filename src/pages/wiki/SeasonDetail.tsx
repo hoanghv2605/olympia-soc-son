@@ -120,8 +120,9 @@ export default function SeasonDetail() {
         <div className="grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_18rem]">
           <div className="min-w-0 space-y-5 text-[17px] leading-relaxed">
             <p>
-              <strong>Olympia Sóc Sơn mùa {n}</strong>, thường được gọi tắt là <strong>{code}</strong>, là năm{" "}
-              {seasonOrdinal(n)} cuộc thi Olympia Sóc Sơn dành cho học sinh THPT tại Sóc Sơn. Cuộc thi bắt đầu từ vòng loại ngày{" "}
+              <strong>Olympia Sóc Sơn mùa {n}</strong>, thường được gọi tắt là <strong>{code}</strong>, là mùa giải{" "}
+              {seasonOrdinal(n)} của cuộc thi Olympia Sóc Sơn, cuộc thi kiến thức dành cho học sinh Trung học Phổ thông do trường THPT
+              Sóc Sơn phối hợp với Olympia Sóc Sơn tổ chức. Cuộc thi bắt đầu từ vòng loại ngày{" "}
               {formatDate(season.startDate)} và trận Chung kết diễn ra ngày {formatDate(season.finalDate)} tại {season.venue}.
             </p>
             <p>

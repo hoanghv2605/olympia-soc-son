@@ -42,13 +42,7 @@ function Tile({ p, tile, clone }: { p: Partner; tile: string; clone: boolean }) 
   ) : (
     <span className="px-3 text-center text-sm font-semibold text-ink-soft">{p.name}</span>
   );
-  // Mục nháp (chỉ thấy khi chạy npm run dev): viền nét đứt + nhãn "Nháp"
-  const cls = `relative grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-white ${tile} ${p.draft ? "border-dashed" : ""}`;
-  const draftTag = p.draft && (
-    <span aria-hidden className="absolute top-1.5 left-1.5 rounded-full bg-oss px-2 py-0.5 text-[10px] font-semibold text-white">
-      Nháp
-    </span>
-  );
+  const cls = `relative grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-white ${tile}`;
   return (
     <li className="mr-4 shrink-0" aria-hidden={clone || undefined}>
       {p.url ? (
@@ -60,12 +54,10 @@ function Tile({ p, tile, clone }: { p: Partner; tile: string; clone: boolean }) 
           className={`${cls} transition-colors hover:border-oss`}
         >
           {inner}
-          {draftTag}
         </a>
       ) : (
         <span className={cls}>
           {inner}
-          {draftTag}
         </span>
       )}
     </li>

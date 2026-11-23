@@ -3,7 +3,8 @@ import { PiBookOpenTextBold, PiCompassBold, PiGearSixBold, PiMegaphoneBold, PiUs
 import IconLabel from "./IconLabel";
 import Logo from "./Logo";
 import Photo from "./Photo";
-import { departmentPhoto, departments } from "../lib/data";
+import { Link } from "react-router";
+import { departmentPhoto, departments, getPerson, personPath } from "../lib/data";
 import { prefersReducedMotion, useInViewOnce, useMediaQuery } from "../lib/hooks";
 import type { Department } from "../types";
 
@@ -246,7 +247,14 @@ export default function OrgDiagram() {
                 <p className="mt-2 text-[15px] text-ink">
                   <IconLabel icon={PiUserCircle}>
                     <span>
-                      Trưởng ban: <strong className="font-semibold">{active.leader}</strong>
+                      Trưởng ban: {active.leaderTitle ? `${active.leaderTitle} ` : ""}
+                      {active.leaderPerson && getPerson(active.leaderPerson) ? (
+                        <Link to={personPath(active.leaderPerson)} className="font-semibold text-oss hover:underline">
+                          {active.leader}
+                        </Link>
+                      ) : (
+                        <strong className="font-semibold">{active.leader}</strong>
+                      )}
                     </span>
                   </IconLabel>
                 </p>

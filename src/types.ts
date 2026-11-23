@@ -125,7 +125,9 @@ export interface Department {
   id: string;
   name: string;
   icon: "compass" | "book" | "gear" | "megaphone" | "people";
+  leaderTitle?: string; // "Anh" / "Chị"
   leader: string | null; // Trưởng ban (null / rỗng = ẩn dòng "Trưởng ban")
+  leaderPerson?: string; // id hồ sơ OSSPEDIA (tuỳ chọn)
   duties: string[];
 }
 
@@ -156,8 +158,6 @@ export interface HumanStory {
 /** Nhận xét trên trang chủ. Ảnh: public/images/nhan-xet/<id>.jpg. Chỉ đăng khi người đó đồng ý. */
 export interface Testimonial {
   id: string;
-  /** true = nội dung mẫu: bản build không hiện; `npm run dev` vẫn hiện (viền nét đứt + nhãn "Nháp") */
-  draft?: boolean;
   name: string; // gồm cả cách xưng hô, vd "Chị Nguyễn Văn A"
   role?: string; // vai trò với Olympia Sóc Sơn
   position?: string; // chức danh hiện tại
@@ -170,8 +170,6 @@ export type PartnerTier = "vang" | "bac" | "dong-hanh";
 /** Đối tác đồng hành. Logo: public/images/doi-tac/<id>.svg hoặc .png. Chỉ đăng khi đơn vị đồng ý. */
 export interface Partner {
   id: string;
-  /** true = nội dung mẫu: bản build không hiện; `npm run dev` vẫn hiện (viền nét đứt + nhãn "Nháp") */
-  draft?: boolean;
   name: string;
   url: string; // "" = không có link
   tier: PartnerTier;
