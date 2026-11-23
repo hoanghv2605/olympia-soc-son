@@ -147,7 +147,7 @@ export default function Testimonials() {
       onKeyDown={onKeyDown}
     >
       <div
-        className={`testimonial-stage grid touch-pan-y rounded-3xl border bg-white/60 px-5 py-8 md:px-10 md:py-10 border-oss/10`}
+        className={`testimonial-stage grid touch-pan-y rounded-3xl border border-white/10 bg-white/95 px-5 py-8 md:px-10 md:py-10`}
         aria-live={running ? "off" : "polite"}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
@@ -181,7 +181,7 @@ export default function Testimonials() {
                 <span
                   aria-hidden
                   className={`block h-2.5 rounded-full transition-all duration-300 motion-reduce:transition-none ${
-                    i === index ? "w-7 bg-oss" : "w-2.5 bg-ink/20 hover:bg-ink/35"
+                    i === index ? "w-7 bg-white" : "w-2.5 bg-white/35 hover:bg-white/60"
                   }`}
                 />
               </button>
@@ -192,7 +192,7 @@ export default function Testimonials() {
               type="button"
               onClick={() => setPaused((p) => !p)}
               aria-label={paused ? "Tiếp tục tự chuyển" : "Tạm dừng tự chuyển"}
-              className="grid size-9 place-items-center rounded-full border border-oss/25 text-oss hover:border-oss hover:bg-oss-soft"
+              className="grid size-9 place-items-center rounded-full border border-white/40 text-white hover:border-white hover:bg-white/10"
             >
               {paused ? <PiPlay className="size-4" aria-hidden /> : <PiPause className="size-4" aria-hidden />}
             </button>

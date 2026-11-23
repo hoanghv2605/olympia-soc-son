@@ -16,7 +16,7 @@ export default function EventList() {
         description="Các sự kiện Olympia Sóc Sơn tổ chức, phối hợp tổ chức hoặc tham gia ngoài các mùa thi."
       />
       <section className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {events.map((e) => (
             <li key={e.id} className="flex">
               <EventCard event={e} />

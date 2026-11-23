@@ -5,6 +5,7 @@ import HeroTiles from "../components/HeroTiles";
 import HomeEntrances from "../components/HomeEntrances";
 import LatestSeason from "../components/LatestSeason";
 import MapSection from "../components/MapSection";
+import Section from "../components/Section";
 import Partners from "../components/Partners";
 import Testimonials from "../components/Testimonials";
 import { finalPhoto, heroSeason, partners, seasonPath, site, testimonials } from "../lib/data";
@@ -140,19 +141,19 @@ export default function HomePage() {
 
       {/* ===== Cảm nhận về Olympia Sóc Sơn ===== */}
       {testimonials.length > 0 && (
-        <section aria-labelledby="cam-nhan" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
-          <h2 id="cam-nhan" className="section-title">
+        <Section tone="dark" labelledBy="cam-nhan">
+          <h2 id="cam-nhan" className="h2">
             Cảm nhận về Olympia Sóc Sơn
           </h2>
           <div className="mt-8">
             <Testimonials />
           </div>
-        </section>
+        </Section>
       )}
 
       {/* ===== Đối tác đồng hành ===== */}
       {partners.length > 0 && (
-        <section aria-labelledby="doi-tac" className="section mx-auto max-w-6xl px-5 pt-0 md:pt-0">
+        <Section labelledBy="doi-tac" className="!pt-12 md:!pt-16">
           <h2 id="doi-tac" className="section-title">
             Đối tác đồng hành
           </h2>
@@ -160,7 +161,7 @@ export default function HomePage() {
           <div className="mt-8">
             <Partners />
           </div>
-        </section>
+        </Section>
       )}
 
       {/* ===== Bản đồ ===== */}
