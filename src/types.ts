@@ -96,7 +96,9 @@ export interface Milestone {
 
 /** Cột mốc đã đổi mã thí sinh thành tên, dùng để hiển thị. */
 export interface TimelineItem extends Omit<Milestone, "person" | "kind"> {
-  kind: MilestoneKind | "event"; // "event" = sự kiện khác (tự đưa vào từ events.json)
+  kind: MilestoneKind | "event" | "round"; // "event" = sự kiện khác (events.json, chấm xanh); "round" = vòng thi OSS (chấm tím)
+  /** Thứ tự khi cùng ngày: vòng loại 0 → bán kết 1 → chung kết 2 → còn lại 3 (mặc định) */
+  order?: number;
   personId?: string;
   personName?: string;
   /** Dòng sự kiện ở hồ sơ thí sinh: mã sự kiện để làm link ở dòng phụ */
@@ -168,15 +170,16 @@ export interface Testimonial {
   quote: string; // nhiều đoạn ngăn bằng "\n\n"
 }
 
-/** Hạng đối tác: Vàng, Bạc, Đồng hành (đổi hạng = đổi `tier`, và đổi tên file logo theo `id` mới). */
-export type PartnerTier = "vang" | "bac" | "dong-hanh";
+/** Nhóm đơn vị đồng hành (thứ tự hiển thị: phối hợp tổ chức → tài trợ → đồng hành). */
+export type PartnerGroup = "phoi-hop" | "tai-tro" | "dong-hanh";
 
-/** Đối tác đồng hành. Logo: public/images/doi-tac/<id>.svg hoặc .png. Chỉ đăng khi đơn vị đồng ý. */
+/** Đơn vị đồng hành. Logo: public/images/doi-tac/<id>.svg hoặc .png. Chỉ đăng khi đơn vị đồng ý. */
 export interface Partner {
-  id: string;
+  id: string; // vd "tai-tro-1"; tên file logo = id
+  group: PartnerGroup;
   name: string;
-  url: string; // "" = không có link
-  tier: PartnerTier;
+  role?: string; // dòng chữ nhỏ dưới logo, vd "Bảo trợ truyền thông"
+  url?: string; // có thì logo là link mở tab mới
 }
 
 // ===== Sự kiện khác (src/data/events.json) =====

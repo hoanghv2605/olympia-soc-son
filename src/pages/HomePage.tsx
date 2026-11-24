@@ -151,13 +151,13 @@ export default function HomePage() {
         </Section>
       )}
 
-      {/* ===== Đối tác đồng hành ===== */}
+      {/* ===== Đồng hành cùng Olympia Sóc Sơn ===== */}
       {partners.length > 0 && (
         <Section labelledBy="doi-tac" className="!pt-12 md:!pt-16">
           <h2 id="doi-tac" className="section-title">
-            Đối tác đồng hành
+            Đồng hành cùng Olympia Sóc Sơn
           </h2>
-          <p className="mt-2 text-ink-soft">Cảm ơn các đơn vị đã đồng hành cùng Olympia Sóc Sơn.</p>
+          <p className="mt-2 text-ink-soft">{partners.length} đơn vị đã đồng hành cùng Olympia Sóc Sơn.</p>
           <div className="mt-8">
             <Partners />
           </div>

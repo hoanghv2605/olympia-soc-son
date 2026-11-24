@@ -1136,33 +1136,6 @@
   transform: none;
 }
 
-/* ===== Trang chủ: đối tác đồng hành (hàng logo trôi ngang, 2 hàng ngược chiều) ===== */
-.marquee {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee var(--marquee-duration, 40s) linear infinite;
-}
-.marquee.is-reverse .marquee-track {
-  animation-direction: reverse;
-}
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
-}
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .tl-photo {
     animation: none;
@@ -1197,9 +1170,6 @@
   .did-you-know,
   .testimonial-slide {
     transition: none;
-  }
-  .marquee-track {
-    animation: none;
   }
   .entry-card,
   .entry-card:hover,

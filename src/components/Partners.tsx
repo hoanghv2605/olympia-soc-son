@@ -1,152 +1,55 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import { partnerLogoCandidates, partners } from "../lib/data";
+import { partnerGroups, partnerLogoCandidates } from "../lib/data";
 import { asset } from "../lib/format";
-import { prefersReducedMotion } from "../lib/hooks";
 import { pickImage } from "../lib/images";
-import type { Partner, PartnerTier } from "../types";
+import type { Partner, PartnerGroup } from "../types";
 
 /**
- * 3 hạng đối tác, từ trên xuống: Vàng → Bạc → Đồng hành. Mỗi hàng trôi ngang, chiều xen kẽ
- * (Vàng sang trái, Bạc sang phải, Đồng hành sang trái); Vàng chậm hơn (20px/giây, 2 hàng kia 30px/giây).
- * `tile` = cỡ ô + viền (máy tính / điện thoại); chuỗi class viết đầy đủ để Tailwind nhận ra.
+ * 3 nhóm, từ trên xuống: phối hợp tổ chức (ô lớn nhất) → nhà tài trợ (vừa) → đồng hành (nhỏ hơn).
+ * Logo đứng yên, căn giữa, xuống dòng khi hẹp. `box` = cỡ ô logo (điện thoại / máy tính); chuỗi class viết đầy đủ để Tailwind nhận ra.
+ * Điện thoại: nhóm 1 hai ô một hàng, nhóm 2 và 3 ba ô một hàng.
  */
-const TIERS: { tier: PartnerTier; label: string; speed: number; reverse: boolean; tile: string }[] = [
-  {
-    tier: "vang",
-    label: "Đối tác Vàng",
-    speed: 20,
-    reverse: false,
-    tile: "h-[110px] w-[176px] md:h-[150px] md:w-[240px] border-2 border-gold shadow-[0_6px_18px_-8px_rgba(201,162,39,0.55)]",
-  },
-  {
-    tier: "bac",
-    label: "Đối tác Bạc",
-    speed: 30,
-    reverse: true,
-    tile: "h-[88px] w-[136px] md:h-[112px] md:w-[176px] border-[1.5px] border-silver",
-  },
-  {
-    tier: "dong-hanh",
-    label: "Đối tác đồng hành",
-    speed: 30,
-    reverse: false,
-    tile: "h-[76px] w-[120px] md:h-24 md:w-[152px] border border-oss/30",
-  },
-];
+const BOX: Record<PartnerGroup, { width: string; height: string }> = {
+  "phoi-hop": { width: "w-[calc((100%-0.75rem)/2)] md:w-[240px]", height: "h-[110px] md:h-[150px]" },
+  "tai-tro": { width: "w-[calc((100%-1.5rem)/3)] md:w-[176px]", height: "h-[80px] md:h-[112px]" },
+  "dong-hanh": { width: "w-[calc((100%-1.5rem)/3)] md:w-[152px]", height: "h-[68px] md:h-24" },
+};
 
-/** Một ô logo. Bản sao (cho vòng lặp liền mạch) thì aria-hidden và không focus được. */
-function Tile({ p, tile, clone }: { p: Partner; tile: string; clone: boolean }) {
+/** Ô logo + (nếu có) dòng `role` bên dưới. Có `url` thì logo là link mở tab mới. */
+function Tile({ p, box }: { p: Partner; box: { width: string; height: string } }) {
   const logo = pickImage(partnerLogoCandidates(p.id));
   const inner = logo ? (
-    <img src={asset(logo)} alt={clone ? "" : p.name} loading="lazy" className="size-full object-contain p-4" />
+    <img src={asset(logo)} alt={p.name} loading="lazy" className="size-full object-contain p-3 md:p-4" />
   ) : (
-    <span className="px-3 text-center text-sm font-semibold text-ink-soft">{p.name}</span>
+    <span className="px-2 text-center text-xs font-semibold text-ink-soft md:px-3 md:text-sm">{p.name}</span>
   );
-  const cls = `relative grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-white ${tile}`;
+  const cls = `grid w-full place-items-center overflow-hidden rounded-2xl border border-oss/25 bg-white ${box.height}`;
   return (
-    <li className="mr-4 shrink-0" aria-hidden={clone || undefined}>
+    <li className={`flex flex-col items-center gap-1.5 ${box.width}`}>
       {p.url ? (
-        <a
-          href={p.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          tabIndex={clone ? -1 : undefined}
-          className={`${cls} transition-colors hover:border-oss`}
-        >
+        <a href={p.url} target="_blank" rel="noopener noreferrer" className={`${cls} transition-colors hover:border-oss`}>
           {inner}
         </a>
       ) : (
-        <span className={cls}>
-          {inner}
-        </span>
+        <span className={cls}>{inner}</span>
       )}
+      {p.role && <span className="text-center text-xs leading-snug text-ink-soft">{p.role}</span>}
     </li>
   );
 }
 
-/**
- * Một hàng logo. Đủ logo để lấp đầy bề ngang thì trôi ngang liên tục với tốc độ `speed` (px/giây), dừng khi rê chuột / focus.
- * Ít logo (cả danh sách ngắn hơn khung) thì hiện tĩnh, căn giữa, không nhân đôi danh sách, không chạy.
- */
-function MarqueeRow({ items, tile, speed, reverse }: { items: Partner[]; tile: string; speed: number; reverse: boolean }) {
-  const boxRef = useRef<HTMLDivElement>(null);
-  const halfRef = useRef<HTMLUListElement>(null);
-  const [reps, setReps] = useState(1);
-  const [duration, setDuration] = useState(40);
-  const [fits, setFits] = useState(false);
-
-  // Đo tổng bề ngang 1 lượt danh sách (mỗi ô + lề phải 16px). Vừa trong khung → tĩnh; không thì lặp đủ phủ khung
-  // (thời lượng = bề rộng 1 nửa / tốc độ)
-  useLayoutEffect(() => {
-    const box = boxRef.current;
-    const half = halfRef.current;
-    if (!box || !half) return;
-    const measure = () => {
-      const single = [...half.children].slice(0, items.length).reduce((sum, el) => sum + (el as HTMLElement).offsetWidth + 16, 0);
-      if (!single) return;
-      const fit = single <= box.clientWidth;
-      setFits(fit);
-      if (fit) return;
-      const need = Math.max(1, Math.ceil(box.clientWidth / single));
-      if (need !== reps) setReps(need);
-      setDuration((single * need) / speed);
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(box);
-    return () => ro.disconnect();
-  }, [reps, speed, items.length, fits]);
-
-  const half = (copy: number) => (
-    <ul ref={copy === 0 ? halfRef : undefined} className="flex shrink-0" aria-hidden={copy > 0 || undefined}>
-      {Array.from({ length: reps }, (_, r) =>
-        items.map((p) => <Tile key={`${r}-${p.id}`} p={p} tile={tile} clone={copy > 0 || r > 0} />),
-      )}
-    </ul>
-  );
-
-  if (fits) {
-    return (
-      <div ref={boxRef} className="py-3">
-        <ul ref={halfRef} className="flex flex-wrap justify-center gap-y-4">
-          {items.map((p) => (
-            <Tile key={p.id} p={p} tile={tile} clone={false} />
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  return (
-    <div ref={boxRef} className={`marquee py-3 ${reverse ? "is-reverse" : ""}`}>
-      <div className="marquee-track" style={{ ["--marquee-duration" as string]: `${duration}s` }}>
-        {half(0)}
-        {half(1)}
-      </div>
-    </div>
-  );
-}
-
-/** Đối tác đồng hành theo 3 hạng; hạng nào không có đối tác thì ẩn cả hàng. Giảm chuyển động: lưới tĩnh căn giữa. */
+/** Đơn vị đồng hành theo 3 nhóm, mỗi nhóm một tiêu đề nhỏ; nhóm trống thì ẩn. */
 export default function Partners() {
-  const [reduced] = useState(prefersReducedMotion);
-  const rows = TIERS.map((t) => ({ ...t, items: partners.filter((p) => p.tier === t.tier) })).filter((r) => r.items.length > 0);
-  if (!rows.length) return null;
-
+  if (!partnerGroups.length) return null;
   return (
-    <div className="space-y-6">
-      {rows.map((r) => (
-        <section key={r.tier} aria-label={r.label}>
-          <h3 className="text-sm font-semibold text-ink-soft">{r.label}</h3>
-          {reduced ? (
-            <ul className="mt-3 flex flex-wrap justify-center gap-y-4">
-              {r.items.map((p) => (
-                <Tile key={p.id} p={p} tile={r.tile} clone={false} />
-              ))}
-            </ul>
-          ) : (
-            <MarqueeRow items={r.items} tile={r.tile} speed={r.speed} reverse={r.reverse} />
-          )}
+    <div className="space-y-8">
+      {partnerGroups.map((g) => (
+        <section key={g.group} aria-label={g.label}>
+          <h3 className="text-center text-sm font-semibold text-ink-soft">{g.label}</h3>
+          <ul className="mt-3 flex flex-wrap justify-center gap-3 md:gap-4">
+            {g.items.map((p) => (
+              <Tile key={p.id} p={p} box={BOX[g.group]} />
+            ))}
+          </ul>
         </section>
       ))}
     </div>

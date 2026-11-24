@@ -90,16 +90,16 @@ group(
   testimonials.map((t) => ({ label: t.name, options: [`images/nhan-xet/${t.id}.jpg`] })),
 );
 
-// 5. Đối tác theo hạng (svg hoặc png): doi-tac/{id}.svg|png, id = vang-n / bac-n / dong-hanh-n trong partners.json
+// 5. Đơn vị đồng hành theo nhóm (svg hoặc png): doi-tac/{id}.svg|png, id = phoi-hop-n / tai-tro-n / dong-hanh-n trong partners.json
 for (const [tier, title] of [
-  ["vang", "Đối tác Vàng"],
-  ["bac", "Đối tác Bạc"],
-  ["dong-hanh", "Đối tác đồng hành"],
+  ["phoi-hop", "Đơn vị phối hợp tổ chức"],
+  ["tai-tro", "Nhà tài trợ"],
+  ["dong-hanh", "Đơn vị đồng hành"],
 ]) {
   group(
     title,
     partners
-      .filter((p) => p.tier === tier)
+      .filter((p) => p.group === tier)
       .map((p) => ({ label: p.name, options: [`images/doi-tac/${p.id}.svg`, `images/doi-tac/${p.id}.png`] })),
   );
 }

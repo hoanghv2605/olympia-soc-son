@@ -1,7 +1,7 @@
 // Một cửa duy nhất để lấy dữ liệu. Các trang chỉ import từ đây,
 // sau này đổi nguồn dữ liệu (JSON → Google Sheets/Supabase) chỉ cần sửa file này.
 // Mọi số liệu tính được (quán quân, kỷ lục, thống kê...) đều TÍNH ở đây, không gõ tay.
-import { formatDate, formatSchoolYear, inSentence } from "./format";
+import { formatDate, formatSchoolYear, formatScoreVi, inSentence } from "./format";
 import { hasImage, listImages } from "./images";
 import { departmentPhotoFile, eventPersonPhotoFile, eventPhotoFiles, humanPhotoFile, personPhotoFiles } from "./photo-names";
 import { type Medal } from "./medal";
@@ -46,6 +46,7 @@ import type {
   StatScope,
   Testimonial,
   TimelineItem,
+  PartnerGroup,
 } from "../types";
 
 // ===== Dữ liệu gốc =====
@@ -73,8 +74,15 @@ export const contacts = contactsJson as ContactPerson[];
 export const humans = (humansJson as HumanStory[]).slice().sort((a, b) => a.stt - b.stt);
 /** Nhận xét (trang chủ), theo thứ tự trong file */
 export const testimonials = testimonialsJson as Testimonial[];
-/** Đối tác đồng hành (trang chủ) */
+/** Đơn vị đồng hành (trang chủ), theo thứ tự trong file */
 export const partners = partnersJson as Partner[];
+/** Nhóm đơn vị đồng hành theo thứ tự hiển thị; nhóm trống thì ẩn. */
+export const PARTNER_GROUPS: { group: PartnerGroup; label: string }[] = [
+  { group: "phoi-hop", label: "Đơn vị phối hợp tổ chức" },
+  { group: "tai-tro", label: "Nhà tài trợ" },
+  { group: "dong-hanh", label: "Đơn vị đồng hành" },
+];
+export const partnerGroups = PARTNER_GROUPS.map((g) => ({ ...g, items: partners.filter((p) => p.group === g.group) })).filter((g) => g.items.length > 0);
 
 /** Số ô ở trang Human of OSS (định nghĩa ở photo-names.js để script Node dùng chung). */
 export { HUMAN_SLOTS } from "./photo-names";
@@ -1019,9 +1027,11 @@ const EVENT_ACTION: Record<EventResult, { action?: string; highlight: string }> 
   "khach-moi": { action: "là", highlight: "khách mời" },
 };
 
-/** Dòng thời gian trong hồ sơ: mỗi sự kiện người đó tham gia (dòng phụ là tên sự kiện). */
+/** Dòng thời gian trong hồ sơ: mỗi sự kiện người đó tham gia (dòng phụ là tên sự kiện).
+ *  Sự kiện dạng mùa thi (DAPHUC) không có dòng riêng: các vòng của nó đã có dòng ở `personRoundMilestones`. */
 function personEventMilestones(personId: string): TimelineItem[] {
   return eventsOfPerson(personId).flatMap(({ event, result }): TimelineItem[] => {
+    if (event.format === "mua-thi") return [];
     const date = eventTimelineDate(event);
     if (!date) return [];
     const a = EVENT_ACTION[result ?? "tham-du"];
@@ -1029,12 +1039,75 @@ function personEventMilestones(personId: string): TimelineItem[] {
   });
 }
 
-const byDate = (a: TimelineItem, b: TimelineItem) => a.date.localeCompare(b.date);
+/** Một dòng vòng thi: câu chính chỉ chứa thành tích, tên vòng / giải nằm ở dòng phụ. */
+function roundItem(
+  personId: string,
+  date: string,
+  order: number,
+  kind: "round" | "event",
+  action: string,
+  highlight: string,
+  detail?: string,
+): TimelineItem {
+  return { date, order, kind, personId, personName: personName(personId), action, highlight, detail };
+}
+
+/** Vòng loại / Bán kết / Chung kết của OSS và của DAPHUC Olympia Championship mà người đó tham gia (trận chưa có ngày thì bỏ). */
+function personRoundMilestones(personId: string): TimelineItem[] {
+  const items: TimelineItem[] = [];
+  const hasPerson = !!getPerson(personId);
+  if (!hasPerson) return items;
+
+  // OSS
+  for (const q of qualifying) {
+    if (q.person !== personId) continue;
+    const date = getSeason(q.season)?.startDate;
+    if (!date) continue;
+    items.push(roundItem(personId, date, 0, "round", "đạt", `hạng ${q.rank}`,
+      `Vòng loại · Olympia Sóc Sơn mùa ${q.season}${q.score != null ? ` · ${formatScoreVi(q.score)} điểm` : ""}`));
+  }
+  for (const m of matches) {
+    const r = m.results.find((x) => x.person === personId);
+    if (!r || !m.date) continue;
+    if (m.round === "ban-ket") {
+      items.push(roundItem(personId, m.date, 1, "round", "giành", inSentence(resultLabel(m, r)),
+        `${roundLabel(m)} · Olympia Sóc Sơn mùa ${m.season}`));
+    } else if (r.placement === "a-quan" || r.placement === "giai-ba") {
+      // Quán quân đã có dòng riêng (cột mốc), không thêm dòng trùng
+      items.push(roundItem(personId, m.date, 2, "round", "trở thành", `${PLACEMENT_LABEL[r.placement]} Olympia Sóc Sơn mùa ${m.season}`));
+    }
+  }
+
+  // DAPHUC Olympia Championship (chỉ người có ossPerson)
+  for (const event of events) {
+    const doc = getDoc(event);
+    if (!doc) continue;
+    const q = doc.qualifying.find((x) => x.ossPerson === personId);
+    if (q && doc.qualifyingDate) {
+      items.push(roundItem(personId, doc.qualifyingDate, 0, "event", "đạt", `hạng ${q.rank}`,
+        `Vòng loại · ${event.name} · ${formatScoreVi(q.score)} điểm`));
+    }
+    for (const semi of doc.semifinals) {
+      const r = semi.results.find((x) => x.ossPerson === personId);
+      if (!r || !semi.date) continue;
+      const label = EVENT_RESULT_LABEL[r.result];
+      items.push(roundItem(personId, semi.date, 1, "event", "giành", inSentence(label), `Bán kết ${semi.no} · ${event.name}`));
+    }
+    const fin = doc.final.results.find((x) => x.ossPerson === personId);
+    if (fin && doc.final.date) {
+      items.push(roundItem(personId, doc.final.date, 2, "event", "trở thành", `${EVENT_RESULT_LABEL[fin.result]} ${event.name}`));
+    }
+  }
+  return items;
+}
+
+/** Theo ngày; cùng ngày thì theo thứ tự vòng (vòng loại → bán kết → chung kết), rồi dòng sự kiện / Olympia. */
+const byDate = (a: TimelineItem, b: TimelineItem) => a.date.localeCompare(b.date) || (a.order ?? 3) - (b.order ?? 3);
 
 /** Dòng thời gian trang Giới thiệu: chỉ cột mốc (sự kiện khác chỉ hiện ở dòng thời gian hồ sơ). */
 export const timeline = toTimeline(milestones);
 
 /** Dòng thời gian trong hồ sơ thí sinh: cột mốc của người đó + sự kiện người đó tham gia. */
 export function personTimeline(personId: string): TimelineItem[] {
-  return [...toTimeline(milestones.filter((m) => m.person === personId)), ...personEventMilestones(personId)].sort(byDate);
+  return [...toTimeline(milestones.filter((m) => m.person === personId)), ...personEventMilestones(personId), ...personRoundMilestones(personId)].sort(byDate);
 }

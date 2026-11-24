@@ -1,152 +1,72 @@
 [
   {
-    "id": "vang-1",
-    "name": "Đối tác Vàng 1",
-    "url": "",
-    "tier": "vang"
+    "id": "phoi-hop-1",
+    "group": "phoi-hop",
+    "name": "Đơn vị phối hợp tổ chức 1"
   },
   {
-    "id": "vang-2",
-    "name": "Đối tác Vàng 2",
-    "url": "",
-    "tier": "vang"
+    "id": "phoi-hop-2",
+    "group": "phoi-hop",
+    "name": "Đơn vị phối hợp tổ chức 2"
   },
   {
-    "id": "vang-3",
-    "name": "Đối tác Vàng 3",
-    "url": "",
-    "tier": "vang"
+    "id": "tai-tro-1",
+    "group": "tai-tro",
+    "name": "Nhà tài trợ 1"
   },
   {
-    "id": "vang-4",
-    "name": "Đối tác Vàng 4",
-    "url": "",
-    "tier": "vang"
+    "id": "tai-tro-2",
+    "group": "tai-tro",
+    "name": "Nhà tài trợ 2"
   },
   {
-    "id": "vang-5",
-    "name": "Đối tác Vàng 5",
-    "url": "",
-    "tier": "vang"
+    "id": "tai-tro-3",
+    "group": "tai-tro",
+    "name": "Nhà tài trợ 3"
   },
   {
-    "id": "bac-1",
-    "name": "Đối tác Bạc 1",
-    "url": "",
-    "tier": "bac"
+    "id": "tai-tro-4",
+    "group": "tai-tro",
+    "name": "Nhà tài trợ 4"
   },
   {
-    "id": "bac-2",
-    "name": "Đối tác Bạc 2",
-    "url": "",
-    "tier": "bac"
+    "id": "tai-tro-5",
+    "group": "tai-tro",
+    "name": "Nhà tài trợ 5"
   },
   {
-    "id": "bac-3",
-    "name": "Đối tác Bạc 3",
-    "url": "",
-    "tier": "bac"
-  },
-  {
-    "id": "bac-4",
-    "name": "Đối tác Bạc 4",
-    "url": "",
-    "tier": "bac"
-  },
-  {
-    "id": "bac-5",
-    "name": "Đối tác Bạc 5",
-    "url": "",
-    "tier": "bac"
-  },
-  {
-    "id": "bac-6",
-    "name": "Đối tác Bạc 6",
-    "url": "",
-    "tier": "bac"
-  },
-  {
-    "id": "bac-7",
-    "name": "Đối tác Bạc 7",
-    "url": "",
-    "tier": "bac"
-  },
-  {
-    "id": "bac-8",
-    "name": "Đối tác Bạc 8",
-    "url": "",
-    "tier": "bac"
-  },
-  {
-    "id": "bac-9",
-    "name": "Đối tác Bạc 9",
-    "url": "",
-    "tier": "bac"
-  },
-  {
-    "id": "bac-10",
-    "name": "Đối tác Bạc 10",
-    "url": "",
-    "tier": "bac"
+    "id": "tai-tro-6",
+    "group": "tai-tro",
+    "name": "Nhà tài trợ 6"
   },
   {
     "id": "dong-hanh-1",
-    "name": "Đối tác đồng hành 1",
-    "url": "",
-    "tier": "dong-hanh"
+    "group": "dong-hanh",
+    "name": "Đơn vị đồng hành 1"
   },
   {
     "id": "dong-hanh-2",
-    "name": "Đối tác đồng hành 2",
-    "url": "",
-    "tier": "dong-hanh"
+    "group": "dong-hanh",
+    "name": "Đơn vị đồng hành 2"
   },
   {
     "id": "dong-hanh-3",
-    "name": "Đối tác đồng hành 3",
-    "url": "",
-    "tier": "dong-hanh"
+    "group": "dong-hanh",
+    "name": "Đơn vị đồng hành 3"
   },
   {
     "id": "dong-hanh-4",
-    "name": "Đối tác đồng hành 4",
-    "url": "",
-    "tier": "dong-hanh"
+    "group": "dong-hanh",
+    "name": "Đơn vị đồng hành 4"
   },
   {
     "id": "dong-hanh-5",
-    "name": "Đối tác đồng hành 5",
-    "url": "",
-    "tier": "dong-hanh"
+    "group": "dong-hanh",
+    "name": "Đơn vị đồng hành 5"
   },
   {
     "id": "dong-hanh-6",
-    "name": "Đối tác đồng hành 6",
-    "url": "",
-    "tier": "dong-hanh"
-  },
-  {
-    "id": "dong-hanh-7",
-    "name": "Đối tác đồng hành 7",
-    "url": "",
-    "tier": "dong-hanh"
-  },
-  {
-    "id": "dong-hanh-8",
-    "name": "Đối tác đồng hành 8",
-    "url": "",
-    "tier": "dong-hanh"
-  },
-  {
-    "id": "dong-hanh-9",
-    "name": "Đối tác đồng hành 9",
-    "url": "",
-    "tier": "dong-hanh"
-  },
-  {
-    "id": "dong-hanh-10",
-    "name": "Đối tác đồng hành 10",
-    "url": "",
-    "tier": "dong-hanh"
+    "group": "dong-hanh",
+    "name": "Đơn vị đồng hành 6"
   }
 ]

@@ -81,7 +81,7 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 | `public/images/thi-sinh/{photoKey}-{slug họ tên}-{mã trường}.jpg` | Ảnh người chơi tại sự kiện (vd `truyenlua2023-le-tra-my-ss.jpg`, `allstars-chu-duc-huy-ss.jpg`), chỉ cho người chơi có trường trong `schools.json`. DOC3: `doc3-{slug}-{mã trường}.jpg`. Hiện ở trang sự kiện và nút ảnh ở hồ sơ | dọc 3:4 | ~600×800 |
 | `public/images/human-of-oss/{stt 2 chữ số}.jpg` | Chân dung Human of OSS, theo `stt` trong `humans.json` (vd `01.jpg`). Thư mục `images/humans/` không còn dùng | dọc | ~800×1000 |
 | `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ. `id` trong `testimonials.json` | vuông | ~600×600 |
-| `public/images/doi-tac/{id}.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc), tên file = `id` trong `partners.json`: `vang-1`…`vang-5`, `bac-1`…`bac-10`, `dong-hanh-1`…`dong-hanh-10`. Đổi hạng: xem mục "Thêm / sửa một đối tác" | tự do | SVG, hoặc PNG ngang ~600 px |
+| `public/images/doi-tac/{id}.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc), tên file = `id` trong `partners.json`: `phoi-hop-1`…`phoi-hop-2`, `tai-tro-1`…`tai-tro-6`, `dong-hanh-1`…`dong-hanh-6`. Đổi nhóm: xem mục "Thêm / sửa một đơn vị đồng hành" | tự do | SVG, hoặc PNG ngang ~600 px |
 | `public/images/thi-sinh/o{năm}-{slug họ tên}-{mã trường}.jpg` | Ảnh **Đường lên đỉnh Olympia**, mỗi năm một ảnh, cho cả thí sinh OSS và người chỉ thi Olympia (vd `o26-nghiem-trung-duc-ss.jpg`). Mã trường theo trường của người đó trong `people.json`. Hiện ở hồ sơ (nút "O26") và mục THPT Sóc Sơn tại Đường lên đỉnh Olympia ở Bảng vàng | dọc 3:4 | ~600×800 |
 | `public/images/thi-sinh/s{mùa}-{slug họ tên}-{mã trường}-win.jpg` | Ảnh **Quán quân** ở Hall of Fame (Bảng vàng), mùa vô địch gần nhất của người đó (vd `s9-nghiem-trung-duc-ss-win.jpg`). Chưa có thì dùng ảnh mùa đó (không `-win`), rồi ảnh mùa khác | vuông | ~800×800 |
 | `public/images/truong/<id-trường>.svg` hoặc `.png` | Logo trường (huy hiệu tròn). Tên file = `id` trong `schools.json`: `soc-son`, `da-phuc`, `trung-gia`, `minh-phu`, `xuan-giang`. Chưa có logo thì hiện chữ viết tắt của trường | vuông | ~256×256, nền trong suốt |
@@ -129,7 +129,7 @@ Chỉ chạy trên macOS (dùng `sips`). `npm run thu-nho-anh -- --thu` in danh 
 npm run anh-con-thieu
 ```
 
-Lệnh in từng nhóm (thí sinh theo mùa, ảnh Olympia, Quán quân Hall of Fame, ảnh bìa mùa, trận đấu, cột mốc, nhận xét, đối tác Vàng / Bạc / Đồng hành, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
+Lệnh in từng nhóm (thí sinh theo mùa, ảnh Olympia, Quán quân Hall of Fame, ảnh bìa mùa, trận đấu, cột mốc, nhận xét, đơn vị phối hợp / tài trợ / đồng hành, Human of OSS, các ban, logo trường, ảnh trang chủ / giới thiệu, logo OSS) kèm dòng "đã có x / y" và **đường dẫn đầy đủ của từng file còn thiếu** (kèm tên người / trận để dễ nhận ra). Lệnh chỉ đọc, không sửa file nào.
 
 **Ảnh mẫu giữ chỗ:** nếu một file ảnh có chuỗi `OSS-ANH-MAU` trong 4 KB đầu (vd nằm trong phần chú thích của file SVG, hoặc trong metadata của JPG) thì web và `npm run anh-con-thieu` coi như **chưa có ảnh**: web vẫn hiện ảnh giữ chỗ, lệnh vẫn báo thiếu. Khi thay bằng ảnh thật (không còn chuỗi này) thì ảnh tự được tính là đã có.
 
@@ -159,19 +159,19 @@ Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh ch�
 2. Ảnh (nếu có): `public/images/nhan-xet/<id>.jpg`, ảnh vuông khoảng 600×600.
 3. Chạy lại `npm run dev` để xem.
 
-### Thêm / sửa một đối tác (khối "Đối tác đồng hành")
+### Thêm / sửa một đơn vị đồng hành (khối "Đồng hành cùng Olympia Sóc Sơn")
 
 > Chỉ đăng logo khi đơn vị đó đã đồng ý.
 
-Đối tác chia 3 hạng, hiện thành 3 hàng trên trang chủ theo thứ tự **Vàng → Bạc → Đồng hành** (hạng nào không có đối tác thì ẩn cả hàng). Mặc định có 25 mục giữ chỗ: `vang-1`…`vang-5`, `bac-1`…`bac-10`, `dong-hanh-1`…`dong-hanh-10`.
+Các đơn vị chia 3 nhóm, hiện thành 3 hàng trên trang chủ theo thứ tự **Đơn vị phối hợp tổ chức** (`phoi-hop`, ô lớn nhất) → **Nhà tài trợ** (`tai-tro`) → **Đơn vị đồng hành** (`dong-hanh`); nhóm nào không có đơn vị thì ẩn cả hàng. Logo đứng yên, căn giữa, xuống dòng khi hẹp. Dòng dưới tiêu đề tự đếm "{n} đơn vị đã đồng hành cùng Olympia Sóc Sơn." Mặc định có 14 mục giữ chỗ: `phoi-hop-1`…`phoi-hop-2`, `tai-tro-1`…`tai-tro-6`, `dong-hanh-1`…`dong-hanh-6`.
 
 1. Mở `src/data/partners.json`, sửa mục giữ chỗ hoặc thêm mục mới:
    ```json
-   { "id": "vang-1", "name": "Công ty ABC", "url": "https://abc.vn", "tier": "vang" }
+   { "id": "tai-tro-1", "group": "tai-tro", "name": "Công ty ABC", "role": "Bảo trợ truyền thông", "url": "https://abc.vn" }
    ```
-   `tier` là `"vang"`, `"bac"` hoặc `"dong-hanh"`. `url` để `""` nếu không cần link. Xóa các mục giữ chỗ không dùng.
-2. Logo: `public/images/doi-tac/{id}.svg` hoặc `.png` (tên file = `id`), nền trong suốt. Chưa có logo thì web hiện tên đối tác.
-3. **Đổi hạng một đối tác** (vd từ Bạc lên Vàng): đổi `"tier"` trong `partners.json`, rồi đổi `id` cho hợp hạng mới (vd `bac-3` → `vang-6`) và đổi tên file logo theo `id` mới. Thứ tự trong hàng = thứ tự trong file.
+   `group` là `"phoi-hop"`, `"tai-tro"` hoặc `"dong-hanh"`. `role` (tuỳ chọn) là dòng chữ nhỏ dưới logo. `url` (tuỳ chọn) làm logo thành link mở tab mới. Xóa các mục giữ chỗ không dùng.
+2. Logo: `public/images/doi-tac/{id}.svg` hoặc `.png` (tên file = `id`), nền trong suốt. Chưa có logo thì ô hiện tên đơn vị.
+3. **Đổi nhóm một đơn vị**: đổi `"group"`, rồi đổi `id` cho hợp nhóm mới (vd `tai-tro-3` → `dong-hanh-7`) và đổi tên file logo theo `id` mới. Thứ tự trong hàng = thứ tự trong file.
 4. Chạy lại `npm run dev`.
 
 ### Thêm một câu chuyện Human of OSS
@@ -182,7 +182,7 @@ Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh ch�
 4. Viết bài trong file `.md`, rồi chạy lại `npm run dev`. Trang Human of OSS luôn có 10 ô; mỗi câu chuyện mới thay một ô "Câu chuyện sắp ra mắt".
 
 ### Nhận xét và đối tác luôn hiện
-Khối "Cảm nhận" và "Đối tác đồng hành" ở trang chủ luôn hiện (không còn cơ chế `draft`). Chưa có logo thì ô hiện tên; hạng đối tác ít logo thì hiện tĩnh, căn giữa.
+Khối "Cảm nhận" và "Đồng hành cùng Olympia Sóc Sơn" ở trang chủ luôn hiện (không còn cơ chế `draft`). Chưa có logo thì ô hiện tên.
 
 ### Trưởng ban
 Trong `departments.json`: `leaderTitle` ("Anh" / "Chị") + `leader` hiện thành "Trưởng ban: Anh Nguyễn Việt Thành"; `"leader": null` thì ẩn dòng. Thêm `leaderPerson` (id hồ sơ) để tên thành link tới hồ sơ OSSPEDIA.
