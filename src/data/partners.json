@@ -2,71 +2,77 @@
   {
     "id": "phoi-hop-1",
     "group": "phoi-hop",
-    "name": "Đơn vị phối hợp tổ chức 1"
+    "name": "Đoàn trường THPT Sóc Sơn"
   },
   {
     "id": "phoi-hop-2",
     "group": "phoi-hop",
-    "name": "Đơn vị phối hợp tổ chức 2"
+    "name": "CLB Human of Sóc Sơn"
   },
   {
     "id": "tai-tro-1",
     "group": "tai-tro",
-    "name": "Nhà tài trợ 1"
+    "name": "EMAP English"
   },
   {
     "id": "tai-tro-2",
     "group": "tai-tro",
-    "name": "Nhà tài trợ 2"
+    "name": "Washington ETC"
   },
   {
     "id": "tai-tro-3",
     "group": "tai-tro",
-    "name": "Nhà tài trợ 3"
+    "name": "Happy Class"
   },
   {
     "id": "tai-tro-4",
     "group": "tai-tro",
-    "name": "Nhà tài trợ 4"
+    "name": "TP Leading"
   },
   {
     "id": "tai-tro-5",
     "group": "tai-tro",
-    "name": "Nhà tài trợ 5"
+    "name": "Smartcom"
   },
   {
     "id": "tai-tro-6",
     "group": "tai-tro",
-    "name": "Nhà tài trợ 6"
+    "name": "Tiếng Trung Thịnh Phát"
   },
   {
     "id": "dong-hanh-1",
     "group": "dong-hanh",
-    "name": "Đơn vị đồng hành 1"
+    "name": "T4Art",
+    "role": "Bảo trợ truyền thông"
   },
   {
     "id": "dong-hanh-2",
     "group": "dong-hanh",
-    "name": "Đơn vị đồng hành 2"
+    "name": "Gấu Uniform",
+    "role": "Bảo trợ trang phục"
   },
   {
     "id": "dong-hanh-3",
     "group": "dong-hanh",
-    "name": "Đơn vị đồng hành 3"
+    "name": "AKKAS Uniform",
+    "role": "Bảo trợ trang phục"
   },
   {
     "id": "dong-hanh-4",
     "group": "dong-hanh",
-    "name": "Đơn vị đồng hành 4"
+    "name": "SSPC",
+    "role": "Bảo trợ hình ảnh"
   },
   {
     "id": "dong-hanh-5",
     "group": "dong-hanh",
-    "name": "Đơn vị đồng hành 5"
+    "name": "GC Olympia",
+    "role": "Hỗ trợ kỹ thuật & tài trợ ứng dụng"
   },
   {
     "id": "dong-hanh-6",
     "group": "dong-hanh",
-    "name": "Đơn vị đồng hành 6"
+    "name": "Hiep Nguyen Media",
+    "role": "Bảo trợ hình ảnh & tài trợ quà tặng"
   }
 ]

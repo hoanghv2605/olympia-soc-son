@@ -18,11 +18,11 @@ const BOX: Record<PartnerGroup, { width: string; height: string }> = {
 function Tile({ p, box }: { p: Partner; box: { width: string; height: string } }) {
   const logo = pickImage(partnerLogoCandidates(p.id));
   const inner = logo ? (
-    <img src={asset(logo)} alt={p.name} loading="lazy" className="size-full object-contain p-3 md:p-4" />
+    <img src={asset(logo)} alt={p.name} loading="lazy" className="h-full min-h-0 w-full min-w-0 object-contain p-3" />
   ) : (
     <span className="px-2 text-center text-xs font-semibold text-ink-soft md:px-3 md:text-sm">{p.name}</span>
   );
-  const cls = `grid w-full place-items-center overflow-hidden rounded-2xl border border-oss/25 bg-white ${box.height}`;
+  const cls = `flex w-full items-center justify-center overflow-hidden rounded-2xl border border-oss/25 bg-white ${box.height}`;
   return (
     <li className={`flex flex-col items-center gap-1.5 ${box.width}`}>
       {p.url ? (
