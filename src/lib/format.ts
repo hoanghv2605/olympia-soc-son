@@ -84,3 +84,17 @@ export function scrollToId(id: string) {
 export function joinViText(parts: string[]) {
   return parts.length <= 1 ? (parts[0] ?? "") : `${parts.slice(0, -1).join(", ")} và ${parts[parts.length - 1]}`;
 }
+
+/**
+ * Câu dòng thời gian dạng "{tên} {động từ} {phần nổi bật}" — MỌI loại dòng (cột mốc, sự kiện, vòng thi)
+ * đều ghép qua đây để luôn có khoảng trắng giữa các phần (động từ có thể không có: "{tên} tham dự").
+ */
+export function sentenceParts(name: string | undefined, action: string | undefined, highlight: string) {
+  return { name, lead: action ? ` ${action} ` : name ? " " : "", highlight };
+}
+
+/** Câu dạng chữ thuần (alt, chú thích ảnh). */
+export function sentenceText(name: string | undefined, action: string | undefined, highlight: string) {
+  const { name: n, lead, highlight: h } = sentenceParts(name, action, highlight);
+  return `${n ?? ""}${lead}${h}`;
+}

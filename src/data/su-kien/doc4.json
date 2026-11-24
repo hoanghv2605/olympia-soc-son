@@ -1,5 +1,6 @@
 {
   "id": "doc4",
+  "qualifyingDate": "2025-11-23",
   "qualifying": [
     {
       "rank": 1,
@@ -94,6 +95,7 @@
   "semifinals": [
     {
       "no": 1,
+      "date": "2025-11-30",
       "results": [
         {
           "name": "Dương Hoàng Minh",
@@ -125,6 +127,7 @@
     },
     {
       "no": 2,
+      "date": "2025-11-30",
       "results": [
         {
           "name": "Lê Hồng Đăng",
@@ -156,6 +159,7 @@
     },
     {
       "no": 3,
+      "date": "2025-11-30",
       "results": [
         {
           "name": "Nguyễn Mạnh Tiến",
@@ -186,6 +190,7 @@
     }
   ],
   "final": {
+    "date": "2025-12-07",
     "results": [
       {
         "name": "Lê Hồng Đăng",

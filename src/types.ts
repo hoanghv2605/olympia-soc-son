@@ -59,6 +59,7 @@ export interface Match {
   season: number;
   round: MatchRound;
   number: number;
+  date?: string; // YYYY-MM-DD, ngày thi đấu của trận
   results: MatchResult[];
   tiebreakWinner?: string; // người thắng câu hỏi phụ
   notes?: string[];
@@ -273,9 +274,10 @@ export interface DocResult {
 
 export interface DocData {
   id: string;
+  qualifyingDate?: string; // ngày Vòng loại
   qualifying: DocQualifying[];
-  semifinals: { no: number; results: DocResult[] }[]; // results theo vị trí đứng
-  final: { results: DocResult[] };
+  semifinals: { no: number; date?: string; results: DocResult[] }[]; // results theo vị trí đứng
+  final: { date?: string; results: DocResult[] };
 }
 
 /**

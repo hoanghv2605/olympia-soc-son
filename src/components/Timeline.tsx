@@ -4,13 +4,14 @@ import { PiCamera } from "react-icons/pi";
 import Lightbox from "./Lightbox";
 import MilestonePhoto from "./MilestonePhoto";
 import type { TimelineItem } from "../types";
-import { asset, formatDate, yearOf } from "../lib/format";
+import { asset, formatDate, sentenceParts, sentenceText, yearOf } from "../lib/format";
 import { hasImage } from "../lib/images";
 import { eventPath, milestonePhoto, personPath } from "../lib/data";
 
 const dotClass = (m: TimelineItem) => `tl-dot${m.kind === "olympia" ? " is-olympia" : m.kind === "event" ? " is-event" : ""}`;
 
 function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
+  const { lead } = sentenceParts(m.personName, m.action, m.highlight);
   return (
     <>
       <p className="tl-text text-[15px] leading-snug">
@@ -26,7 +27,7 @@ function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
           ) : (
             <strong className="font-semibold text-ink">{m.personName}</strong>
           ))}
-        {m.action && ` ${m.action} `}
+        {lead}
         <strong className="font-semibold text-oss">{m.highlight}</strong>
       </p>
       {m.detail &&
@@ -46,11 +47,11 @@ function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
 }
 
 function photoAlt(m: TimelineItem) {
-  return `Ảnh cột mốc ${formatDate(m.date)}: ${m.personName ? `${m.personName} ` : ""}${m.action ? `${m.action} ` : ""}${m.highlight}`;
+  return `Ảnh cột mốc ${formatDate(m.date)}: ${sentenceText(m.personName, m.action, m.highlight)}`;
 }
 
 function photoCaption(m: TimelineItem) {
-  return `${formatDate(m.date)} · ${m.personName ? `${m.personName} ` : ""}${m.action ? `${m.action} ` : ""}${m.highlight}`;
+  return `${formatDate(m.date)} · ${sentenceText(m.personName, m.action, m.highlight)}`;
 }
 
 const CAN_HOVER = "(hover: hover) and (pointer: fine)";

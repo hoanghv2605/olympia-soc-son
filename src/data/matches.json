@@ -4,6 +4,7 @@
     "season": 1,
     "round": "ban-ket",
     "number": 1,
+    "date": "2017-09-17",
     "results": [
       {
         "person": "nguyen-dong-duc-anh",
@@ -60,6 +61,7 @@
     "season": 1,
     "round": "ban-ket",
     "number": 2,
+    "date": "2017-09-17",
     "results": [
       {
         "person": "nguyen-minh-khai",
@@ -116,6 +118,7 @@
     "season": 1,
     "round": "ban-ket",
     "number": 3,
+    "date": "2017-09-17",
     "results": [
       {
         "person": "truong-tan-dung",
@@ -172,6 +175,7 @@
     "season": 1,
     "round": "chung-ket",
     "number": 1,
+    "date": "2017-10-01",
     "results": [
       {
         "person": "chu-duc-huy",
@@ -228,6 +232,7 @@
     "season": 2,
     "round": "ban-ket",
     "number": 1,
+    "date": "2018-09-03",
     "results": [
       {
         "person": "chu-duc-huy",
@@ -284,6 +289,7 @@
     "season": 2,
     "round": "ban-ket",
     "number": 2,
+    "date": "2018-09-03",
     "results": [
       {
         "person": "phung-quang-huy",
@@ -340,6 +346,7 @@
     "season": 2,
     "round": "ban-ket",
     "number": 3,
+    "date": "2018-09-03",
     "results": [
       {
         "person": "nguyen-thanh-ha",
@@ -396,6 +403,7 @@
     "season": 2,
     "round": "chung-ket",
     "number": 1,
+    "date": "2018-09-23",
     "notes": [
       "Nguyễn Thanh Hà lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được tối đa 90 điểm ở phần thi Vượt chướng ngại vật."
     ],
@@ -455,6 +463,7 @@
     "season": 3,
     "round": "ban-ket",
     "number": 1,
+    "date": "2019-08-25",
     "results": [
       {
         "person": "tran-kim-cuong",
@@ -511,6 +520,7 @@
     "season": 3,
     "round": "ban-ket",
     "number": 2,
+    "date": "2019-08-25",
     "results": [
       {
         "person": "nguyen-thi-trung-chien",
@@ -567,6 +577,7 @@
     "season": 3,
     "round": "ban-ket",
     "number": 3,
+    "date": "2019-08-25",
     "results": [
       {
         "person": "nguyen-thuy-duong",
@@ -623,6 +634,7 @@
     "season": 3,
     "round": "chung-ket",
     "number": 1,
+    "date": "2019-09-08",
     "results": [
       {
         "person": "tran-hai-linh",
@@ -679,6 +691,7 @@
     "season": 4,
     "round": "ban-ket",
     "number": 1,
+    "date": "2020-10-11",
     "results": [
       {
         "person": "nguyen-thuy-duong",
@@ -735,6 +748,7 @@
     "season": 4,
     "round": "ban-ket",
     "number": 2,
+    "date": "2020-10-11",
     "results": [
       {
         "person": "ngo-le-hoang",
@@ -791,6 +805,7 @@
     "season": 4,
     "round": "ban-ket",
     "number": 3,
+    "date": "2020-10-11",
     "results": [
       {
         "person": "vu-quoc-hung",
@@ -847,6 +862,7 @@
     "season": 4,
     "round": "chung-ket",
     "number": 1,
+    "date": "2020-10-18",
     "tiebreakWinner": "nguyen-thuy-duong",
     "results": [
       {
@@ -904,6 +920,7 @@
     "season": 5,
     "round": "ban-ket",
     "number": 1,
+    "date": "2021-12-05",
     "notes": [
       "Nguyễn Sỹ Hoàng lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được 120 điểm ở phần thi Khởi động."
     ],
@@ -963,6 +980,7 @@
     "season": 5,
     "round": "ban-ket",
     "number": 2,
+    "date": "2021-12-05",
     "notes": [
       "Nguyễn Quang Anh đồng giữ kỉ lục điểm số của Olympia Sóc Sơn khi giành được 90 điểm ở phần thi Vượt chướng ngại vật."
     ],
@@ -1022,6 +1040,7 @@
     "season": 5,
     "round": "ban-ket",
     "number": 3,
+    "date": "2021-12-05",
     "notes": [
       "Nguyễn Việt Thành đồng giữ kỉ lục điểm số của Olympia Sóc Sơn khi giành được 120 điểm ở phần thi Khởi động."
     ],
@@ -1081,6 +1100,7 @@
     "season": 5,
     "round": "chung-ket",
     "number": 1,
+    "date": "2021-12-12",
     "results": [
       {
         "person": "nguyen-doan-hong-thai",
@@ -1137,6 +1157,7 @@
     "season": 6,
     "round": "ban-ket",
     "number": 1,
+    "date": "2022-09-25",
     "results": [
       {
         "person": "le-minh-khoi",
@@ -1193,6 +1214,7 @@
     "season": 6,
     "round": "ban-ket",
     "number": 2,
+    "date": "2022-09-25",
     "results": [
       {
         "person": "nguyen-sy-hoang",
@@ -1249,6 +1271,7 @@
     "season": 6,
     "round": "ban-ket",
     "number": 3,
+    "date": "2022-09-25",
     "notes": [
       "Nguyễn Việt Thành xác lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được 400 điểm chung cuộc."
     ],
@@ -1308,6 +1331,7 @@
     "season": 6,
     "round": "chung-ket",
     "number": 1,
+    "date": "2022-10-02",
     "results": [
       {
         "person": "nguyen-sy-hoang",
@@ -1364,6 +1388,7 @@
     "season": 7,
     "round": "ban-ket",
     "number": 1,
+    "date": "2023-11-26",
     "results": [
       {
         "person": "nguyen-tran-gia-long",
@@ -1420,6 +1445,7 @@
     "season": 7,
     "round": "ban-ket",
     "number": 2,
+    "date": "2023-11-26",
     "tiebreakWinner": "le-quang-hung",
     "results": [
       {
@@ -1477,6 +1503,7 @@
     "season": 7,
     "round": "ban-ket",
     "number": 3,
+    "date": "2023-11-26",
     "results": [
       {
         "person": "do-thi-quynh-huong",
@@ -1533,6 +1560,7 @@
     "season": 7,
     "round": "chung-ket",
     "number": 1,
+    "date": "2023-12-03",
     "results": [
       {
         "person": "do-thi-quynh-huong",
@@ -1589,6 +1617,7 @@
     "season": 8,
     "round": "ban-ket",
     "number": 1,
+    "date": "2024-10-13",
     "tiebreakWinner": "nguyen-huu-phu-an",
     "results": [
       {
@@ -1646,6 +1675,7 @@
     "season": 8,
     "round": "ban-ket",
     "number": 2,
+    "date": "2024-10-13",
     "results": [
       {
         "person": "le-quang-huy",
@@ -1702,6 +1732,7 @@
     "season": 8,
     "round": "ban-ket",
     "number": 3,
+    "date": "2024-10-13",
     "results": [
       {
         "person": "nguyen-chi-thanh",
@@ -1758,6 +1789,7 @@
     "season": 8,
     "round": "chung-ket",
     "number": 1,
+    "date": "2024-10-20",
     "results": [
       {
         "person": "nguyen-huu-phu-an",
@@ -1814,6 +1846,7 @@
     "season": 9,
     "round": "ban-ket",
     "number": 1,
+    "date": "2025-10-05",
     "notes": [
       "Nghiêm Trung Đức lập kỉ lục điểm số của Olympia Sóc Sơn khi giành được 160 điểm ở phần thi Tăng tốc và 140 điểm ở phần thi Về đích, đồng thời đồng giữ kỉ lục điểm số của Olympia Sóc Sơn khi giành được 400 điểm chung cuộc."
     ],
@@ -1873,6 +1906,7 @@
     "season": 9,
     "round": "ban-ket",
     "number": 2,
+    "date": "2025-10-05",
     "results": [
       {
         "person": "pham-tuan-hung",
@@ -1929,6 +1963,7 @@
     "season": 9,
     "round": "ban-ket",
     "number": 3,
+    "date": "2025-10-05",
     "results": [
       {
         "person": "nguyen-thanh-phong",
@@ -1985,6 +2020,7 @@
     "season": 9,
     "round": "chung-ket",
     "number": 1,
+    "date": "2025-10-12",
     "results": [
       {
         "person": "nghiem-trung-duc",
@@ -2041,6 +2077,7 @@
     "season": 10,
     "round": "ban-ket",
     "number": 1,
+    "date": "2026-10-18",
     "results": [
       {
         "person": "nguyen-quoc-huy",
@@ -2097,6 +2134,7 @@
     "season": 10,
     "round": "ban-ket",
     "number": 2,
+    "date": "2026-10-18",
     "results": [
       {
         "person": "bui-ha-linh-chi",
@@ -2153,6 +2191,7 @@
     "season": 10,
     "round": "ban-ket",
     "number": 3,
+    "date": "2026-10-18",
     "results": [
       {
         "person": "vo-danh-son",
@@ -2209,6 +2248,7 @@
     "season": 10,
     "round": "chung-ket",
     "number": 1,
+    "date": "2026-11-08",
     "results": [
       {
         "person": "truong-tuan-minh",

@@ -143,15 +143,17 @@ export default function ClimbChart({ match, compact = false }: { match: Match; c
         {CLIMB_STEPS.map((s, i) => (
           <text
             key={s}
+            aria-label={s}
             x={x(i)}
             y={M.top + plotH + 20}
             fontSize={narrow ? 11 : 12}
             fill="#5a5670"
             textAnchor={i === 0 ? "start" : i === CLIMB_STEPS.length - 1 ? "end" : "middle"}
           >
-            {(STEP_LINES[s] ?? [s]).map((part, k) => (
+            {(STEP_LINES[s] ?? [s]).map((part, k, all) => (
+              // khoảng trắng cuối dòng (không hiện ra) để trình đọc màn hình không ghép "chướng" + "ngại"
               <tspan key={k} x={x(i)} dy={k === 0 ? 0 : "1.2em"}>
-                {part}
+                {k < all.length - 1 ? `${part} ` : part}
               </tspan>
             ))}
           </text>

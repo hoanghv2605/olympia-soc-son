@@ -1,5 +1,6 @@
 {
   "id": "doc3",
+  "qualifyingDate": "2024-11-24",
   "qualifying": [
     {
       "rank": 1,
@@ -97,6 +98,7 @@
   "semifinals": [
     {
       "no": 1,
+      "date": "2024-12-01",
       "results": [
         {
           "name": "Phùng An Phong",
@@ -128,6 +130,7 @@
     },
     {
       "no": 2,
+      "date": "2024-12-01",
       "results": [
         {
           "name": "Nguyễn Trần Đắc Phú",
@@ -160,6 +163,7 @@
     },
     {
       "no": 3,
+      "date": "2024-12-01",
       "results": [
         {
           "name": "Đỗ Ngô Thiện Nhân",
@@ -192,6 +196,7 @@
     }
   ],
   "final": {
+    "date": "2024-12-08",
     "results": [
       {
         "name": "Đỗ Thị Quỳnh Ngân",
