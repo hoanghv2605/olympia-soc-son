@@ -10,7 +10,7 @@ import type { Partner, PartnerGroup } from "../types";
  */
 const BOX: Record<PartnerGroup, { width: string; height: string }> = {
   "phoi-hop": { width: "w-[calc((100%-0.75rem)/2)] md:w-[240px]", height: "h-[110px] md:h-[150px]" },
-  "tai-tro": { width: "w-[calc((100%-1.5rem)/3)] md:w-[176px]", height: "h-[80px] md:h-[112px]" },
+  "tai-tro": { width: "w-[calc((100%-1.5rem)/3)] md:w-[176px] xl:w-[168px]", height: "h-[80px] md:h-[112px] xl:h-[108px]" },
   "dong-hanh": { width: "w-[calc((100%-1.5rem)/3)] md:w-[152px]", height: "h-[68px] md:h-24" },
 };
 
