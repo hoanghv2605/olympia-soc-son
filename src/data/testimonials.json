@@ -1,44 +1,44 @@
 [
   {
-    "id": "nhan-xet-1",
-    "name": "Họ và tên",
-    "role": "Vai trò với Olympia Sóc Sơn",
-    "position": "Chức danh hiện tại",
-    "quote": "Nội dung nhận xét đang được cập nhật."
+    "id": "tran-duc-hoang-long",
+    "name": "Trần Đức Hoàng Long",
+    "role": "Đồng sáng lập Olympia Sóc Sơn",
+    "humanSlug": "tran-duc-hoang-long",
+    "quote": "OSS là đại diện cho tuổi trẻ nhiệt huyết của mình. Tất cả những gì đặc trưng nhất của tuổi trẻ: đam mê, nhiệt huyết, tận tâm, khao khát khẳng định bản thân,... mình đều dành cho OSS và đến bây giờ cũng chỉ có OSS."
   },
   {
-    "id": "nhan-xet-2",
-    "name": "Họ và tên",
-    "role": "Vai trò với Olympia Sóc Sơn",
-    "position": "Chức danh hiện tại",
-    "quote": "Nội dung nhận xét đang được cập nhật."
+    "id": "tran-hai-linh",
+    "name": "Trần Hải Linh",
+    "role": "Quán quân OSS3",
+    "humanSlug": "tran-hai-linh",
+    "quote": "Mình không bao giờ thấy phiền cả, chỉ cần thấy các thí sinh khóa sau luôn chăm chỉ và biết phấn đấu, mình sẵn sàng truyền đạt tất cả những gì mình có."
   },
   {
-    "id": "nhan-xet-3",
-    "name": "Họ và tên",
-    "role": "Vai trò với Olympia Sóc Sơn",
-    "position": "Chức danh hiện tại",
-    "quote": "Nội dung nhận xét đang được cập nhật."
+    "id": "dinh-nguyen-thuong",
+    "name": "Đinh Nguyên Thương",
+    "role": "MC Olympia Sóc Sơn",
+    "humanSlug": "dinh-nguyen-thuong",
+    "quote": "OSS là nơi mang lại cho chị rất nhiều thứ: tình cảm, kinh nghiệm và đặc biệt là những người anh chị, bạn bè, những người em siêu giỏi giang, thân thiện."
   },
   {
-    "id": "nhan-xet-4",
-    "name": "Họ và tên",
-    "role": "Vai trò với Olympia Sóc Sơn",
-    "position": "Chức danh hiện tại",
-    "quote": "Nội dung nhận xét đang được cập nhật."
+    "id": "tran-kim-cuong",
+    "name": "Trần Kim Cương",
+    "role": "Á quân OSS4, MC Olympia Sóc Sơn",
+    "humanSlug": "tran-kim-cuong",
+    "quote": "Đứng ở vị trí MC, mình cảm thấy rất tự hào vì những thế hệ sau này của ngôi nhà OSS vẫn cháy hết mình với đam mê được chinh phục đỉnh núi tri thức."
   },
   {
-    "id": "nhan-xet-5",
-    "name": "Họ và tên",
-    "role": "Vai trò với Olympia Sóc Sơn",
-    "position": "Chức danh hiện tại",
-    "quote": "Nội dung nhận xét đang được cập nhật."
+    "id": "le-xuan-tung",
+    "name": "Lê Xuân Tùng",
+    "role": "Quý quân OSS4, Trưởng ban Truyền thông OSS6–OSS7",
+    "humanSlug": "le-xuan-tung",
+    "quote": "OSS là một hoạt động ngoại khóa, cung cấp cho anh một môi trường năng động, nhiệt huyết và các mối quan hệ giá trị."
   },
   {
-    "id": "nhan-xet-6",
-    "name": "Họ và tên",
-    "role": "Vai trò với Olympia Sóc Sơn",
-    "position": "Chức danh hiện tại",
-    "quote": "Nội dung nhận xét đang được cập nhật."
+    "id": "nguyen-doan-hong-thai",
+    "name": "Nguyễn Đoàn Hồng Thái",
+    "role": "Á quân OSS5, OSS6",
+    "humanSlug": "nguyen-doan-hong-thai",
+    "quote": "OSS đã đem cho mình nhiều giá trị, kỷ niệm, tình bạn và sự gắn kết nên mình vô cùng tự hào vì bản thân là một phần trong Olympia Sóc Sơn."
   }
 ]

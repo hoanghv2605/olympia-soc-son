@@ -1,50 +1,32 @@
 import { useEffect, useRef, useState, type FocusEvent, type KeyboardEvent, type PointerEvent } from "react";
-import { PiPause, PiPlay, PiQuotes } from "react-icons/pi";
-import { testimonialPhoto, testimonials } from "../lib/data";
-import { asset } from "../lib/format";
+import { Link } from "react-router";
+import { PiPause, PiPlay } from "react-icons/pi";
+import PersonPhoto from "./PersonPhoto";
+import { humanPath, testimonialSource, testimonials } from "../lib/data";
 import { prefersReducedMotion } from "../lib/hooks";
-import { hasImage, imageFocus } from "../lib/images";
-import { placeholderTone } from "../lib/placeholder";
 import type { Testimonial } from "../types";
 
 const AUTO_MS = 7000; // tự chuyển sau mỗi 7 giây
 const SWIPE_PX = 40; // ngưỡng vuốt
 
-/** Ảnh tròn kèm 2 vòng tròn mảnh đồng tâm (tím 30%, vàng kim 40%). Chưa có ảnh: hình tròn tông màu + icon ngoặc kép. */
-function Portrait({ t }: { t: Testimonial }) {
-  const photo = testimonialPhoto(t.id);
-  const tone = placeholderTone(t.id);
+/** Ảnh tròn kèm 2 vòng tròn mảnh đồng tâm (tím 30%, vàng kim 40%). Không có ảnh hồ sơ: chữ viết tắt như các thẻ khác. */
+function Portrait({ name, seed, photo }: { name: string; seed: string; photo?: string }) {
   return (
     <span className="relative grid shrink-0 place-items-center p-6">
       <span aria-hidden className="absolute inset-0 rounded-full border border-gold/40" />
       <span aria-hidden className="absolute inset-3 rounded-full border border-oss/30" />
-      {hasImage(photo) ? (
-        <img
-          src={asset(photo)}
-          alt={`Ảnh ${t.name}`}
-          loading="lazy"
-          style={{ objectPosition: imageFocus(photo) }}
-          className="size-[120px] rounded-full object-cover md:size-40"
-        />
-      ) : (
-        <span
-          aria-hidden
-          className="grid size-[120px] place-items-center rounded-full md:size-40"
-          style={{ backgroundColor: tone.bg, color: tone.ink }}
-        >
-          <PiQuotes className="size-12 opacity-60 md:size-14" />
-        </span>
-      )}
+      <PersonPhoto src={photo} seed={seed} name={name} className="size-[120px] rounded-full md:size-40" />
     </span>
   );
 }
 
 function Slide({ t }: { t: Testimonial }) {
   const paragraphs = t.quote.split(/\n\s*\n/).filter((p) => p.trim());
+  const { story, seed, photo } = testimonialSource(t);
   return (
     <div className="relative">
       <div className="flex flex-col items-center gap-4 text-center md:flex-row md:gap-6 md:text-left">
-        <Portrait t={t} />
+        <Portrait name={t.name} seed={seed} photo={photo} />
         <div className="flex flex-col items-center gap-2 md:items-start">
           <p className="rounded-full border border-oss/15 bg-white px-4 py-1.5 text-oss">
             {t.name}
@@ -75,6 +57,14 @@ function Slide({ t }: { t: Testimonial }) {
         <span aria-hidden className="font-display mt-2 block text-right text-6xl leading-none text-gold">
           ”
         </span>
+        {story && (
+          <figcaption className="text-center md:text-left">
+            <Link to={humanPath(story.slug)} className="link-strong inline-block text-sm">
+              Đọc bài phỏng vấn
+              <span className="sr-only"> {t.name}</span>
+            </Link>
+          </figcaption>
+        )}
       </figure>
     </div>
   );

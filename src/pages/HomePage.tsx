@@ -8,7 +8,7 @@ import MapSection from "../components/MapSection";
 import Section from "../components/Section";
 import Partners from "../components/Partners";
 import Testimonials from "../components/Testimonials";
-import { finalPhoto, heroSeason, partners, seasonPath, site, testimonials } from "../lib/data";
+import { finalPhoto, heroSeason, latestFinalSeason, partners, seasonPath, site, testimonials } from "../lib/data";
 import { hasImage, imageFocus } from "../lib/images";
 import { CUBE_GRADIENT, HERO_GRADIENT, asset, yearOf } from "../lib/format";
 import { usePageTitle } from "../lib/hooks";
@@ -35,6 +35,10 @@ const HERO_SCRIM = {
     "radial-gradient(ellipse at top right, rgba(30, 10, 60, 0.4), transparent 55%), linear-gradient(to top, rgba(30, 10, 60, 0.55), transparent 22%), linear-gradient(to bottom left, rgba(30, 10, 60, 0.75), rgba(30, 10, 60, 0.15))",
 };
 
+/** Nút trên ảnh lớn: viền focus trắng để thấy được trên ảnh tối. */
+const HERO_BUTTON =
+  "inline-flex min-h-9 items-center rounded-full border px-3.5 text-[13px] font-semibold focus-visible:outline-white md:min-h-11 md:px-5 md:text-sm";
+
 export default function HomePage() {
   usePageTitle("Olympia Sóc Sơn");
   // Ảnh lớn = ảnh Chung kết của mùa lớn nhất có ảnh; O, S, S = 3 mùa liền trước (cũ → mới)
@@ -42,6 +46,8 @@ export default function HomePage() {
   const finalImage = heroN ? finalPhoto(heroN) : undefined;
   const mainImage = finalImage ?? (hasImage(site.images.heroMain) ? site.images.heroMain : undefined);
   const caption = heroN ? `Chung kết Olympia Sóc Sơn mùa ${heroN}` : site.images.heroCaption;
+  // Ảnh lớn và 2 nút dẫn tới mùa mới nhất đã có Chung kết (cùng cách khối "Chung kết mùa n")
+  const latest = latestFinalSeason()?.season;
   const letters = LETTERS.map((letter, i) => {
     const n = heroN ? heroN - 3 + i : 0;
     return { letter, n, photo: n >= 1 ? finalPhoto(n) : undefined };
@@ -86,7 +92,7 @@ export default function HomePage() {
             )}
           </div>
 
-          <div className="relative min-h-[22rem] overflow-hidden rounded-2xl md:min-h-[30rem]" style={HERO_BG}>
+          <div className="relative min-h-[24rem] overflow-hidden rounded-2xl md:min-h-[30rem]" style={HERO_BG}>
             {mainImage && (
               <img
                 src={asset(mainImage)}
@@ -102,10 +108,24 @@ export default function HomePage() {
             )}
             {/* Thứ tự lớp: ảnh < các ô lật (z-10) < chữ trên ảnh (z-20) */}
             <HeroTiles />
-            <h1 className="hero-slogan font-display absolute top-5 right-5 z-20 max-w-[13ch] text-right text-3xl leading-[1.25] font-extrabold text-white drop-shadow-sm md:top-8 md:right-9 md:text-[3.25rem]">
+            {/* Bấm vào ảnh mở mùa mới nhất; bàn phím và trình đọc màn hình dùng nút "Xem kết quả" bên dưới (không lặp link) */}
+            {latest && <Link to={seasonPath(latest)} tabIndex={-1} aria-hidden="true" className="absolute inset-0 z-[15]" />}
+            <h1 className="hero-slogan font-display pointer-events-none absolute top-5 right-5 z-20 max-w-[13ch] text-right text-3xl leading-[1.25] font-extrabold text-white drop-shadow-sm md:top-8 md:right-9 md:text-[3.25rem]">
               <span className="sr-only">{site.name}: </span>“{site.slogan}”
             </h1>
-            <p className="absolute bottom-4 left-5 z-20 text-xs text-white/90 md:text-sm">{caption}</p>
+            <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 flex flex-col items-start gap-2 md:inset-x-5 md:bottom-4 md:flex-row-reverse md:items-end md:justify-between md:gap-4">
+              {latest && (
+                <div className="pointer-events-auto flex flex-wrap gap-2">
+                  <Link to={seasonPath(latest)} className={`${HERO_BUTTON} border-white bg-white text-oss hover:bg-oss-soft`}>
+                    Xem kết quả mùa {latest}
+                  </Link>
+                  <Link to="/wiki/thi-sinh" className={`${HERO_BUTTON} border-white/80 bg-black/55 text-white hover:bg-black/75`}>
+                    Tra cứu thí sinh
+                  </Link>
+                </div>
+              )}
+              <p className="text-xs text-white/90 md:text-sm">{caption}</p>
+            </div>
           </div>
         </div>
       </section>

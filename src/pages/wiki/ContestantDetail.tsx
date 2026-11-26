@@ -15,6 +15,7 @@ import {
   eventTimeLabel,
   eventResultMedal,
   eventsOfPerson,
+  olympiaRoundLabel,
   personEventText,
   humanPath,
   humansOfPerson,
@@ -155,7 +156,7 @@ export default function ContestantDetail() {
                       <tr key={`${r.year}-${r.round}`}>
                         <td className="tabular-nums">{r.year}</td>
                         <td>
-                          {r.round}
+                          {olympiaRoundLabel(r)}
                           {r.note && <span className="block text-sm font-semibold text-cube-pink">{r.note}</span>}
                           {r.beforeOss && <span className="block text-xs text-ink-soft">Tham gia trước khi dự thi OSS</span>}
                         </td>

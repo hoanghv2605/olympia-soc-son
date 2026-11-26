@@ -12,7 +12,6 @@ const qualifying = read("qualifying");
 const olympia = read("olympia");
 const matches = read("matches");
 const milestones = read("milestones");
-const testimonials = read("testimonials");
 const partners = read("partners");
 const humans = read("humans");
 const matchesAll = matches;
@@ -84,13 +83,7 @@ group(
   ),
 );
 
-// 4. Nhận xét
-group(
-  "Nhận xét",
-  testimonials.map((t) => ({ label: t.name, options: [`images/nhan-xet/${t.id}.jpg`] })),
-);
-
-// 5. Đơn vị đồng hành theo nhóm (svg hoặc png): doi-tac/{id}.svg|png, id = phoi-hop-n / tai-tro-n / dong-hanh-n trong partners.json
+// 4. Đơn vị đồng hành theo nhóm (svg hoặc png): doi-tac/{id}.svg|png, id = phoi-hop-n / tai-tro-n / dong-hanh-n trong partners.json
 for (const [tier, title] of [
   ["phoi-hop", "Đơn vị phối hợp tổ chức"],
   ["tai-tro", "Nhà tài trợ"],
@@ -104,7 +97,7 @@ for (const [tier, title] of [
   );
 }
 
-// 6. Human of OSS: đủ HUMAN_SLOTS ô, ảnh human-of-oss/{stt 2 chữ số}.jpg.
+// 5. Human of OSS: đủ HUMAN_SLOTS ô, ảnh human-of-oss/{stt 2 chữ số}.jpg.
 //    Tập có `person` mà chưa có ảnh riêng vẫn dùng được ảnh thí sinh (tính là có, ghi chú "đang dùng ảnh thí sinh").
 const humanItems = Array.from({ length: HUMAN_SLOTS }, (_, i) => {
   const story = humans.find((h) => h.stt === i + 1);
@@ -118,25 +111,25 @@ const humanItems = Array.from({ length: HUMAN_SLOTS }, (_, i) => {
 });
 group(`Human of OSS (${HUMAN_SLOTS} ô, theo stt)`, humanItems);
 
-// 7. Các ban: ban/ban-{id}.jpg
+// 6. Các ban: ban/ban-{id}.jpg
 group(
   "Các ban",
   departments.map((d) => ({ label: d.name, options: [`images/${departmentPhotoFile(d.id)}`] })),
 );
 
-// 8. Logo trường (svg hoặc png)
+// 7. Logo trường (svg hoặc png)
 group(
   "Logo trường",
   schools.map((s) => ({ label: s.name, options: [`images/truong/${s.id}.svg`, `images/truong/${s.id}.png`] })),
 );
 
-// 9. Ảnh trang Giới thiệu (ảnh lớn trang chủ lấy từ ảnh Chung kết mới nhất nên hero-main.jpg chỉ là tùy chọn)
+// 8. Ảnh trang Giới thiệu (ảnh lớn trang chủ lấy từ ảnh Chung kết mới nhất nên hero-main.jpg chỉ là tùy chọn)
 group("Ảnh trang Giới thiệu", [
   { label: "Ảnh tập thể (trên) trang Giới thiệu", options: [site.images.aboutTop] },
   { label: "Ảnh tập thể (dưới) trang Giới thiệu", options: [site.images.aboutBottom] },
 ]);
 
-// 10. Logo OSS (logo-oss.svg hoặc logo-oss.png; logo-oss-tam.svg chỉ là logo tạm)
+// 9. Logo OSS (logo-oss.svg hoặc logo-oss.png; logo-oss-tam.svg chỉ là logo tạm)
 group("Logo OSS", [{ label: "Logo Olympia Sóc Sơn", options: ["logo-oss.svg", "logo-oss.png"] }]);
 
 // ===== In kết quả =====

@@ -72,7 +72,7 @@ export interface OlympiaRecord {
   ossSeason: number | null; // null = thí sinh không thi OSS
   year: number; // Olympia năm thứ ...
   stage: OlympiaStage;
-  round: string; // "Tuần 3 - Tháng 1 - Quý 3"
+  round: string | null; // "Tuần 3 - Tháng 1 - Quý 3"; phần chưa biết thì bỏ, không biết gì thì null (không lưu "?")
   result: string; // giữ nguyên văn: "Giải Nhất", "Quý quân"...
   date?: string;
   note?: string | null;
@@ -161,13 +161,14 @@ export interface HumanStory {
   stt: number;
 }
 
-/** Nhận xét trên trang chủ. Ảnh: public/images/nhan-xet/<id>.jpg. Chỉ đăng khi người đó đồng ý. */
+/** Nhận xét trên trang chủ, trích từ bài Human of OSS. Chỉ đăng khi người đó đồng ý. */
 export interface Testimonial {
   id: string;
   name: string; // gồm cả cách xưng hô, vd "Chị Nguyễn Văn A"
   role?: string; // vai trò với Olympia Sóc Sơn
   position?: string; // chức danh hiện tại
-  quote: string; // nhiều đoạn ngăn bằng "\n\n"
+  quote: string; // nhiều đoạn ngăn bằng "\n\n"; để trống thì mục không hiện
+  humanSlug?: string; // bài Human of OSS gốc (humans.json): link "Đọc bài phỏng vấn" và ảnh hồ sơ
 }
 
 /** Nhóm đơn vị đồng hành (thứ tự hiển thị: phối hợp tổ chức → tài trợ → đồng hành). */

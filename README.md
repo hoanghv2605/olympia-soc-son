@@ -41,7 +41,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `seasons.json` | Các mùa: ngày VL/CK, năm học, địa điểm, MC, luật ĐLĐO năm thứ, đối tượng, `notes`, `seededDraw` |
 | `qualifying.json` | Top 12 vòng loại mỗi mùa |
 | `matches.json` | Các trận Bán kết / Chung kết: điểm 4 phần thi, tổng, hạng, `advanced` (BK), `placement` (CK) |
-| `olympia.json` | Thành tích Đường lên đỉnh Olympia. `ossSeason`: mùa OSS của thí sinh, `null` = không thi OSS. `beforeOss: true` = tham gia ĐLĐO trước khi dự thi OSS. Giải Nhất cuộc thi Quý được tính là 1 cầu truyền hình |
+| `olympia.json` | Thành tích Đường lên đỉnh Olympia. `ossSeason`: mùa OSS của thí sinh, `null` = không thi OSS. `beforeOss: true` = tham gia ĐLĐO trước khi dự thi OSS. Giải Nhất cuộc thi Quý được tính là 1 cầu truyền hình. `round` chỉ ghi phần đã biết (vd `"Tháng 2 - Quý 3"` khi chưa biết tuần), không biết gì thì `null`; **không ghi `"?"`** |
 | `milestones.json` | Dòng thời gian (`person` là mã thí sinh). `kind`: `"oss"` = chấm tím, `"olympia"` = chấm hồng |
 | `stats.json` | Những con số ấn tượng: mục `"manual": true` nhập tay, còn lại web tự tính |
 | `departments.json` | 5 ban (Ban Tổ chức đứng đầu, `id` `to-chuc`): tên, `leaderTitle` ("Anh" / "Chị"), `leader` (Trưởng ban; `null` = ẩn dòng), `leaderPerson` (tuỳ chọn: id hồ sơ OSSPEDIA, có hồ sơ thì tên là link), nhiệm vụ `duties[]` (ảnh ban đặt theo `id`) |
@@ -80,7 +80,7 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 | `public/images/thu-vien/su-kien/{mã sự kiện}/<tên tùy ý>.jpg` | **Ảnh Thư viện sự kiện** (`.jpg`, `.jpeg`, `.png`, `.webp`), xếp tên kiểu tự nhiên; thứ tự: ảnh bìa → ảnh trao giải (`awardPhoto`) → ảnh trong thư mục | nên ngang | < 400 KB |
 | `public/images/thi-sinh/{photoKey}-{slug họ tên}-{mã trường}.jpg` | Ảnh người chơi tại sự kiện (vd `truyenlua2023-le-tra-my-ss.jpg`, `allstars-chu-duc-huy-ss.jpg`), chỉ cho người chơi có trường trong `schools.json`. DOC3: `doc3-{slug}-{mã trường}.jpg`. Hiện ở trang sự kiện và nút ảnh ở hồ sơ | dọc 3:4 | ~600×800 |
 | `public/images/human-of-oss/{stt 2 chữ số}.jpg` | Chân dung Human of OSS, theo `stt` trong `humans.json` (vd `01.jpg`). Thư mục `images/humans/` không còn dùng | dọc | ~800×1000 |
-| `public/images/nhan-xet/<id>.jpg` | Ảnh người nhận xét ở trang chủ. `id` trong `testimonials.json` | vuông | ~600×600 |
+| `public/images/bia/oss{n}-bia.jpg` | Ảnh bìa mùa (logo), xem mục "Ảnh bìa mùa" | **vuông 1:1** | ~1254×1254 |
 | `public/images/doi-tac/{id}.svg` hoặc `.png` | Logo đối tác (nền trong suốt, giữ màu gốc), tên file = `id` trong `partners.json`: `phoi-hop-1`…`phoi-hop-2`, `tai-tro-1`…`tai-tro-6`, `dong-hanh-1`…`dong-hanh-6`. Đổi nhóm: xem mục "Thêm / sửa một đơn vị đồng hành" | tự do | SVG, hoặc PNG ngang ~600 px |
 | `public/images/thi-sinh/o{năm}-{slug họ tên}-{mã trường}.jpg` | Ảnh **Đường lên đỉnh Olympia**, mỗi năm một ảnh, cho cả thí sinh OSS và người chỉ thi Olympia (vd `o26-nghiem-trung-duc-ss.jpg`). Mã trường theo trường của người đó trong `people.json`. Hiện ở hồ sơ (nút "O26") và mục THPT Sóc Sơn tại Đường lên đỉnh Olympia ở Bảng vàng | dọc 3:4 | ~600×800 |
 | `public/images/thi-sinh/s{mùa}-{slug họ tên}-{mã trường}-win.jpg` | Ảnh **Quán quân** ở Hall of Fame (Bảng vàng), mùa vô địch gần nhất của người đó (vd `s9-nghiem-trung-duc-ss-win.jpg`). Chưa có thì dùng ảnh mùa đó (không `-win`), rồi ảnh mùa khác | vuông | ~800×800 |
@@ -101,7 +101,7 @@ Chưa có ảnh thì web hiện ảnh giữ chỗ (khi chạy `npm run dev` ô �
 **Web chọn ảnh thế nào:** ở trang một mùa (ảnh tròn nhỏ cạnh tên trong bảng Bán kết / Chung kết, thẻ xem nhanh) và khối "Chung kết mùa n" trang chủ thì ưu tiên ảnh đúng mùa đó, chưa có thì dùng ảnh mùa khác (mới trước). Ở chỗ khác (Bảng vàng, danh sách, trang trường, tìm kiếm...) dùng ảnh mùa mới nhất. Hồ sơ thí sinh có nút "Mùa n" và "O{năm}" dưới ảnh (hiện khi có từ 2 nút) để xem ảnh từng mùa / từng năm Olympia (chưa có ảnh thì hiện ảnh giữ chỗ). Mục THPT Sóc Sơn tại Đường lên đỉnh Olympia ưu tiên ảnh `o…`. Hall of Fame dùng ảnh `-win`. Hai lượt thi khác nhau mà ra cùng một tên file thì `npm run build` dừng lại và báo 2 lượt đó.
 
 ### Ảnh bìa mùa
-`public/images/bia/oss{n}-bia.jpg` (ngang 3:2, ~1500×1000). Ưu tiên: ô mùa ở Thư viện = ảnh bìa → ảnh đầu thư viện → giữ chỗ; thư viện mùa = ảnh bìa đứng đầu, rồi ảnh trận đấu, rồi `thu-vien/mua-{n}/`; thẻ mùa và dải mờ đầu trang mùa (OSSPEDIA) = ảnh bìa → ảnh Chung kết. Ảnh lớn trang chủ vẫn dùng ảnh Chung kết.
+`public/images/bia/oss{n}-bia.jpg` (**vuông 1:1**, ~1254×1254; web luôn hiện trọn ảnh, không cắt). Ưu tiên: ô mùa ở Thư viện = ảnh bìa → ảnh đầu thư viện → giữ chỗ; thư viện mùa = ảnh bìa đứng đầu, rồi ảnh trận đấu, rồi `thu-vien/mua-{n}/`; thẻ mùa và dải mờ đầu trang mùa (OSSPEDIA) = ảnh bìa → ảnh Chung kết. Ảnh lớn trang chủ vẫn dùng ảnh Chung kết.
 
 ### Ảnh bị cắt mất mặt? Chỉnh tiêu điểm
 Ảnh cắt khung (`object-fit: cover`) lấy vị trí mặc định: ảnh người (`thi-sinh`, `human-of-oss`, `nhan-xet`) `50% 25%`, ảnh ngang (`tran-dau`, `bia`, `thu-vien`, `cot-moc`, ảnh lớn) `50% 35%`. Muốn chỉnh riêng một ảnh, thêm vào `src/data/tieu-diem-anh.json` (đường dẫn tính từ `images/`):
@@ -143,21 +143,19 @@ Mẹo: nén ảnh dưới ~400 KB (squoosh.app) để web tải nhanh. Ảnh ch�
 
 ### Thêm một nhận xét (khối "Cảm nhận về Olympia Sóc Sơn" ở trang chủ)
 
-> Chỉ đăng nhận xét và ảnh khi người đó đã đồng ý.
+> Chỉ đăng nhận xét khi người đó đã đồng ý.
 
-1. Mở `src/data/testimonials.json`. Sửa một mục giữ chỗ (`nhan-xet-1`…`nhan-xet-6`) hoặc thêm mục mới (nhớ dấu phẩy giữa các mục):
-   ```json
-   {
-     "id": "nhan-xet-7",
-     "name": "Chị Nguyễn Văn A",
-     "role": "Quán quân mùa 3",
-     "position": "Sinh viên Đại học Bách khoa Hà Nội",
-     "quote": "Đoạn thứ nhất.\n\nĐoạn thứ hai."
-   }
-   ```
-   `name` ghi cả cách xưng hô; `role`, `position` có thể bỏ; xuống đoạn bằng `\n\n`. Thứ tự trên web = thứ tự trong file.
-2. Ảnh (nếu có): `public/images/nhan-xet/<id>.jpg`, ảnh vuông khoảng 600×600.
-3. Chạy lại `npm run dev` để xem.
+Các nhận xét là **trích nguyên văn từ bài Human of OSS**. Mở `src/data/testimonials.json`, thêm một mục (nhớ dấu phẩy giữa các mục):
+```json
+{
+  "id": "tran-hai-linh",
+  "name": "Trần Hải Linh",
+  "role": "Quán quân OSS3",
+  "humanSlug": "tran-hai-linh",
+  "quote": "Câu chép đúng nguyên văn từ bài."
+}
+```
+`humanSlug` = `slug` của bài trong `humans.json` (tạo link "Đọc bài phỏng vấn"). `role`, `position` (chức danh hiện tại) có thể bỏ, bỏ thì dòng đó ẩn; xuống đoạn bằng `\n\n`; `quote` để trống thì mục không hiện. Thứ tự trên web = thứ tự trong file. **Ảnh tự lấy** từ hồ sơ OSSPEDIA của người trong bài (`person` trong `humans.json`); không có hồ sơ thì hiện chữ viết tắt. Thư mục `images/nhan-xet/` không còn dùng.
 
 ### Thêm / sửa một đơn vị đồng hành (khối "Đồng hành cùng Olympia Sóc Sơn")
 

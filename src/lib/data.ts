@@ -72,8 +72,8 @@ export const departments = departmentsJson as Department[];
 export const contacts = contactsJson as ContactPerson[];
 /** Câu chuyện Human of OSS, xếp theo `stt` tăng dần (stt trùng nhau thì build báo lỗi, xem scripts/gen-image-manifest.mjs). */
 export const humans = (humansJson as HumanStory[]).slice().sort((a, b) => a.stt - b.stt);
-/** Nhận xét (trang chủ), theo thứ tự trong file */
-export const testimonials = testimonialsJson as Testimonial[];
+/** Nhận xét (trang chủ), theo thứ tự trong file; mục thiếu trích dẫn thì bỏ */
+export const testimonials = (testimonialsJson as Testimonial[]).filter((t) => t.quote?.trim());
 /** Đơn vị đồng hành (trang chủ), theo thứ tự trong file */
 export const partners = partnersJson as Partner[];
 /** Nhóm đơn vị đồng hành theo thứ tự hiển thị; nhóm trống thì ẩn. */
@@ -561,8 +561,11 @@ export function humanNeighbors(slug: string) {
   return { prev: i > 0 ? humans[i - 1] : undefined, next: i >= 0 ? humans[i + 1] : undefined };
 }
 
-export function testimonialPhoto(id: string) {
-  return `images/nhan-xet/${id}.jpg`;
+/** Bài gốc và ảnh của một nhận xét: người trong bài có hồ sơ OSSPEDIA thì dùng ảnh hồ sơ, không thì ảnh giữ chỗ (chữ viết tắt). */
+export function testimonialSource(t: Testimonial) {
+  const story = humans.find((h) => h.slug === t.humanSlug);
+  const person = story?.person ? getPerson(story.person) : undefined;
+  return { story, seed: person?.id ?? t.id, photo: person ? personPhoto(person.id) : undefined };
 }
 
 /** Logo đối tác: .svg rồi .png trong public/images/doi-tac/. */
@@ -890,6 +893,23 @@ export function defendingChampions() {
 }
 
 // ===== Đường lên đỉnh Olympia =====
+
+/**
+ * Tên vòng thi Đường lên đỉnh Olympia để hiển thị. Phần chưa biết đã được bỏ khỏi dữ liệu (không bao giờ hiện "?"):
+ * cuộc thi tuần thiếu số tuần → "Cuộc thi tuần" hoặc "Cuộc thi tuần · Tháng 2 - Quý 3".
+ */
+export function olympiaRoundLabel(r: OlympiaRecord) {
+  if (r.stage === "tuan" && !r.round?.startsWith("Tuần")) {
+    return r.round ? `Cuộc thi tuần · ${r.round}` : "Cuộc thi tuần";
+  }
+  return r.round ?? "";
+}
+
+/** "Giải Ba cuộc thi tuần", "Giải Nhất Tuần 3 - Tháng 1 - Quý 3" (kết quả + vòng thi trên một dòng chữ). */
+export function olympiaAchievement(r: OlympiaRecord) {
+  const round = olympiaRoundLabel(r);
+  return `${r.result} ${round.startsWith("Cuộc thi") ? `c${round.slice(1)}` : round}`;
+}
 
 /**
  * Dòng Đường lên đỉnh Olympia trong phạm vi:

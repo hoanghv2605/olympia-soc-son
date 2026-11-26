@@ -101,7 +101,10 @@ function defendingFacts(): Fact[] {
   }));
 }
 
-/** Cách biệt Chung kết (điểm Quán quân – điểm cao nhất còn lại): lớn nhất và nhỏ nhất (> 0). */
+/**
+ * Cách biệt Chung kết (điểm Quán quân – điểm cao nhất còn lại): trận hòa điểm (phân định bằng câu hỏi phụ),
+ * cách biệt lớn nhất và trận phân định bằng tổng điểm sát nút nhất (chỉ xét trận không hòa).
+ */
 function marginFacts(): Fact[] {
   const rows = seasons.flatMap((s) => {
     const final = finalOf(s.season);
@@ -113,23 +116,33 @@ function marginFacts(): Fact[] {
     const seconds = others.filter((r) => r.total === best);
     return [{ season: s.season, champ, best, seconds, margin: (champ.total as number) - best }];
   });
+  type Row = (typeof rows)[number];
+  const secondNames = (r: Row) => joinViText(r.seconds.map((x) => personName(x.person)));
+  const out: Fact[] = [];
+
+  const tied = rows.filter((r) => r.margin === 0);
+  const which = tied.length === 1 ? "trận Chung kết duy nhất" : `một trong ${tied.length} trận Chung kết`;
+  for (const r of tied) {
+    out.push({
+      id: `final-tie-${r.season}`,
+      text: `Chung kết mùa ${r.season} là ${which} hòa điểm (${r.champ.total}–${r.best}): ${personName(r.champ.person)} thắng ${secondNames(r)} ở câu hỏi phụ.`,
+      to: seasonPath(r.season),
+    });
+  }
+
   const positive = rows.filter((r) => r.margin > 0);
-  if (!positive.length) return [];
+  if (!positive.length) return out;
   const max = positive.reduce((a, b) => (b.margin > a.margin ? b : a));
   const min = positive.reduce((a, b) => (b.margin < a.margin ? b : a));
-  const describe = (r: (typeof rows)[number]) =>
-    `${personName(r.champ.person)} ${r.champ.total} – ${joinViText(r.seconds.map((x) => personName(x.person)))} ${r.best} (Mùa ${r.season})`;
-  const out: Fact[] = [
-    {
-      id: "margin-max",
-      text: `Cách biệt lớn nhất ở một trận Chung kết là ${max.margin} điểm: ${describe(max)}.`,
-      to: seasonPath(max.season),
-    },
-  ];
+  out.push({
+    id: "margin-max",
+    text: `Cách biệt lớn nhất ở một trận Chung kết là ${max.margin} điểm: ${personName(max.champ.person)} ${max.champ.total} – ${secondNames(max)} ${max.best} (Mùa ${max.season}).`,
+    to: seasonPath(max.season),
+  });
   if (min !== max) {
     out.push({
       id: "margin-min",
-      text: `Cách biệt nhỏ nhất ở một trận Chung kết là ${min.margin} điểm: ${describe(min)}.`,
+      text: `Trận Chung kết được phân định bằng tổng điểm sát nút nhất là mùa ${min.season}: ${personName(min.champ.person)} hơn ${secondNames(min)} ${min.margin} điểm (${min.champ.total}–${min.best}).`,
       to: seasonPath(min.season),
     });
   }

@@ -22,6 +22,8 @@ interface Entry {
   title: string;
   description: string;
   stat: string;
+  /** Số liệu dài: cho xuống dòng trong một phần */
+  statWrap?: boolean;
 }
 
 /** 3 lối tắt trong ô OSSPEDIA: mùa mới nhất (tự tính), danh sách thí sinh, các trường. */
@@ -51,7 +53,9 @@ function entries(): Entry[] {
       title: "Bảng vàng",
       description: "Quán quân, kỷ lục và thành tích tại Đường lên đỉnh Olympia.",
       // số Quán quân = số người khác nhau từng vô địch; vòng nguyệt quế: thí sinh THPT Sóc Sơn, phạm vi toàn bộ
-      stat: `${championCards().length} Quán quân · ${olympiaLaurelCount("soc-son", "all")} vòng nguyệt quế`,
+      // \u00a0 giữ liền các cụm: phần sau dài nên được xuống dòng giữa các cụm ở màn hẹp
+      stat: `${championCards().length}\u00a0nhà vô địch OSS · ${olympiaLaurelCount("soc-son", "all")}\u00a0vòng\u00a0nguyệt\u00a0quế tại Đường\u00a0lên\u00a0đỉnh\u00a0Olympia`,
+      statWrap: true,
     },
     {
       to: "/human-of-oss",
@@ -78,7 +82,7 @@ export default function HomeEntrances() {
   const [main, ...rest] = entries();
   const MainIcon = main.icon;
   return (
-    <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
       <div className="entry-card flex flex-col p-6 md:row-span-3 md:p-8">
         <MainIcon className="size-11 text-oss" aria-hidden />
         <h3 className="h2 mt-5 text-ink">
@@ -116,7 +120,7 @@ export default function HomeEntrances() {
                 </Link>
               </h3>
               <p className="mt-1 text-[15px] text-ink-soft">{e.description}</p>
-              <Figure text={e.stat} className="mt-2 text-sm font-semibold text-oss tabular-nums" />
+              <Figure text={e.stat} wrap={e.statWrap} className="mt-2 text-sm font-semibold text-oss tabular-nums" />
             </div>
           </div>
         );

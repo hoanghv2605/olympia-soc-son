@@ -26,9 +26,11 @@ import {
   championPhoto,
   describeTitles,
   getSchool,
+  olympiaAchievement,
   olympiaContestantCount,
   olympiaLaurelCount,
   olympiaPeople,
+  olympiaRoundLabel,
   olympiaTvBridgeCount,
   ossSeasonsOf,
   personPath,
@@ -178,7 +180,7 @@ function OlympiaSection() {
                         <span
                           key={i}
                           className={`size-2.5 rounded-full ring-1 ring-white/60 ${medal ? MEDAL_DOT[medal] : "bg-white/40"}`}
-                          title={`${r.result} ${r.round}`}
+                          title={olympiaAchievement(r)}
                         />
                       );
                     })}
@@ -224,7 +226,7 @@ function OlympiaSection() {
                   <MedalBadge medal={medalOf(r.result)}>{r.result}</MedalBadge>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[15px] text-ink">
-                      {r.round}, năm thứ {r.year}
+                      {olympiaRoundLabel(r)}, năm thứ {r.year}
                     </span>
                     {r.date && <span className="block text-xs text-ink-soft tabular-nums">{formatDate(r.date)}</span>}
                     {r.note && <span className="block text-sm font-semibold text-cube-pink">{r.note}</span>}
