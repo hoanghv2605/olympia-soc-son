@@ -6,8 +6,9 @@ import LegendPopover from "./LegendPopover";
 import MatchPhoto from "./MatchPhoto";
 import MatchTable, { FinalLegendBody, SemiLegendBody } from "./MatchTable";
 import PersonLink from "./PersonLink";
+import RelatedStories from "./RelatedStories";
 import { useCompetition } from "../lib/competitionContext";
-import { matchPhoto } from "../lib/data";
+import { matchCode, matchPhoto } from "../lib/data";
 import { formatDate, formatSchoolYear, formatScore } from "../lib/format";
 import type { Match, QualifyingEntry } from "../types";
 
@@ -179,6 +180,7 @@ export default function CompetitionSections({
               </tbody>
             </table>
           </div>
+          <RelatedStories season={quals[0].season} code="vl" />
         </section>
       )}
 
@@ -197,6 +199,7 @@ export default function CompetitionSections({
                 match={m}
                 id={`ban-ket-${m.number}`}
                 photo={matchPhoto(m.id) ? <MatchPhoto match={m} caption={`Các thí sinh của trận Bán kết ${m.number}`} /> : undefined}
+                footer={<RelatedStories season={m.season} code={matchCode(m)} />}
               />
             ))}
           </div>
@@ -214,6 +217,7 @@ export default function CompetitionSections({
           <div className="mt-6">
             <MatchTable match={final} />
             <ClimbChart match={final} />
+            <RelatedStories season={final.season} code={matchCode(final)} />
             {matchPhoto(final.id) && (
               <div className="mt-8">
                 <MatchPhoto match={final} caption={finalCaption} />

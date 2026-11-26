@@ -1189,3 +1189,38 @@
     transition: none;
   }
 }
+
+/* ===== Làm nổi mục được mở bằng đường dẫn (?tran=…, ?muc=…): xem src/lib/deepLink.ts ===== */
+.deep-flash {
+  border-radius: 0.75rem;
+  animation: deep-flash 2.2s ease-out both;
+}
+@keyframes deep-flash {
+  0%,
+  45% {
+    background-color: rgb(109 40 217 / 0.09);
+    box-shadow:
+      0 0 0 8px rgb(109 40 217 / 0.09),
+      0 0 0 10px rgb(109 40 217 / 0.45);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow:
+      0 0 0 8px transparent,
+      0 0 0 10px transparent;
+  }
+}
+/* Giảm chuyển động: viền sáng đứng yên rồi tắt hẳn khi gỡ lớp */
+@media (prefers-reduced-motion: reduce) {
+  .deep-flash {
+    animation: none;
+    box-shadow: 0 0 0 3px rgb(109 40 217 / 0.45);
+  }
+}
+
+/* Gợi ý vuốt ngang trên bảng điểm rộng hơn khung (component ScrollTable) */
+.scroll-hint {
+  font-size: 0.75rem;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.375rem;
+}

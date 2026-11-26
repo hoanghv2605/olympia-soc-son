@@ -173,6 +173,35 @@ export function roundLabel(match?: Match) {
   return match.round === "chung-ket" ? "Chung kết" : `Bán kết ${match.number}`;
 }
 
+// ===== Mã trận trong đường dẫn: ?tran=vl | bk1 | bk2 | bk3 | ck (trang mùa và trang sự kiện dạng mùa thi) =====
+
+/** Mã ổn định của một vòng / trận: không truyền trận = Vòng loại. */
+export function matchCode(match?: Pick<Match, "round" | "number">) {
+  if (!match) return "vl";
+  return match.round === "chung-ket" ? "ck" : `bk${match.number}`;
+}
+
+/** Mã trận → id phần tử trên trang (`vong-loai`, `ban-ket-n`, `chung-ket`); mã sai → undefined. */
+export function matchAnchor(code: string | null | undefined) {
+  if (code === "vl") return "vong-loai";
+  if (code === "ck") return "chung-ket";
+  const semi = /^bk(\d+)$/.exec(code ?? "");
+  return semi ? `ban-ket-${semi[1]}` : undefined;
+}
+
+/** Ngược lại: id phần tử → mã trận; mục không phải một trận (vd "ban-ket") → undefined. */
+export function anchorCode(anchor: string) {
+  if (anchor === "vong-loai") return "vl";
+  if (anchor === "chung-ket") return "ck";
+  const semi = /^ban-ket-(\d+)$/.exec(anchor);
+  return semi ? `bk${semi[1]}` : undefined;
+}
+
+/** Đường dẫn mở trang mùa đúng trận (không truyền trận = Vòng loại). */
+export function matchPath(season: number, match?: Match) {
+  return `${seasonPath(season)}?tran=${matchCode(match)}`;
+}
+
 const SEMI_RESULT = ["Giải Nhất", "Giải Nhì", "Giải Ba", "Giải Ba"];
 
 /**
@@ -392,6 +421,20 @@ export function getHuman(slug: string | undefined) {
 /** Các tập Human of OSS của một người (theo `person`), xếp theo `stt`. */
 export function humansOfPerson(personId: string) {
   return humans.filter((h) => h.person === personId);
+}
+
+/** Trận được nhắc tới trong một bài (`tranLienQuan`): tên vòng, mùa và link tới đúng trận. */
+export function storyMatches(story: HumanStory) {
+  return (story.tranLienQuan ?? []).flatMap(({ mua, tran }) => {
+    const match = matches.find((m) => m.season === mua && matchCode(m) === tran);
+    if (!match && !(tran === "vl" && getSeason(mua))) return [];
+    return [{ season: mua, label: roundLabel(match), to: matchPath(mua, match) }];
+  });
+}
+
+/** Các bài Human of OSS kể về một trận (mã `tran`) của mùa. */
+export function storiesOfMatch(season: number, code: string) {
+  return humans.filter((h) => h.tranLienQuan?.some((t) => t.mua === season && t.tran === code));
 }
 
 export function humanPath(slug: string) {
@@ -759,6 +802,15 @@ export function schoolsOverview() {
 // ===== Kỷ lục =====
 
 export type RecordField = "vl" | "kd" | "vcnv" | "tt" | "vd" | "total";
+export const RECORD_FIELDS: RecordField[] = ["vl", "kd", "vcnv", "tt", "vd", "total"];
+
+/** Các mục của trang Bảng vàng (id phần tử = giá trị `?muc=`), dùng cho trang và ô tìm kiếm. */
+export const BOARD_SECTIONS = ["hall-of-fame", "olympia", "ky-luc", "chung-ket-lien-tiep"] as const;
+export type BoardSection = (typeof BOARD_SECTIONS)[number];
+
+export function boardPath(section: BoardSection, field?: RecordField) {
+  return `/bang-vang?muc=${section}${field ? `&o=${field}` : ""}`;
+}
 
 export const RECORD_LABEL: Record<RecordField, string> = {
   vl: "Vòng loại",
@@ -1055,7 +1107,7 @@ function personEventMilestones(personId: string): TimelineItem[] {
     const date = eventTimelineDate(event);
     if (!date) return [];
     const a = EVENT_ACTION[result ?? "tham-du"];
-    return [{ date, kind: "event", personId, personName: personName(personId), action: a.action, highlight: a.highlight, detail: event.name, eventId: event.id }];
+    return [{ date, kind: "event", personId, personName: personName(personId), action: a.action, highlight: a.highlight, detail: event.name, detailTo: eventPath(event.id) }];
   });
 }
 
@@ -1068,8 +1120,9 @@ function roundItem(
   action: string,
   highlight: string,
   detail?: string,
+  detailTo?: string,
 ): TimelineItem {
-  return { date, order, kind, personId, personName: personName(personId), action, highlight, detail };
+  return { date, order, kind, personId, personName: personName(personId), action, highlight, detail, detailTo };
 }
 
 /** Vòng loại / Bán kết / Chung kết của OSS và của DAPHUC Olympia Championship mà người đó tham gia (trận chưa có ngày thì bỏ). */
@@ -1084,14 +1137,15 @@ function personRoundMilestones(personId: string): TimelineItem[] {
     const date = getSeason(q.season)?.startDate;
     if (!date) continue;
     items.push(roundItem(personId, date, 0, "round", "đạt", `hạng ${q.rank}`,
-      `Vòng loại · Olympia Sóc Sơn mùa ${q.season}${q.score != null ? ` · ${formatScoreVi(q.score)} điểm` : ""}`));
+      `Vòng loại · Olympia Sóc Sơn mùa ${q.season}${q.score != null ? ` · ${formatScoreVi(q.score)} điểm` : ""}`,
+      matchPath(q.season)));
   }
   for (const m of matches) {
     const r = m.results.find((x) => x.person === personId);
     if (!r || !m.date) continue;
     if (m.round === "ban-ket") {
       items.push(roundItem(personId, m.date, 1, "round", "giành", inSentence(resultLabel(m, r)),
-        `${roundLabel(m)} · Olympia Sóc Sơn mùa ${m.season}`));
+        `${roundLabel(m)} · Olympia Sóc Sơn mùa ${m.season}`, matchPath(m.season, m)));
     } else if (r.placement === "a-quan" || r.placement === "giai-ba") {
       // Quán quân đã có dòng riêng (cột mốc), không thêm dòng trùng
       items.push(roundItem(personId, m.date, 2, "round", "trở thành", `${PLACEMENT_LABEL[r.placement]} Olympia Sóc Sơn mùa ${m.season}`));
@@ -1105,13 +1159,14 @@ function personRoundMilestones(personId: string): TimelineItem[] {
     const q = doc.qualifying.find((x) => x.ossPerson === personId);
     if (q && doc.qualifyingDate) {
       items.push(roundItem(personId, doc.qualifyingDate, 0, "event", "đạt", `hạng ${q.rank}`,
-        `Vòng loại · ${event.name} · ${formatScoreVi(q.score)} điểm`));
+        `Vòng loại · ${event.name} · ${formatScoreVi(q.score)} điểm`, `${eventPath(event.id)}?tran=vl`));
     }
     for (const semi of doc.semifinals) {
       const r = semi.results.find((x) => x.ossPerson === personId);
       if (!r || !semi.date) continue;
       const label = EVENT_RESULT_LABEL[r.result];
-      items.push(roundItem(personId, semi.date, 1, "event", "giành", inSentence(label), `Bán kết ${semi.no} · ${event.name}`));
+      items.push(roundItem(personId, semi.date, 1, "event", "giành", inSentence(label), `Bán kết ${semi.no} · ${event.name}`,
+        `${eventPath(event.id)}?tran=bk${semi.no}`));
     }
     const fin = doc.final.results.find((x) => x.ossPerson === personId);
     if (fin && doc.final.date) {

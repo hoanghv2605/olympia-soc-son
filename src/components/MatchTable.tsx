@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import PersonAvatar from "./PersonAvatar";
 import PersonLink from "./PersonLink";
+import ScrollTable from "./ScrollTable";
 import { useCompetition } from "../lib/competitionContext";
 import { PLACEMENT_LABEL, roundLabel, tiebreakInfo } from "../lib/data";
 import { formatScore, joinViText } from "../lib/format";
@@ -92,7 +93,7 @@ export function FinalLegendBody() {
  * Bảng một trận Bán kết / Chung kết. Giữ đúng thứ tự thí sinh trong matches.json
  * (thứ tự đứng trên sân khấu), không sắp xếp lại theo điểm.
  */
-export default function MatchTable({ match, id, photo }: { match: Match; id?: string; photo?: ReactNode }) {
+export default function MatchTable({ match, id, photo, footer }: { match: Match; id?: string; photo?: ReactNode; footer?: ReactNode }) {
   const comp = useCompetition();
   const isFinal = match.round === "chung-ket";
   const tiebreak = tiebreakInfo(match);
@@ -114,7 +115,7 @@ export default function MatchTable({ match, id, photo }: { match: Match; id?: st
     <section id={id} className="scroll-mt-24">
       <h3 className="h3 text-ink">{roundLabel(match)}</h3>
       {photo && <div className="mt-4">{photo}</div>}
-      <div className="mt-4 overflow-x-auto">
+      <ScrollTable className="mt-4">
         <table className="data-table min-w-[32rem]">
           <thead>
             <tr>
@@ -165,13 +166,14 @@ export default function MatchTable({ match, id, photo }: { match: Match; id?: st
             })}
           </tbody>
         </table>
-      </div>
+      </ScrollTable>
       {tiebreak && <TiebreakNote winner={tiebreak.winner} tiedWith={tiebreak.tiedWith} />}
       {match.notes?.map((n) => (
         <p key={n} className="mt-2 text-sm text-ink-soft">
           {n}
         </p>
       ))}
+      {footer}
     </section>
   );
 }

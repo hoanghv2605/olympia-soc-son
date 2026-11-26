@@ -1,6 +1,7 @@
 // "Bạn có biết?" ở trang chủ: MỌI câu đều tự sinh từ dữ liệu (không gõ tay số liệu).
 // Thêm loại câu mới: viết 1 hàm trả về Fact[] rồi thêm vào danh sách trong buildFacts().
 import {
+  RECORD_FIELDS,
   RECORD_LABEL,
   climbSeries,
   defendingChampions,
@@ -17,7 +18,6 @@ import {
   seasons,
   tiebreakInfo,
   topRecords,
-  type RecordField,
   type RecordRow,
 } from "./data";
 import { joinViText } from "./format";
@@ -28,8 +28,6 @@ export interface Fact {
   /** Trang liên quan cho link "Xem chi tiết" */
   to: string;
 }
-
-const RECORD_FIELDS: RecordField[] = ["vl", "kd", "vcnv", "tt", "vd", "total"];
 
 /** "(Mùa 6, Chung kết)" */
 function recordContext(r: RecordRow) {

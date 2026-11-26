@@ -5,7 +5,8 @@ import PersonLink from "./PersonLink";
 import PersonPhoto from "./PersonPhoto";
 import ResultBadge from "./ResultBadge";
 import { EVENT_RESULT_LABEL, eventParticipantPhoto, eventResultMedal, getPerson, schoolName } from "../lib/data";
-import { scrollToId, formatScoreVi } from "../lib/format";
+import { useMatchLink } from "../lib/deepLink";
+import { formatScoreVi } from "../lib/format";
 import { MEDAL_BADGE, MEDAL_ROW } from "../lib/medal";
 import type { DocData, DocResult, EventResult, SiteEvent } from "../types";
 
@@ -55,6 +56,7 @@ const TOC_ITEMS = (doc: DocData) => [
 
 /** Mục lục như trang mùa OSS: Vòng loại, Vòng Bán kết (Bán kết 1–3), Trận Chung kết. */
 export function DocToc({ doc }: { doc: DocData }) {
+  const goTo = useMatchLink();
   const toc = TOC_ITEMS(doc).filter((t) => (t.id === "vong-loai" ? doc.qualifying.length : t.id === "ban-ket" ? doc.semifinals.length : doc.final.results.length));
   if (!toc.length) return null;
   return (
@@ -63,14 +65,14 @@ export function DocToc({ doc }: { doc: DocData }) {
       <ol className="mt-2 space-y-1">
         {toc.map((t, i) => (
           <li key={t.id}>
-            <button type="button" onClick={() => scrollToId(t.id)} className="text-left text-oss hover:underline">
+            <button type="button" onClick={() => goTo(t.id)} className="text-left text-oss hover:underline">
               {i + 1}. {t.label}
             </button>
             {t.children.length > 0 && (
               <ol className="mt-1 space-y-1 pl-5">
                 {t.children.map((c, j) => (
                   <li key={c.id}>
-                    <button type="button" onClick={() => scrollToId(c.id)} className="text-left text-oss hover:underline">
+                    <button type="button" onClick={() => goTo(c.id)} className="text-left text-oss hover:underline">
                       {i + 1}.{j + 1}. {c.label}
                     </button>
                   </li>

@@ -7,7 +7,8 @@
     "headline": "Nước mắt em lau bằng tình yêu mới",
     "quote": "Hãy cố gắng hết mình trước khi cảm thấy tiếc nuối.",
     "date": "2019-09-23",
-    "person": "nguyen-thanh-ha"
+    "person": "nguyen-thanh-ha",
+    "tranLienQuan": [{ "mua": 2, "tran": "ck" }]
   },
   {
     "slug": "ha-viet-hoang",
@@ -37,7 +38,8 @@
     "headline": "Cơn gió lạ của Olympia Sóc Sơn",
     "quote": "Muốn trở thành người giỏi nhất, bạn phải cố gắng để đánh bại người giỏi nhất.",
     "date": "2021-11-09",
-    "person": "tran-hai-linh"
+    "person": "tran-hai-linh",
+    "tranLienQuan": [{ "mua": 3, "tran": "ck" }]
   },
   {
     "slug": "tran-duc-hoang-long",
@@ -87,6 +89,7 @@
     "headline": "Nhiếp ảnh gia có 1-0-2 của OSS",
     "quote": "Bản lĩnh từ sân chơi OSS cũng giúp anh có tâm lý ổn định và vững vàng hơn.",
     "date": "2025-08-18",
-    "person": "le-xuan-tung"
+    "person": "le-xuan-tung",
+    "tranLienQuan": [{ "mua": 4, "tran": "ck" }]
   }
 ]

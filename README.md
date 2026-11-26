@@ -26,6 +26,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `npm run typecheck` | Kiểm tra lỗi TypeScript (không bắt buộc) |
 | `npm run thu-nho-anh` | Thu nhỏ ảnh trong `public/` (chỉ macOS, dùng lệnh `sips` có sẵn). Thêm `-- --thu` để chỉ xem danh sách, không sửa file. **Nên chạy trước mỗi lần commit ảnh mới** (bảng giới hạn ở mục 3) |
 | `npm run anh-con-thieu` | Liệt kê ảnh còn thiếu, theo nhóm (chỉ đọc, không sửa file) |
+| `npm run kiem-tra-du-lieu` | Kiểm tra dữ liệu (chỉ đọc). **Tự chạy trước `npm run build`**, kể cả trên GitHub Actions; xem "Kiểm tra dữ liệu" ở mục 2 |
 
 **Tìm kiếm nhanh trên web:** bấm biểu tượng kính lúp trên thanh menu, hoặc gõ phím `/` hay `Ctrl + K` (máy Mac: `⌘ + K`) ở bất kỳ trang nào. Gõ không dấu cũng được (vd `duc`, `mua 4`, `da phuc`); dùng ↑ ↓ để chọn, Enter để mở, Esc để đóng.
 
@@ -48,7 +49,23 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `events.json` | **Sự kiện khác** (OSSPEDIA, Thư viện, dòng thời gian). Xếp theo `stt` = theo `date` tăng dần. Trường: `id` (mã: đường dẫn, ảnh bìa, thư mục thư viện), `stt`, `name`, `aka?` (tên khác, vd "GNDN 2024"; tìm kiếm được), `type` (`rung-chuong-vang` / `toa-dam` / `giao-luu` / `dac-biet` / `cuoc-thi`), `year`, `schoolYear`, `date` + `endDate?`, `scope`, `organizer`, `role` (`to-chuc` / `dong-to-chuc` / `tham-gia`), `occasion?` (dòng "Sự kiện"), `hosts[]?` (dẫn chương trình), `winner?` (`{label, name, person?}`), `intro` (markdown), `awardPhoto?` (`{src, caption}`, ảnh trong `tran-dau/`), `photoKey` + `photoLabel` (tiền tố ảnh người chơi; nhãn nút ở hồ sơ), `sectionTitle?`, và theo `format`: `xep-hang` → `matches[]` (`{title, participants[]}`); `doi` → `teams[]` (`{name, result, members?[]}`); `nguoi-choi` → `participants[]`; `mua-thi` → `dataFile` (file dữ liệu bên dưới); `null` → chỉ có `participants[]` (dùng cho hồ sơ). Người tham gia: `name`, `person?`, `class?`, `school` **hoặc** `schoolName`, `result?`, `note?`. `result`: `giai-nhat` / `giai-nhi` / `giai-ba` / `giai-khuyen-khich` / `quan-quan` / `a-quan` / `quy-quan` / `tham-du` / `khach-moi` (3 loại đầu + Quán quân / Á quân / Quý quân có màu vàng-bạc-đồng). Khung thông tin ẩn dòng nào không có dữ liệu. Sự kiện **ngoài mọi thống kê OSS**. **Thêm một sự kiện Gặp nhau đầu năm:** sao chép một mục `gapnhau20xx`, đổi `id`, `stt` (và `photoKey`: `gndn26`…), `aka`, `name`, `date`, `year`, `schoolYear`, `intro`, rồi sửa các trận trong `matches` (người đứng theo vị trí); đặt ảnh bìa `bia/{id}-bia.jpg`, ảnh người chơi `thi-sinh/{photoKey}-…jpg` |
 | `su-kien/doc3.json`, `doc4.json` | Dữ liệu cuộc thi dạng mùa thi (DAPHUC Olympia Championship), nối vào sự kiện qua `dataFile` (`"su-kien/doc3.json"`) với `format: "mua-thi"`. Cấu trúc: `id`, `qualifying[]` (`rank`, `name`, `class`, `school`, `score`, `ossPerson?`), `semifinals[]` (`no`, `results[]` theo vị trí đứng: `name`, `class`, `school`, `result`, `ossPerson?`), `final.results[]` (cùng dạng, `result` = `quan-quan` / `a-quan` / `quy-quan`). `ossPerson` = id hồ sơ OSSPEDIA nếu người đó cũng thi OSS (có hồ sơ thì tên là link). Không có điểm Bán kết / Chung kết. **Thêm DOC5:** thêm mục vào `events.json` (`format: "mua-thi"`, `dataFile: "su-kien/doc5.json"`, `photoKey: "doc5"`) và tạo `su-kien/doc5.json` cùng cấu trúc; trang tự hiện Vòng loại, 3 Bán kết, Chung kết. **Không** tính vào thống kê OSS |
 | `contacts.json` | Người liên hệ, hiện ở footer (tên và chức vụ). Ô nào để trống `""` thì web tự ẩn |
-| `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn trên thẻ), `date` (YYYY-MM-DD, **để `null` nếu chưa có**: thẻ chỉ ghi "Tập n"), `person` (tuỳ chọn: id người trong `people.json`; link hồ sơ OSSPEDIA chỉ hiện khi người đó có hồ sơ) |
+| `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn trên thẻ), `date` (YYYY-MM-DD, **để `null` nếu chưa có**: thẻ chỉ ghi "Tập n"), `tranLienQuan` (tuỳ chọn: trận được kể trong bài, vd `[{ "mua": 3, "tran": "ck" }]`, `tran` = `vl` / `bk1` / `bk2` / `bk3` / `ck`; tạo link hai chiều giữa bài và trang mùa), `person` (tuỳ chọn: id người trong `people.json`; link hồ sơ OSSPEDIA chỉ hiện khi người đó có hồ sơ) |
+
+### Kiểm tra dữ liệu
+
+`npm run kiem-tra-du-lieu` in từng lỗi theo dạng "file → mục: lý do". **LỖI làm build dừng** (web đang chạy giữ bản cũ):
+
+| Lỗi | Nghĩa là | Cách sửa |
+| --- | --- | --- |
+| `… "x" không tồn tại` | Mã người / trường / mùa / trận / sự kiện / bài được nhắc tới nhưng không có (thường do gõ sai) | Sửa lại mã, hoặc thêm mục còn thiếu |
+| `trùng …` / `có mục thiếu …` | Hai mục cùng `id`, `slug`, `stt` (hoặc cùng một người hai lần trong một trận / một mùa vòng loại), hay thiếu hẳn mã | Đặt mã riêng |
+| `ô điểm … phải là số hoặc null` | Điểm gõ dạng chữ hoặc bỏ mất ô | Ghi số (không có dấu ngoặc kép), không có điểm thì `null` |
+| `giá trị là "?"`, `"round" còn dấu "?"` | Thông tin chưa biết bị ghi bằng "?" | Ghi `null`, hoặc chỉ giữ phần đã biết |
+| `Chung kết phải có đúng 1 Quán quân` | Trận Chung kết có 0 hoặc nhiều `"placement": "vo-dich"` | Sửa `placement` |
+| `trích dẫn không còn trong bài` | Câu ở `testimonials.json` không khớp nguyên văn bài Human of OSS (không tính emoji và dấu kết câu) | Chép lại đúng câu trong bài |
+| `sai cú pháp JSON` | Thiếu / thừa dấu phẩy, ngoặc | Sửa file được nêu tên |
+
+**CẢNH BÁO không làm dừng build:** ảnh được nhắc tới (ảnh trao giải, ảnh trong bài, `tieu-diem-anh.json`, ảnh trang Giới thiệu) mà chưa có file (web dùng ảnh thay thế), hoặc bài trong `humans.json` chưa có file `.md`.
 
 **Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
 
@@ -134,6 +151,8 @@ Lệnh in từng nhóm (thí sinh theo mùa, ảnh Olympia, Quán quân Hall of 
 **Ảnh mẫu giữ chỗ:** nếu một file ảnh có chuỗi `OSS-ANH-MAU` trong 4 KB đầu (vd nằm trong phần chú thích của file SVG, hoặc trong metadata của JPG) thì web và `npm run anh-con-thieu` coi như **chưa có ảnh**: web vẫn hiện ảnh giữ chỗ, lệnh vẫn báo thiếu. Khi thay bằng ảnh thật (không còn chuỗi này) thì ảnh tự được tính là đã có.
 
 Ảnh thí sinh, trận đấu, cột mốc, Human of OSS **không cần khai báo trong JSON**: đặt đúng tên file là hiện. Chưa có ảnh thì web hiện chữ viết tắt tên (người), logo OSS (cột mốc) hoặc không hiện gì (ảnh trận đấu; không còn dải giữ chỗ). Thư mục cũ `public/images/humans/` không còn dùng, có thể xóa.
+
+**Link tới đúng trận / đúng mục:** `/#/wiki/cuoc-thi/mua-6?tran=bk3` (`vl`, `bk1`, `bk2`, `bk3`, `ck`; dùng được cả cho trang DAPHUC, vd `/#/wiki/su-kien/doc3?tran=ck`); `/#/bang-vang?muc=ky-luc&o=total` (`muc` = `hall-of-fame` / `olympia` / `ky-luc` / `chung-ket-lien-tiep`; `o` = `vl` / `kd` / `vcnv` / `tt` / `vd` / `total`).
 
 **Link danh sách thí sinh đã lọc:** bộ lọc nằm trên địa chỉ trang, vd `/#/wiki/thi-sinh?mua=4&giai=a-quan` (Mùa 4, Á quân), `?truong=soc-son`, `?giai=quan-quan&sap-xep=mua`. Các khóa: `q` (tên), `truong` (id trường trong `schools.json`), `mua` (số), `giai` (`quan-quan` | `a-quan` | `quy-quan` | `top-12`), `sap-xep` (`ten` | `thanh-tich` | `mua`).
 

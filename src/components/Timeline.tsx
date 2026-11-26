@@ -6,7 +6,7 @@ import MilestonePhoto from "./MilestonePhoto";
 import type { TimelineItem } from "../types";
 import { asset, formatDate, sentenceParts, sentenceText, yearOf } from "../lib/format";
 import { hasImage } from "../lib/images";
-import { eventPath, milestonePhoto, personPath } from "../lib/data";
+import { milestonePhoto, personPath } from "../lib/data";
 
 const dotClass = (m: TimelineItem) => `tl-dot${m.kind === "olympia" ? " is-olympia" : m.kind === "event" ? " is-event" : ""}`;
 
@@ -31,10 +31,10 @@ function Text({ m, linkPerson }: { m: TimelineItem; linkPerson: boolean }) {
         <strong className="font-semibold text-oss">{m.highlight}</strong>
       </p>
       {m.detail &&
-        (m.eventId ? (
-          // Dòng sự kiện (chỉ ở hồ sơ thí sinh): dòng phụ là tên sự kiện (link)
+        (m.detailTo ? (
+          // Chỉ ở hồ sơ thí sinh: dòng phụ dẫn tới trang sự kiện hoặc đúng trận
           <p className="mt-0.5 text-sm">
-            <Link to={eventPath(m.eventId)} className="text-ink-soft hover:text-oss hover:underline">
+            <Link to={m.detailTo} className="text-ink-soft hover:text-oss hover:underline">
               {m.detail}
             </Link>
           </p>

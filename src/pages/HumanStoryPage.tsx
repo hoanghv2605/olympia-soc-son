@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router";
 import PageHeader from "../components/PageHeader";
 import PersonPhoto from "../components/PersonPhoto";
 import NotFound from "./NotFound";
-import { getHuman, getPerson, humanImage, humanNeighbors, humanPath, personPath } from "../lib/data";
+import { getHuman, getPerson, humanImage, humanNeighbors, humanPath, personPath, storyMatches } from "../lib/data";
 import { asset, formatDate } from "../lib/format";
 import { usePageTitle } from "../lib/hooks";
 
@@ -20,6 +20,7 @@ export default function HumanStoryPage() {
   if (!story) return <NotFound />;
 
   const { prev, next } = humanNeighbors(story.slug);
+  const related = storyMatches(story);
   const owner = story.person ? getPerson(story.person) : undefined;
 
   return (
@@ -55,6 +56,23 @@ export default function HumanStoryPage() {
               {story.body}
             </Markdown>
           </div>
+        )}
+
+        {related.length > 0 && (
+          <section aria-labelledby="tran-lien-quan" className="mx-auto mt-10 max-w-[68ch] rounded-2xl border border-oss/15 bg-white/70 px-5 py-4">
+            <h2 id="tran-lien-quan" className="h3 text-ink">
+              Trận đấu được nhắc tới trong bài
+            </h2>
+            <ul className="mt-2 space-y-1.5">
+              {related.map((m) => (
+                <li key={m.to}>
+                  <Link to={m.to} className="link-strong">
+                    Xem diễn biến {m.label} mùa {m.season}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
 
         {owner && (

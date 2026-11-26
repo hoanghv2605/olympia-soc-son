@@ -20,7 +20,8 @@ import {
   type PlacedResult,
 } from "../../lib/data";
 import { SeasonContext } from "../../lib/seasonContext";
-import { formatDate, formatSchoolYear, scrollToId, seasonOrdinal } from "../../lib/format";
+import { useMatchLink } from "../../lib/deepLink";
+import { formatDate, formatSchoolYear, seasonOrdinal } from "../../lib/format";
 import { usePageTitle } from "../../lib/hooks";
 
 /** Nối các phần: "A", "A và B", "A, B và C". */
@@ -68,6 +69,7 @@ export default function SeasonDetail() {
   const n = Number(slug?.replace("mua-", ""));
   const season = getSeason(n);
   usePageTitle(season && `Mùa ${n} · OSSPEDIA`);
+  const goTo = useMatchLink();
   if (!season) return <NotFound />;
 
   const { champions, runnersUp, thirds } = podium(n);
@@ -169,14 +171,14 @@ export default function SeasonDetail() {
                 <ol className="mt-2 space-y-1">
                   {toc.map((t, i) => (
                     <li key={t.id}>
-                      <button type="button" onClick={() => scrollToId(t.id)} className="text-left text-oss hover:underline">
+                      <button type="button" onClick={() => goTo(t.id)} className="text-left text-oss hover:underline">
                         {i + 1}. {t.label}
                       </button>
                       {t.children.length > 0 && (
                         <ol className="mt-1 space-y-1 pl-5">
                           {t.children.map((c, j) => (
                             <li key={c.id}>
-                              <button type="button" onClick={() => scrollToId(c.id)} className="text-left text-oss hover:underline">
+                              <button type="button" onClick={() => goTo(c.id)} className="text-left text-oss hover:underline">
                                 {i + 1}.{j + 1}. {c.label}
                               </button>
                             </li>

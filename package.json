@@ -6,11 +6,12 @@
   "scripts": {
     "predev": "node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
+    "prebuild": "node scripts/kiem-tra-du-lieu.mjs && node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "pretypecheck": "node scripts/gen-image-manifest.mjs && node scripts/kiem-tra-nam-sinh.mjs",
     "typecheck": "tsc --noEmit",
+    "kiem-tra-du-lieu": "node scripts/kiem-tra-du-lieu.mjs",
     "anh-con-thieu": "node scripts/anh-con-thieu.mjs",
     "thu-nho-anh": "node scripts/thu-nho-anh.mjs",
     "prepare": "git config core.hooksPath .githooks"

@@ -5,6 +5,7 @@ import { PiCake, PiCalendarBlank, PiGraduationCap, PiNewspaper, PiTelevisionSimp
 import IconLabel from "../../components/IconLabel";
 import { ScoreHeads, TiebreakNote } from "../../components/MatchTable";
 import ResultBadge from "../../components/ResultBadge";
+import ScrollTable from "../../components/ScrollTable";
 import SeasonPhotoSwitcher from "../../components/SeasonPhotoSwitcher";
 import Timeline from "../../components/Timeline";
 import NotFound from "../NotFound";
@@ -15,6 +16,7 @@ import {
   eventTimeLabel,
   eventResultMedal,
   eventsOfPerson,
+  matchPath,
   olympiaRoundLabel,
   personEventText,
   humanPath,
@@ -25,6 +27,7 @@ import {
   resultLabel,
   roundLabel,
   seasonPath,
+  site,
   tiebreakInfo,
 } from "../../lib/data";
 import { formatScore } from "../../lib/format";
@@ -70,7 +73,7 @@ export default function ContestantDetail() {
 
           <section>
             <h2 className="h3 text-ink">Olympia Sóc Sơn</h2>
-            <div className="mt-3 overflow-x-auto">
+            <ScrollTable className="mt-3">
               <table className="data-table min-w-[40rem]">
                 <thead>
                   <tr>
@@ -98,7 +101,11 @@ export default function ContestantDetail() {
                             </Link>
                             <span className="block text-xs text-ink-soft">Lớp {p.qualifying.class}</span>
                           </td>
-                          <td>{roundLabel()}</td>
+                          <td>
+                            <Link to={matchPath(p.season)} className="text-oss hover:underline">
+                              {roundLabel()}
+                            </Link>
+                          </td>
                           <td colSpan={4} />
                           <td className="num text-right font-semibold">{formatScore(p.qualifying.score)}</td>
                           <td className="sticky-end">
@@ -115,7 +122,11 @@ export default function ContestantDetail() {
                               </Link>
                             </td>
                           )}
-                          <td>{roundLabel(match)}</td>
+                          <td>
+                            <Link to={matchPath(p.season, match)} className="text-oss hover:underline">
+                              {roundLabel(match)}
+                            </Link>
+                          </td>
                           <td className="num text-right">{formatScore(result.kd)}</td>
                           <td className="num text-right">{formatScore(result.vcnv)}</td>
                           <td className="num text-right">{formatScore(result.tt)}</td>
@@ -133,7 +144,7 @@ export default function ContestantDetail() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </ScrollTable>
             {tiebreaks.map((t) => (
               <TiebreakNote key={t.match.id} winner={t.winner} tiedWith={t.tiedWith} />
             ))}
@@ -293,6 +304,14 @@ export default function ContestantDetail() {
           </dl>
         </aside>
       </div>
+
+      <p className="mt-12 border-t border-oss/10 pt-4 text-xs leading-relaxed text-ink-soft">
+        Nếu bạn là người trong hồ sơ này và muốn sửa hoặc gỡ thông tin, hình ảnh, vui lòng liên hệ{" "}
+        <a href={`mailto:${site.email}`} className="break-all text-oss underline underline-offset-2">
+          {site.email}
+        </a>
+        .
+      </p>
     </article>
   );
 }

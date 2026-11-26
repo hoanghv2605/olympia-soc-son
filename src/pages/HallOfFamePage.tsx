@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useSearchParams } from "react-router";
 import type { IconType } from "react-icons";
 import {
   PiChartBar,
@@ -21,7 +21,10 @@ import PageHeader from "../components/PageHeader";
 import PersonLink from "../components/PersonLink";
 import PersonPhoto from "../components/PersonPhoto";
 import {
+  BOARD_SECTIONS,
+  RECORD_FIELDS,
   RECORD_LABEL,
+  matchPath,
   championCards,
   championPhoto,
   describeTitles,
@@ -41,12 +44,11 @@ import {
   topRecords,
   type RecordField,
 } from "../lib/data";
+import { useDeepLink } from "../lib/deepLink";
 import { formatDate } from "../lib/format";
 import { MEDAL_DOT, MEDAL_ROW, medalOf } from "../lib/medal";
 import type { OlympiaPeriod } from "../types";
 import { usePageTitle } from "../lib/hooks";
-
-const RECORD_FIELDS: RecordField[] = ["vl", "kd", "vcnv", "tt", "vd", "total"];
 
 const RECORD_ICON: Record<RecordField, IconType> = {
   vl: PiClipboardText,
@@ -65,7 +67,7 @@ const TITLE_ICON = "size-[0.9em]";
 function ChampionsSection() {
   const cards = championCards();
   return (
-    <section className="paper-dark text-white">
+    <section id="hall-of-fame" className="scroll-mt-16 paper-dark text-white">
       {/* nối liền đầu trang tối phía trên nên không có khoảng đệm trên */}
       <div className="section-band mx-auto max-w-6xl px-5 pt-2 md:pt-4">
         {/* Tiêu đề in hoa (ngoại lệ có chủ đích): line-height ≥ 1.35 và không overflow để không cắt dấu chồng (Ầ, Ễ…) */}
@@ -126,7 +128,7 @@ function OlympiaSection() {
   }
 
   return (
-    <section className="border-y border-oss/10 bg-white/40">
+    <section id="olympia" className="scroll-mt-16 border-y border-oss/10 bg-white/40">
       <div className="section-band mx-auto max-w-6xl px-5">
         <h2 className="section-title">
           <IconLabel icon={PiTelevisionSimple} iconClass={TITLE_ICON}>
@@ -250,8 +252,14 @@ function OlympiaSection() {
 
 // ===== Kỷ lục =====
 
-function RecordsSection() {
-  const [openField, setOpenField] = useState<RecordField | null>(null);
+function RecordsSection({ linked }: { linked: { key: string; field: RecordField | null } }) {
+  const [openField, setOpenField] = useState<RecordField | null>(linked.field);
+  // Mở lại đúng ô khi địa chỉ đổi (đặt ngay trong lúc render để bảng có mặt trước khi cuộn tới)
+  const [seenKey, setSeenKey] = useState(linked.key);
+  if (seenKey !== linked.key) {
+    setSeenKey(linked.key);
+    if (linked.field) setOpenField(linked.field);
+  }
   const tables = Object.fromEntries(RECORD_FIELDS.map((f) => [f, topRecords(f, 10)])) as Record<
     RecordField,
     ReturnType<typeof topRecords>
@@ -259,7 +267,7 @@ function RecordsSection() {
   const rows = openField ? tables[openField] : [];
 
   return (
-    <section className="section mx-auto max-w-6xl px-5">
+    <section id="ky-luc" className="section mx-auto max-w-6xl scroll-mt-12 px-5">
       <h2 className="section-title">
         <IconLabel icon={PiChartBar} iconClass={TITLE_ICON}>
           Kỷ lục
@@ -301,10 +309,10 @@ function RecordsSection() {
         })}
       </ul>
 
-      <div id="record-panel" aria-live="polite">
+      <div id="record-panel" aria-live="polite" className="scroll-mt-24">
         {openField && (
           <div className="mt-6 overflow-x-auto">
-            <table className="data-table min-w-[34rem]">
+            <table className="data-table md:min-w-[34rem]">
               <caption className="pb-3 text-left text-lg font-bold text-ink">Bảng xếp hạng: {RECORD_LABEL[openField]}</caption>
               <thead>
                 <tr>
@@ -314,8 +322,12 @@ function RecordsSection() {
                   <th scope="col" className="sticky-start">
                     Thí sinh
                   </th>
-                  <th scope="col">Mùa</th>
-                  <th scope="col">Trận</th>
+                  <th scope="col" className="hidden md:table-cell">
+                    Mùa
+                  </th>
+                  <th scope="col" className="hidden md:table-cell">
+                    Trận
+                  </th>
                   <th scope="col" className="sticky-end num text-right">
                     Điểm
                   </th>
@@ -324,6 +336,16 @@ function RecordsSection() {
               <tbody>
                 {rows.map((r) => {
                   const medal = medalOf(r.rank);
+                  const seasonLink = (
+                    <Link to={seasonPath(r.season)} className="hover:text-oss hover:underline">
+                      Mùa {r.season}
+                    </Link>
+                  );
+                  const matchLink = (
+                    <Link to={matchPath(r.season, r.match)} className="font-medium whitespace-nowrap text-oss hover:underline">
+                      {roundLabel(r.match)}
+                    </Link>
+                  );
                   return (
                     <tr
                       key={`${r.person.id}-${r.season}-${r.match?.id ?? "vl"}`}
@@ -333,13 +355,15 @@ function RecordsSection() {
                       <td className="num font-semibold">{r.rank}</td>
                       <td className="sticky-start">
                         <PersonLink id={r.person.id} />
+                        {/* Điện thoại: cột Mùa, Trận thành dòng nhỏ dưới tên (không bị 2 cột dính che mất link trận) */}
+                        <span className="flex flex-wrap items-center gap-x-1.5 text-sm text-ink-soft md:hidden">
+                          {seasonLink}
+                          <span aria-hidden>·</span>
+                          <span className="inline-block py-1">{matchLink}</span>
+                        </span>
                       </td>
-                      <td>
-                        <Link to={seasonPath(r.season)} className="hover:text-oss hover:underline">
-                          Mùa {r.season}
-                        </Link>
-                      </td>
-                      <td>{roundLabel(r.match)}</td>
+                      <td className="hidden md:table-cell">{seasonLink}</td>
+                      <td className="hidden md:table-cell">{matchLink}</td>
                       <td className="sticky-end num text-right font-bold">{r.value}</td>
                     </tr>
                   );
@@ -355,6 +379,12 @@ function RecordsSection() {
 
 export default function HallOfFamePage() {
   usePageTitle("Bảng vàng · Olympia Sóc Sơn");
+  // ?muc=… cuộn tới đúng mục; ?muc=ky-luc&o=total mở sẵn bảng top 10 của ô đó
+  const [params] = useSearchParams();
+  const { key } = useLocation();
+  const section = BOARD_SECTIONS.find((s) => s === params.get("muc"));
+  const field = (section === "ky-luc" && RECORD_FIELDS.find((f) => f === params.get("o"))) || null;
+  useDeepLink(field ? "record-panel" : section);
   return (
     <>
       <PageHeader
@@ -367,10 +397,10 @@ export default function HallOfFamePage() {
 
       <OlympiaSection />
 
-      <RecordsSection />
+      <RecordsSection linked={{ key, field }} />
 
       {/* ===== Các thí sinh vào Chung kết 2 năm liên tiếp ===== */}
-      <section className="section mx-auto max-w-6xl px-5">
+      <section id="chung-ket-lien-tiep" className="section mx-auto max-w-6xl scroll-mt-12 px-5">
         <h2 className="section-title">
           <IconLabel icon={PiRepeat} iconClass={TITLE_ICON}>
             Các thí sinh vào Chung kết 2 năm liên tiếp

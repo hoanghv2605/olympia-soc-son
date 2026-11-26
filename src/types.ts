@@ -101,8 +101,8 @@ export interface TimelineItem extends Omit<Milestone, "person" | "kind"> {
   order?: number;
   personId?: string;
   personName?: string;
-  /** Dòng sự kiện ở hồ sơ thí sinh: mã sự kiện để làm link ở dòng phụ */
-  eventId?: string;
+  /** Dòng ở hồ sơ thí sinh: đường dẫn của dòng phụ (trang sự kiện hoặc đúng trận) */
+  detailTo?: string;
 }
 
 export type StatIcon = "trophy" | "people" | "podium" | "laurel" | "tv";
@@ -157,6 +157,8 @@ export interface HumanStory {
   date: string | null;
   /** Tuỳ chọn: id người trong people.json (dùng ảnh mặc định của người đó khi chưa có ảnh riêng; link hồ sơ OSSPEDIA chỉ hiện khi người đó có hồ sơ) */
   person?: string | null;
+  /** Tuỳ chọn: các trận được kể trong bài (`tran`: "vl" | "bk1" | "bk2" | "bk3" | "ck") */
+  tranLienQuan?: { mua: number; tran: string }[];
   /** Số thứ tự câu chuyện (duy nhất): xếp trang Human of OSS và đặt tên ảnh human-of-oss/{stt 2 chữ số}.jpg */
   stt: number;
 }
