@@ -118,7 +118,6 @@ export default function SeasonDetail() {
           </div>
         }
         backdrop={coverPhoto(n) ?? (final ? matchPhoto(final.id) : undefined)}
-        backdropContain={!!coverPhoto(n)}
       />
       <article className="mx-auto max-w-6xl px-5 pb-12 md:pb-16">
         <div className="grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_18rem]">

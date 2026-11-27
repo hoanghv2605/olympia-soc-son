@@ -1,21 +1,28 @@
 import { useState } from "react";
-import RatioBar from "./RatioBar";
+import DonutChart from "./DonutChart";
 import { registrationOf, top12Breakdown } from "../lib/data";
 import { percent } from "../lib/format";
 import { ratioSegments, type RatioDimension } from "../lib/ratio";
 
-const ROWS: { dimension: RatioDimension; label: string; key: "byGrade" | "byGender" | "bySchool" }[] = [
+const CHARTS: { dimension: RatioDimension; label: string; key: "byGrade" | "byGender" | "bySchool" }[] = [
   { dimension: "grade", label: "Khối", key: "byGrade" },
   { dimension: "gender", label: "Giới tính", key: "byGender" },
   { dimension: "school", label: "Trường", key: "bySchool" },
 ];
 
-/** Số liệu đăng kí ở mục Vòng loại của trang mùa. Mỗi hàng chỉ chia theo một tiêu chí. Mùa chưa có số liệu thì không hiện. */
+type Mode = "registered" | "top12";
+const MODES: { id: Mode; label: string }[] = [
+  { id: "registered", label: "Đăng kí" },
+  { id: "top12", label: "Top 12" },
+];
+
+/** Số liệu đăng kí ở mục Vòng loại của trang mùa. Mỗi biểu đồ chỉ chia theo một tiêu chí. Mùa chưa có số liệu thì không hiện. */
 export default function RegistrationBlock({ season }: { season: number }) {
-  const [compare, setCompare] = useState(false);
+  const [mode, setMode] = useState<Mode>("registered");
   const reg = registrationOf(season);
   if (!reg) return null;
   const top = top12Breakdown(season);
+  const isTop = mode === "top12";
 
   const numbers = [
     { value: String(reg.total), label: "thí sinh đăng kí" },
@@ -23,8 +30,8 @@ export default function RegistrationBlock({ season }: { season: number }) {
   ];
 
   return (
-    <div className="mt-5 mb-8 max-w-3xl">
-      <ul className="grid grid-cols-2 gap-4 sm:max-w-md">
+    <div className="mt-5 mb-8">
+      <ul className="grid grid-cols-2 gap-4">
         {numbers.map((n) => (
           <li key={n.label} className="rounded-xl border border-oss/15 bg-white/75 p-4 text-center">
             <span className="block text-3xl font-extrabold text-oss tabular-nums">{n.value}</span>{" "}
@@ -33,37 +40,35 @@ export default function RegistrationBlock({ season }: { season: number }) {
         ))}
       </ul>
 
-      <div className="mt-5 rounded-xl border border-oss/15 bg-white/75 p-4 sm:p-5">
-        <button
-          type="button"
-          aria-pressed={compare}
-          onClick={() => setCompare((v) => !v)}
-          className="inline-flex min-h-9 items-center rounded-full border border-oss/25 bg-white px-4 text-sm font-semibold text-oss hover:border-oss aria-pressed:border-oss aria-pressed:bg-oss aria-pressed:text-white"
-        >
-          So với top 12
-        </button>
-        <div className="mt-4 space-y-5">
-          {ROWS.map((row) => {
-            const registered: Partial<Record<string, number>> = reg[row.key];
-            const bars = [
-              { tag: "Đăng kí", counts: registered },
-              ...(compare ? [{ tag: "Top 12", counts: top[row.key] }] : []),
-            ];
+      <div className="mt-4 rounded-xl border border-oss/15 bg-white/75 p-4 sm:p-5">
+        <div className="flex justify-center">
+          <div role="group" aria-label="Số liệu hiển thị" className="inline-flex rounded-full border border-oss/25 bg-white p-1 text-sm font-semibold">
+            {MODES.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                aria-pressed={mode === m.id}
+                onClick={() => setMode(m.id)}
+                className="min-h-9 rounded-full px-4 text-oss aria-pressed:bg-oss aria-pressed:text-white"
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="mt-5 grid gap-8 sm:grid-cols-3 sm:gap-4">
+          {CHARTS.map((chart) => {
+            const registered: Partial<Record<string, number>> = reg[chart.key];
             return (
-              <div key={row.key}>
-                <p className="text-sm font-semibold text-ink">{row.label}</p>
-                <div className="mt-1.5 space-y-3">
-                  {bars.map((bar) => (
-                    <div key={bar.tag} className={compare ? "sm:grid sm:grid-cols-[4.5rem_minmax(0,1fr)] sm:gap-3" : ""}>
-                      {compare && <p className="mb-1 text-xs text-ink-soft sm:mb-0 sm:leading-7">{bar.tag}</p>}
-                      <RatioBar
-                        title={`${row.label}, ${bar.tag === "Top 12" ? "top 12" : "đăng kí"}`}
-                        segments={ratioSegments(row.dimension, bar.counts, registered)}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <DonutChart
+                key={chart.dimension}
+                title={chart.label}
+                // Nhóm, màu và thứ tự luôn theo số đăng kí, đổi chế độ chỉ đổi số
+                segments={ratioSegments(chart.dimension, isTop ? top[chart.key] : registered, registered)}
+                value={isTop ? top.total : reg.total}
+                caption={isTop ? "top 12" : "thí sinh"}
+                unit={isTop ? "người" : "thí sinh"}
+              />
             );
           })}
         </div>

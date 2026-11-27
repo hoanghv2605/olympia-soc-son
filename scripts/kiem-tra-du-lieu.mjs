@@ -2,7 +2,8 @@
 // nên cũng chạy trên GitHub Actions. Chỉ đọc, KHÔNG sửa dữ liệu.
 // LỖI (dừng build): tham chiếu mã không tồn tại, trùng id / slug, ô điểm không phải số hoặc null, chuỗi "?",
 //   Chung kết OSS không có đúng 1 Quán quân, trích dẫn nhận xét không còn trong bài Human of OSS,
-//   số liệu đăng kí (dang-ky.json) lệch tổng / sai nhóm / ít hơn top 12, `gender` khác "nam" / "nu".
+//   số liệu đăng kí (dang-ky.json) lệch tổng / sai nhóm / ít hơn top 12, `gender` khác "nam" / "nu",
+//   một trường vào Chung kết nhiều hơn top 12, dòng Chung kết thiếu `placement` hợp lệ.
 // CẢNH BÁO (không dừng): ảnh được tham chiếu nhưng không có file (web đã có ảnh thay thế),
 //   mùa chưa có số liệu đăng kí, người từng vào top 12 chưa có `gender`.
 import { existsSync, readFileSync, readdirSync } from "node:fs";
@@ -110,6 +111,22 @@ for (const m of read("matches")) {
   if (m.round === "chung-ket") {
     const champions = m.results.filter((r) => r.placement === "vo-dich").length;
     if (champions !== 1) error(f, m.id, `Chung kết phải có đúng 1 Quán quân (đang có ${champions})`);
+  }
+}
+
+// Thanh 5 chặng ở trang trường: mỗi lượt đăng kí tính vào chặng xa nhất, không chặng nào được âm.
+// (Đăng kí ít hơn top 12 theo trường đã kiểm ở phần dang-ky.json bên dưới.)
+for (const m of read("matches").filter((m) => m.round === "chung-ket")) {
+  const f = path("matches.json");
+  for (const r of m.results) {
+    if (!["vo-dich", "a-quan", "giai-ba"].includes(r.placement)) {
+      error(f, `${m.id}, ${r.person}`, `Chung kết thiếu "placement" hợp lệ (đang là ${JSON.stringify(r.placement) ?? "bị thiếu"})`);
+    }
+  }
+  for (const school of new Set(m.results.map((r) => r.school))) {
+    const inFinal = m.results.filter((r) => r.school === school).length;
+    const inTop12 = read("qualifying").filter((q) => q.season === m.season && q.school === school).length;
+    if (inFinal > inTop12) error(f, m.id, `trường "${school}": ${inFinal} người vào Chung kết nhưng top 12 chỉ có ${inTop12}`);
   }
 }
 

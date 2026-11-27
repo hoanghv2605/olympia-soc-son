@@ -24,8 +24,6 @@ interface Props {
   wideDescription?: boolean;
   /** Ảnh làm nền mờ cho vùng đầu trang (đường dẫn trong public/); chỉ hiện khi ảnh có thật. Chỉ dùng với tông light. */
   backdrop?: string;
-  /** Ảnh nền là logo vuông (bìa mùa): hiện trọn (contain) ở bên phải, không cắt */
-  backdropContain?: boolean;
 }
 
 /**
@@ -41,7 +39,6 @@ export default function PageHeader({
   tone = "light",
   wideDescription = false,
   backdrop,
-  backdropContain = false,
 }: Props) {
   const dark = tone === "dark";
   const inner = (
@@ -68,24 +65,17 @@ export default function PageHeader({
   return (
     <header className="relative isolate">
       {/* Ảnh nền: cao 320px (điện thoại 220px), mờ nhẹ, nhạt, tan dần xuống dưới; lớp phủ màu nền giữ chữ đủ tương phản */}
-      {backdropContain ? (
-        // Bìa vuông: trọn khung, canh phải theo khung nội dung, không tan dần (để không mất đáy logo)
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 inset-y-2 -z-10 mx-auto flex max-w-6xl justify-end px-5">
-          <img src={asset(backdrop)} alt="" className="aspect-square h-full rounded-2xl object-contain opacity-35" />
-        </div>
-      ) : (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[220px] overflow-hidden md:h-[320px]"
-          style={{
-            maskImage: "linear-gradient(to bottom, black 45%, transparent)",
-            WebkitMaskImage: "linear-gradient(to bottom, black 45%, transparent)",
-          }}
-        >
-          <img src={asset(backdrop)} alt="" style={{ objectPosition: imageFocus(backdrop) }} className="size-full object-cover opacity-35 blur-[2px]" />
-          <div className="absolute inset-0 bg-mist/40" />
-        </div>
-      )}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[220px] overflow-hidden md:h-[320px]"
+        style={{
+          maskImage: "linear-gradient(to bottom, black 45%, transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 45%, transparent)",
+        }}
+      >
+        <img src={asset(backdrop)} alt="" style={{ objectPosition: imageFocus(backdrop) }} className="size-full object-cover opacity-35 blur-[2px]" />
+        <div className="absolute inset-0 bg-mist/40" />
+      </div>
       {inner}
     </header>
   );

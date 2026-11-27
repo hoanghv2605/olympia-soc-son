@@ -1040,6 +1040,9 @@
   --ratio-xuan-giang: #be123c;
   --ratio-kim-anh: #4d7c0f;
   --ratio-thcs: #6b7280;
+  /* Thanh 5 chặng ở trang trường (2 chặng đầu; Quý quân / Á quân / Quán quân dùng màu viền của nhãn kết quả) */
+  --stage-vong-loai: #ddd6fe;
+  --stage-ban-ket: #8b5cf6;
 }
 
 :root {

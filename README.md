@@ -80,6 +80,7 @@ Script ghi lại `src/data/dang-ky.json` (chỉ số đếm) và điền `gender
 | `trích dẫn không còn trong bài` | Câu ở `testimonials.json` không khớp nguyên văn bài Human of OSS (không tính emoji và dấu kết câu) | Chép lại đúng câu trong bài |
 | `total = … nhưng tổng … = …`, `top 12 có … nhưng đăng kí chỉ có …` | `dang-ky.json`: mỗi mùa `total` phải bằng tổng theo khối, giới tính, trường; nhóm hợp lệ (khối 9–12, trường trong `schools.json` / `otherSchools`), mùa có thật và không lặp; top 12 không nhiều hơn số đăng kí cùng nhóm | Sửa số trong `dang-ky.json` (hoặc kiểm lại lớp / giới tính / trường của top 12) |
 | `"gender" phải là "nam" hoặc "nu"` | `people.json` ghi giới tính khác 2 giá trị này | Sửa lại; chưa biết thì bỏ hẳn trường `gender` |
+| `Chung kết thiếu "placement" hợp lệ`, `… người vào Chung kết nhưng top 12 chỉ có …` | `matches.json`: mỗi dòng Chung kết phải có `placement`; một trường không thể vào Chung kết nhiều hơn số người trong top 12 cùng mùa (nếu không, thanh 5 chặng ở trang trường bị âm) | Sửa `placement` hoặc `school` ở `matches.json` / `qualifying.json` |
 | `sai cú pháp JSON` | Thiếu / thừa dấu phẩy, ngoặc | Sửa file được nêu tên |
 
 **CẢNH BÁO không làm dừng build:** ảnh được nhắc tới (ảnh trao giải, ảnh trong bài, `tieu-diem-anh.json`, ảnh trang Giới thiệu) mà chưa có file (web dùng ảnh thay thế), mùa có trong `seasons.json` mà chưa có trong `dang-ky.json`, người từng vào top 12 chưa có `gender`, hoặc bài trong `humans.json` chưa có file `.md`.

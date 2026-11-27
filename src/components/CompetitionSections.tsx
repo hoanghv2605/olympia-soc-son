@@ -138,7 +138,7 @@ export default function CompetitionSections({
       {quals.length > 0 && (
         <section id="vong-loai" className="mt-12 scroll-mt-24 md:mt-16">
           <h2 className="h2 text-ink">Vòng loại</h2>
-          <p className="mt-2 max-w-[70ch] text-ink-soft">
+          <p className={`mt-2 text-ink-soft ${qualifyingExtra ? "" : "max-w-[70ch]"}`}>
             {quals.length} thí sinh có kết quả cao nhất vào vòng Bán kết.
             {seededDraw &&
               " Các thí sinh được chia vào 3 trận Bán kết bằng bốc thăm theo nhóm hạt giống: nhóm 1 gồm hạng 1–3, nhóm 2 hạng 4–6, nhóm 3 hạng 7–9, nhóm 4 hạng 10–12."}

@@ -1,7 +1,7 @@
 import RatioBar from "./RatioBar";
-import SeasonBarList from "./SeasonBarList";
+import SeasonColumnChart from "./SeasonColumnChart";
 import { genderFunnel, registrationOverview } from "../lib/data";
-import { formatDecimalVi, percent } from "../lib/format";
+import { percent } from "../lib/format";
 import { ratioSegments } from "../lib/ratio";
 
 /** Mục "Toàn cảnh {n} mùa" ở trang Các mùa giải: số đăng kí qua các mùa và phễu Nam / Nữ. */
@@ -16,15 +16,7 @@ export default function RegistrationOverview() {
       <p className="mt-2 font-semibold text-oss tabular-nums">
         {total} lượt đăng kí cho {slots} suất vào Bán kết.
       </p>
-      <SeasonBarList
-        max={max}
-        color="var(--color-oss)"
-        rows={rows.map((r) => ({
-          season: r.season,
-          count: r.total,
-          text: `${r.total} thí sinh${r.slots ? ` · ${formatDecimalVi(r.total / r.slots)} đơn cho một suất Bán kết` : ""}`,
-        }))}
-      />
+      <SeasonColumnChart rows={rows} max={max} />
 
       <h3 className="h3 mt-12 text-ink">Từ đơn đăng kí tới ngôi Quán quân</h3>
       <ol className="mt-4 space-y-5">

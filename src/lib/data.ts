@@ -849,6 +849,8 @@ export function registrationOverview() {
   const rows = registrations.map((r) => ({
     season: r.season,
     total: r.total,
+    nam: r.byGender.nam ?? 0,
+    nu: r.byGender.nu ?? 0,
     slots: qualifying.filter((q) => q.season === r.season).length,
   }));
   return {
@@ -859,19 +861,43 @@ export function registrationOverview() {
   };
 }
 
-/** Đăng kí và vào top 12 của một trường, theo mùa và cộng dồn (tính theo lượt). */
+/** 5 chặng ở trang trường, theo thứ tự trên thanh. */
+export const SCHOOL_STAGES = [
+  { id: "vong-loai", label: "Dừng ở Vòng loại" },
+  { id: "ban-ket", label: "Dừng ở Bán kết" },
+  { id: "quy-quan", label: PLACEMENT_LABEL["giai-ba"] },
+  { id: "a-quan", label: PLACEMENT_LABEL["a-quan"] },
+  { id: "quan-quan", label: PLACEMENT_LABEL["vo-dich"] },
+] as const;
+
+export type SchoolStageCounts = Record<(typeof SCHOOL_STAGES)[number]["id"], number>;
+
+/**
+ * Đăng kí của một trường theo mùa và cộng dồn (tính theo lượt). Mỗi lượt đăng kí tính vào chặng xa nhất nó đi được,
+ * nên 5 chặng cộng lại bằng số đăng kí (dữ liệu làm chặng nào âm thì kiem-tra-du-lieu báo lỗi).
+ */
 export function schoolRegistration(schoolId: string) {
-  const rows = registrations.map((r) => ({
-    season: r.season,
-    registered: r.bySchool[schoolId] ?? 0,
-    top12: qualifying.filter((q) => q.season === r.season && q.school === schoolId).length,
-  }));
-  return {
-    rows,
-    registered: rows.reduce((sum, r) => sum + r.registered, 0),
-    top12: rows.reduce((sum, r) => sum + r.top12, 0),
-    max: Math.max(0, ...rows.map((r) => r.registered)),
+  const rows = registrations.map((r) => {
+    const registered = r.bySchool[schoolId] ?? 0;
+    const top12 = qualifying.filter((q) => q.season === r.season && q.school === schoolId).length;
+    const finalists = (finalOf(r.season)?.results ?? []).filter((x) => x.school === schoolId);
+    const placed = (p: Placement) => finalists.filter((x) => x.placement === p).length;
+    const stages: SchoolStageCounts = {
+      "vong-loai": registered - top12,
+      "ban-ket": top12 - finalists.length,
+      "quy-quan": placed("giai-ba"),
+      "a-quan": placed("a-quan"),
+      "quan-quan": placed("vo-dich"),
+    };
+    return { season: r.season, registered, top12, stages };
+  });
+  const sum = (of: (row: (typeof rows)[number]) => number) => rows.reduce((n, row) => n + of(row), 0);
+  const total = {
+    registered: sum((r) => r.registered),
+    top12: sum((r) => r.top12),
+    stages: Object.fromEntries(SCHOOL_STAGES.map((s) => [s.id, sum((r) => r.stages[s.id])])) as SchoolStageCounts,
   };
+  return { rows, total, max: Math.max(0, ...rows.map((r) => r.registered)) };
 }
 
 export interface GenderStage {
