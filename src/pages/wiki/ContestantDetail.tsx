@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Link, useParams } from "react-router";
 import Breadcrumb from "../../components/Breadcrumb";
-import { PiCake, PiCalendarBlank, PiGraduationCap, PiNewspaper, PiTelevisionSimple, PiTrophy } from "react-icons/pi";
+import { PiCake, PiCalendarBlank, PiGraduationCap, PiNewspaper, PiTelevisionSimple, PiTrophy, PiUser } from "react-icons/pi";
 import IconLabel from "../../components/IconLabel";
 import { ScoreHeads, TiebreakNote } from "../../components/MatchTable";
 import ResultBadge from "../../components/ResultBadge";
@@ -243,6 +243,14 @@ export default function ContestantDetail() {
                   <IconLabel icon={PiCake}>Năm sinh</IconLabel>
                 </dt>
                 <dd>{birthYear}</dd>
+              </>
+            )}
+            {person.gender && (
+              <>
+                <dt>
+                  <IconLabel icon={PiUser}>Giới tính</IconLabel>
+                </dt>
+                <dd>{person.gender === "nam" ? "Nam" : "Nữ"}</dd>
               </>
             )}
             <dt>

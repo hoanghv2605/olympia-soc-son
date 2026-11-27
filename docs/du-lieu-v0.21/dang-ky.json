@@ -1,0 +1,202 @@
+{
+  "_ghiChu": "Số liệu tổng hợp từ danh sách đăng kí dự thi của BTC (492 đơn hợp lệ, mùa 1–10). Chỉ có số đếm, không có tên. Danh sách gốc do BTC giữ, không đưa lên repo. Mỗi mùa: total = số thí sinh đăng kí; byGrade theo khối (9 = học sinh THCS); bySchool theo School.id, thêm 2 mã ngoài schools.json ở otherSchools.",
+  "otherSchools": [
+    {
+      "id": "kim-anh",
+      "name": "THPT Kim Anh"
+    },
+    {
+      "id": "thcs",
+      "name": "Các trường THCS"
+    }
+  ],
+  "seasons": [
+    {
+      "season": 1,
+      "total": 22,
+      "byGrade": {
+        "10": 3,
+        "11": 13,
+        "12": 6
+      },
+      "byGender": {
+        "nam": 16,
+        "nu": 6
+      },
+      "bySchool": {
+        "soc-son": 19,
+        "trung-gia": 3
+      }
+    },
+    {
+      "season": 2,
+      "total": 39,
+      "byGrade": {
+        "10": 15,
+        "11": 15,
+        "12": 9
+      },
+      "byGender": {
+        "nam": 23,
+        "nu": 16
+      },
+      "bySchool": {
+        "soc-son": 22,
+        "da-phuc": 6,
+        "trung-gia": 6,
+        "xuan-giang": 4,
+        "kim-anh": 1
+      }
+    },
+    {
+      "season": 3,
+      "total": 44,
+      "byGrade": {
+        "10": 6,
+        "11": 34,
+        "12": 4
+      },
+      "byGender": {
+        "nam": 23,
+        "nu": 21
+      },
+      "bySchool": {
+        "soc-son": 18,
+        "da-phuc": 2,
+        "minh-phu": 13,
+        "trung-gia": 6,
+        "xuan-giang": 3,
+        "kim-anh": 2
+      }
+    },
+    {
+      "season": 4,
+      "total": 64,
+      "byGrade": {
+        "10": 49,
+        "11": 15
+      },
+      "byGender": {
+        "nam": 38,
+        "nu": 26
+      },
+      "bySchool": {
+        "soc-son": 43,
+        "da-phuc": 10,
+        "minh-phu": 10,
+        "kim-anh": 1
+      }
+    },
+    {
+      "season": 5,
+      "total": 69,
+      "byGrade": {
+        "10": 36,
+        "11": 33
+      },
+      "byGender": {
+        "nam": 36,
+        "nu": 33
+      },
+      "bySchool": {
+        "soc-son": 40,
+        "da-phuc": 16,
+        "minh-phu": 5,
+        "trung-gia": 6,
+        "kim-anh": 2
+      }
+    },
+    {
+      "season": 6,
+      "total": 54,
+      "byGrade": {
+        "10": 22,
+        "11": 32
+      },
+      "byGender": {
+        "nam": 31,
+        "nu": 23
+      },
+      "bySchool": {
+        "soc-son": 39,
+        "da-phuc": 12,
+        "minh-phu": 2,
+        "trung-gia": 1
+      }
+    },
+    {
+      "season": 7,
+      "total": 54,
+      "byGrade": {
+        "9": 2,
+        "10": 23,
+        "11": 29
+      },
+      "byGender": {
+        "nam": 43,
+        "nu": 11
+      },
+      "bySchool": {
+        "soc-son": 37,
+        "da-phuc": 11,
+        "minh-phu": 2,
+        "trung-gia": 2,
+        "thcs": 2
+      }
+    },
+    {
+      "season": 8,
+      "total": 52,
+      "byGrade": {
+        "9": 1,
+        "10": 28,
+        "11": 23
+      },
+      "byGender": {
+        "nam": 41,
+        "nu": 11
+      },
+      "bySchool": {
+        "soc-son": 40,
+        "da-phuc": 6,
+        "minh-phu": 3,
+        "xuan-giang": 1,
+        "kim-anh": 1,
+        "thcs": 1
+      }
+    },
+    {
+      "season": 9,
+      "total": 51,
+      "byGrade": {
+        "10": 40,
+        "11": 11
+      },
+      "byGender": {
+        "nam": 34,
+        "nu": 17
+      },
+      "bySchool": {
+        "soc-son": 44,
+        "da-phuc": 7
+      }
+    },
+    {
+      "season": 10,
+      "total": 43,
+      "byGrade": {
+        "10": 30,
+        "11": 13
+      },
+      "byGender": {
+        "nam": 30,
+        "nu": 13
+      },
+      "bySchool": {
+        "soc-son": 35,
+        "da-phuc": 7,
+        "trung-gia": 1
+      }
+    }
+  ]
+}

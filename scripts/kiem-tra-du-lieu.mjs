@@ -1,8 +1,10 @@
 // Kiểm tra dữ liệu trong src/data. Chạy tay: `npm run kiem-tra-du-lieu`; tự chạy trước `npm run build` (prebuild),
 // nên cũng chạy trên GitHub Actions. Chỉ đọc, KHÔNG sửa dữ liệu.
 // LỖI (dừng build): tham chiếu mã không tồn tại, trùng id / slug, ô điểm không phải số hoặc null, chuỗi "?",
-//   Chung kết OSS không có đúng 1 Quán quân, trích dẫn nhận xét không còn trong bài Human of OSS.
-// CẢNH BÁO (không dừng): ảnh được tham chiếu nhưng không có file (web đã có ảnh thay thế).
+//   Chung kết OSS không có đúng 1 Quán quân, trích dẫn nhận xét không còn trong bài Human of OSS,
+//   số liệu đăng kí (dang-ky.json) lệch tổng / sai nhóm / ít hơn top 12, `gender` khác "nam" / "nu".
+// CẢNH BÁO (không dừng): ảnh được tham chiếu nhưng không có file (web đã có ảnh thay thế),
+//   mùa chưa có số liệu đăng kí, người từng vào top 12 chưa có `gender`.
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { root, scanImages } from "./lib/scan-images.mjs";
@@ -168,6 +170,58 @@ for (const h of read("humans")) {
 
 for (const p of read("partners")) {
   if (!["phoi-hop", "tai-tro", "dong-hanh"].includes(p.group)) error(path("partners.json"), p.id, `nhóm "${p.group}" không tồn tại`);
+}
+
+// ===== Giới tính =====
+const genderOf = new Map(read("people").map((p) => [p.id, p.gender]));
+for (const p of read("people")) {
+  if (p.gender !== undefined && p.gender !== "nam" && p.gender !== "nu") {
+    error(path("people.json"), p.id, `"gender" phải là "nam" hoặc "nu" (đang là ${JSON.stringify(p.gender)})`);
+  }
+}
+for (const id of new Set(read("qualifying").map((q) => q.person))) {
+  if (genderOf.has(id) && genderOf.get(id) === undefined) warn(path("people.json"), id, 'từng vào top 12 nhưng chưa có "gender"');
+}
+
+// ===== Số liệu đăng kí dự thi =====
+const registration = read("dang-ky");
+if (!registration) error(path("dang-ky.json"), "file", "không có file");
+else {
+  const f = path("dang-ky.json");
+  const registeredSchools = new Set([...schools, ...registration.otherSchools.map((s) => s.id)]);
+  const CRITERIA = [
+    { key: "byGrade", what: "khối", allowed: new Set(["9", "10", "11", "12"]), of: (q) => /^\d+/.exec(q.class)?.[0] },
+    { key: "byGender", what: "giới tính", allowed: new Set(["nam", "nu"]), of: (q) => genderOf.get(q.person) },
+    { key: "bySchool", what: "trường", allowed: registeredSchools, of: (q) => q.school },
+  ];
+  const isCount = (v) => Number.isInteger(v) && v >= 0;
+  const listed = unique(f, registration.seasons, (r) => r.season, "mùa");
+  for (const r of registration.seasons) {
+    const item = `mùa ${r.season}`;
+    ref(f, item, seasons, r.season, "mùa", true);
+    if (!isCount(r.total)) error(f, item, '"total" phải là số nguyên không âm');
+    const top12 = read("qualifying").filter((q) => q.season === r.season);
+    for (const { key, what, allowed, of } of CRITERIA) {
+      const counts = r[key] ?? {};
+      for (const [group, n] of Object.entries(counts)) {
+        if (!allowed.has(group)) error(f, item, `${key}: nhóm ${what} "${group}" không hợp lệ`);
+        if (!isCount(n)) error(f, item, `${key}.${group} phải là số nguyên không âm`);
+      }
+      const sum = Object.values(counts).reduce((a, b) => a + b, 0);
+      if (sum !== r.total) error(f, item, `total = ${r.total} nhưng tổng ${key} = ${sum}`);
+      const inTop12 = new Map();
+      for (const q of top12) {
+        const group = of(q);
+        if (group !== undefined) inTop12.set(group, (inTop12.get(group) ?? 0) + 1);
+      }
+      for (const [group, n] of inTop12) {
+        if (n > (counts[group] ?? 0)) {
+          error(f, item, `${what} "${group}": top 12 có ${n} người nhưng đăng kí chỉ có ${counts[group] ?? 0}`);
+        }
+      }
+    }
+  }
+  for (const n of seasons) if (!listed.has(n)) warn(f, `mùa ${n}`, "chưa có số liệu đăng kí (mùa mới chưa nhập)");
 }
 
 // ===== Trích dẫn nhận xét phải còn trong bài gốc =====

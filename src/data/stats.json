@@ -7,10 +7,8 @@
   },
   {
     "key": "registrations",
-    "value": "450+",
-    "label": "thí sinh đăng kí dự thi",
+    "label": "lượt đăng kí dự thi",
     "icon": "people",
-    "manual": true,
     "group": "oss"
   },
   {

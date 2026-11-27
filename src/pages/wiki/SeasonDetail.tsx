@@ -129,7 +129,8 @@ export default function SeasonDetail() {
               {formatDate(season.startDate)} và trận Chung kết diễn ra ngày {formatDate(season.finalDate)} tại {season.venue}.
             </p>
             <p>
-              Đối tượng tham gia là {season.eligibility}. Luật chơi của {code} được mô phỏng dựa theo luật chơi của chương trình
+              Đối tượng tham gia là {season.eligibility}.{season.qualifyingNote && ` ${season.qualifyingNote}`} Luật chơi của{" "}
+              {code} được mô phỏng dựa theo luật chơi của chương trình
               Đường lên đỉnh Olympia năm thứ {season.rulesBasedOn.join(" và ")}.
             </p>
             {champions.length > 0 && (

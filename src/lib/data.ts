@@ -20,6 +20,7 @@ import humansJson from "../data/humans.json";
 import testimonialsJson from "../data/testimonials.json";
 import partnersJson from "../data/partners.json";
 import eventsJson from "../data/events.json";
+import registrationJson from "../data/dang-ky.json";
 import type {
   Competition,
   ContactPerson,
@@ -37,6 +38,9 @@ import type {
   Person,
   Placement,
   QualifyingEntry,
+  Gender,
+  RegistrationData,
+  SeasonRegistration,
   School,
   SiteEvent,
   Season,
@@ -68,6 +72,8 @@ export const matches = (matchesJson as Match[])
   .slice()
   .sort((a, b) => a.season - b.season || roundOrder(a) - roundOrder(b));
 export const olympia = olympiaJson as OlympiaRecord[];
+/** Số liệu đăng kí dự thi (chỉ số đếm). Khai báo ở đầu file vì "Con số ấn tượng" bên dưới cần tới. */
+const registration = registrationJson as unknown as RegistrationData;
 export const departments = departmentsJson as Department[];
 export const contacts = contactsJson as ContactPerson[];
 /** Câu chuyện Human of OSS, xếp theo `stt` tăng dần (stt trùng nhau thì build báo lỗi, xem scripts/gen-image-manifest.mjs). */
@@ -799,6 +805,69 @@ export function schoolsOverview() {
   };
 }
 
+// ===== Đăng kí dự thi =====
+// Số cộng nhiều mùa tính theo LƯỢT. Khi so với top 12 chỉ tính những mùa đã có số liệu đăng kí.
+
+/** Các mùa đã có số liệu đăng kí, tăng dần. */
+export const registrations: SeasonRegistration[] = registration.seasons.slice().sort((a, b) => a.season - b.season);
+
+export function registrationOf(season: number) {
+  return registrations.find((r) => r.season === season);
+}
+
+export function totalRegistrations() {
+  return registrations.reduce((sum, r) => sum + r.total, 0);
+}
+
+/** Tên trường: schools.json trước, rồi tới otherSchools (vd "THPT Kim Anh", "Các trường THCS"). */
+export function schoolLabel(id: string) {
+  return schoolsById.get(id)?.name ?? registration.otherSchools.find((s) => s.id === id)?.name ?? id;
+}
+
+function countBy<T>(list: T[], keyOf: (item: T) => string | undefined) {
+  const out: Record<string, number> = {};
+  for (const item of list) {
+    const key = keyOf(item);
+    if (key !== undefined) out[key] = (out[key] ?? 0) + 1;
+  }
+  return out;
+}
+
+/** 12 người vào Bán kết của một mùa, đếm riêng theo từng tiêu chí (không chia chéo). */
+export function top12Breakdown(season: number) {
+  const rows = qualifying.filter((q) => q.season === season);
+  return {
+    total: rows.length,
+    byGrade: countBy(rows, (q) => /^\d+/.exec(q.class)?.[0]),
+    byGender: countBy(rows, (q) => allPeopleById.get(q.person)?.gender),
+    bySchool: countBy(rows, (q) => q.school),
+  };
+}
+
+export interface GenderStage {
+  id: "dang-ky" | "top-12" | "chung-ket" | "quan-quan";
+  label: string;
+  nam: number;
+  nu: number;
+}
+
+/** Số nam / nữ ở 4 chặng, tính theo lượt (một người vào top 12 ở hai mùa được tính hai lượt). */
+export function genderFunnel(): GenderStage[] {
+  const counted = (season: number) => registrationOf(season) !== undefined;
+  const byGender = (rows: { person: string }[]) => {
+    const g = (x: Gender) => rows.filter((r) => allPeopleById.get(r.person)?.gender === x).length;
+    return { nam: g("nam"), nu: g("nu") };
+  };
+  const finals = matches.filter((m) => m.round === "chung-ket" && counted(m.season)).flatMap((m) => m.results);
+  const sum = (x: Gender) => registrations.reduce((n, r) => n + (r.byGender[x] ?? 0), 0);
+  return [
+    { id: "dang-ky", label: "Đăng kí dự thi", nam: sum("nam"), nu: sum("nu") },
+    { id: "top-12", label: "Top 12", ...byGender(qualifying.filter((q) => counted(q.season))) },
+    { id: "chung-ket", label: "Chung kết", ...byGender(finals) },
+    { id: "quan-quan", label: "Quán quân", ...byGender(finals.filter((r) => r.placement === "vo-dich")) },
+  ];
+}
+
 // ===== Kỷ lục =====
 
 export type RecordField = "vl" | "kd" | "vcnv" | "tt" | "vd" | "total";
@@ -1047,6 +1116,7 @@ export function olympiaTvBridgeCount(school: StatScope = "all", period: OlympiaP
 // Con số Đường lên đỉnh Olympia ở trang Giới thiệu tính theo phạm vi "từ OSS".
 const COMPUTED_STATS: Record<string, (scope: StatScope) => number> = {
   seasons: () => seasons.length,
+  registrations: () => totalRegistrations(),
   olympiaContestants: (scope) => olympiaContestantCount(scope, "oss"),
   olympiaLaurels: (scope) => olympiaLaurelCount(scope, "oss"),
   tvBridges: (scope) => olympiaTvBridgeCount(scope, "oss"),

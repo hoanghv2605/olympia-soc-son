@@ -38,9 +38,10 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | --- | --- |
 | `site.json` | Tên, khẩu hiệu, 2 đoạn giới thiệu, fanpage, email, địa chỉ (`address`), bản đồ (`mapEmbedUrl` nhúng ở trang chủ, `mapLink` mở Google Maps ở footer), đường dẫn ảnh |
 | `schools.json` | Các trường: `id`, `name`, `short` |
-| `people.json` | Thí sinh: `id` (mã cố định, dùng làm đường dẫn), `name`, `school`. Gồm cả vài người chỉ thi ĐLĐO (không thi OSS); những người này không có hồ sơ OSSPEDIA |
-| `seasons.json` | Các mùa: ngày VL/CK, năm học, địa điểm, MC, luật ĐLĐO năm thứ, đối tượng, `notes`, `seededDraw` |
+| `people.json` | Thí sinh: `id` (mã cố định, dùng làm đường dẫn), `name`, `school`, `gender` (`"nam"` / `"nu"`, hiện ở hồ sơ). Gồm cả vài người chỉ thi ĐLĐO (không thi OSS); những người này không có hồ sơ OSSPEDIA |
+| `seasons.json` | Các mùa: ngày VL/CK, năm học, địa điểm, MC, luật ĐLĐO năm thứ, đối tượng, `notes`, `seededDraw`, `qualifyingNote` (tuỳ chọn: câu hiện ngay sau câu "Đối tượng tham gia…") |
 | `qualifying.json` | Top 12 vòng loại mỗi mùa |
+| `dang-ky.json` | Số liệu đăng kí dự thi từng mùa: `total` và số đếm theo `byGrade` (9 = học sinh THCS), `byGender`, `bySchool`; trường ngoài `schools.json` khai ở `otherSchools`. **Chỉ có số đếm, không đưa tên hay danh sách người đăng kí vào repo** |
 | `matches.json` | Các trận Bán kết / Chung kết: điểm 4 phần thi, tổng, hạng, `advanced` (BK), `placement` (CK) |
 | `olympia.json` | Thành tích Đường lên đỉnh Olympia. `ossSeason`: mùa OSS của thí sinh, `null` = không thi OSS. `beforeOss: true` = tham gia ĐLĐO trước khi dự thi OSS. Giải Nhất cuộc thi Quý được tính là 1 cầu truyền hình. `round` chỉ ghi phần đã biết (vd `"Tháng 2 - Quý 3"` khi chưa biết tuần), không biết gì thì `null`; **không ghi `"?"`** |
 | `milestones.json` | Dòng thời gian (`person` là mã thí sinh). `kind`: `"oss"` = chấm tím, `"olympia"` = chấm hồng |
@@ -63,9 +64,11 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `giá trị là "?"`, `"round" còn dấu "?"` | Thông tin chưa biết bị ghi bằng "?" | Ghi `null`, hoặc chỉ giữ phần đã biết |
 | `Chung kết phải có đúng 1 Quán quân` | Trận Chung kết có 0 hoặc nhiều `"placement": "vo-dich"` | Sửa `placement` |
 | `trích dẫn không còn trong bài` | Câu ở `testimonials.json` không khớp nguyên văn bài Human of OSS (không tính emoji và dấu kết câu) | Chép lại đúng câu trong bài |
+| `total = … nhưng tổng … = …`, `top 12 có … nhưng đăng kí chỉ có …` | `dang-ky.json`: mỗi mùa `total` phải bằng tổng theo khối, giới tính, trường; nhóm hợp lệ (khối 9–12, trường trong `schools.json` / `otherSchools`), mùa có thật và không lặp; top 12 không nhiều hơn số đăng kí cùng nhóm | Sửa số trong `dang-ky.json` (hoặc kiểm lại lớp / giới tính / trường của top 12) |
+| `"gender" phải là "nam" hoặc "nu"` | `people.json` ghi giới tính khác 2 giá trị này | Sửa lại; chưa biết thì bỏ hẳn trường `gender` |
 | `sai cú pháp JSON` | Thiếu / thừa dấu phẩy, ngoặc | Sửa file được nêu tên |
 
-**CẢNH BÁO không làm dừng build:** ảnh được nhắc tới (ảnh trao giải, ảnh trong bài, `tieu-diem-anh.json`, ảnh trang Giới thiệu) mà chưa có file (web dùng ảnh thay thế), hoặc bài trong `humans.json` chưa có file `.md`.
+**CẢNH BÁO không làm dừng build:** ảnh được nhắc tới (ảnh trao giải, ảnh trong bài, `tieu-diem-anh.json`, ảnh trang Giới thiệu) mà chưa có file (web dùng ảnh thay thế), mùa có trong `seasons.json` mà chưa có trong `dang-ky.json`, người từng vào top 12 chưa có `gender`, hoặc bài trong `humans.json` chưa có file `.md`.
 
 **Nội dung bài Human of OSS** viết bằng markdown ở `src/content/human-of-oss/<slug>.md` (tên file = `slug` trong `humans.json`). Hỗ trợ tiêu đề `##`, **đậm**, *nghiêng*, danh sách, trích dẫn `>`, ảnh `![mô tả](images/...)`.
 

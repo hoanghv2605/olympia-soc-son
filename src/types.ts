@@ -12,7 +12,10 @@ export interface Person {
   id: string; // mã cố định, dùng làm đường dẫn
   name: string;
   school: string; // School.id
+  gender?: Gender;
 }
+
+export type Gender = "nam" | "nu";
 
 export interface Season {
   season: number;
@@ -24,8 +27,23 @@ export interface Season {
   hosts: string[]; // MC
   rulesBasedOn: number[]; // luật Đường lên đỉnh Olympia năm thứ ...
   eligibility: string; // đối tượng dự thi
+  qualifyingNote?: string; // câu bổ sung về đối tượng Vòng loại, hiện ngay sau câu "Đối tượng tham gia là …"
   notes: string[]; // sự kiện đáng nhớ
   seededDraw: boolean; // có bốc thăm theo nhóm hạt giống hay không
+}
+
+/** Số đếm đăng kí dự thi của một mùa (dang-ky.json). Chỉ có số đếm, không có tên. */
+export interface SeasonRegistration {
+  season: number;
+  total: number; // số thí sinh đăng kí (trong một mùa, mỗi đơn là một người)
+  byGrade: Record<string, number>; // "9" (học sinh THCS) | "10" | "11" | "12"
+  byGender: Partial<Record<Gender, number>>;
+  bySchool: Record<string, number>; // School.id hoặc mã trong otherSchools
+}
+
+export interface RegistrationData {
+  otherSchools: { id: string; name: string }[]; // trường ngoài schools.json
+  seasons: SeasonRegistration[];
 }
 
 export interface QualifyingEntry {
