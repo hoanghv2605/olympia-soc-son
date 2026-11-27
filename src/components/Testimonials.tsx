@@ -9,64 +9,39 @@ import type { Testimonial } from "../types";
 const AUTO_MS = 7000; // tự chuyển sau mỗi 7 giây
 const SWIPE_PX = 40; // ngưỡng vuốt
 
-/** Ảnh tròn kèm 2 vòng tròn mảnh đồng tâm (tím 30%, vàng kim 40%). Không có ảnh hồ sơ: chữ viết tắt như các thẻ khác. */
-function Portrait({ name, seed, photo }: { name: string; seed: string; photo?: string }) {
-  return (
-    <span className="relative grid shrink-0 place-items-center p-6">
-      <span aria-hidden className="absolute inset-0 rounded-full border border-gold/40" />
-      <span aria-hidden className="absolute inset-3 rounded-full border border-oss/30" />
-      <PersonPhoto src={photo} seed={seed} name={name} className="size-[120px] rounded-full md:size-40" />
-    </span>
-  );
-}
-
+/** Một nhận xét: ảnh tròn 56px cùng hàng với tên và vai trò, rồi câu trích (ngoặc kép thường) và link bài gốc. */
 function Slide({ t }: { t: Testimonial }) {
   const paragraphs = t.quote.split(/\n\s*\n/).filter((p) => p.trim());
   const { story, seed, photo } = testimonialSource(t);
   return (
-    <div className="relative">
-      <div className="flex flex-col items-center gap-4 text-center md:flex-row md:gap-6 md:text-left">
-        <Portrait name={t.name} seed={seed} photo={photo} />
-        <div className="flex flex-col items-center gap-2 md:items-start">
-          <p className="rounded-full border border-oss/15 bg-white px-4 py-1.5 text-oss">
-            {t.name}
-            {t.role && (
-              <>
-                {" – "}
-                <strong className="font-bold">{t.role}</strong>
-              </>
-            )}
-          </p>
-          {t.position && (
-            <p className="rounded-full px-4 py-1.5 text-sm text-oss-deep" style={{ backgroundColor: "#EDE7FB" }}>
-              {t.position}
-            </p>
-          )}
+    <figure>
+      <figcaption className="flex items-center gap-3.5">
+        {/* Không có ảnh hồ sơ: chữ viết tắt như các thẻ khác */}
+        <PersonPhoto src={photo} seed={seed} name={t.name} decorative className="size-14 shrink-0 rounded-full" />
+        <div className="min-w-0">
+          <p className="font-bold text-ink">{t.name}</p>
+          {t.role && <p className="text-sm text-ink-soft">{t.role}</p>}
+          {t.position && <p className="text-sm text-ink-soft">{t.position}</p>}
         </div>
-      </div>
-
-      <figure className="relative mt-6 px-2 md:mt-8 md:px-10">
-        <span aria-hidden className="font-display absolute -top-4 left-0 text-6xl leading-none text-gold md:-left-1">
-          “
-        </span>
-        <blockquote className="max-w-[70ch] space-y-4 pt-6 text-lg leading-[1.7] text-ink md:text-xl md:leading-[1.7]">
-          {paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </blockquote>
-        <span aria-hidden className="font-display mt-2 block text-right text-6xl leading-none text-gold">
-          ”
-        </span>
-        {story && (
-          <figcaption className="text-center md:text-left">
-            <Link to={humanPath(story.slug)} className="link-strong inline-block text-sm">
-              Đọc bài phỏng vấn
-              <span className="sr-only"> {t.name}</span>
-            </Link>
-          </figcaption>
-        )}
-      </figure>
-    </div>
+      </figcaption>
+      <blockquote className="mt-4 space-y-3 text-lg leading-[1.7] text-ink md:text-xl md:leading-[1.7]">
+        {paragraphs.map((p, i) => (
+          <p key={i}>
+            {i === 0 && "“"}
+            {p}
+            {i === paragraphs.length - 1 && "”"}
+          </p>
+        ))}
+      </blockquote>
+      {story && (
+        <p className="mt-3">
+          <Link to={humanPath(story.slug)} className="link-strong inline-block text-sm">
+            Đọc bài phỏng vấn
+            <span className="sr-only"> {t.name}</span>
+          </Link>
+        </p>
+      )}
+    </figure>
   );
 }
 
@@ -127,6 +102,7 @@ export default function Testimonials() {
 
   return (
     <div
+      className="mx-auto max-w-[47.5rem]"
       role="region"
       aria-roledescription="carousel"
       aria-label="Cảm nhận về Olympia Sóc Sơn"
@@ -137,7 +113,7 @@ export default function Testimonials() {
       onKeyDown={onKeyDown}
     >
       <div
-        className={`testimonial-stage grid touch-pan-y rounded-3xl border border-white/10 bg-white/95 px-5 py-8 md:px-10 md:py-10`}
+        className="testimonial-stage grid touch-pan-y rounded-3xl border border-white/10 bg-white/95 px-5 py-6 md:px-8 md:py-7"
         aria-live={running ? "off" : "polite"}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}

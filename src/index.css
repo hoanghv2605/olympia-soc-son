@@ -1105,11 +1105,10 @@
   position: relative;
   border-radius: 1rem;
   border: 1px solid color-mix(in oklab, var(--color-oss) 15%, transparent);
+}
+/* Ô tối (.paper-dark) giữ nền giấy đen */
+.entry-card:not(.paper-dark) {
   background: rgb(255 255 255 / 0.8);
-  transition:
-    border-color 200ms ease,
-    transform 200ms ease,
-    box-shadow 200ms ease;
 }
 .entry-link::after {
   content: "";
@@ -1122,9 +1121,7 @@
 }
 .entry-card:hover,
 .entry-card:has(.entry-link:focus-visible) {
-  border-color: var(--color-oss);
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px -24px rgb(109 40 217 / 0.55);
+  border-color: color-mix(in oklab, var(--color-oss) 60%, transparent);
 }
 .entry-card:has(.entry-link:focus-visible) {
   outline: 2px solid var(--color-oss);
@@ -1190,11 +1187,6 @@
   .did-you-know,
   .testimonial-slide {
     transition: none;
-  }
-  .entry-card,
-  .entry-card:hover,
-  .entry-card:has(.entry-link:focus-visible) {
-    transform: none;
   }
   .photo-img {
     transition: none;

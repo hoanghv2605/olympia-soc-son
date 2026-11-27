@@ -10,7 +10,7 @@ import { usePageTitle } from "../lib/hooks";
 
 /** Ô thư viện: có ảnh thì là link; chưa có ảnh thì mờ, "Chưa có ảnh", không phải link. */
 function Tile({ to, has, children }: { to: string; has: boolean; children: ReactNode }) {
-  const base = "block overflow-hidden rounded-2xl border border-oss/15 bg-white/80";
+  const base = "block h-full overflow-hidden rounded-2xl border border-oss/15 bg-white/80";
   if (!has) return <div className={`${base} opacity-55`}>{children}</div>;
   return (
     <Link
@@ -43,9 +43,9 @@ function EventTile({ event }: { event: SiteEvent }) {
   const has = photos.length > 0;
   return (
     <Tile to={eventLibraryPath(event.id)} has={has}>
-      <EventCover type={event.type} index={event.stt} src={photos[0]?.src} />
+      <EventCover type={event.type} index={event.stt} src={photos[0]?.src} square />
       <span className="block p-3">
-        <span className="block min-h-[2lh] text-base leading-snug font-bold text-ink">{event.name}</span>
+        <span className="block text-base leading-snug font-bold break-words text-ink">{event.name}</span>
         <span className="block text-[0.8rem] text-ink-soft tabular-nums">
           {eventTimeLabel(event)} · {has ? `${photos.length} ảnh` : "Chưa có ảnh"}
         </span>

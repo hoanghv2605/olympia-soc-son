@@ -10,7 +10,7 @@ import Partners from "../components/Partners";
 import Testimonials from "../components/Testimonials";
 import { finalPhoto, heroSeason, latestFinalSeason, partners, seasonPath, site, testimonials } from "../lib/data";
 import { hasImage, imageFocus } from "../lib/images";
-import { CUBE_GRADIENT, HERO_GRADIENT, asset, yearOf } from "../lib/format";
+import { CUBE_GRADIENT, HERO_GRADIENT, asset, splitSlogan, yearOf } from "../lib/format";
 import { usePageTitle } from "../lib/hooks";
 
 const LETTERS = ["O", "S", "S"];
@@ -29,10 +29,10 @@ const HERO_BG = {
   backgroundRepeat: "no-repeat",
 };
 
-/** Lớp phủ tối trên ảnh Chung kết: đậm ở góc trên phải (chỗ khẩu hiệu, ~85% nhờ lớp radial cộng lớp 75%), nhạt dần về trái, thêm dải tối mỏng mép dưới cho chú thích. */
+/** Lớp phủ tối trên ảnh Chung kết: đậm ở góc trên phải (chỗ khẩu hiệu, ~89% nhờ lớp radial cộng lớp 75%), nhạt dần về trái, thêm dải tối mỏng mép dưới cho chú thích. */
 const HERO_SCRIM = {
   backgroundImage:
-    "radial-gradient(ellipse at top right, rgba(30, 10, 60, 0.4), transparent 55%), linear-gradient(to top, rgba(30, 10, 60, 0.55), transparent 22%), linear-gradient(to bottom left, rgba(30, 10, 60, 0.75), rgba(30, 10, 60, 0.15))",
+    "radial-gradient(ellipse at top right, rgba(30, 10, 60, 0.55), transparent 55%), linear-gradient(to top, rgba(30, 10, 60, 0.55), transparent 22%), linear-gradient(to bottom left, rgba(30, 10, 60, 0.75), rgba(30, 10, 60, 0.15))",
 };
 
 /** Nút trên ảnh lớn: viền focus trắng để thấy được trên ảnh tối. */
@@ -48,6 +48,7 @@ export default function HomePage() {
   const caption = heroN ? `Chung kết Olympia Sóc Sơn mùa ${heroN}` : site.images.heroCaption;
   // Ảnh lớn và 2 nút dẫn tới mùa mới nhất đã có Chung kết (cùng cách khối "Chung kết mùa n")
   const latest = latestFinalSeason()?.season;
+  const sloganParts = splitSlogan(site.slogan);
   const letters = LETTERS.map((letter, i) => {
     const n = heroN ? heroN - 3 + i : 0;
     return { letter, n, photo: n >= 1 ? finalPhoto(n) : undefined };
@@ -110,8 +111,16 @@ export default function HomePage() {
             <HeroTiles />
             {/* Bấm vào ảnh mở mùa mới nhất; bàn phím và trình đọc màn hình dùng nút "Xem kết quả" bên dưới (không lặp link) */}
             {latest && <Link to={seasonPath(latest)} tabIndex={-1} aria-hidden="true" className="absolute inset-0 z-[15]" />}
-            <h1 className="hero-slogan font-display pointer-events-none absolute top-5 right-5 z-20 max-w-[13ch] text-right text-3xl leading-[1.25] font-extrabold text-white drop-shadow-sm md:top-8 md:right-9 md:text-[3.25rem]">
-              <span className="sr-only">{site.name}: </span>“{site.slogan}”
+            {/* Khẩu hiệu 2 dòng, ngắt ngay sau dấu phẩy đầu tiên; điện thoại cho phép dòng 2 xuống dòng tiếp */}
+            <h1 className="hero-slogan font-display pointer-events-none absolute top-5 right-4 left-3 z-20 text-right text-xl leading-[1.35] font-extrabold text-white drop-shadow-sm md:top-8 md:right-9 md:text-[2.1875rem]">
+              <span className="sr-only">{site.name}: </span>
+              {sloganParts.map((part, i) => (
+                <span key={i} className={`block text-balance ${i === 0 ? "whitespace-nowrap" : "md:whitespace-nowrap"}`}>
+                  {i === 0 && "“"}
+                  {part}
+                  {i === sloganParts.length - 1 ? "”" : " "}
+                </span>
+              ))}
             </h1>
             <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 flex flex-col items-start gap-2 md:inset-x-5 md:bottom-4 md:flex-row-reverse md:items-end md:justify-between md:gap-4">
               {latest && (
@@ -162,7 +171,7 @@ export default function HomePage() {
       {/* ===== Cảm nhận về Olympia Sóc Sơn ===== */}
       {testimonials.length > 0 && (
         <Section tone="dark" labelledBy="cam-nhan">
-          <h2 id="cam-nhan" className="h2">
+          <h2 id="cam-nhan" className="h2 text-center">
             Cảm nhận về Olympia Sóc Sơn
           </h2>
           <div className="mt-8">

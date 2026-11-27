@@ -43,25 +43,28 @@ export default function DidYouKnow() {
   }
 
   return (
-    <div className="rounded-2xl border border-oss/15 bg-white/80 p-6 md:p-8">
+    <div className="mx-auto max-w-[47.5rem] rounded-2xl border border-oss/15 bg-white/80 px-5 py-4 md:px-6 md:py-5">
       <p className="text-sm font-semibold text-oss">
         <IconLabel icon={PiLightbulb} iconClass="size-5">
           Bạn có biết?
         </IconLabel>
       </p>
-      <div aria-live="polite" className={`did-you-know mt-3 ${fading ? "opacity-0" : "opacity-100"}`}>
-        <p className="text-lg leading-relaxed text-ink md:text-xl">{fact.text}</p>
-        <Link to={fact.to} className="link-strong mt-3 inline-block text-sm">
+      {/* Vùng chữ giữ sẵn 3 dòng để ô không nhảy khi đổi câu; câu dài hơn thì ô cao thêm */}
+      <div aria-live="polite" className={`did-you-know mt-2 min-h-[5.0625rem] ${fading ? "opacity-0" : "opacity-100"}`}>
+        <p className="text-lg leading-normal text-ink">{fact.text}</p>
+      </div>
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <Link to={fact.to} className={`did-you-know link-strong text-sm ${fading ? "opacity-0" : "opacity-100"}`}>
           Xem chi tiết
         </Link>
+        <button
+          type="button"
+          onClick={next}
+          className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-oss/25 px-5 text-sm font-semibold text-oss hover:border-oss hover:bg-oss-soft"
+        >
+          Sự thật khác
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={next}
-        className="mt-5 inline-flex min-h-11 items-center rounded-full border border-oss/25 px-5 text-sm font-semibold text-oss hover:border-oss hover:bg-oss-soft"
-      >
-        Sự thật khác
-      </button>
     </div>
   );
 }

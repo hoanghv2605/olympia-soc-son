@@ -1,7 +1,8 @@
+import { Fragment } from "react";
 import { Link } from "react-router";
 import { PiEnvelopeSimpleBold, PiFacebookLogoBold, PiMapPinBold } from "react-icons/pi";
 import { contacts, site } from "../lib/data";
-import { yearOf } from "../lib/format";
+import { splitSlogan, yearOf } from "../lib/format";
 import { NAV } from "../lib/nav";
 import Logo from "./Logo";
 
@@ -9,13 +10,21 @@ export default function SiteFooter() {
   const now = new Date().getFullYear();
   return (
     <footer className="paper-dark border-t border-white/10 text-white/80">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1.1fr_0.8fr]">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[auto_1fr_1.1fr_0.8fr] lg:gap-6 xl:gap-10">
         <div>
           <div className="flex items-center gap-4">
             <Logo className="size-12" />
             <div>
               <p className="pt-[0.12em] leading-[1.4] font-bold tracking-[0.14em] text-white uppercase">{site.name}</p>
-              <p className="mt-1 text-sm text-white/70">{site.slogan}</p>
+              {/* 1 dòng; chỗ hẹp chỉ được xuống dòng ngay sau dấu phẩy */}
+              <p className="mt-1 text-sm text-white/70">
+                {splitSlogan(site.slogan).map((part, i) => (
+                  <Fragment key={i}>
+                    {i > 0 && " "}
+                    <span className="inline-block">{part}</span>
+                  </Fragment>
+                ))}
+              </p>
             </div>
           </div>
         </div>

@@ -11,6 +11,8 @@ interface PhotoProps {
   fallback?: ReactNode;
   /** Ảnh chỉ để trang trí (tên đã nằm cạnh): alt rỗng, không đặt role/aria-label, ẩn khỏi trình đọc màn hình. */
   decorative?: boolean;
+  /** Hiện trọn ảnh (không cắt); phần thừa của khung được lấp bằng chính ảnh đó phóng to, làm mờ, tối nhẹ. */
+  contain?: boolean;
 }
 
 /**
@@ -18,7 +20,7 @@ interface PhotoProps {
  * ảnh thật tải xong thì mờ dần đè lên (200ms); ảnh lỗi thì giữ lớp giữ chỗ.
  * Chỉ gọi tải ảnh có trong danh sách ảnh có sẵn (src/lib/images.ts); `onError` là phương án dự phòng.
  */
-export default function Photo({ src, alt, className = "", fallback, decorative = false }: PhotoProps) {
+export default function Photo({ src, alt, className = "", fallback, decorative = false, contain = false }: PhotoProps) {
   const [failed, setFailed] = useState(!hasImage(src));
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -43,6 +45,10 @@ export default function Photo({ src, alt, className = "", fallback, decorative =
           {import.meta.env.DEV && src && <span className="mt-2 px-3 text-[11px] opacity-70">public/{src}</span>}
         </div>
       )}
+      {contain && !failed && loaded && (
+        // Cùng địa chỉ ảnh nên không tải thêm file
+        <img src={asset(src!)} alt="" aria-hidden className="absolute inset-0 size-full scale-125 object-cover blur-xl brightness-75" />
+      )}
       {!failed && (
         <img
           ref={imgRef}
@@ -53,7 +59,7 @@ export default function Photo({ src, alt, className = "", fallback, decorative =
           onLoad={() => setLoaded(true)}
           onError={() => setFailed(true)}
           style={{ objectPosition: imageFocus(src) }}
-          className={`photo-img absolute inset-0 size-full object-cover ${loaded ? "opacity-100" : "opacity-0"}`}
+          className={`photo-img absolute inset-0 size-full ${contain ? "object-contain" : "object-cover"} ${loaded ? "opacity-100" : "opacity-0"}`}
         />
       )}
     </div>

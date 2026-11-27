@@ -1,13 +1,13 @@
 import RatioBar from "./RatioBar";
 import SeasonColumnChart from "./SeasonColumnChart";
 import { genderFunnel, registrationOverview } from "../lib/data";
-import { percent } from "../lib/format";
 import { ratioSegments } from "../lib/ratio";
 
 /** Mục "Toàn cảnh {n} mùa" ở trang Các mùa giải: số đăng kí qua các mùa và phễu Nam / Nữ. */
 export default function RegistrationOverview() {
   const { rows, total, slots, max } = registrationOverview();
   if (!rows.length) return null;
+  const stages = genderFunnel();
   return (
     <section className="mt-12 md:mt-16">
       <h2 className="h2 text-ink">Toàn cảnh {rows.length} mùa</h2>
@@ -19,28 +19,30 @@ export default function RegistrationOverview() {
       <SeasonColumnChart rows={rows} max={max} />
 
       <h3 className="h3 mt-12 text-ink">Từ đơn đăng kí tới ngôi Quán quân</h3>
-      <ol className="mt-4 space-y-5">
-        {genderFunnel().map((stage) => {
+      <ol className="mt-4 space-y-4">
+        {stages.map((stage) => {
           const sum = stage.nam + stage.nu;
           return (
-            <li
-              key={stage.id}
-              className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1.5 sm:grid-cols-[13rem_minmax(0,1fr)_5rem]"
-            >
-              <p className="text-sm font-semibold text-ink tabular-nums sm:leading-7">
-                {stage.label} · {sum} lượt
+            <li key={stage.id} className="grid gap-x-4 gap-y-1.5 sm:grid-cols-[10rem_minmax(0,1fr)] sm:items-center">
+              <p className="leading-snug">
+                <span className="block text-sm font-bold text-ink">{stage.label}</span>
+                <span className="block text-xs text-ink-soft tabular-nums">{sum} lượt</span>
               </p>
-              <p className="text-right text-sm font-semibold text-ink tabular-nums sm:order-last sm:leading-7">
-                Nữ {percent(stage.nu, sum)}%
-              </p>
-              <div className="col-span-2 min-w-0 sm:col-span-1">
-                <RatioBar title={stage.label} segments={ratioSegments("gender", { nam: stage.nam, nu: stage.nu }, { nam: sum, nu: sum })} />
-              </div>
+              <RatioBar title={stage.label} segments={ratioSegments("gender", { nam: stage.nam, nu: stage.nu }, { nam: sum, nu: sum })} />
             </li>
           );
         })}
       </ol>
-      <p className="mt-4 text-xs text-ink-soft">Tính theo lượt: một người vào top 12 ở hai mùa được tính hai lượt.</p>
+      {/* Một chú thích chung cho cả 4 thanh */}
+      <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+        {ratioSegments("gender", {}, { nam: 1, nu: 1 }).map((g) => (
+          <li key={g.key} className="inline-flex items-center gap-1.5">
+            <span aria-hidden className="size-3 shrink-0 rounded-[3px]" style={{ backgroundColor: g.color }} />
+            {g.label}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 text-xs text-ink-soft">Tính theo lượt: một người vào top 12 ở hai mùa được tính hai lượt.</p>
     </section>
   );
 }

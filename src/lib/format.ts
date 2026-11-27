@@ -13,6 +13,12 @@ export function yearOf(iso: string) {
   return iso.slice(0, 4);
 }
 
+/** Tách khẩu hiệu tại dấu phẩy đầu tiên (dấu phẩy ở lại vế đầu); không có phẩy thì 1 vế. */
+export function splitSlogan(slogan: string): string[] {
+  const i = slogan.indexOf(",");
+  return i < 0 ? [slogan] : [slogan.slice(0, i + 1), slogan.slice(i + 1).trim()];
+}
+
 /** Bỏ dấu tiếng Việt để tìm kiếm: "Nghiêm Trung Đức" → "nghiem trung duc" */
 export function normalize(text: string) {
   return text

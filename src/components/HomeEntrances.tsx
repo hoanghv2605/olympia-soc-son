@@ -1,130 +1,107 @@
 import { Link } from "react-router";
-import type { IconType } from "react-icons";
-import { PiBooks, PiChatsCircle, PiFlag, PiTrophy } from "react-icons/pi";
+import { PiBooks, PiTrophy } from "react-icons/pi";
 import Figure from "./Figure";
+import PersonPhoto from "./PersonPhoto";
 import SearchTrigger from "./SearchTrigger";
-import {
-  championCards,
-  events,
-  humans,
-  olympiaLaurelCount,
-  people,
-  schoolsOverview,
-  seasonPath,
-  seasons,
-  site,
-} from "../lib/data";
-import { yearOf } from "../lib/format";
+import SeasonStrip from "./SeasonStrip";
+import StoryEntry from "./StoryEntry";
+import { useChartTooltip } from "./ChartTooltip";
+import { championCards, events, olympiaLaurelCount, people, personPath, personPhoto, schoolsOverview, seasons } from "../lib/data";
 
-interface Entry {
-  to: string;
-  icon: IconType;
-  title: string;
-  description: string;
-  stat: string;
-  /** Số liệu dài: cho xuống dòng trong một phần */
-  statWrap?: boolean;
+/** Lối tắt trong ô OSSPEDIA (mùa giải đã có dải ảnh bìa riêng). */
+const SHORTCUTS = [
+  { to: "/wiki/thi-sinh", label: "Danh sách thí sinh" },
+  { to: "/wiki/truong", label: "Các trường" },
+  { to: "/wiki/su-kien", label: "Sự kiện khác" },
+];
+
+/** Ô OSSPEDIA (ô chính): số liệu tự tính, dải bìa các mùa, lối tắt và ô tìm kiếm giả mở hộp tìm kiếm chung. */
+function WikiEntry() {
+  return (
+    <div className="entry-card flex min-w-0 flex-col p-5 md:row-span-2 md:p-8">
+      <PiBooks className="size-11 text-oss" aria-hidden />
+      <h3 className="h2 mt-5 text-ink">
+        <Link to="/wiki" className="entry-link">
+          OSSPEDIA
+        </Link>
+      </h3>
+      <p className="mt-2 text-[17px] text-ink-soft">Các mùa giải, hồ sơ thí sinh, các trường và sự kiện khác.</p>
+      <Figure
+        text={`${seasons.length} mùa · ${people.length} thí sinh · ${schoolsOverview().schools} trường · ${events.length} sự kiện`}
+        className="mt-3 text-sm font-semibold text-oss tabular-nums"
+      />
+      <SeasonStrip />
+      {/* Lối tắt: nằm trên lớp link phủ ô (relative z-10) */}
+      <ul className="relative z-10 mt-5 mb-6 flex flex-wrap gap-2">
+        {SHORTCUTS.map((sc) => (
+          <li key={sc.to}>
+            <Link
+              to={sc.to}
+              className="inline-flex min-h-9 items-center rounded-full border border-oss/30 bg-white px-3.5 text-sm font-semibold text-oss hover:border-oss hover:bg-oss-soft"
+            >
+              {sc.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <SearchTrigger label="Tìm thí sinh, mùa giải, trường, sự kiện" className="relative z-10 md:mt-auto" />
+    </div>
+  );
 }
 
-/** 3 lối tắt trong ô OSSPEDIA: mùa mới nhất (tự tính), danh sách thí sinh, các trường. */
-function shortcuts() {
-  const latest = seasons[seasons.length - 1];
-  return [
-    ...(latest ? [{ to: seasonPath(latest.season), label: `Mùa ${latest.season}` }] : []),
-    { to: "/wiki/thi-sinh", label: "Danh sách thí sinh" },
-    { to: "/wiki/truong", label: "Các trường" },
-    { to: "/wiki/su-kien", label: "Sự kiện khác" },
-  ];
-}
-
-/** Số liệu đều tự tính từ dữ liệu. */
-function entries(): Entry[] {
-  return [
-    {
-      to: "/wiki",
-      icon: PiBooks,
-      title: "OSSPEDIA",
-      description: "Các mùa giải, hồ sơ thí sinh, các trường và sự kiện khác.",
-      stat: `${seasons.length} mùa · ${people.length} thí sinh · ${schoolsOverview().schools} trường · ${events.length} sự kiện`,
-    },
-    {
-      to: "/bang-vang",
-      icon: PiTrophy,
-      title: "Bảng vàng",
-      description: "Quán quân, kỷ lục và thành tích tại Đường lên đỉnh Olympia.",
-      // số Quán quân = số người khác nhau từng vô địch; vòng nguyệt quế: thí sinh THPT Sóc Sơn, phạm vi toàn bộ
-      // \u00a0 giữ liền các cụm: phần sau dài nên được xuống dòng giữa các cụm ở màn hẹp
-      stat: `${championCards().length}\u00a0nhà vô địch OSS · ${olympiaLaurelCount("soc-son", "all")}\u00a0vòng\u00a0nguyệt\u00a0quế tại Đường\u00a0lên\u00a0đỉnh\u00a0Olympia`,
-      statWrap: true,
-    },
-    {
-      to: "/human-of-oss",
-      icon: PiChatsCircle,
-      title: "Human of OSS",
-      description: "Những con người và câu chuyện phía sau OSS.",
-      stat: `${humans.length} câu chuyện`,
-    },
-    {
-      to: "/ve-chung-toi",
-      icon: PiFlag,
-      title: "Về chúng tôi",
-      description: "Lịch sử và cơ cấu tổ chức.",
-      stat: `Thành lập năm ${yearOf(site.foundedDate)}`,
-    },
-  ];
+/** Ô Bảng vàng: nền tối chữ vàng như đầu trang Bảng vàng, một hàng ảnh các nhà vô địch (theo mùa vô địch đầu tiên). */
+function GoldEntry() {
+  const champions = championCards();
+  const { bind, tooltip } = useChartTooltip();
+  return (
+    <div className="entry-card paper-dark flex min-w-0 flex-col justify-center p-5">
+      <div className="flex items-center gap-3">
+        <PiTrophy className="size-8 shrink-0 text-gold-text" aria-hidden />
+        <h3 className="h3 text-gold-text">
+          <Link to="/bang-vang" className="entry-link">
+            Bảng vàng
+          </Link>
+        </h3>
+      </div>
+      <p className="mt-2 text-[15px] text-white/75">Quán quân, kỷ lục và thành tích tại Đường lên đỉnh Olympia.</p>
+      {/* số Quán quân = số người khác nhau từng vô địch; vòng nguyệt quế: thí sinh THPT Sóc Sơn, phạm vi toàn bộ.
+          \u00a0 giữ liền các cụm: phần sau dài nên được xuống dòng giữa các cụm ở màn hẹp */}
+      <Figure
+        text={`${champions.length}\u00a0nhà vô địch OSS · ${olympiaLaurelCount("soc-son", "all")}\u00a0vòng\u00a0nguyệt\u00a0quế tại Đường\u00a0lên\u00a0đỉnh\u00a0Olympia`}
+        wrap
+        className="mt-2 text-sm font-semibold text-gold-text tabular-nums"
+      />
+      {/* Luôn 1 hàng: ảnh tự co khi hẹp */}
+      <ul className="relative z-10 mt-4 flex gap-1 sm:gap-1.5">
+        {champions.map(({ person }) => (
+          <li key={person.id} className="max-w-12 min-w-0 flex-1">
+            <Link to={personPath(person.id)} aria-label={person.name} {...bind({ title: person.name, lines: [] })} className="block rounded-full">
+              <PersonPhoto
+                src={personPhoto(person.id)}
+                seed={person.id}
+                name={person.name}
+                decorative
+                className="aspect-square w-full rounded-full ring-1 ring-gold/60"
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+      {tooltip}
+    </div>
+  );
 }
 
 /**
- * Lối vào 4 phần chính. Cả ô là link (link phủ kín ô bằng ::after, vì không được lồng nút trong <a>);
- * ô OSSPEDIA là ô chính, có ô tìm kiếm giả mở hộp tìm kiếm chung.
+ * Lối vào 3 phần chính. Ô OSSPEDIA và Bảng vàng: cả ô là link (link phủ kín ô bằng ::after, vì không được lồng nút trong <a>).
+ * Từ md: OSSPEDIA bên trái cao bằng 2 ô bên phải cộng lại (2 hàng bằng nhau).
  */
 export default function HomeEntrances() {
-  const [main, ...rest] = entries();
-  const MainIcon = main.icon;
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
-      <div className="entry-card flex flex-col p-6 md:row-span-3 md:p-8">
-        <MainIcon className="size-11 text-oss" aria-hidden />
-        <h3 className="h2 mt-5 text-ink">
-          <Link to={main.to} className="entry-link">
-            {main.title}
-          </Link>
-        </h3>
-        <p className="mt-2 text-[17px] text-ink-soft">{main.description}</p>
-        <Figure text={main.stat} className="mt-3 text-sm font-semibold text-oss tabular-nums" />
-        {/* Lối tắt: nằm trên lớp link phủ ô (relative z-10) */}
-        <ul className="relative z-10 mt-5 mb-6 flex flex-wrap gap-2">
-          {shortcuts().map((sc) => (
-            <li key={sc.to}>
-              <Link
-                to={sc.to}
-                className="inline-flex min-h-9 items-center rounded-full border border-oss/30 bg-white px-3.5 text-sm font-semibold text-oss hover:border-oss hover:bg-oss-soft"
-              >
-                {sc.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <SearchTrigger label="Tìm thí sinh, mùa giải, trường, sự kiện" className="relative z-10 md:mt-auto" />
-      </div>
-
-      {rest.map((e) => {
-        const Icon = e.icon;
-        return (
-          <div key={e.to} className="entry-card flex items-start gap-4 p-5">
-            <Icon className="size-8 shrink-0 text-oss" aria-hidden />
-            <div className="min-w-0">
-              <h3 className="h3 text-ink">
-                <Link to={e.to} className="entry-link">
-                  {e.title}
-                </Link>
-              </h3>
-              <p className="mt-1 text-[15px] text-ink-soft">{e.description}</p>
-              <Figure text={e.stat} wrap={e.statWrap} className="mt-2 text-sm font-semibold text-oss tabular-nums" />
-            </div>
-          </div>
-        );
-      })}
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:grid-rows-2 md:gap-5">
+      <WikiEntry />
+      <GoldEntry />
+      <StoryEntry />
     </div>
   );
 }
