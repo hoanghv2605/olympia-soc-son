@@ -37,7 +37,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 
 | File | Nội dung |
 | --- | --- |
-| `site.json` | Tên, khẩu hiệu (ảnh lớn trang chủ tách 2 dòng tại dấu phẩy đầu tiên; đổi khẩu hiệu thì đổi cả ảnh chia sẻ `public/og-image.jpg`), 2 đoạn giới thiệu, fanpage, email, địa chỉ (`address`), bản đồ (`mapEmbedUrl` nhúng ở trang chủ, `mapLink` mở Google Maps ở footer), đường dẫn ảnh |
+| `site.json` | Tên, khẩu hiệu chính thức `slogan` (chân trang; đổi thì đổi cả ảnh chia sẻ `public/og-image.jpg`), `heroSlogans` (các slogan ở ảnh lớn trang chủ, mỗi lần tải trang hiện ngẫu nhiên 1 câu; thêm, bớt bằng cách sửa danh sách này; " / " là chỗ xuống dòng; để trống thì hiện `slogan`), 2 đoạn giới thiệu, fanpage, email, địa chỉ (`address`), bản đồ (`mapEmbedUrl` nhúng ở trang chủ, `mapLink` mở Google Maps ở footer), đường dẫn ảnh |
 | `schools.json` | Các trường: `id`, `name`, `short` |
 | `people.json` | Thí sinh: `id` (mã cố định, dùng làm đường dẫn), `name`, `school`, `gender` (`"nam"` / `"nu"`, hiện ở hồ sơ). Gồm cả vài người chỉ thi ĐLĐO (không thi OSS); những người này không có hồ sơ OSSPEDIA |
 | `seasons.json` | Các mùa: ngày VL/CK, năm học, địa điểm, MC, luật ĐLĐO năm thứ, đối tượng, `notes`, `seededDraw`, `qualifyingNote` (tuỳ chọn: câu hiện ngay sau câu "Đối tượng tham gia…") |

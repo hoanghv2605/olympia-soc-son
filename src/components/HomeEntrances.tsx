@@ -2,20 +2,20 @@ import { Link } from "react-router";
 import { PiBooks, PiTrophy } from "react-icons/pi";
 import Figure from "./Figure";
 import PersonPhoto from "./PersonPhoto";
+import SchoolStrip from "./SchoolStrip";
 import SearchTrigger from "./SearchTrigger";
 import SeasonStrip from "./SeasonStrip";
 import StoryEntry from "./StoryEntry";
 import { useChartTooltip } from "./ChartTooltip";
-import { championCards, events, olympiaLaurelCount, people, personPath, personPhoto, schoolsOverview, seasons } from "../lib/data";
+import { championCards, championPhoto, events, olympiaLaurelCount, people, personPath, schoolsOverview, seasons } from "../lib/data";
 
-/** Lối tắt trong ô OSSPEDIA (mùa giải đã có dải ảnh bìa riêng). */
+/** Lối tắt trong ô OSSPEDIA (mùa giải và trường đã có dải ảnh riêng, kèm nhãn dẫn tới danh sách). */
 const SHORTCUTS = [
   { to: "/wiki/thi-sinh", label: "Danh sách thí sinh" },
-  { to: "/wiki/truong", label: "Các trường" },
   { to: "/wiki/su-kien", label: "Sự kiện khác" },
 ];
 
-/** Ô OSSPEDIA (ô chính): số liệu tự tính, dải bìa các mùa, lối tắt và ô tìm kiếm giả mở hộp tìm kiếm chung. */
+/** Ô OSSPEDIA (ô chính): số liệu tự tính, dải bìa các mùa, dải logo trường, lối tắt và ô tìm kiếm giả mở hộp tìm kiếm chung. */
 function WikiEntry() {
   return (
     <div className="entry-card flex min-w-0 flex-col p-5 md:row-span-2 md:p-8">
@@ -31,8 +31,9 @@ function WikiEntry() {
         className="mt-3 text-sm font-semibold text-oss tabular-nums"
       />
       <SeasonStrip />
+      <SchoolStrip />
       {/* Lối tắt: nằm trên lớp link phủ ô (relative z-10) */}
-      <ul className="relative z-10 mt-5 mb-6 flex flex-wrap gap-2">
+      <ul className="relative z-10 mt-4 mb-4 flex flex-wrap gap-2">
         {SHORTCUTS.map((sc) => (
           <li key={sc.to}>
             <Link
@@ -49,7 +50,7 @@ function WikiEntry() {
   );
 }
 
-/** Ô Bảng vàng: nền tối chữ vàng như đầu trang Bảng vàng, một hàng ảnh các nhà vô địch (theo mùa vô địch đầu tiên). */
+/** Ô Bảng vàng: nền tối chữ vàng như đầu trang Bảng vàng, một hàng ảnh lúc vô địch (cùng nguồn Hall of Fame, theo mùa vô địch đầu tiên). */
 function GoldEntry() {
   const champions = championCards();
   const { bind, tooltip } = useChartTooltip();
@@ -73,19 +74,22 @@ function GoldEntry() {
       />
       {/* Luôn 1 hàng: ảnh tự co khi hẹp */}
       <ul className="relative z-10 mt-4 flex gap-1 sm:gap-1.5">
-        {champions.map(({ person }) => (
-          <li key={person.id} className="max-w-12 min-w-0 flex-1">
-            <Link to={personPath(person.id)} aria-label={person.name} {...bind({ title: person.name, lines: [] })} className="block rounded-full">
-              <PersonPhoto
-                src={personPhoto(person.id)}
-                seed={person.id}
-                name={person.name}
-                decorative
-                className="aspect-square w-full rounded-full ring-1 ring-gold/60"
-              />
-            </Link>
-          </li>
-        ))}
+        {champions.map(({ person, wins }) => {
+          const name = `${person.name} · Quán quân mùa ${wins.map((w) => w.season).join(", ")}`;
+          return (
+            <li key={person.id} className="max-w-12 min-w-0 flex-1">
+              <Link to={personPath(person.id)} aria-label={name} {...bind({ title: name, lines: [] })} className="block rounded-full">
+                <PersonPhoto
+                  src={championPhoto(person.id)}
+                  seed={person.id}
+                  name={person.name}
+                  decorative
+                  className="aspect-square w-full rounded-full ring-1 ring-gold/60"
+                />
+              </Link>
+            </li>
+          );
+        })}
       </ul>
       {tooltip}
     </div>

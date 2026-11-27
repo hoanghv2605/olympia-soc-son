@@ -10,7 +10,8 @@ import Partners from "../components/Partners";
 import Testimonials from "../components/Testimonials";
 import { finalPhoto, heroSeason, latestFinalSeason, partners, seasonPath, site, testimonials } from "../lib/data";
 import { hasImage, imageFocus } from "../lib/images";
-import { CUBE_GRADIENT, HERO_GRADIENT, asset, splitSlogan, yearOf } from "../lib/format";
+import { CUBE_GRADIENT, HERO_GRADIENT, asset, yearOf } from "../lib/format";
+import { heroSloganLines, isLongSlogan } from "../lib/heroSlogan";
 import { usePageTitle } from "../lib/hooks";
 
 const LETTERS = ["O", "S", "S"];
@@ -48,7 +49,8 @@ export default function HomePage() {
   const caption = heroN ? `Chung kết Olympia Sóc Sơn mùa ${heroN}` : site.images.heroCaption;
   // Ảnh lớn và 2 nút dẫn tới mùa mới nhất đã có Chung kết (cùng cách khối "Chung kết mùa n")
   const latest = latestFinalSeason()?.season;
-  const sloganParts = splitSlogan(site.slogan);
+  const sloganLines = heroSloganLines();
+  const longSlogan = isLongSlogan(sloganLines);
   const letters = LETTERS.map((letter, i) => {
     const n = heroN ? heroN - 3 + i : 0;
     return { letter, n, photo: n >= 1 ? finalPhoto(n) : undefined };
@@ -93,7 +95,8 @@ export default function HomePage() {
             )}
           </div>
 
-          <div className="relative min-h-[24rem] overflow-hidden rounded-2xl md:min-h-[30rem]" style={HERO_BG}>
+          {/* Điện thoại rất hẹp (< 360px) ảnh cao hơn để slogan dài vẫn nằm ở nửa trên */}
+          <div className="relative min-h-[24rem] overflow-hidden rounded-2xl max-[360px]:min-h-[31.5rem] max-[337px]:min-h-[35rem] md:min-h-[30rem]" style={HERO_BG}>
             {mainImage && (
               <img
                 src={asset(mainImage)}
@@ -111,16 +114,25 @@ export default function HomePage() {
             <HeroTiles />
             {/* Bấm vào ảnh mở mùa mới nhất; bàn phím và trình đọc màn hình dùng nút "Xem kết quả" bên dưới (không lặp link) */}
             {latest && <Link to={seasonPath(latest)} tabIndex={-1} aria-hidden="true" className="absolute inset-0 z-[15]" />}
-            {/* Khẩu hiệu 2 dòng, ngắt ngay sau dấu phẩy đầu tiên; điện thoại cho phép dòng 2 xuống dòng tiếp */}
-            <h1 className="hero-slogan font-display pointer-events-none absolute top-5 right-4 left-3 z-20 text-right text-xl leading-[1.35] font-extrabold text-white drop-shadow-sm md:top-8 md:right-9 md:text-[2.1875rem]">
-              <span className="sr-only">{site.name}: </span>
-              {sloganParts.map((part, i) => (
-                <span key={i} className={`block text-balance ${i === 0 ? "whitespace-nowrap" : "md:whitespace-nowrap"}`}>
-                  {i === 0 && "“"}
-                  {part}
-                  {i === sloganParts.length - 1 ? "”" : " "}
-                </span>
-              ))}
+            {/* Khẩu hiệu: mỗi phần một dòng. Câu ngắn trên máy tính giữ nguyên từng dòng; câu dài và điện thoại được tự xuống dòng */}
+            <h1
+              className={`hero-slogan font-display pointer-events-none absolute top-4 right-3 left-3 z-20 text-right text-[1.375rem] leading-[1.3] font-extrabold text-white drop-shadow-sm md:top-8 md:right-9 ${
+                longSlogan ? "md:left-9 md:text-[1.625rem] md:leading-[1.35]" : "md:text-[2.1875rem] md:leading-[1.35]"
+              }`}
+            >
+              {/* Trình đọc màn hình đọc liền một câu */}
+              <span className="sr-only">
+                {site.name}: {sloganLines.join(" ")}
+              </span>
+              <span aria-hidden>
+                {sloganLines.map((line, i) => (
+                  <span key={i} className={`block text-balance ${longSlogan ? "" : "md:whitespace-nowrap"}`}>
+                    {i === 0 && "“"}
+                    {line}
+                    {i === sloganLines.length - 1 && "”"}
+                  </span>
+                ))}
+              </span>
             </h1>
             <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 flex flex-col items-start gap-2 md:inset-x-5 md:bottom-4 md:flex-row-reverse md:items-end md:justify-between md:gap-4">
               {latest && (

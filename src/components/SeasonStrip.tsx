@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import Photo from "./Photo";
+import StripLabel from "./StripLabel";
 import { useChartTooltip } from "./ChartTooltip";
 import { coverPhoto, seasonPath, seasons } from "../lib/data";
 import { PLACEHOLDER_TONES } from "../lib/placeholder";
@@ -10,7 +11,8 @@ export default function SeasonStrip() {
   return (
     <>
       {/* Ô đủ rộng thì 10 ô một hàng, hẹp thì 5 ô một hàng (không để một ô rớt lẻ) */}
-      <div className="@container mt-5">
+      <div className="@container mt-4">
+        <StripLabel to="/wiki/cuoc-thi">Mùa giải</StripLabel>
         <ul className="relative z-10 grid w-fit grid-cols-5 gap-1.5 @min-[28.5rem]:grid-cols-10">
         {seasons.map(({ season }, i) => {
           const tone = PLACEHOLDER_TONES[(season - 1) % PLACEHOLDER_TONES.length];

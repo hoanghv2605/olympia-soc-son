@@ -42,6 +42,7 @@ import type {
   RegistrationData,
   SeasonRegistration,
   School,
+  Site,
   SiteEvent,
   Season,
   Stat,
@@ -55,7 +56,7 @@ import type {
 
 // ===== Dữ liệu gốc =====
 
-export const site = siteJson;
+export const site: Site = siteJson;
 export const schools = schoolsJson as School[];
 /** Mở rộng chữ viết tắt tên vòng trong chữ nhập tay: "BK" → "Bán kết", "CK" → "Chung kết". */
 function expandRoundAbbr(text: string) {

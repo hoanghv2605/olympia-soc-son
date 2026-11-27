@@ -2,6 +2,24 @@
 // khai báo thêm ở đây để TypeScript nhắc lỗi chính tả / thiếu trường.
 // Quy ước: null = không có dữ liệu / không thi; 0 = có thi, được 0 điểm.
 
+export interface Site {
+  name: string;
+  shortName: string;
+  /** Slogan chính thức: chân trang, ảnh chia sẻ (không đổi ngẫu nhiên) */
+  slogan: string;
+  /** Slogan ở ảnh lớn trang chủ, mỗi lần tải trang chọn 1; " / " là chỗ xuống dòng. Rỗng / thiếu thì dùng `slogan`. */
+  heroSlogans?: string[];
+  foundedDate: string;
+  intro: string[];
+  facebook: string;
+  email: string;
+  address: string;
+  mapQuery: string;
+  mapEmbedUrl: string;
+  mapLink: string;
+  images: { heroMain: string; heroCaption: string; aboutTop: string; aboutBottom: string };
+}
+
 export interface School {
   id: string;
   name: string; // "THPT Sóc Sơn"
