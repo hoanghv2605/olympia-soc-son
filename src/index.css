@@ -1026,6 +1026,23 @@
 
 /* ===== Header: thu gọn khi cuộn (64px → 52px), menu điện thoại trượt xuống ===== */
 :root {
+  /* Màu thanh tỉ lệ số liệu đăng kí (RatioBar, src/lib/ratio.ts). Để ở :root vì chỉ được gọi bằng var() trong TSX. */
+  --ratio-nam: #2563eb;
+  --ratio-nu: #db2777;
+  --ratio-lop-9: #ede9fe;
+  --ratio-lop-10: #c4b5fd;
+  --ratio-lop-11: #7c3aed;
+  --ratio-lop-12: #4c1d95;
+  --ratio-soc-son: #6d28d9;
+  --ratio-da-phuc: #0f766e;
+  --ratio-minh-phu: #b45309;
+  --ratio-trung-gia: #0369a1;
+  --ratio-xuan-giang: #be123c;
+  --ratio-kim-anh: #4d7c0f;
+  --ratio-thcs: #6b7280;
+}
+
+:root {
   --header-h: 4rem;
 }
 .site-header {

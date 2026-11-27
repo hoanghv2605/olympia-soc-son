@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import PageHeader from "../../components/PageHeader";
 import PersonLink from "../../components/PersonLink";
+import RegistrationOverview from "../../components/RegistrationOverview";
 import SeasonCard from "../../components/SeasonCard";
 import {
   championCards,
@@ -143,6 +144,7 @@ export default function SeasonList() {
             </table>
           </div>
         )}
+        <RegistrationOverview />
       </section>
     </>
   );

@@ -56,6 +56,16 @@ export function formatScoreVi(value: number | null | undefined) {
   return formatScore(value).replace(".", ",");
 }
 
+/** Số thập phân kiểu Việt Nam, 1 chữ số: 4.1 → "4,1". */
+export function formatDecimalVi(value: number) {
+  return value.toFixed(1).replace(".", ",");
+}
+
+/** Phần trăm làm tròn số nguyên (mẫu số 0 → 0). */
+export function percent(part: number, whole: number) {
+  return whole ? Math.round((part / whole) * 100) : 0;
+}
+
 /** Chữ viết tắt: chữ cái đầu của 2 từ cuối trong họ tên. "Chu Đức Huy" → "ĐH". */
 export function initials(fullName: string) {
   return fullName

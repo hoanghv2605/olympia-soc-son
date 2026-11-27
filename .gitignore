@@ -3,3 +3,5 @@ dist
 .DS_Store
 *.local
 .vite
+# Danh sách đăng kí gốc (có họ tên): KHÔNG bao giờ đưa lên repo
+du-lieu-rieng/

@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router";
 import PageHeader from "../../components/PageHeader";
 import PersonLink from "../../components/PersonLink";
 import SchoolBadge from "../../components/SchoolBadge";
+import SchoolRegistration from "../../components/SchoolRegistration";
 import NotFound from "../NotFound";
 import { describeTitles, getSchool, participationsOf, schoolStat, seasonPath, titlesOf } from "../../lib/data";
 import { usePageTitle } from "../../lib/hooks";
@@ -42,6 +43,8 @@ export default function SchoolDetail() {
             </li>
           ))}
         </ul>
+
+        <SchoolRegistration school={school} />
 
         <h2 className="h2 mt-12 text-ink">Thí sinh</h2>
         <div className="mt-4 overflow-x-auto">

@@ -1,6 +1,14 @@
 #!/bin/bash
-# Tự thu nhỏ ảnh được thêm / sửa trong lần commit (public/images/** và public/logo-oss.png).
-# Không chặn commit: lỗi gì cũng chỉ cảnh báo rồi thoát mã 0. Bỏ qua hook: git commit --no-verify
+# 1. TỪ CHỐI commit nếu có file thêm / sửa trong du-lieu-rieng/ (danh sách đăng kí có họ tên, không được đưa lên repo).
+#    Xoá file khỏi repo thì vẫn cho qua.
+if [ -n "$(git diff --cached --name-only --no-renames --diff-filter=d -- ':(top,icase)du-lieu-rieng')" ]; then
+  echo "[riêng tư] TỪ CHỐI commit: có file trong du-lieu-rieng/ (danh sách đăng kí gốc, không được đưa lên repo)." >&2
+  echo "[riêng tư] Gỡ khỏi lần commit: git restore --staged du-lieu-rieng/" >&2
+  exit 1
+fi
+
+# 2. Tự thu nhỏ ảnh được thêm / sửa trong lần commit (public/images/** và public/logo-oss.png).
+# Phần này không chặn commit: lỗi gì cũng chỉ cảnh báo rồi thoát mã 0. Bỏ qua hook: git commit --no-verify
 # Bật hook: npm run prepare (git config core.hooksPath .githooks), tự chạy khi npm install.
 
 # Lấy tên file (đúng cả khi có dấu cách) vào danh sách các tham số

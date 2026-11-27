@@ -6,12 +6,16 @@ import {
   climbSeries,
   defendingChampions,
   finalOf,
+  genderFunnel,
   getSchool,
+  matchPath,
   matches,
   olympiaTvBridgeCount,
   personName,
   personPath,
   qualifying,
+  registrationOverview,
+  registrations,
   roundLabel,
   schoolStat,
   seasonPath,
@@ -20,7 +24,7 @@ import {
   topRecords,
   type RecordRow,
 } from "./data";
-import { joinViText } from "./format";
+import { formatDecimalVi, joinViText, percent } from "./format";
 
 export interface Fact {
   id: string;
@@ -176,6 +180,61 @@ function olympiaFacts(): Fact[] {
   ];
 }
 
+/** [3, 5] → "mùa 3 và mùa 5" */
+function seasonsText(list: number[]) {
+  return joinViText(list.map((n) => `mùa ${n}`));
+}
+
+/** Số liệu đăng kí dự thi: mùa đông nhất, độ cạnh tranh, phễu giới, tỉ lệ nữ qua các mùa (4 câu). */
+function registrationFacts(): Fact[] {
+  const { rows, total, slots, max } = registrationOverview();
+  if (!rows.length) return [];
+  const out: Fact[] = [];
+
+  const crowded = rows.filter((r) => r.total === max).map((r) => r.season);
+  const crowdedText = seasonsText(crowded);
+  out.push({
+    id: "reg-most",
+    text: `${crowdedText.charAt(0).toUpperCase()}${crowdedText.slice(1)} có nhiều thí sinh đăng kí nhất: ${max} thí sinh.`,
+    to: matchPath(crowded[0]),
+  });
+
+  const contested = rows.filter((r) => r.slots > 0);
+  if (slots > 0) {
+    const top = Math.max(...contested.map((r) => r.total / r.slots));
+    const hardest = contested.filter((r) => r.total / r.slots === top).map((r) => r.season);
+    out.push({
+      id: "reg-ratio",
+      text: `Qua ${rows.length} mùa có ${total} lượt đăng kí cho ${slots} suất vào Bán kết, trung bình ${formatDecimalVi(total / slots)} lượt cho một suất; cạnh tranh nhất là ${seasonsText(hardest)} với ${formatDecimalVi(top)} lượt cho một suất.`,
+      to: "/wiki/cuoc-thi",
+    });
+  }
+
+  const [applied, top12] = genderFunnel();
+  if (top12.nam + top12.nu > 0) {
+    const a = percent(applied.nu, applied.nam + applied.nu);
+    const b = percent(top12.nu, top12.nam + top12.nu);
+    out.push({
+      id: "reg-gender-funnel",
+      text: `Nữ chiếm ${a}% số lượt đăng kí dự thi ${b >= a ? "và chiếm" : "nhưng chỉ chiếm"} ${b}% số lượt vào top 12.`,
+      to: "/wiki/cuoc-thi",
+    });
+  }
+
+  const shares = registrations.map((r) => ({ season: r.season, share: percent(r.byGender.nu ?? 0, r.total) }));
+  const high = Math.max(...shares.map((s) => s.share));
+  const low = Math.min(...shares.map((s) => s.share));
+  if (high !== low) {
+    const at = (v: number) => seasonsText(shares.filter((s) => s.share === v).map((s) => s.season));
+    out.push({
+      id: "reg-female-share",
+      text: `Tỉ lệ nữ trong số thí sinh đăng kí cao nhất ở ${at(high)} (${high}%), thấp nhất ở ${at(low)} (${low}%).`,
+      to: "/wiki/cuoc-thi",
+    });
+  }
+  return out;
+}
+
 const NOTE_PREFIX = "Đây là";
 const NOTE_MAX = 200;
 
@@ -202,6 +261,7 @@ export function buildFacts(): Fact[] {
     ...marginFacts(),
     ...schoolFacts(),
     ...olympiaFacts(),
+    ...registrationFacts(),
     ...noteFacts(),
   ];
 }

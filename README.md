@@ -27,6 +27,7 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `npm run thu-nho-anh` | Thu nhỏ ảnh trong `public/` (chỉ macOS, dùng lệnh `sips` có sẵn). Thêm `-- --thu` để chỉ xem danh sách, không sửa file. **Nên chạy trước mỗi lần commit ảnh mới** (bảng giới hạn ở mục 3) |
 | `npm run anh-con-thieu` | Liệt kê ảnh còn thiếu, theo nhóm (chỉ đọc, không sửa file) |
 | `npm run kiem-tra-du-lieu` | Kiểm tra dữ liệu (chỉ đọc). **Tự chạy trước `npm run build`**, kể cả trên GitHub Actions; xem "Kiểm tra dữ liệu" ở mục 2 |
+| `npm run tong-hop-dang-ky` | Tổng hợp số liệu đăng kí từ file CSV trong `du-lieu-rieng/`; xem "Cập nhật số liệu đăng kí" ở mục 2 |
 
 **Tìm kiếm nhanh trên web:** bấm biểu tượng kính lúp trên thanh menu, hoặc gõ phím `/` hay `Ctrl + K` (máy Mac: `⌘ + K`) ở bất kỳ trang nào. Gõ không dấu cũng được (vd `duc`, `mua 4`, `da phuc`); dùng ↑ ↓ để chọn, Enter để mở, Esc để đóng.
 
@@ -51,6 +52,19 @@ Sửa file nào, trình duyệt tự cập nhật ngay. Dừng server: `Ctrl + C
 | `su-kien/doc3.json`, `doc4.json` | Dữ liệu cuộc thi dạng mùa thi (DAPHUC Olympia Championship), nối vào sự kiện qua `dataFile` (`"su-kien/doc3.json"`) với `format: "mua-thi"`. Cấu trúc: `id`, `qualifying[]` (`rank`, `name`, `class`, `school`, `score`, `ossPerson?`), `semifinals[]` (`no`, `results[]` theo vị trí đứng: `name`, `class`, `school`, `result`, `ossPerson?`), `final.results[]` (cùng dạng, `result` = `quan-quan` / `a-quan` / `quy-quan`). `ossPerson` = id hồ sơ OSSPEDIA nếu người đó cũng thi OSS (có hồ sơ thì tên là link). Không có điểm Bán kết / Chung kết. **Thêm DOC5:** thêm mục vào `events.json` (`format: "mua-thi"`, `dataFile: "su-kien/doc5.json"`, `photoKey: "doc5"`) và tạo `su-kien/doc5.json` cùng cấu trúc; trang tự hiện Vòng loại, 3 Bán kết, Chung kết. **Không** tính vào thống kê OSS |
 | `contacts.json` | Người liên hệ, hiện ở footer (tên và chức vụ). Ô nào để trống `""` thì web tự ẩn |
 | `humans.json` | Danh sách bài Human of OSS: `slug`, `stt` (số thứ tự, **không trùng nhau**; quyết định thứ tự trang và tên ảnh `NN.jpg`), `name`, `title` (vai trò), `headline` (tiêu đề bài), `quote` (câu trích ngắn trên thẻ), `date` (YYYY-MM-DD, **để `null` nếu chưa có**: thẻ chỉ ghi "Tập n"), `tranLienQuan` (tuỳ chọn: trận được kể trong bài, vd `[{ "mua": 3, "tran": "ck" }]`, `tran` = `vl` / `bk1` / `bk2` / `bk3` / `ck`; tạo link hai chiều giữa bài và trang mùa), `person` (tuỳ chọn: id người trong `people.json`; link hồ sơ OSSPEDIA chỉ hiện khi người đó có hồ sơ) |
+
+### Cập nhật số liệu đăng kí (từ mùa 11)
+
+Làm hoàn toàn trên máy, không phải gửi danh sách đi đâu.
+
+1. Xuất tab danh sách đăng kí ra CSV, **gồm mọi mùa** (cả mùa cũ), với các cột `STT, Mùa, Họ và tên, Lớp, Trường, Giới tính`.
+2. Đặt file vào thư mục `du-lieu-rieng/` ở gốc dự án (chưa có thì tự tạo). Chỉ để **một** file `.csv`; nhiều file thì chạy `npm run tong-hop-dang-ky -- du-lieu-rieng/ten-file.csv`.
+3. Mùa mới thì thêm vào `seasons.json` trước (và `qualifying.json`, `people.json` nếu đã có top 12), rồi chạy `npm run tong-hop-dang-ky`.
+4. Xem `git diff`, chạy `npm run kiem-tra-du-lieu`, rồi mới commit.
+
+Script ghi lại `src/data/dang-ky.json` (chỉ số đếm) và điền `gender` còn thiếu cho người vào top 12 (không ghi đè `gender` đã có). Cuối cùng nó liệt kê những người vào top 12 không ghép được, ghép được nhiều dòng hoặc lệch giới tính để Kit tự xem. Script **dừng và không ghi gì** khi: thiếu cột, lớp không thuộc khối 9–12, giới tính khác "Nam" / "Nữ", trường không nhận ra (tên bắt đầu bằng "THCS" được xếp vào "Các trường THCS"; trường THPT mới thì khai thêm ở `otherSchools` trong `dang-ky.json`, và thêm màu `--ratio-<mã>` ở `index.css` cùng mã đó trong `ratio.ts`, nếu không sẽ tô xám), hoặc CSV thiếu một mùa đang có số liệu. Câu `_ghiChu` đầu file được giữ nguyên, muốn đổi số trong đó thì sửa tay.
+
+> **Riêng tư:** danh sách gốc có họ tên, **không bao giờ đưa lên repo**. `du-lieu-rieng/` nằm trong `.gitignore`, và git hook từ chối commit nếu có file trong thư mục này (hook chạy sau `npm run prepare`; đừng dùng `git commit --no-verify` khi có file ở đó).
 
 ### Kiểm tra dữ liệu
 

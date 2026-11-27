@@ -4,6 +4,7 @@ import { PiImages } from "react-icons/pi";
 import PageHeader from "../../components/PageHeader";
 import CompetitionSections, { SeasonInfobox } from "../../components/CompetitionSections";
 import PersonLink from "../../components/PersonLink";
+import RegistrationBlock from "../../components/RegistrationBlock";
 import NotFound from "../NotFound";
 import {
   coverPhoto,
@@ -209,6 +210,7 @@ export default function SeasonDetail() {
           final={final}
           seededDraw={season.seededDraw}
           finalCaption={`Các thí sinh trận Chung kết mùa ${n}`}
+          qualifyingExtra={<RegistrationBlock key={n} season={n} />}
         />
 
         <SeasonNav n={n} spread className="mt-12 justify-between border-t border-oss/15 pt-6 md:mt-16" />

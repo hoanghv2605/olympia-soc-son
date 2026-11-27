@@ -844,6 +844,36 @@ export function top12Breakdown(season: number) {
   };
 }
 
+/** Mỗi mùa đã có số liệu: số đăng kí và số suất vào Bán kết (số dòng qualifying.json). */
+export function registrationOverview() {
+  const rows = registrations.map((r) => ({
+    season: r.season,
+    total: r.total,
+    slots: qualifying.filter((q) => q.season === r.season).length,
+  }));
+  return {
+    rows,
+    total: totalRegistrations(),
+    slots: rows.reduce((sum, r) => sum + r.slots, 0),
+    max: Math.max(0, ...rows.map((r) => r.total)),
+  };
+}
+
+/** Đăng kí và vào top 12 của một trường, theo mùa và cộng dồn (tính theo lượt). */
+export function schoolRegistration(schoolId: string) {
+  const rows = registrations.map((r) => ({
+    season: r.season,
+    registered: r.bySchool[schoolId] ?? 0,
+    top12: qualifying.filter((q) => q.season === r.season && q.school === schoolId).length,
+  }));
+  return {
+    rows,
+    registered: rows.reduce((sum, r) => sum + r.registered, 0),
+    top12: rows.reduce((sum, r) => sum + r.top12, 0),
+    max: Math.max(0, ...rows.map((r) => r.registered)),
+  };
+}
+
 export interface GenderStage {
   id: "dang-ky" | "top-12" | "chung-ket" | "quan-quan";
   label: string;

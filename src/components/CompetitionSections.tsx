@@ -121,6 +121,7 @@ export default function CompetitionSections({
   final,
   seededDraw,
   finalCaption,
+  qualifyingExtra,
 }: {
   quals: QualifyingEntry[];
   semis: Match[];
@@ -128,6 +129,8 @@ export default function CompetitionSections({
   seededDraw: boolean;
   /** Chú thích ảnh Chung kết, vd "Các thí sinh trận Chung kết mùa 10" */
   finalCaption: string;
+  /** Khối thêm giữa đoạn dẫn và bảng Vòng loại (trang mùa OSS: số liệu đăng kí; trang DOC không truyền) */
+  qualifyingExtra?: ReactNode;
 }) {
   const comp = useCompetition();
   return (
@@ -140,6 +143,7 @@ export default function CompetitionSections({
             {seededDraw &&
               " Các thí sinh được chia vào 3 trận Bán kết bằng bốc thăm theo nhóm hạt giống: nhóm 1 gồm hạng 1–3, nhóm 2 hạng 4–6, nhóm 3 hạng 7–9, nhóm 4 hạng 10–12."}
           </p>
+          {qualifyingExtra}
           <div className="mt-4 overflow-x-auto">
             <table className="data-table md:min-w-[36rem]">
               <thead>
